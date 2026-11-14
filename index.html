@@ -133,7 +133,9 @@
 
 <script>
 const tg = window.Telegram && window.Telegram.WebApp;
-const inTelegram = !!(tg && tg.initData);
+// Opened from the keyboard button, Telegram gives an EMPTY initData, so that can't
+// be the test. The platform is "unknown" only in a plain browser.
+const inTelegram = !!(tg && tg.platform && tg.platform !== "unknown");
 if (tg) { tg.ready(); tg.expand(); }
 
 const TEXT = {
