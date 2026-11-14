@@ -335,7 +335,7 @@ let how = null, pay = null, loc = null;   // "p"|"d", "q"|"c", [lat, lon]
 const opt = () => (menu && menu.options) || { pickup: true, delivery: true, qr: true, cash: true };
 
 function payload() {
-  const d = { cart, method: how, pay };
+  const d = { cart, method: how, pay, lang };
   const addr = $("addr").value.trim(), note = $("note").value.trim();
   if (how === "d" && addr) d.address = addr;
   if (how === "d" && loc) d.loc = loc;
