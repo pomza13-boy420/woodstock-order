@@ -6,14 +6,12 @@
 <title>Woodstock — Order</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
+  /* Woodstock colours: brown, green, yellow, red on warm cream */
   :root {
-    --bg: var(--tg-theme-secondary-bg-color, #f2f4f1);
-    --card: var(--tg-theme-bg-color, #ffffff);
-    --text: var(--tg-theme-text-color, #1c1f1b);
-    --hint: var(--tg-theme-hint-color, #7a8378);
-    --accent: var(--tg-theme-button-color, #2e7d32);
-    --on-accent: var(--tg-theme-button-text-color, #ffffff);
-    --line: rgba(128, 128, 128, .22);
+    --brown: #4e342e; --brown-soft: #6d4c41;
+    --green: #2e7d32; --yellow: #f6b918; --red: #c62828;
+    --bg: #fbf5e6; --card: #fffdf8; --text: #2b1d14; --hint: #8d7b6a;
+    --line: rgba(78, 52, 46, .16);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; }
@@ -23,42 +21,74 @@
     padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
   button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  .hide { display: none !important; }
 
-  /* ---- top: shop name, steps, search, categories ---- */
-  .top { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 12px 16px 0; }
-  .title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .title h1 { margin: 0; font-size: 20px; }
-  .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex: none; }
-  .lang button { padding: 5px 12px; font-size: 13px; font-weight: 600; color: var(--hint); }
-  .lang button.on { background: var(--accent); color: var(--on-accent); }
-  .steps { display: flex; gap: 6px; margin: 10px 0; font-size: 12px; color: var(--hint); }
-  .steps span { flex: 1; text-align: center; padding: 5px 4px; border-radius: 8px; background: var(--card); }
-  .steps span.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }
-  .search {
-    width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line);
-    background: var(--card); color: var(--text); font: inherit; outline: none;
+  .lang { display: flex; border: 1px solid rgba(255, 255, 255, .45); border-radius: 999px; overflow: hidden; flex: none; }
+  .lang button { padding: 5px 12px; font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, .8); }
+  .lang button.on { background: var(--yellow); color: var(--brown); }
+
+  /* ---- home ---- */
+  .hero { background: var(--brown); color: #fff8e7; padding: 18px 16px 22px; border-radius: 0 0 22px 22px; }
+  .hero .row1 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .hero h1 { margin: 0; font-size: 26px; letter-spacing: .3px; }
+  .hero p { margin: 8px 0 12px; font-size: 14px; opacity: .92; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .facts span { background: rgba(255, 255, 255, .14); border-radius: 999px; padding: 5px 11px; font-size: 13px; }
+  .home { padding: 0 16px; }
+  .points {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px;
+    background: var(--yellow); color: var(--brown); border-radius: 16px; padding: 12px 16px;
   }
-  .search:focus { border-color: var(--accent); }
+  .points b { font-size: 22px; }
+  .points small { display: block; font-size: 12px; opacity: .85; }
+  .groups { display: flex; gap: 12px; margin-top: 14px; }
+  .group {
+    flex: 1; border-radius: 18px; padding: 22px 10px 18px; color: #fff; text-align: center;
+    font-size: 19px; font-weight: 700; box-shadow: 0 4px 14px rgba(78, 52, 46, .22);
+  }
+  .group .ico { display: block; font-size: 42px; line-height: 1.1; margin-bottom: 6px; }
+  .group small { display: block; font-size: 12px; font-weight: 500; opacity: .9; margin-top: 2px; }
+  .group.g0 { background: var(--green); }
+  .group.g1 { background: var(--red); }
+  .group.g2 { background: var(--brown-soft); }
+  .group:active, .link:active { opacity: .8; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-top: 14px; }
+  .box h3 { margin: 0 0 6px; font-size: 15px; color: var(--brown); }
+  .box ul { margin: 0; padding-left: 18px; font-size: 14px; }
+  .box li { margin: 3px 0; }
+  .links { display: flex; gap: 10px; margin-top: 14px; }
+  .link {
+    flex: 1; text-align: center; padding: 11px 6px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    background: var(--card); border: 1.5px solid var(--brown); color: var(--brown);
+  }
+
+  /* ---- menu ---- */
+  .top { position: sticky; top: 0; z-index: 5; background: var(--brown); color: #fff8e7; padding: 10px 16px 0; }
+  .title { display: flex; align-items: center; gap: 10px; }
+  .title h1 { margin: 0; font-size: 19px; flex: 1; }
+  .title .nav { font-size: 14px; font-weight: 600; color: var(--yellow); padding: 6px 0; white-space: nowrap; }
+  .search {
+    width: 100%; padding: 10px 14px; border-radius: 12px; border: 0; margin-top: 8px;
+    background: #fffdf8; color: var(--text); font: inherit; outline: none;
+  }
   .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px; margin: 0 -16px; scrollbar-width: none; }
   .chips::-webkit-scrollbar { display: none; }
   .chips button {
-    flex: none; padding: 7px 13px; border-radius: 999px; background: var(--card);
-    font-size: 14px; white-space: nowrap; border: 1px solid var(--line);
+    flex: none; padding: 7px 13px; border-radius: 999px; background: rgba(255, 255, 255, .14);
+    font-size: 14px; white-space: nowrap; color: #fff8e7;
   }
-  .chips button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
-
-  /* ---- menu ---- */
+  .chips button.on { background: var(--yellow); color: var(--brown); font-weight: 700; }
   main { padding: 0 16px; }
-  .info { margin: 4px 0 0; font-size: 13px; color: var(--hint); white-space: pre-line; }
-  section { scroll-margin-top: 190px; }
-  section h2 { margin: 20px 0 4px; font-size: 17px; }
+  section { scroll-margin-top: 150px; }
+  section h2 { margin: 20px 0 4px; font-size: 17px; color: var(--brown); }
   section .note { margin: 0 0 8px; font-size: 13px; color: var(--hint); white-space: pre-line; }
-  .item { background: var(--card); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
+  .item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
   .row { display: flex; align-items: center; gap: 12px; }
   .row .what { flex: 1; min-width: 0; }
   .name { font-weight: 600; }
   .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
-  .price { font-weight: 600; color: var(--accent); font-size: 15px; }
+  .price { font-weight: 700; color: var(--red); font-size: 15px; }
   .opt { padding-top: 10px; margin-top: 10px; border-top: 1px solid var(--line); }
   .opt .name { font-weight: 500; }
   .empty { text-align: center; color: var(--hint); padding: 40px 0; }
@@ -67,9 +97,9 @@
   .stepper { flex: none; display: flex; align-items: center; }
   .stepper button {
     width: 38px; height: 38px; border-radius: 50%; font-size: 22px; line-height: 1; font-weight: 500;
-    background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
+    background: var(--green); color: #fff; display: grid; place-items: center;
   }
-  .stepper button.minus { background: none; color: var(--accent); border: 1.5px solid var(--accent); }
+  .stepper button.minus { background: none; color: var(--red); border: 1.5px solid var(--red); }
   .stepper .add { width: auto; border-radius: 999px; padding: 0 16px; font-size: 15px; font-weight: 600; }
   .stepper .qty { min-width: 34px; text-align: center; font-weight: 700; font-size: 17px; }
   .stepper button:active { opacity: .7; }
@@ -78,12 +108,13 @@
   .bar {
     position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 10;
     display: none; align-items: center; justify-content: space-between; gap: 12px;
-    background: var(--accent); color: var(--on-accent); border-radius: 16px; padding: 14px 18px;
-    font-weight: 700; font-size: 17px; width: calc(100% - 24px); box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+    background: var(--green); color: #fff; border-radius: 16px; padding: 12px 14px 12px 18px;
+    font-weight: 700; font-size: 17px; width: calc(100% - 24px); box-shadow: 0 6px 20px rgba(0, 0, 0, .28);
   }
   .bar.show { display: flex; }
-  .bar small { display: block; font-weight: 500; font-size: 13px; opacity: .9; }
-  .shade { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 20; display: none; }
+  .bar small { display: block; font-weight: 500; font-size: 13px; opacity: .92; text-align: left; }
+  .bar .sum { background: var(--yellow); color: var(--brown); border-radius: 12px; padding: 8px 12px; }
+  .shade { position: fixed; inset: 0; background: rgba(43, 29, 20, .5); z-index: 20; display: none; }
   .shade.show { display: block; }
   .sheet {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 21; max-height: 86vh; display: none; flex-direction: column;
@@ -91,65 +122,90 @@
   }
   .sheet.show { display: flex; }
   .sheet header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .sheet h2 { margin: 0; font-size: 19px; }
-  .sheet .close { font-size: 15px; color: var(--accent); font-weight: 600; padding: 6px 0 6px 12px; }
+  .sheet h2 { margin: 0; font-size: 19px; color: var(--brown); }
+  .sheet .close { font-size: 15px; color: var(--green); font-weight: 700; padding: 6px 0 6px 12px; }
   .lines { overflow-y: auto; flex: 1; }
-  .line { background: var(--card); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+  .line { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
   .total { display: flex; justify-content: space-between; font-size: 19px; font-weight: 700; margin: 14px 2px 6px; }
   .next { font-size: 13px; color: var(--hint); margin: 0 2px 12px; }
-  .confirm {
-    width: 100%; padding: 15px; border-radius: 14px; background: var(--accent); color: var(--on-accent);
-    font-size: 18px; font-weight: 700;
-  }
+  .confirm { width: 100%; padding: 15px; border-radius: 14px; background: var(--green); color: #fff; font-size: 18px; font-weight: 700; }
   .confirm:active, .bar:active { opacity: .85; }
+  .confirm.off { opacity: .45; }
   .testnote { margin-top: 10px; font-size: 12px; color: var(--hint); word-break: break-all; }
 
-  /* ---- step 2: pickup/delivery, address, note, payment ---- */
+  /* ---- order details ---- */
   .details {
     position: fixed; inset: 0; z-index: 30; background: var(--bg); display: none; flex-direction: column;
     padding: 14px 16px calc(16px + env(safe-area-inset-bottom));
   }
   .details.show { display: flex; }
   .details header { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-  .details header h2 { margin: 0; font-size: 19px; flex: 1; }
-  .details .back { color: var(--accent); font-weight: 600; font-size: 15px; padding: 6px 0; }
+  .details header h2 { margin: 0; font-size: 19px; flex: 1; color: var(--brown); }
+  .details .back { color: var(--green); font-weight: 700; font-size: 15px; padding: 6px 0; }
   .details .body { flex: 1; overflow-y: auto; }
-  .details h3 { margin: 18px 0 8px; font-size: 16px; }
+  .details h3 { margin: 16px 0 8px; font-size: 16px; color: var(--brown); }
   .choices { display: flex; gap: 10px; }
+  .choices.col { flex-direction: column; }
   .choice {
-    flex: 1; padding: 16px 8px; border-radius: 14px; background: var(--card); border: 2px solid var(--line);
+    flex: 1; padding: 15px 8px; border-radius: 14px; background: var(--card); border: 2px solid var(--line);
     font-size: 16px; font-weight: 600; text-align: center;
   }
-  .choice.on { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+  .choice small { display: block; font-size: 13px; font-weight: 500; opacity: .85; }
+  .choice.on { border-color: var(--green); background: var(--green); color: #fff; }
   .details textarea {
     width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); resize: none;
     background: var(--card); color: var(--text); font: inherit; outline: none; display: block;
   }
-  .details textarea:focus { border-color: var(--accent); }
-  .locbtn { margin-top: 8px; color: var(--accent); font-weight: 600; font-size: 15px; padding: 6px 0; }
-  .hide { display: none !important; }
-  .sum { display: flex; justify-content: space-between; font-size: 19px; font-weight: 700; margin: 12px 2px 4px; }
-  .hint2 { font-size: 13px; color: var(--hint); margin: 0 2px 10px; min-height: 18px; }
-  .hint2.warn { color: #d9480f; font-weight: 600; }
-  .confirm.off { opacity: .45; }
+  .details textarea:focus { border-color: var(--green); }
+  .locbtn { margin-top: 8px; color: var(--green); font-weight: 700; font-size: 15px; padding: 6px 0; }
+  .sums { margin: 10px 2px 2px; font-size: 15px; }
+  .sums div { display: flex; justify-content: space-between; padding: 2px 0; }
+  .sums .grand { font-size: 20px; font-weight: 700; color: var(--brown); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 6px; }
+  .hint2 { font-size: 13px; color: var(--hint); margin: 4px 2px 10px; min-height: 18px; }
+  .hint2.warn { color: var(--red); font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="title">
-    <h1 id="shop">Woodstock</h1>
-    <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
-  </div>
-  <div class="steps"><span class="on" id="s1"></span><span id="s2"></span><span id="s3"></span></div>
-  <input class="search" id="search" type="search" autocomplete="off">
-  <div class="chips" id="chips"></div>
-</div>
-<main>
-  <p class="info" id="info"></p>
-  <div id="menu"><p class="empty">…</p></div>
-</main>
 
-<button class="bar" id="bar"><span><span id="barCount"></span><small id="barHint"></small></span><span id="barTotal"></span></button>
+<!-- ============ home ============ -->
+<div id="home">
+  <div class="hero">
+    <div class="row1">
+      <h1 id="shop">Woodstock</h1>
+      <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
+    </div>
+    <p id="about"></p>
+    <div class="facts"><span id="hours"></span><span id="address"></span></div>
+  </div>
+  <div class="home">
+    <div class="points" id="pointsBox">
+      <span><span id="pointsLabel"></span><small id="pointsRule"></small></span><b id="pointsValue">0</b>
+    </div>
+    <div class="groups" id="groups"></div>
+    <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
+    <div class="links">
+      <button class="link" id="mapsLink"></button>
+      <a class="link" id="phoneLink"></a>
+      <button class="link hide" id="igLink">📷 Instagram</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ menu ============ -->
+<div id="menuView" class="hide">
+  <div class="top">
+    <div class="title">
+      <button class="nav" id="toHome"></button>
+      <h1 id="groupTitle"></h1>
+      <button class="nav" id="toOther"></button>
+    </div>
+    <input class="search" id="search" type="search" autocomplete="off">
+    <div class="chips" id="chips"></div>
+  </div>
+  <main><div id="menu"></div></main>
+</div>
+
+<button class="bar" id="bar"><span><span id="barCount"></span><small id="barHint"></small></span><span class="sum" id="barTotal"></span></button>
 <div class="shade" id="shade"></div>
 <div class="sheet" id="sheet">
   <header><h2 id="sheetTitle"></h2><button class="close" id="sheetClose"></button></header>
@@ -159,12 +215,17 @@
   <button class="confirm" id="confirm"></button>
 </div>
 
+<!-- ============ order details ============ -->
 <div class="details" id="details">
   <header><button class="back" id="dBack"></button><h2 id="dTitle"></h2></header>
   <div class="body">
     <h3 id="howLabel"></h3>
     <div class="choices"><button class="choice" id="howP" data-how="p"></button><button class="choice" id="howD" data-how="d"></button></div>
     <div id="addrBox" class="hide">
+      <div id="zoneBox">
+        <h3 id="zoneLabel"></h3>
+        <div class="choices col" id="zones"></div>
+      </div>
       <h3 id="addrLabel"></h3>
       <textarea id="addr" rows="3" maxlength="300"></textarea>
       <button class="locbtn hide" id="locBtn"></button>
@@ -174,7 +235,11 @@
     <h3 id="payLabel"></h3>
     <div class="choices"><button class="choice" id="payQ" data-pay="q"></button><button class="choice" id="payC" data-pay="c"></button></div>
   </div>
-  <div class="sum"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
+  <div class="sums">
+    <div><span id="foodLabel"></span><span id="foodTotal"></span></div>
+    <div id="feeRow"><span id="feeLabel"></span><span id="feeValue"></span></div>
+    <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
+  </div>
   <p class="hint2" id="dHint"></p>
   <button class="confirm" id="send"></button>
   <div class="testnote" id="testnote"></div>
@@ -185,48 +250,86 @@ const tg = window.Telegram && window.Telegram.WebApp;
 // Opened from the keyboard button, Telegram gives an EMPTY initData, so that can't
 // be the test. The platform is "unknown" only in a plain browser.
 const inTelegram = !!(tg && tg.platform && tg.platform !== "unknown");
-if (tg) { tg.ready(); tg.expand(); }
+if (tg) {
+  tg.ready(); tg.expand();
+  try { tg.setHeaderColor("#4e342e"); tg.setBackgroundColor("#fbf5e6"); } catch (e) {}
+}
 
 const TEXT = {
-  th: { s1: "1 เลือกเมนู", s2: "2 รับ/ส่ง · จ่ายเงิน", s3: "3 ส่งออเดอร์", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม",
+  th: { search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
-        total: "รวม", confirm: "ถัดไป ➜", from: "เริ่ม ", none: "ไม่พบเมนูที่ค้นหา",
+        total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
+        points: "⭐ แต้มสะสมของคุณ", pointsRule: n => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม`, tapOrder: "แตะเพื่อสั่ง",
+        rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z} — ขั้นต่ำ ${m}`,
+        ruleNight: (a, b, f, o) => `${a}–${b} น. ค่าส่ง +${f}` + (o ? ` (บิล ${o} ขึ้นไป ส่งฟรี)` : ""),
+        pickupFree: "รับที่ร้านได้ทุกยอด ไม่มีขั้นต่ำ", maps: "📍 แผนที่", call: "📞 โทร",
         dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง",
+        zone: "อยู่ห่างจากร้านแค่ไหน?", min: "ขั้นต่ำ ",
         addr: "ที่อยู่จัดส่ง", addrPh: "บ้านเลขที่ / ชื่อที่พัก / จุดสังเกต", useLoc: "📍 แนบตำแหน่งปัจจุบันของฉัน",
         locOk: "✓ แนบตำแหน่งแล้ว (แตะเพื่อเอาออก)", locFail: "แนบตำแหน่งไม่ได้ กรุณาพิมพ์ที่อยู่แทนครับ",
         note: "หมายเหตุถึงครัว (ไม่บังคับ)", notePh: "เช่น ไม่เผ็ด ไม่ใส่ถั่ว", pay: "ชำระเงินแบบไหน?",
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
-        needHow: "กรุณาเลือกวิธีรับอาหาร", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง", needPay: "กรุณาเลือกวิธีชำระเงิน" },
-  en: { s1: "1 Choose", s2: "2 Pickup · Payment", s3: "3 Send order", search: "🔍 Search the menu…", add: "+ Add",
+        needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`,
+        food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ" },
+  en: { search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
-        total: "Total", confirm: "Next ➜", from: "from ", none: "No dishes found",
+        total: "Total", confirm: "Next ➜", none: "No dishes found",
         next: "Next: choose pickup or delivery, and how to pay.",
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
+        points: "⭐ Your points", pointsRule: n => `Every ฿${n} of food = 1 point`, tapOrder: "Tap to order",
+        rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z} — minimum ${m}`,
+        ruleNight: (a, b, f, o) => `${a}–${b}: delivery +${f}` + (o ? ` (free for bills of ${o} or more)` : ""),
+        pickupFree: "Pick up at the shop: no minimum", maps: "📍 Map", call: "📞 Call",
         dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery",
+        zone: "How far are you from the shop?", min: "minimum ",
         addr: "Delivery address", addrPh: "House no. / hotel name / landmark", useLoc: "📍 Attach my current location",
         locOk: "✓ Location attached (tap to remove)", locFail: "Couldn't get your location. Please type the address.",
         note: "Note for the kitchen (optional)", notePh: "e.g. not spicy, no peanuts", pay: "How would you like to pay?",
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
-        needHow: "Please choose pickup or delivery", needAddr: "Please enter an address or attach your location", needPay: "Please choose how to pay" },
+        needHow: "Please choose pickup or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`,
+        food: "Food", fee: "Delivery", free: "free", grand: "To pay" },
 };
 
 const params = new URLSearchParams(location.search);
-let lang = params.get("lang") || (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) || "th";
+let lang = params.get("lang") || "th";
 if (!TEXT[lang]) lang = "en";
+const myPoints = Math.max(0, parseInt(params.get("pts") || "0", 10) || 0);
 let menu = null;                 // menu.json
+let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
 const prices = {}, names = {};   // by the same key
+let how = null, pay = null, loc = null, zone = null;   // "p"|"d", "q"|"c", [lat, lon], zone id
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
 const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
-const money = n => (menu.currency || "฿") + Number(n).toLocaleString("en-US");
+const money = n => ((menu && menu.currency) || "฿") + Number(n).toLocaleString("en-US");
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const openUrl = u => { if (inTelegram && tg.openLink) tg.openLink(u); else window.open(u, "_blank"); };
+const opt = () => (menu && menu.options) || { pickup: true, delivery: true, qr: true, cash: true };
+const rules = () => (menu && menu.delivery_rules) || {};
+const zones = () => rules().zones || [];
+const groups = () => (menu && menu.groups && menu.groups.length) ? menu.groups
+  : [{ id: "all", label: { th: "เมนู", en: "Menu" }, icon: "🍽", categories: menu ? menu.categories.map(c => c.id) : [] }];
+const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[k], 0);
+
+// Same rule as the bot (which has the final say): a night fee, waived for big bills.
+function deliveryFee(total) {
+  const n = rules().night || {};
+  if (how !== "d" || !n.fee) return 0;
+  const h = new Date(Date.now() + 7 * 3600e3).getUTCHours();   // Bangkok time
+  const a = n.from_hour || 0, b = n.to_hour || 0;
+  const night = a <= b ? (h >= a && h < b) : (h >= a || h < b);
+  if (!night || (rules().free_over && total >= rules().free_over)) return 0;
+  return n.fee;
+}
 
 function change(key, delta) {
   const q = Math.max(0, Math.min(99, (cart[key] || 0) + delta));
@@ -246,7 +349,6 @@ function drawStepper(box) {
   minus.onclick = () => change(key, -1); plus.onclick = () => change(key, 1);
   box.append(minus, el("span", "qty", q), plus);
 }
-
 function stepper(key) { const s = el("div", "stepper"); s.dataset.key = key; drawStepper(s); return s; }
 
 function itemRow(key, name, desc, price, cls) {
@@ -259,11 +361,69 @@ function itemRow(key, name, desc, price, cls) {
   return row;
 }
 
+// ---------------- home ----------------
+function renderHome() {
+  const a = menu.about || {};
+  $("shop").textContent = tr(menu.shop_name) || "Woodstock";
+  $("about").textContent = tr(a.text);
+  $("hours").textContent = "🕘 " + tr(a.hours); $("hours").classList.toggle("hide", !tr(a.hours));
+  $("address").textContent = "📍 " + tr(a.address); $("address").classList.toggle("hide", !tr(a.address));
+  const per = (menu.points || {}).baht_per_point;
+  $("pointsBox").classList.toggle("hide", !per);
+  $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per) : "";
+  $("pointsValue").textContent = myPoints.toLocaleString("en-US");
+  const box = $("groups"); box.textContent = "";
+  groups().forEach((g, i) => {
+    const b = el("button", "group g" + (i % 3));
+    b.append(el("span", "ico", g.icon || "🍽"), document.createTextNode(tr(g.label)), el("small", "", t().tapOrder));
+    b.onclick = () => openGroup(g.id);
+    box.append(b);
+  });
+  const list = $("rules"); list.textContent = "";
+  if (opt().delivery) {
+    for (const z of zones()) list.append(el("li", "", t().ruleMin(tr(z.label), money(z.min || 0))));
+    const n = rules().night;
+    if (n && n.fee) {
+      const hh = h => String(h).padStart(2, "0") + ":00";
+      list.append(el("li", "", t().ruleNight(hh(n.from_hour || 0), hh(n.to_hour || 0), money(n.fee), rules().free_over ? money(rules().free_over) : "")));
+    }
+  }
+  if (opt().pickup) list.append(el("li", "", t().pickupFree));
+  $("rulesTitle").textContent = t().rulesTitle;
+  $("rulesBox").classList.toggle("hide", !list.children.length);
+  $("mapsLink").textContent = t().maps; $("mapsLink").classList.toggle("hide", !a.maps);
+  $("phoneLink").textContent = t().call + " " + (a.phone || ""); $("phoneLink").classList.toggle("hide", !a.phone);
+  if (a.phone) $("phoneLink").href = "tel:" + a.phone.replace(/[^0-9+]/g, "");
+  $("igLink").classList.toggle("hide", !a.instagram);
+}
+$("mapsLink").onclick = () => openUrl(menu.about.maps);
+$("igLink").onclick = () => openUrl(menu.about.instagram);
+
+function show(view) {   // "home" | "menu"
+  $("home").classList.toggle("hide", view !== "home");
+  $("menuView").classList.toggle("hide", view !== "menu");
+  window.scrollTo(0, 0);
+}
+
+// ---------------- menu ----------------
+function openGroup(id) {
+  group = id; $("search").value = "";
+  renderMenu(); show("menu");
+}
+
 function renderMenu() {
+  if (!menu || !group) return;
+  const gs = groups(), g = gs.find(x => x.id === group) || gs[0];
+  const other = gs.length > 1 ? gs[(gs.indexOf(g) + 1) % gs.length] : null;
+  $("toHome").textContent = t().home;
+  $("groupTitle").textContent = (g.icon ? g.icon + " " : "") + tr(g.label);
+  $("toOther").textContent = other ? (other.icon || "") + " " + tr(other.label) + " ➜" : "";
+  $("toOther").onclick = other ? () => openGroup(other.id) : null;
   const q = $("search").value.trim().toLowerCase();
   const box = $("menu"), chips = $("chips");
   box.textContent = ""; chips.textContent = "";
   for (const cat of menu.categories) {
+    if (!g.categories.includes(cat.id)) continue;
     const items = cat.items.filter(it => !q || Object.values(it.name).join(" ").toLowerCase().includes(q)
       || (it.options || []).some(o => Object.values(o.name).join(" ").toLowerCase().includes(q)));
     if (!items.length) continue;
@@ -302,21 +462,20 @@ function watchSections() {
         if (on) c.scrollIntoView({ block: "nearest", inline: "center" });
       });
     }
-  }, { rootMargin: "-200px 0px -60% 0px" });
+  }, { rootMargin: "-160px 0px -60% 0px" });
   document.querySelectorAll("section").forEach(s => observer.observe(s));
 }
 
+// ---------------- cart ----------------
 function refresh() {
   document.querySelectorAll(".stepper").forEach(drawStepper);
   const keys = Object.keys(cart);
-  const count = keys.reduce((n, k) => n + cart[k], 0);
-  const total = keys.reduce((n, k) => n + cart[k] * prices[k], 0);
+  const count = keys.reduce((n, k) => n + cart[k], 0), total = foodTotal();
   $("bar").classList.toggle("show", count > 0);
   $("barCount").textContent = t().items(count);
   $("barHint").textContent = t().view;
   $("barTotal").textContent = money(total);
   $("totalValue").textContent = money(total);
-  $("s2").classList.toggle("on", count > 0);
   const lines = $("lines"); lines.textContent = "";
   for (const k of keys) {
     const line = el("div", "line row"), what = el("div", "what");
@@ -327,16 +486,13 @@ function refresh() {
   if (!count) { openSheet(false); openDetails(false); }
   drawDetails();
 }
+function openSheet(on) { $("sheet").classList.toggle("show", on); $("shade").classList.toggle("show", on); }
 
-function openSheet(show) { $("sheet").classList.toggle("show", show); $("shade").classList.toggle("show", show); }
-
-// ---- step 2 ----
-let how = null, pay = null, loc = null;   // "p"|"d", "q"|"c", [lat, lon]
-const opt = () => (menu && menu.options) || { pickup: true, delivery: true, qr: true, cash: true };
-
+// ---------------- order details ----------------
 function payload() {
   const d = { cart, method: how, pay, lang };
   const addr = $("addr").value.trim(), note = $("note").value.trim();
+  if (how === "d" && zone) d.zone = zone;
   if (how === "d" && addr) d.address = addr;
   if (how === "d" && loc) d.loc = loc;
   if (note) d.note = note;
@@ -345,12 +501,18 @@ function payload() {
 
 function problem() {
   if (!how) return t().needHow;
-  if (how === "d" && !$("addr").value.trim() && !loc) return t().needAddr;
+  if (how === "d") {
+    if (zones().length && !zone) return t().needZone;
+    const z = zones().find(x => x.id === zone), total = foodTotal();
+    if (z && total < (z.min || 0)) return t().needMin(money(z.min), money(z.min - total));
+    if (!$("addr").value.trim() && !loc) return t().needAddr;
+  }
   if (!pay) return t().needPay;
   return "";
 }
 
 function drawDetails() {
+  if (!menu) return;
   const o = opt();
   if (!how && o.pickup !== o.delivery) how = o.pickup ? "p" : "d";   // only one way offered: preselect it
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
@@ -358,22 +520,36 @@ function drawDetails() {
   $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash);
   document.querySelectorAll("[data-how]").forEach(b => b.classList.toggle("on", b.dataset.how === how));
   document.querySelectorAll("[data-pay]").forEach(b => b.classList.toggle("on", b.dataset.pay === pay));
+  document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
   $("addrBox").classList.toggle("hide", how !== "d");
+  $("zoneBox").classList.toggle("hide", !zones().length);
   $("locBtn").textContent = loc ? t().locOk : t().useLoc;
-  const keys = Object.keys(cart), total = keys.reduce((n, k) => n + cart[k] * prices[k], 0);
-  $("dTotal").textContent = menu ? money(total) : "";
+  const total = foodTotal(), fee = deliveryFee(total);
+  $("foodTotal").textContent = money(total);
+  $("feeRow").classList.toggle("hide", how !== "d");
+  $("feeValue").textContent = fee ? money(fee) : t().free;
+  $("dTotal").textContent = money(total + fee);
   const bad = problem();
   $("dHint").textContent = bad || (pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = pay === "q" ? t().sendQr : t().sendCash;
   $("send").classList.toggle("off", !!bad);
-  $("s3").classList.toggle("on", !bad && keys.length > 0);
   $("testnote").textContent = inTelegram ? "" : t().test + payload();
 }
 
-function openDetails(show) {
-  $("details").classList.toggle("show", show);
-  if (show) { openSheet(false); drawDetails(); }
+function drawZones() {
+  const box = $("zones"); box.textContent = "";
+  for (const z of zones()) {
+    const b = el("button", "choice", tr(z.label)); b.dataset.zone = z.id;
+    b.append(el("small", "", t().min + money(z.min || 0)));
+    b.onclick = () => { zone = z.id; drawDetails(); };
+    box.append(b);
+  }
+}
+
+function openDetails(on) {
+  $("details").classList.toggle("show", on);
+  if (on) { openSheet(false); drawDetails(); }
 }
 
 // Telegram's own location service (needs a recent app); the button stays hidden when it isn't there.
@@ -400,26 +576,26 @@ $("send").onclick = () => {
   if (inTelegram) tg.sendData(payload());   // closes the app; the bot sends the order or the QR
 };
 
+// ---------------- wiring ----------------
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
-  for (const k of ["s1", "s2", "s3"]) $(k).textContent = t()[k];
   $("search").placeholder = t().search;
   $("sheetTitle").textContent = t().cart; $("sheetClose").textContent = t().close;
   $("totalLabel").textContent = t().total; $("next").textContent = t().next; $("confirm").textContent = t().confirm;
   $("dTitle").textContent = t().dTitle; $("dBack").textContent = t().back; $("howLabel").textContent = t().how;
-  $("howP").textContent = t().pickup; $("howD").textContent = t().delivery; $("addrLabel").textContent = t().addr;
-  $("addr").placeholder = t().addrPh; $("noteLabel").textContent = t().note; $("note").placeholder = t().notePh;
+  $("howP").textContent = t().pickup; $("howD").textContent = t().delivery; $("zoneLabel").textContent = t().zone;
+  $("addrLabel").textContent = t().addr; $("addr").placeholder = t().addrPh;
+  $("noteLabel").textContent = t().note; $("note").placeholder = t().notePh;
   $("payLabel").textContent = t().pay; $("payQ").textContent = t().qr; $("payC").textContent = t().cash;
-  $("dTotalLabel").textContent = t().total;
+  $("foodLabel").textContent = t().food; $("feeLabel").textContent = t().fee; $("dTotalLabel").textContent = t().grand;
   if (!menu) return;
-  $("shop").textContent = tr(menu.shop_name) || "Woodstock";
-  $("info").textContent = tr(menu.info);
-  renderMenu(); refresh();
+  renderHome(); renderMenu(); drawZones(); refresh();
 }
 
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
-$("search").oninput = () => { renderMenu(); };
+$("search").oninput = renderMenu;
+$("toHome").onclick = () => show("home");
 $("bar").onclick = () => openSheet(true);
 $("shade").onclick = $("sheetClose").onclick = () => openSheet(false);
 $("confirm").onclick = () => { if (Object.keys(cart).length) openDetails(true); };
@@ -437,7 +613,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     }
     applyLang();
   })
-  .catch(() => { $("menu").textContent = ""; $("menu").append(el("p", "empty", t().fail)); });
+  .catch(() => { $("about").textContent = t().fail; });
 </script>
 </body>
 </html>

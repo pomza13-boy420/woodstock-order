@@ -1541,6 +1541,84 @@
    ]
   }
  ],
+ "groups": [
+  {
+   "id": "food",
+   "label": {
+    "en": "Food",
+    "th": "อาหาร"
+   },
+   "icon": "🍽",
+   "categories": [
+    "bf",
+    "nd",
+    "tc",
+    "sf",
+    "sn",
+    "ds",
+    "ad"
+   ]
+  },
+  {
+   "id": "drink",
+   "label": {
+    "en": "Drinks",
+    "th": "เครื่องดื่ม"
+   },
+   "icon": "🥤",
+   "categories": [
+    "cf",
+    "te",
+    "sh",
+    "sm"
+   ]
+  }
+ ],
+ "about": {
+  "text": {
+   "en": "Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum, Koh Phangan 🌿",
+   "th": "อาหารไทย & มังสวิรัติ กาแฟ สมูทตี้ และค็อกเทล ที่โฉลกหลำ เกาะพะงัน 🌿"
+  },
+  "hours": {
+   "en": "Open 24 hours",
+   "th": "เปิด 24 ชั่วโมง"
+  },
+  "address": {
+   "en": "Baan Chaloklum, Moo 7, Koh Phangan",
+   "th": "บ้านโฉลกหลำ หมู่ 7 เกาะพะงัน"
+  },
+  "phone": "095-759-9558",
+  "maps": "https://maps.app.goo.gl/igMciMDUefPhDLSU6",
+  "instagram": ""
+ },
+ "delivery_rules": {
+  "zones": [
+   {
+    "id": "near",
+    "label": {
+     "en": "Within 3 km of the shop",
+     "th": "ไม่เกิน 3 กม. จากร้าน"
+    },
+    "min": 200
+   },
+   {
+    "id": "far",
+    "label": {
+     "en": "More than 3 km from the shop",
+     "th": "เกิน 3 กม. จากร้าน"
+    },
+    "min": 500
+   }
+  ],
+  "night": {
+   "from_hour": 0,
+   "to_hour": 5,
+   "fee": 100
+  }
+ },
+ "points": {
+  "baht_per_point": 10
+ },
  "options": {
   "pickup": true,
   "delivery": true,
