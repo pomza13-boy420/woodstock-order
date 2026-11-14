@@ -1544,6 +1544,10 @@
  "groups": [
   {
    "id": "food",
+   "closed": {
+    "from_hour": 23,
+    "to_hour": 8
+   },
    "label": {
     "en": "Food",
     "th": "อาหาร"
@@ -1580,8 +1584,8 @@
    "th": "อาหารไทย & มังสวิรัติ กาแฟ สมูทตี้ และค็อกเทล ที่โฉลกหลำ เกาะพะงัน 🌿"
   },
   "hours": {
-   "en": "Open 24 hours",
-   "th": "เปิด 24 ชั่วโมง"
+   "en": "Drinks 24 h · Food 08:00–23:00",
+   "th": "เครื่องดื่ม 24 ชม. · อาหาร 08:00–23:00"
   },
   "address": {
    "en": "Baan Chaloklum, Moo 7, Koh Phangan",
@@ -1589,7 +1593,8 @@
   },
   "phone": "095-759-9558",
   "maps": "https://maps.app.goo.gl/igMciMDUefPhDLSU6",
-  "instagram": "https://www.instagram.com/woodstock.kpg/"
+  "instagram": "https://www.instagram.com/woodstock.kpg/",
+  "logo": "logo.png"
  },
  "delivery_rules": {
   "zones": [
@@ -1617,7 +1622,60 @@
   }
  },
  "points": {
-  "baht_per_point": 10
+  "baht_per_point": 100,
+  "expire_days": 180,
+  "card_image": "member.png",
+  "tiers": [
+   {
+    "id": "silver",
+    "label": {
+     "en": "Silver",
+     "th": "Silver"
+    },
+    "after_days": 180
+   },
+   {
+    "id": "gold",
+    "label": {
+     "en": "Gold",
+     "th": "Gold"
+    },
+    "after_days": 365
+   }
+  ],
+  "rewards": [
+   {
+    "id": "disc20",
+    "cost": 2,
+    "type": "discount",
+    "amount": 20,
+    "valid_days": 7,
+    "label": {
+     "en": "฿20 off your next order (valid 7 days)",
+     "th": "ส่วนลด ฿20 ออเดอร์ถัดไป (ใช้ได้ 7 วัน)"
+    }
+   },
+   {
+    "id": "drink50",
+    "cost": 5,
+    "type": "item",
+    "valid": "today",
+    "label": {
+     "en": "Smoothie or coffee worth ฿50",
+     "th": "น้ำปั่นหรือกาแฟ มูลค่า ฿50"
+    }
+   },
+   {
+    "id": "gift10",
+    "cost": 10,
+    "type": "item",
+    "valid": "today",
+    "label": {
+     "en": "Tote bag or special gift",
+     "th": "Tote bag or special gift"
+    }
+   }
+  ]
  },
  "options": {
   "pickup": true,

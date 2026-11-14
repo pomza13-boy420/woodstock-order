@@ -33,6 +33,9 @@
   .hero .row1 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .hero h1 { margin: 0; font-size: 26px; letter-spacing: .3px; }
   .hero p { margin: 8px 0 12px; font-size: 14px; opacity: .92; }
+  .hero .logo { display: block; width: 190px; max-width: 60%; height: auto; margin: 10px auto 4px; filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .45)); }
+  .hero.haslogo p { text-align: center; }
+  .hero.haslogo .facts { justify-content: center; }
   .facts { display: flex; flex-wrap: wrap; gap: 8px; }
   .facts span { background: rgba(255, 255, 255, .14); border-radius: 999px; padding: 5px 11px; font-size: 13px; }
   .home { padding: 0 16px; }
@@ -53,6 +56,9 @@
   .group.g1 { background: var(--red); }
   .group.g2 { background: var(--brown-soft); }
   .group:active, .link:active { opacity: .8; }
+  .group.shut { background: #9a8f86; box-shadow: none; }
+  .shutbanner { background: #fff3cd; border: 1px solid var(--yellow); color: var(--brown); border-radius: 12px; padding: 10px 12px; margin: 12px 0 0; font-size: 14px; font-weight: 600; }
+  .shutlabel { font-size: 13px; font-weight: 700; color: var(--hint); padding: 0 6px; }
   .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-top: 14px; }
   .box h3 { margin: 0 0 6px; font-size: 15px; color: var(--brown); }
   .box ul { margin: 0; padding-left: 18px; font-size: 14px; }
@@ -62,6 +68,45 @@
     flex: 1; text-align: center; padding: 11px 6px; border-radius: 12px; font-size: 14px; font-weight: 600;
     background: var(--card); border: 1.5px solid var(--brown); color: var(--brown);
   }
+
+  /* ---- member card ---- */
+  .points { width: 100%; text-align: left; }
+  .points .go { display: block; font-size: 12px; font-weight: 700; margin-top: 2px; }
+  .cardview { padding: 14px 16px; }
+  .cardview .back { color: var(--green); font-weight: 700; font-size: 15px; padding: 6px 0 12px; }
+  .mcard {
+    border-radius: 20px; padding: 18px; color: #fff8e7; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #4e342e 0%, #6d4c41 55%, #2e7d32 130%);
+    box-shadow: 0 8px 22px rgba(78, 52, 46, .35);
+  }
+  .mcard.silver { background: linear-gradient(135deg, #8e9aa3 0%, #dfe5e9 45%, #9aa5ad 100%); color: #2b2f33; }
+  .mcard.gold { background: linear-gradient(135deg, #b8860b 0%, #f6d365 45%, #c9971a 100%); color: #3b2a05; }
+  .mcard .head { display: flex; align-items: center; gap: 12px; }
+  .emblem {
+    width: 62px; height: 62px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 30px;
+    background: rgba(255, 255, 255, .22); border: 2px solid rgba(255, 255, 255, .55); overflow: hidden;
+  }
+  .emblem img { width: 100%; height: 100%; object-fit: contain; }
+  /* the shop's own artwork: shown whole, in its own proportions, no circle around it */
+  .emblem.art { width: 128px; height: 128px; border: 0; border-radius: 0; background: none; overflow: visible; }
+  .emblem.art img { filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .35)); }
+  .mcard .info { flex: 1; min-width: 0; }
+  .mcard .shop { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; opacity: .85; }
+  .mcard .level { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+  .mcard .who { font-size: 20px; font-weight: 700; margin: 12px 0 2px; word-break: break-word; }
+  .mcard .pts { font-size: 15px; }
+  .mcard .pts b { font-size: 34px; margin-right: 6px; }
+  .mcard .dates { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 12px; }
+  .mcard .dates b { display: block; font-size: 14px; }
+  .tiernote { font-size: 13px; color: var(--hint); margin: 10px 2px 0; }
+  .reward { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .reward:first-of-type { border-top: 0; }
+  .reward .what { flex: 1; font-size: 15px; font-weight: 600; }
+  .reward .cost { display: block; font-size: 13px; font-weight: 700; color: var(--red); }
+  .reward .when { display: block; font-size: 12px; font-weight: 500; color: var(--hint); }
+  .reward button { flex: none; padding: 9px 16px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 700; font-size: 14px; }
+  .reward button.sure { background: var(--red); }
+  .reward button.no { background: none; color: var(--hint); border: 1px solid var(--line); font-weight: 600; }
 
   /* ---- menu ---- */
   .top { position: sticky; top: 0; z-index: 5; background: var(--brown); color: #fff8e7; padding: 10px 16px 0; }
@@ -174,13 +219,14 @@
       <h1 id="shop">Woodstock</h1>
       <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
     </div>
+    <img class="logo hide" id="logo" alt="">
     <p id="about"></p>
     <div class="facts"><span id="hours"></span><span id="address"></span></div>
   </div>
   <div class="home">
-    <div class="points" id="pointsBox">
-      <span><span id="pointsLabel"></span><small id="pointsRule"></small></span><b id="pointsValue">0</b>
-    </div>
+    <button class="points" id="pointsBox">
+      <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
+    </button>
     <div class="groups" id="groups"></div>
     <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     <div class="links">
@@ -189,6 +235,28 @@
       <button class="link hide" id="igLink">📷 Instagram</button>
     </div>
   </div>
+</div>
+
+<!-- ============ member card ============ -->
+<div id="cardView" class="cardview hide">
+  <button class="back" id="cardBack"></button>
+  <div class="mcard" id="mcard">
+    <div class="head">
+      <div class="info">
+        <div class="shop" id="cardShop"></div><div class="level" id="cardLevel"></div>
+        <div class="who" id="cardName"></div>
+        <div class="pts"><b id="cardPoints">0</b><span id="cardPointsLabel"></span></div>
+      </div>
+      <div class="emblem" id="emblem">🌿</div>
+    </div>
+    <div class="dates">
+      <span><span id="sinceLabel"></span><b id="cardSince"></b></span>
+      <span style="text-align:right"><span id="untilLabel"></span><b id="cardUntil"></b></span>
+    </div>
+  </div>
+  <p class="tiernote" id="tierNote"></p>
+  <div class="box hide" id="vouchersBox"><h3 id="vouchersTitle"></h3><ul id="vouchers"></ul></div>
+  <div class="box" id="rewardsBox"><h3 id="rewardsTitle"></h3><div id="rewards"></div></div>
 </div>
 
 <!-- ============ menu ============ -->
@@ -238,6 +306,7 @@
   <div class="sums">
     <div><span id="foodLabel"></span><span id="foodTotal"></span></div>
     <div id="feeRow"><span id="feeLabel"></span><span id="feeValue"></span></div>
+    <div id="discRow" class="hide"><span id="discLabel"></span><span id="discValue"></span></div>
     <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
   </div>
   <p class="hint2" id="dHint"></p>
@@ -262,7 +331,7 @@ const TEXT = {
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
-        points: "⭐ แต้มสะสมของคุณ", pointsRule: n => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม`, tapOrder: "แตะเพื่อสั่ง",
+        points: "⭐ แต้มสะสมของคุณ", pointsRule: (n, d) => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม` + (d ? ` · อายุ ${Math.round(d / 30)} เดือนนับจากออเดอร์ล่าสุด` : ""), tapOrder: "แตะเพื่อสั่ง",
         rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z} — ขั้นต่ำ ${m}`,
         ruleNight: (a, b, f, o) => `${a}–${b} น. ค่าส่ง +${f}` + (o ? ` (บิล ${o} ขึ้นไป ส่งฟรี)` : ""),
         pickupFree: "รับที่ร้านได้ทุกยอด ไม่มีขั้นต่ำ", maps: "📍 แผนที่", call: "📞 โทร",
@@ -275,14 +344,23 @@ const TEXT = {
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
         needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`,
-        food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ" },
+        food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
+        shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
+        closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
+        needRemove: (n, b) => `${n}ปิดแล้ว (เปิด ${b} น.) กรุณาเอารายการ${n}ออกจากตะกร้า`,
+        pointsGo: "ดูบัตรสมาชิกและแลกแต้ม ➜", member: "MEMBER", ptsWord: "แต้ม", since: "เริ่มสะสมแต้ม", until: "แต้มหมดอายุ",
+        noSince: "หลังออเดอร์แรกเสร็จ", noName: "สมาชิก Woodstock",
+        tierNext: (d, l) => `อีก ${d} วัน เลื่อนเป็นระดับ ${l}`, tierTop: "คุณอยู่ระดับสูงสุดแล้ว 🎉",
+        tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
+        vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
+        rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
         next: "Next: choose pickup or delivery, and how to pay.",
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
-        points: "⭐ Your points", pointsRule: n => `Every ฿${n} of food = 1 point`, tapOrder: "Tap to order",
+        points: "⭐ Your points", pointsRule: (n, d) => `Every ฿${n} of food = 1 point` + (d ? ` · valid ${Math.round(d / 30)} months from your latest order` : ""), tapOrder: "Tap to order",
         rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z} — minimum ${m}`,
         ruleNight: (a, b, f, o) => `${a}–${b}: delivery +${f}` + (o ? ` (free for bills of ${o} or more)` : ""),
         pickupFree: "Pick up at the shop: no minimum", maps: "📍 Map", call: "📞 Call",
@@ -295,13 +373,31 @@ const TEXT = {
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
         needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`,
-        food: "Food", fee: "Delivery", free: "free", grand: "To pay" },
+        food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
+        shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
+        closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
+        needRemove: (n, b) => `${n} is closed now (opens ${b}). Please remove the ${n.toLowerCase()} items from your cart.`,
+        pointsGo: "Member card & rewards ➜", member: "MEMBER", ptsWord: "points", since: "Member since", until: "Points expire",
+        noSince: "after your first order", noName: "Woodstock member",
+        tierNext: (d, l) => `${d} more days to reach ${l}`, tierTop: "You're at the top level 🎉",
+        tierStart: "Your membership starts when your first order is completed.",
+        vouchers: "🎟 Your vouchers", discV: (a, x) => `฿${a} off your next order — valid until ${x}`,
+        rewards: "🎁 Rewards", costW: n => `${n} point${n === 1 ? "" : "s"}`, redeem: "Redeem", sure: "Confirm?", todayOnly: "Collect at the shop · redeem on the day you come (valid until 23:59)", need: n => `${n} more needed` },
 };
 
 const params = new URLSearchParams(location.search);
 let lang = params.get("lang") || "th";
 if (!TEXT[lang]) lang = "en";
-const myPoints = Math.max(0, parseInt(params.get("pts") || "0", 10) || 0);
+// Member card data the bot puts in the link: name, member-since (epoch s), points, expiry, vouchers.
+let member = { n: "", s: 0, p: Math.max(0, parseInt(params.get("pts") || "0", 10) || 0), x: "", d: 0, dx: "", v: [] };
+try {
+  const m = params.get("m");
+  if (m) {
+    const b = m.replace(/-/g, "+").replace(/_/g, "/"), bin = atob(b + "=".repeat((4 - b.length % 4) % 4));
+    Object.assign(member, JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)))));
+  }
+} catch (e) {}
+const myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -319,6 +415,17 @@ const zones = () => rules().zones || [];
 const groups = () => (menu && menu.groups && menu.groups.length) ? menu.groups
   : [{ id: "all", label: { th: "เมนู", en: "Menu" }, icon: "🍽", categories: menu ? menu.categories.map(c => c.id) : [] }];
 const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[k], 0);
+
+// Opening hours per menu group (e.g. the kitchen closes at night, drinks don't). The bot checks again.
+const groupOfKey = {};           // cart key -> group id
+const hh = h => String(h).padStart(2, "0") + ":00";
+function shutNow(g) {            // the group's {from_hour, to_hour} if it is closed right now, else null
+  const c = g && g.closed; if (!c) return null;
+  const h = new Date(Date.now() + 7 * 3600e3).getUTCHours(), a = c.from_hour || 0, b = c.to_hour || 0;
+  return (a <= b ? (h >= a && h < b) : (h >= a || h < b)) ? c : null;
+}
+const groupOf = key => groups().find(g => g.id === groupOfKey[key]);
+const shutGroupInCart = () => Object.keys(cart).map(groupOf).find(g => shutNow(g)) || null;
 
 // Same rule as the bot (which has the final say): a night fee, waived for big bills.
 function deliveryFee(total) {
@@ -341,13 +448,16 @@ function change(key, delta) {
 function drawStepper(box) {
   const key = box.dataset.key, q = cart[key] || 0;
   box.textContent = "";
+  const shut = !!shutNow(groupOf(key));   // closed right now: nothing can be added, only removed
   if (!q) {
+    if (shut) { box.append(el("span", "shutlabel", t().shut)); return; }
     const b = el("button", "add", t().add); b.onclick = () => change(key, 1); box.append(b);
     return;
   }
   const minus = el("button", "minus", "−"), plus = el("button", "", "+");
   minus.onclick = () => change(key, -1); plus.onclick = () => change(key, 1);
-  box.append(minus, el("span", "qty", q), plus);
+  box.append(minus, el("span", "qty", q));
+  if (!shut) box.append(plus);
 }
 function stepper(key) { const s = el("div", "stepper"); s.dataset.key = key; drawStepper(s); return s; }
 
@@ -366,16 +476,26 @@ function renderHome() {
   const a = menu.about || {};
   $("shop").textContent = tr(menu.shop_name) || "Woodstock";
   $("about").textContent = tr(a.text);
+  const logo = $("logo");   // the shop's logo: webapp/<about.logo>; the header simply stays text-only without it
+  if (a.logo && !logo.dataset.done) {
+    logo.dataset.done = "1";
+    logo.onload = () => { logo.classList.remove("hide"); document.querySelector(".hero").classList.add("haslogo"); };
+    logo.src = a.logo;
+  }
   $("hours").textContent = "🕘 " + tr(a.hours); $("hours").classList.toggle("hide", !tr(a.hours));
   $("address").textContent = "📍 " + tr(a.address); $("address").classList.toggle("hide", !tr(a.address));
   const per = (menu.points || {}).baht_per_point;
   $("pointsBox").classList.toggle("hide", !per);
-  $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per) : "";
+  $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days) : "";
   $("pointsValue").textContent = myPoints.toLocaleString("en-US");
+  $("pointsGo").textContent = t().pointsGo;
   const box = $("groups"); box.textContent = "";
   groups().forEach((g, i) => {
     const b = el("button", "group g" + (i % 3));
-    b.append(el("span", "ico", g.icon || "🍽"), document.createTextNode(tr(g.label)), el("small", "", t().tapOrder));
+    const c = shutNow(g);
+    if (c) b.classList.add("shut");
+    b.append(el("span", "ico", g.icon || "🍽"), document.createTextNode(tr(g.label)),
+             el("small", "", c ? t().closedTill(hh(c.to_hour || 0)) : t().tapOrder));
     b.onclick = () => openGroup(g.id);
     box.append(b);
   });
@@ -399,11 +519,66 @@ function renderHome() {
 $("mapsLink").onclick = () => openUrl(menu.about.maps);
 $("igLink").onclick = () => openUrl(menu.about.instagram);
 
-function show(view) {   // "home" | "menu"
+function show(view) {   // "home" | "menu" | "card"
   $("home").classList.toggle("hide", view !== "home");
   $("menuView").classList.toggle("hide", view !== "menu");
+  $("cardView").classList.toggle("hide", view !== "card");
   window.scrollTo(0, 0);
 }
+
+// ---------------- member card ----------------
+function renderCard() {
+  const P = menu.points || {};
+  const tiers = (P.tiers || []).slice().sort((a, b) => (a.after_days || 0) - (b.after_days || 0));
+  const days = member.s ? (Date.now() / 1000 - member.s) / 86400 : -1;
+  const cur = tiers.filter(x => days >= (x.after_days || 0)).pop(), next = tiers.find(x => days < (x.after_days || 0));
+  $("mcard").className = "mcard" + (cur ? " " + cur.id : "");
+  $("cardShop").textContent = tr(menu.shop_name) || "Woodstock";
+  $("cardLevel").textContent = cur ? tr(cur.label).toUpperCase() : t().member;
+  $("cardName").textContent = member.n || t().noName;
+  $("cardPoints").textContent = myPoints.toLocaleString("en-US"); $("cardPointsLabel").textContent = t().ptsWord;
+  $("sinceLabel").textContent = t().since; $("untilLabel").textContent = t().until;
+  const d = new Date((member.s + 7 * 3600) * 1000), two = n => String(n).padStart(2, "0");   // Bangkok date
+  $("cardSince").textContent = member.s ? `${two(d.getUTCDate())}/${two(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}` : t().noSince;
+  $("cardUntil").textContent = member.x || "—";
+  $("tierNote").textContent = !member.s ? t().tierStart
+    : next ? t().tierNext(Math.max(1, Math.ceil((next.after_days || 0) - days)), tr(next.label)) : (tiers.length ? t().tierTop : "");
+  const em = $("emblem");   // the members-only symbol: webapp/<card_image>, or a leaf until one is uploaded
+  if (P.card_image && !em.dataset.done) {
+    em.dataset.done = "1";
+    const img = new Image();
+    img.onload = () => { em.textContent = ""; em.classList.add("art"); em.append(img); };
+    img.src = P.card_image;
+  }
+  const vs = $("vouchers"); vs.textContent = "";
+  if (member.d) vs.append(el("li", "", t().discV(member.d, member.dx || "—")));
+  for (const v of member.v || []) vs.append(el("li", "", v));
+  $("vouchersTitle").textContent = t().vouchers; $("vouchersBox").classList.toggle("hide", !vs.children.length);
+  const box = $("rewards"); box.textContent = "";
+  for (const r of P.rewards || []) {
+    const row = el("div", "reward"), what = el("div", "what", tr(r.label));
+    what.append(el("span", "cost", t().costW(r.cost)));
+    if (r.valid === "today") what.append(el("span", "when", t().todayOnly));
+    const b = el("button");
+    if (myPoints < r.cost) { b.className = "no"; b.textContent = t().need(r.cost - myPoints); }
+    else {
+      b.textContent = t().redeem;
+      b.onclick = () => {
+        if (!b.classList.contains("sure")) {   // first tap asks, second tap spends the points
+          document.querySelectorAll(".reward .sure").forEach(x => { x.classList.remove("sure"); x.textContent = t().redeem; });
+          b.classList.add("sure"); b.textContent = t().sure; return;
+        }
+        const data = JSON.stringify({ redeem: r.id, lang });
+        if (inTelegram) tg.sendData(data); else b.textContent = data;
+      };
+    }
+    row.append(what, b); box.append(row);
+  }
+  $("rewardsTitle").textContent = t().rewards; $("rewardsBox").classList.toggle("hide", !box.children.length);
+  $("cardBack").textContent = t().home;
+}
+$("pointsBox").onclick = () => show("card");
+$("cardBack").onclick = () => show("home");
 
 // ---------------- menu ----------------
 function openGroup(id) {
@@ -422,6 +597,8 @@ function renderMenu() {
   const q = $("search").value.trim().toLowerCase();
   const box = $("menu"), chips = $("chips");
   box.textContent = ""; chips.textContent = "";
+  const shut = shutNow(g);
+  if (shut) box.append(el("p", "shutbanner", t().closedBanner(tr(g.label), hh(shut.from_hour || 0), hh(shut.to_hour || 0))));
   for (const cat of menu.categories) {
     if (!g.categories.includes(cat.id)) continue;
     const items = cat.items.filter(it => !q || Object.values(it.name).join(" ").toLowerCase().includes(q)
@@ -446,7 +623,7 @@ function renderMenu() {
     chip.onclick = () => sec.scrollIntoView({ behavior: "smooth", block: "start" });
     chips.append(chip);
   }
-  if (!box.children.length) box.append(el("p", "empty", t().none));
+  if (!box.querySelector("section")) box.append(el("p", "empty", t().none));
   watchSections();
 }
 
@@ -500,6 +677,8 @@ function payload() {
 }
 
 function problem() {
+  const sg = shutGroupInCart();
+  if (sg) return t().needRemove(tr(sg.label), hh(sg.closed.to_hour || 0));
   if (!how) return t().needHow;
   if (how === "d") {
     if (zones().length && !zone) return t().needZone;
@@ -528,7 +707,10 @@ function drawDetails() {
   $("foodTotal").textContent = money(total);
   $("feeRow").classList.toggle("hide", how !== "d");
   $("feeValue").textContent = fee ? money(fee) : t().free;
-  $("dTotal").textContent = money(total + fee);
+  const disc = Math.min(member.d || 0, total);   // a points voucher comes off automatically (the bot decides)
+  $("discRow").classList.toggle("hide", !disc);
+  $("discValue").textContent = "-" + money(disc);
+  $("dTotal").textContent = money(total + fee - disc);
   const bad = problem();
   $("dHint").textContent = bad || (pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
@@ -590,7 +772,8 @@ function applyLang() {
   $("payLabel").textContent = t().pay; $("payQ").textContent = t().qr; $("payC").textContent = t().cash;
   $("foodLabel").textContent = t().food; $("feeLabel").textContent = t().fee; $("dTotalLabel").textContent = t().grand;
   if (!menu) return;
-  renderHome(); renderMenu(); drawZones(); refresh();
+  $("discLabel").textContent = t().discount;
+  renderHome(); renderCard(); renderMenu(); drawZones(); refresh();
 }
 
 document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
@@ -606,6 +789,9 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   .then(data => {
     menu = data;
     for (const cat of menu.categories) for (const it of cat.items) {
+      const gid = (groups().find(g => g.categories.includes(cat.id)) || {}).id;
+      groupOfKey[it.id] = gid;
+      for (const o of it.options || []) groupOfKey[it.id + "~" + o.id] = gid;
       if (it.options && it.options.length) for (const o of it.options) {
         const k = it.id + "~" + o.id; prices[k] = o.price;
         names[k] = Object.fromEntries(Object.keys(it.name).map(l => [l, `${it.name[l]} (${o.name[l] || ""})`]));
