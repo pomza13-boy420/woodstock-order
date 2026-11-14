@@ -1,0 +1,1544 @@
+{
+ "shop_name": {
+  "en": "Woodstock",
+  "th": "Woodstock"
+ },
+ "currency": "฿",
+ "info": null,
+ "categories": [
+  {
+   "id": "bf",
+   "label": {
+    "en": "🍳 Breakfast",
+    "th": "🍳 อาหารเช้า"
+   },
+   "items": [
+    {
+     "id": "bfset",
+     "name": {
+      "en": "Breakfast set",
+      "th": "ชุดอาหารเช้า"
+     },
+     "desc": {
+      "en": "Eggs (pick 1) · 2 items · spread · toast or salad — tell us in the order note.",
+      "th": "ไข่ (เลือก 1) · เลือก 2 อย่าง · ทาขนมปัง · ขนมปังหรือสลัด — บอกในหมายเหตุตอนสั่งครับ"
+     },
+     "price": 150
+    },
+    {
+     "id": "pancake",
+     "name": {
+      "en": "Pancake with honey & banana",
+      "th": "แพนเค้กน้ำผึ้งกล้วย"
+     },
+     "price": 100
+    },
+    {
+     "id": "yogurt",
+     "name": {
+      "en": "Greek yogurt bowl",
+      "th": "กรีกโยเกิร์ตผลไม้"
+     },
+     "desc": {
+      "en": "Base · 2–3 fruits · 1 topping — tell us in the order note.",
+      "th": "เบส · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — บอกในหมายเหตุตอนสั่งครับ"
+     },
+     "price": 150
+    }
+   ]
+  },
+  {
+   "id": "nd",
+   "label": {
+    "en": "🍜 Noodles",
+    "th": "🍜 เมนูเส้น"
+   },
+   "items": [
+    {
+     "id": "padthai",
+     "name": {
+      "en": "Pad Thai",
+      "th": "ผัดไทย"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 140
+      }
+     ]
+    },
+    {
+     "id": "glass",
+     "name": {
+      "en": "Fried glass noodles",
+      "th": "ผัดวุ้นเส้น"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 140
+      }
+     ]
+    },
+    {
+     "id": "soup",
+     "name": {
+      "en": "Noodle soup",
+      "th": "ก๋วยเตี๋ยวน้ำ"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 80
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 80
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "gravy",
+     "name": {
+      "en": "Pork gravy noodles",
+      "th": "ราดหน้าหมู"
+     },
+     "price": 80
+    },
+    {
+     "id": "seeew",
+     "name": {
+      "en": "Pad See Ew",
+      "th": "ผัดซีอิ๊ว"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 80
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 80
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tc",
+   "label": {
+    "en": "🍲 Tom Yum & Curry",
+    "th": "🍲 ต้มยำ & แกง"
+   },
+   "note": {
+    "en": "Rice +20 · roti +30 — add them from Add-ons.",
+    "th": "ข้าว +20 · โรตี +30 — เพิ่มได้ในหมวดของเพิ่มครับ"
+   },
+   "items": [
+    {
+     "id": "tomyum",
+     "name": {
+      "en": "Tom Yum",
+      "th": "ต้มยำ"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "massaman",
+     "name": {
+      "en": "Massaman curry",
+      "th": "แกงมัสมั่น"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 120
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 120
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 150
+      }
+     ]
+    },
+    {
+     "id": "green",
+     "name": {
+      "en": "Green curry",
+      "th": "แกงเขียวหวาน"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 120
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 120
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 150
+      }
+     ]
+    },
+    {
+     "id": "pumpkin",
+     "name": {
+      "en": "Pumpkin curry",
+      "th": "แกงฟักทอง"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 100
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 120
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 120
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 150
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sf",
+   "label": {
+    "en": "🥘 Stir-fried",
+    "th": "🥘 อาหารผัด"
+   },
+   "note": {
+    "en": "Rice +20 (except fried rice) — add it from Add-ons.",
+    "th": "ข้าว +20 (ยกเว้นข้าวผัด) — เพิ่มได้ในหมวดของเพิ่มครับ"
+   },
+   "items": [
+    {
+     "id": "frice",
+     "name": {
+      "en": "Fried rice",
+      "th": "ข้าวผัด"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "brocc",
+     "name": {
+      "en": "Stir-fried broccoli",
+      "th": "ผัดบรอกโคลี่"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "ginger",
+     "name": {
+      "en": "Ginger & mixed vegetables",
+      "th": "ผัดขิงผักรวม"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "mush",
+     "name": {
+      "en": "Mushroom & veg in oyster sauce",
+      "th": "ผัดเห็ดซอสหอยนางรม"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "cashew",
+     "name": {
+      "en": "Chicken with cashew nuts",
+      "th": "ไก่ผัดเม็ดมะม่วง"
+     },
+     "price": 100
+    },
+    {
+     "id": "kale",
+     "name": {
+      "en": "Stir-fried baby kale",
+      "th": "ผัดผักแขนง"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 80
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 100
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    },
+    {
+     "id": "larb",
+     "name": {
+      "en": "Larb",
+      "th": "ลาบ"
+     },
+     "options": [
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 60
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 60
+      },
+      {
+       "id": "t",
+       "name": {
+        "en": "Tofu",
+        "th": "เต้าหู้"
+       },
+       "price": 60
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 80
+      }
+     ]
+    },
+    {
+     "id": "krapow",
+     "name": {
+      "en": "Pad Krapow",
+      "th": "ผัดกะเพรา"
+     },
+     "options": [
+      {
+       "id": "v",
+       "name": {
+        "en": "Vegetable",
+        "th": "ผัก"
+       },
+       "price": 60
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 80
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 80
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 100
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sn",
+   "label": {
+    "en": "🍟 Snacks & Salad",
+    "th": "🍟 ของทานเล่น"
+   },
+   "items": [
+    {
+     "id": "nugpap",
+     "name": {
+      "en": "Chicken nuggets + papaya salad",
+      "th": "นักเก็ตไก่ + ส้มตำ"
+     },
+     "price": 100
+    },
+    {
+     "id": "fries",
+     "name": {
+      "en": "French fries + fried chicken",
+      "th": "เฟรนช์ฟรายส์ + ไก่ทอด"
+     },
+     "price": 100
+    },
+    {
+     "id": "papchk",
+     "name": {
+      "en": "Papaya salad with fried chicken",
+      "th": "ส้มตำไก่ทอด"
+     },
+     "price": 100
+    },
+    {
+     "id": "frroll",
+     "name": {
+      "en": "Fried spring rolls (veg)",
+      "th": "ปอเปี๊ยะทอด (ผัก)"
+     },
+     "price": 100
+    },
+    {
+     "id": "cheese",
+     "name": {
+      "en": "Cheese balls",
+      "th": "ชีสบอล"
+     },
+     "price": 80
+    },
+    {
+     "id": "burmese",
+     "name": {
+      "en": "Burmese vegetable salad",
+      "th": "สลัดผักพม่า"
+     },
+     "price": 100
+    },
+    {
+     "id": "fresh",
+     "name": {
+      "en": "Fresh spring rolls",
+      "th": "ปอเปี๊ยะสด"
+     },
+     "options": [
+      {
+       "id": "t",
+       "name": {
+        "en": "Tofu",
+        "th": "เต้าหู้"
+       },
+       "price": 80
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 100
+      },
+      {
+       "id": "u",
+       "name": {
+        "en": "Tuna",
+        "th": "ทูน่า"
+       },
+       "price": 100
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 120
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ds",
+   "label": {
+    "en": "🍨 Dessert",
+    "th": "🍨 ขนมหวาน"
+   },
+   "items": [
+    {
+     "id": "roti",
+     "name": {
+      "en": "Roti with Nutella, banana & cashews",
+      "th": "โรตีนูเทลล่า กล้วย เม็ดมะม่วง"
+     },
+     "price": 100
+    },
+    {
+     "id": "panna",
+     "name": {
+      "en": "Panna cotta with passion fruit",
+      "th": "พานาคอตต้าเสาวรส"
+     },
+     "price": 65
+    },
+    {
+     "id": "fondue",
+     "name": {
+      "en": "Chocolate fondue with ice cream & banana",
+      "th": "ช็อกโกแลตฟองดูว์"
+     },
+     "price": 120
+    },
+    {
+     "id": "mango",
+     "name": {
+      "en": "Mango sticky rice",
+      "th": "ข้าวเหนียวมะม่วง"
+     },
+     "price": 100
+    },
+    {
+     "id": "pumpk",
+     "name": {
+      "en": "Pumpkin in coconut milk",
+      "th": "ฟักทองกะทิ"
+     },
+     "price": 80
+    }
+   ]
+  },
+  {
+   "id": "cf",
+   "label": {
+    "en": "☕ Coffee",
+    "th": "☕ กาแฟ"
+   },
+   "items": [
+    {
+     "id": "esp",
+     "name": {
+      "en": "Espresso",
+      "th": "เอสเพรสโซ"
+     },
+     "price": 40
+    },
+    {
+     "id": "desp",
+     "name": {
+      "en": "Double espresso",
+      "th": "ดับเบิลเอสเพรสโซ"
+     },
+     "price": 60
+    },
+    {
+     "id": "amer",
+     "name": {
+      "en": "Americano",
+      "th": "อเมริกาโน่"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 45
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 55
+      }
+     ]
+    },
+    {
+     "id": "capp",
+     "name": {
+      "en": "Cappuccino",
+      "th": "คาปูชิโน่"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 70
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 80
+      }
+     ]
+    },
+    {
+     "id": "latte",
+     "name": {
+      "en": "Latte",
+      "th": "ลาเต้"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 70
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 80
+      }
+     ]
+    },
+    {
+     "id": "macch",
+     "name": {
+      "en": "Caramel macchiato",
+      "th": "คาราเมลมัคคิอาโต้"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 70
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 80
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "te",
+   "label": {
+    "en": "🍵 Tea & Signature",
+    "th": "🍵 ชา & ซิกเนเจอร์"
+   },
+   "items": [
+    {
+     "id": "black",
+     "name": {
+      "en": "Black tea",
+      "th": "ชาดำ"
+     },
+     "price": 60
+    },
+    {
+     "id": "gtea",
+     "name": {
+      "en": "Green tea",
+      "th": "ชาเขียว"
+     },
+     "price": 60
+    },
+    {
+     "id": "jasm",
+     "name": {
+      "en": "Jasmine tea",
+      "th": "ชามะลิ"
+     },
+     "price": 60
+    },
+    {
+     "id": "herb",
+     "name": {
+      "en": "Herbal tea (lemongrass, ginger)",
+      "th": "ชาสมุนไพร (ตะไคร้ ขิง)"
+     },
+     "price": 80
+    },
+    {
+     "id": "caramel",
+     "name": {
+      "en": "Caramel milk",
+      "th": "นมคาราเมล"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 60
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 70
+      }
+     ]
+    },
+    {
+     "id": "matcha",
+     "name": {
+      "en": "Matcha latte",
+      "th": "มัทฉะลาเต้"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 70
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 80
+      }
+     ]
+    },
+    {
+     "id": "thaitea",
+     "name": {
+      "en": "Thai tea",
+      "th": "ชาไทย"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 60
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 70
+      }
+     ]
+    },
+    {
+     "id": "choc",
+     "name": {
+      "en": "Chocolate",
+      "th": "ช็อกโกแลต"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 60
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 70
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sh",
+   "label": {
+    "en": "🥤 Shake · Soda · Juice",
+    "th": "🥤 ปั่น · โซดา · น้ำผลไม้"
+   },
+   "items": [
+    {
+     "id": "shake",
+     "name": {
+      "en": "Fruit shake",
+      "th": "ผลไม้ปั่น"
+     },
+     "options": [
+      {
+       "id": "le",
+       "name": {
+        "en": "Lemon",
+        "th": "มะนาว"
+       },
+       "price": 70
+      },
+      {
+       "id": "pi",
+       "name": {
+        "en": "Pineapple",
+        "th": "สับปะรด"
+       },
+       "price": 70
+      },
+      {
+       "id": "ma",
+       "name": {
+        "en": "Mango",
+        "th": "มะม่วง"
+       },
+       "price": 70
+      },
+      {
+       "id": "st",
+       "name": {
+        "en": "Strawberry",
+        "th": "สตรอว์เบอร์รี่"
+       },
+       "price": 70
+      },
+      {
+       "id": "ba",
+       "name": {
+        "en": "Banana",
+        "th": "กล้วย"
+       },
+       "price": 70
+      },
+      {
+       "id": "mx",
+       "name": {
+        "en": "Mixed fruit",
+        "th": "ผลไม้รวม"
+       },
+       "price": 80
+      }
+     ]
+    },
+    {
+     "id": "soda",
+     "name": {
+      "en": "Soda",
+      "th": "โซดา"
+     },
+     "options": [
+      {
+       "id": "hl",
+       "name": {
+        "en": "Honey lemon",
+        "th": "น้ำผึ้งมะนาว"
+       },
+       "price": 70
+      },
+      {
+       "id": "bl",
+       "name": {
+        "en": "Blue lemon",
+        "th": "บลูเลมอน"
+       },
+       "price": 70
+      },
+      {
+       "id": "pf",
+       "name": {
+        "en": "Passion fruit",
+        "th": "เสาวรส"
+       },
+       "price": 70
+      },
+      {
+       "id": "st",
+       "name": {
+        "en": "Strawberry",
+        "th": "สตรอว์เบอร์รี่"
+       },
+       "price": 70
+      }
+     ]
+    },
+    {
+     "id": "juice",
+     "name": {
+      "en": "Juice",
+      "th": "น้ำผลไม้"
+     },
+     "options": [
+      {
+       "id": "or",
+       "name": {
+        "en": "Orange",
+        "th": "ส้ม"
+       },
+       "price": 70
+      },
+      {
+       "id": "pi",
+       "name": {
+        "en": "Pineapple",
+        "th": "สับปะรด"
+       },
+       "price": 70
+      },
+      {
+       "id": "ma",
+       "name": {
+        "en": "Mango",
+        "th": "มะม่วง"
+       },
+       "price": 70
+      },
+      {
+       "id": "mx",
+       "name": {
+        "en": "Mixed fruit",
+        "th": "ผลไม้รวม"
+       },
+       "price": 70
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sm",
+   "label": {
+    "en": "🍓 Smoothies",
+    "th": "🍓 สมูทตี้"
+   },
+   "items": [
+    {
+     "id": "sunrise",
+     "name": {
+      "en": "Smoothie Sunrise",
+      "th": "Smoothie Sunrise"
+     },
+     "price": 120
+    },
+    {
+     "id": "bliss",
+     "name": {
+      "en": "Berry Bliss",
+      "th": "Berry Bliss"
+     },
+     "price": 120
+    },
+    {
+     "id": "tropic",
+     "name": {
+      "en": "Tropical Energy",
+      "th": "Tropical Energy"
+     },
+     "price": 120
+    },
+    {
+     "id": "glow",
+     "name": {
+      "en": "Green Glow",
+      "th": "Green Glow"
+     },
+     "price": 140
+    },
+    {
+     "id": "bgboost",
+     "name": {
+      "en": "Berry Green Boost",
+      "th": "Berry Green Boost"
+     },
+     "price": 140
+    },
+    {
+     "id": "zen",
+     "name": {
+      "en": "Zen Zest",
+      "th": "Zen Zest"
+     },
+     "price": 140
+    },
+    {
+     "id": "detox",
+     "name": {
+      "en": "Detox Berry Fresh",
+      "th": "Detox Berry Fresh"
+     },
+     "price": 140
+    },
+    {
+     "id": "choconut",
+     "name": {
+      "en": "Choco Nut Power",
+      "th": "Choco Nut Power"
+     },
+     "price": 150
+    },
+    {
+     "id": "mocha",
+     "name": {
+      "en": "Mocha Banana Fuel",
+      "th": "Mocha Banana Fuel"
+     },
+     "price": 150
+    },
+    {
+     "id": "protein",
+     "name": {
+      "en": "Protein Punch",
+      "th": "Protein Punch"
+     },
+     "price": 150
+    },
+    {
+     "id": "island",
+     "name": {
+      "en": "Island Banana",
+      "th": "Island Banana"
+     },
+     "price": 120
+    },
+    {
+     "id": "kalepap",
+     "name": {
+      "en": "Tropical Kale Papaya",
+      "th": "Tropical Kale Papaya"
+     },
+     "price": 120
+    },
+    {
+     "id": "sunpine",
+     "name": {
+      "en": "Sunny Papaya Pine",
+      "th": "Sunny Papaya Pine"
+     },
+     "price": 120
+    },
+    {
+     "id": "matpar",
+     "name": {
+      "en": "Matcha Paradise",
+      "th": "Matcha Paradise"
+     },
+     "price": 150
+    },
+    {
+     "id": "golden",
+     "name": {
+      "en": "Golden Glow",
+      "th": "Golden Glow"
+     },
+     "price": 150
+    },
+    {
+     "id": "acai",
+     "name": {
+      "en": "Açaí Power Bowl",
+      "th": "Açaí Power Bowl"
+     },
+     "price": 150
+    }
+   ]
+  },
+  {
+   "id": "ad",
+   "label": {
+    "en": "➕ Add-ons",
+    "th": "➕ ของเพิ่ม"
+   },
+   "items": [
+    {
+     "id": "rice",
+     "name": {
+      "en": "Steamed rice",
+      "th": "ข้าวสวย"
+     },
+     "price": 20
+    },
+    {
+     "id": "rotiside",
+     "name": {
+      "en": "Roti (with curry)",
+      "th": "โรตี (กับแกง)"
+     },
+     "price": 30
+    },
+    {
+     "id": "fegg",
+     "name": {
+      "en": "Fried egg",
+      "th": "ไข่ดาว"
+     },
+     "price": 20
+    },
+    {
+     "id": "larbxl",
+     "name": {
+      "en": "Larb extra-large",
+      "th": "ลาบพิเศษ"
+     },
+     "price": 20
+    },
+    {
+     "id": "bfegg",
+     "name": {
+      "en": "Extra egg (breakfast)",
+      "th": "เพิ่มไข่ (อาหารเช้า)"
+     },
+     "price": 15
+    },
+    {
+     "id": "bfitem",
+     "name": {
+      "en": "Extra item (breakfast 2 or 3)",
+      "th": "เพิ่มรายการ (อาหารเช้า ข้อ 2 หรือ 3)"
+     },
+     "price": 20
+    },
+    {
+     "id": "yfruit",
+     "name": {
+      "en": "Extra fruit (yogurt bowl)",
+      "th": "เพิ่มผลไม้ (โยเกิร์ต)"
+     },
+     "price": 20
+    },
+    {
+     "id": "ytop",
+     "name": {
+      "en": "Extra topping (yogurt bowl)",
+      "th": "เพิ่มท็อปปิ้ง (โยเกิร์ต)"
+     },
+     "price": 10
+    },
+    {
+     "id": "ygran",
+     "name": {
+      "en": "Extra granola",
+      "th": "เพิ่มกราโนล่า"
+     },
+     "price": 15
+    },
+    {
+     "id": "yhoney",
+     "name": {
+      "en": "Extra honey (yogurt bowl)",
+      "th": "เพิ่มน้ำผึ้ง (โยเกิร์ต)"
+     },
+     "price": 15
+    },
+    {
+     "id": "yscoop",
+     "name": {
+      "en": "Extra yogurt scoop",
+      "th": "เพิ่มโยเกิร์ต 1 สกู๊ป"
+     },
+     "price": 30
+    },
+    {
+     "id": "oat",
+     "name": {
+      "en": "Oat milk (drinks)",
+      "th": "นมโอ๊ต (เครื่องดื่ม)"
+     },
+     "price": 20
+    },
+    {
+     "id": "almond",
+     "name": {
+      "en": "Almond milk (drinks)",
+      "th": "นมอัลมอนด์ (เครื่องดื่ม)"
+     },
+     "price": 20
+    },
+    {
+     "id": "dhoney",
+     "name": {
+      "en": "Honey (drinks)",
+      "th": "น้ำผึ้ง (เครื่องดื่ม)"
+     },
+     "price": 10
+    },
+    {
+     "id": "icecup",
+     "name": {
+      "en": "Ice cup",
+      "th": "แก้วน้ำแข็ง"
+     },
+     "price": 10
+    }
+   ]
+  }
+ ]
+}

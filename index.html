@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Woodstock — Order</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: var(--tg-theme-secondary-bg-color, #f2f4f1);
+    --card: var(--tg-theme-bg-color, #ffffff);
+    --text: var(--tg-theme-text-color, #1c1f1b);
+    --hint: var(--tg-theme-hint-color, #7a8378);
+    --accent: var(--tg-theme-button-color, #2e7d32);
+    --on-accent: var(--tg-theme-button-text-color, #ffffff);
+    --line: rgba(128, 128, 128, .22);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+  button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+
+  /* ---- top: shop name, steps, search, categories ---- */
+  .top { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 12px 16px 0; }
+  .title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .title h1 { margin: 0; font-size: 20px; }
+  .lang { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex: none; }
+  .lang button { padding: 5px 12px; font-size: 13px; font-weight: 600; color: var(--hint); }
+  .lang button.on { background: var(--accent); color: var(--on-accent); }
+  .steps { display: flex; gap: 6px; margin: 10px 0; font-size: 12px; color: var(--hint); }
+  .steps span { flex: 1; text-align: center; padding: 5px 4px; border-radius: 8px; background: var(--card); }
+  .steps span.on { background: var(--accent); color: var(--on-accent); font-weight: 600; }
+  .search {
+    width: 100%; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--card); color: var(--text); font: inherit; outline: none;
+  }
+  .search:focus { border-color: var(--accent); }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px; margin: 0 -16px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips button {
+    flex: none; padding: 7px 13px; border-radius: 999px; background: var(--card);
+    font-size: 14px; white-space: nowrap; border: 1px solid var(--line);
+  }
+  .chips button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); font-weight: 600; }
+
+  /* ---- menu ---- */
+  main { padding: 0 16px; }
+  .info { margin: 4px 0 0; font-size: 13px; color: var(--hint); white-space: pre-line; }
+  section { scroll-margin-top: 190px; }
+  section h2 { margin: 20px 0 4px; font-size: 17px; }
+  section .note { margin: 0 0 8px; font-size: 13px; color: var(--hint); white-space: pre-line; }
+  .item { background: var(--card); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .row .what { flex: 1; min-width: 0; }
+  .name { font-weight: 600; }
+  .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
+  .price { font-weight: 600; color: var(--accent); font-size: 15px; }
+  .opt { padding-top: 10px; margin-top: 10px; border-top: 1px solid var(--line); }
+  .opt .name { font-weight: 500; }
+  .empty { text-align: center; color: var(--hint); padding: 40px 0; }
+
+  /* ---- + / − ---- */
+  .stepper { flex: none; display: flex; align-items: center; }
+  .stepper button {
+    width: 38px; height: 38px; border-radius: 50%; font-size: 22px; line-height: 1; font-weight: 500;
+    background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
+  }
+  .stepper button.minus { background: none; color: var(--accent); border: 1.5px solid var(--accent); }
+  .stepper .add { width: auto; border-radius: 999px; padding: 0 16px; font-size: 15px; font-weight: 600; }
+  .stepper .qty { min-width: 34px; text-align: center; font-weight: 700; font-size: 17px; }
+  .stepper button:active { opacity: .7; }
+
+  /* ---- cart bar + sheet ---- */
+  .bar {
+    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 10;
+    display: none; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--accent); color: var(--on-accent); border-radius: 16px; padding: 14px 18px;
+    font-weight: 700; font-size: 17px; width: calc(100% - 24px); box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+  }
+  .bar.show { display: flex; }
+  .bar small { display: block; font-weight: 500; font-size: 13px; opacity: .9; }
+  .shade { position: fixed; inset: 0; background: rgba(0, 0, 0, .45); z-index: 20; display: none; }
+  .shade.show { display: block; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 21; max-height: 86vh; display: none; flex-direction: column;
+    background: var(--bg); border-radius: 20px 20px 0 0; padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  }
+  .sheet.show { display: flex; }
+  .sheet header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sheet h2 { margin: 0; font-size: 19px; }
+  .sheet .close { font-size: 15px; color: var(--accent); font-weight: 600; padding: 6px 0 6px 12px; }
+  .lines { overflow-y: auto; flex: 1; }
+  .line { background: var(--card); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+  .total { display: flex; justify-content: space-between; font-size: 19px; font-weight: 700; margin: 14px 2px 6px; }
+  .next { font-size: 13px; color: var(--hint); margin: 0 2px 12px; }
+  .confirm {
+    width: 100%; padding: 15px; border-radius: 14px; background: var(--accent); color: var(--on-accent);
+    font-size: 18px; font-weight: 700;
+  }
+  .confirm:active, .bar:active { opacity: .85; }
+  .testnote { margin-top: 10px; font-size: 12px; color: var(--hint); word-break: break-all; }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="title">
+    <h1 id="shop">Woodstock</h1>
+    <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
+  </div>
+  <div class="steps"><span class="on" id="s1"></span><span id="s2"></span><span id="s3"></span></div>
+  <input class="search" id="search" type="search" autocomplete="off">
+  <div class="chips" id="chips"></div>
+</div>
+<main>
+  <p class="info" id="info"></p>
+  <div id="menu"><p class="empty">…</p></div>
+</main>
+
+<button class="bar" id="bar"><span><span id="barCount"></span><small id="barHint"></small></span><span id="barTotal"></span></button>
+<div class="shade" id="shade"></div>
+<div class="sheet" id="sheet">
+  <header><h2 id="sheetTitle"></h2><button class="close" id="sheetClose"></button></header>
+  <div class="lines" id="lines"></div>
+  <div class="total"><span id="totalLabel"></span><span id="totalValue"></span></div>
+  <p class="next" id="next"></p>
+  <button class="confirm" id="confirm"></button>
+  <div class="testnote" id="testnote"></div>
+</div>
+
+<script>
+const tg = window.Telegram && window.Telegram.WebApp;
+const inTelegram = !!(tg && tg.initData);
+if (tg) { tg.ready(); tg.expand(); }
+
+const TEXT = {
+  th: { s1: "1 เลือกเมนู", s2: "2 ยืนยันรายการ", s3: "3 จ่ายเงินในแชท", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม",
+        items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
+        total: "รวม", confirm: "✅ ยืนยันรายการ", from: "เริ่ม ", none: "ไม่พบเมนูที่ค้นหา",
+        next: "ขั้นต่อไป: เลือกจัดส่งหรือรับที่ร้าน แล้วชำระเงินในแชทครับ",
+        fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
+        test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: " },
+  en: { s1: "1 Choose", s2: "2 Confirm", s3: "3 Pay in chat", search: "🔍 Search the menu…", add: "+ Add",
+        items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
+        total: "Total", confirm: "✅ Confirm order", from: "from ", none: "No dishes found",
+        next: "Next: choose delivery or pickup, then pay in the chat.",
+        fail: "Couldn't load the menu. Please close and open again.",
+        test: "Test mode (opened outside Telegram) — data that would go to the bot: " },
+};
+
+const params = new URLSearchParams(location.search);
+let lang = params.get("lang") || (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) || "th";
+if (!TEXT[lang]) lang = "en";
+let menu = null;                 // menu.json
+const cart = {};                 // "item" or "item~option" -> quantity
+const prices = {}, names = {};   // by the same key
+const $ = id => document.getElementById(id);
+const t = () => TEXT[lang];
+const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
+const money = n => (menu.currency || "฿") + Number(n).toLocaleString("en-US");
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function change(key, delta) {
+  const q = Math.max(0, Math.min(99, (cart[key] || 0) + delta));
+  if (q) cart[key] = q; else delete cart[key];
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
+  refresh();
+}
+
+function drawStepper(box) {
+  const key = box.dataset.key, q = cart[key] || 0;
+  box.textContent = "";
+  if (!q) {
+    const b = el("button", "add", t().add); b.onclick = () => change(key, 1); box.append(b);
+    return;
+  }
+  const minus = el("button", "minus", "−"), plus = el("button", "", "+");
+  minus.onclick = () => change(key, -1); plus.onclick = () => change(key, 1);
+  box.append(minus, el("span", "qty", q), plus);
+}
+
+function stepper(key) { const s = el("div", "stepper"); s.dataset.key = key; drawStepper(s); return s; }
+
+function itemRow(key, name, desc, price, cls) {
+  const row = el("div", "row" + (cls ? " " + cls : ""));
+  const what = el("div", "what");
+  what.append(el("div", "name", name));
+  if (desc) what.append(el("div", "desc", desc));
+  what.append(el("div", "price", money(price)));
+  row.append(what, stepper(key));
+  return row;
+}
+
+function renderMenu() {
+  const q = $("search").value.trim().toLowerCase();
+  const box = $("menu"), chips = $("chips");
+  box.textContent = ""; chips.textContent = "";
+  for (const cat of menu.categories) {
+    const items = cat.items.filter(it => !q || Object.values(it.name).join(" ").toLowerCase().includes(q)
+      || (it.options || []).some(o => Object.values(o.name).join(" ").toLowerCase().includes(q)));
+    if (!items.length) continue;
+    const sec = el("section"); sec.id = "cat-" + cat.id;
+    sec.append(el("h2", "", tr(cat.label)));
+    if (cat.note) sec.append(el("p", "note", tr(cat.note)));
+    for (const it of items) {
+      const card = el("div", "item");
+      if (it.options && it.options.length) {
+        card.append(el("div", "name", tr(it.name)));
+        if (it.desc) card.append(el("div", "desc", tr(it.desc)));
+        for (const o of it.options) card.append(itemRow(it.id + "~" + o.id, tr(o.name), "", o.price, "opt"));
+      } else {
+        card.append(itemRow(it.id, tr(it.name), tr(it.desc), it.price));
+      }
+      sec.append(card);
+    }
+    box.append(sec);
+    const chip = el("button", "", tr(cat.label)); chip.dataset.cat = cat.id;
+    chip.onclick = () => sec.scrollIntoView({ behavior: "smooth", block: "start" });
+    chips.append(chip);
+  }
+  if (!box.children.length) box.append(el("p", "empty", t().none));
+  watchSections();
+}
+
+let observer = null;
+function watchSections() {
+  if (observer) observer.disconnect();
+  if (!("IntersectionObserver" in window)) return;
+  observer = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) {
+      const id = e.target.id.slice(4);
+      document.querySelectorAll("#chips button").forEach(c => {
+        const on = c.dataset.cat === id; c.classList.toggle("on", on);
+        if (on) c.scrollIntoView({ block: "nearest", inline: "center" });
+      });
+    }
+  }, { rootMargin: "-200px 0px -60% 0px" });
+  document.querySelectorAll("section").forEach(s => observer.observe(s));
+}
+
+function refresh() {
+  document.querySelectorAll(".stepper").forEach(drawStepper);
+  const keys = Object.keys(cart);
+  const count = keys.reduce((n, k) => n + cart[k], 0);
+  const total = keys.reduce((n, k) => n + cart[k] * prices[k], 0);
+  $("bar").classList.toggle("show", count > 0);
+  $("barCount").textContent = t().items(count);
+  $("barHint").textContent = t().view;
+  $("barTotal").textContent = money(total);
+  $("totalValue").textContent = money(total);
+  $("s2").classList.toggle("on", count > 0);
+  const lines = $("lines"); lines.textContent = "";
+  for (const k of keys) {
+    const line = el("div", "line row"), what = el("div", "what");
+    what.append(el("div", "name", tr(names[k])), el("div", "price", `${money(prices[k])} × ${cart[k]} = ${money(prices[k] * cart[k])}`));
+    line.append(what, stepper(k));
+    lines.append(line);
+  }
+  if (!count) openSheet(false);
+  $("testnote").textContent = inTelegram ? "" : t().test + JSON.stringify({ cart });
+}
+
+function openSheet(show) { $("sheet").classList.toggle("show", show); $("shade").classList.toggle("show", show); }
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+  for (const k of ["s1", "s2", "s3"]) $(k).textContent = t()[k];
+  $("search").placeholder = t().search;
+  $("sheetTitle").textContent = t().cart; $("sheetClose").textContent = t().close;
+  $("totalLabel").textContent = t().total; $("next").textContent = t().next; $("confirm").textContent = t().confirm;
+  if (!menu) return;
+  $("shop").textContent = tr(menu.shop_name) || "Woodstock";
+  $("info").textContent = tr(menu.info);
+  renderMenu(); refresh();
+}
+
+document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
+$("search").oninput = () => { renderMenu(); };
+$("bar").onclick = () => openSheet(true);
+$("shade").onclick = $("sheetClose").onclick = () => openSheet(false);
+$("confirm").onclick = () => {
+  if (!Object.keys(cart).length) return;
+  const data = JSON.stringify({ cart });
+  if (inTelegram) tg.sendData(data);   // closes the app; the bot continues in the chat
+};
+
+applyLang();
+fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    menu = data;
+    for (const cat of menu.categories) for (const it of cat.items) {
+      if (it.options && it.options.length) for (const o of it.options) {
+        const k = it.id + "~" + o.id; prices[k] = o.price;
+        names[k] = Object.fromEntries(Object.keys(it.name).map(l => [l, `${it.name[l]} (${o.name[l] || ""})`]));
+      } else { prices[it.id] = it.price; names[it.id] = it.name; }
+    }
+    applyLang();
+  })
+  .catch(() => { $("menu").textContent = ""; $("menu").append(el("p", "empty", t().fail)); });
+</script>
+</body>
+</html>
