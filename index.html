@@ -561,6 +561,13 @@ const rules = () => (menu && menu.delivery_rules) || {};
 const zones = () => rules().zones || [];
 const groups = () => (menu && menu.groups && menu.groups.length) ? menu.groups
   : [{ id: "all", label: { th: "เมนู", en: "Menu" }, icon: "🍽", categories: menu ? menu.categories.map(c => c.id) : [] }];
+// A menu picture that is not at img/<name> is tried once more next to index.html (pictures uploaded without their folder).
+document.addEventListener("error", e => {
+  const im = e.target;
+  if (im && im.tagName === "IMG" && !im.dataset.fb && /(^|\/)img\/[^/]+$/.test(im.getAttribute("src") || "")) {
+    im.dataset.fb = "1"; im.src = im.getAttribute("src").split("/").pop();
+  }
+}, true);
 const baseKey = k => k.split("@")[0];   // a cart key without its choices ("latte~i@s:50,i:sep" → "latte~i")
 const modTags = k => (k.split("@")[1] || "").split(",").filter(Boolean).map(p => {   // the choices that differ from the usual
   const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {}, ch = (def.choices || []).find(x => x.id === c);
