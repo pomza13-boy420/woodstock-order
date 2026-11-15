@@ -1597,28 +1597,123 @@
   "logo": "logo.png"
  },
  "delivery_rules": {
-  "zones": [
-   {
-    "id": "near",
-    "label": {
-     "en": "Within 3 km of the shop",
-     "th": "ไม่เกิน 3 กม. จากร้าน"
-    },
-    "min": 200
-   },
-   {
-    "id": "far",
-    "label": {
-     "en": "More than 3 km from the shop",
-     "th": "เกิน 3 กม. จากร้าน"
-    },
-    "min": 500
-   }
+  "shop": [
+   9.7874761,
+   99.9985566
   ],
+  "road_factor": 1.4,
+  "line_a": [
+   [
+    9.764,
+    99.967
+   ],
+   [
+    9.6907,
+    100.0777
+   ]
+  ],
+  "line_b": [
+   [
+    9.797,
+    100.0243
+   ],
+   [
+    9.706,
+    100.0021
+   ]
+  ],
+  "areas": {
+   "1": {
+    "label": {
+     "en": "Zone 1 · north",
+     "th": "โซน 1 · เหนือ"
+    },
+    "pricing": "normal"
+   },
+   "2": {
+    "label": {
+     "en": "Zone 2 · west",
+     "th": "โซน 2 · ตะวันตก"
+    },
+    "pricing": "normal"
+   },
+   "3": {
+    "label": {
+     "en": "Zone 3 · east",
+     "th": "โซน 3 · ตะวันออก"
+    },
+    "pricing": "remote",
+    "alert": "⚠️ โซน 3: ไกลและทางเปลี่ยว — ตรวจสอบเส้นทางและคนส่งก่อนกดรับ"
+   },
+   "4": {
+    "label": {
+     "en": "Zone 4 · south",
+     "th": "โซน 4 · ใต้"
+    },
+    "pricing": "remote"
+   }
+  },
+  "pricing": {
+   "normal": [
+    {
+     "max_km": 3,
+     "min": 200,
+     "fee_below": 30
+    },
+    {
+     "min": 500,
+     "fee_below": "quote",
+     "per_km": [
+      40,
+      100
+     ]
+    }
+   ],
+   "remote": [
+    {
+     "min": 2000,
+     "fee_below": "quote",
+     "per_km": [
+      40,
+      100
+     ]
+    }
+   ]
+  },
   "night": {
    "from_hour": 0,
    "to_hour": 5,
    "fee": 100
+  },
+  "rules_text": [
+   {
+    "en": "Zones 1–2 (north & west), within 3 km: free from ฿200 — below that ฿30",
+    "th": "โซน 1–2 (เหนือ/ตะวันตก) ไม่เกิน 3 กม.: สั่งครบ ฿200 ส่งฟรี — ไม่ถึง ค่าส่ง ฿30"
+   },
+   {
+    "en": "Zones 1–2, beyond 3 km: free from ฿500 — below that ฿40–100 per km",
+    "th": "โซน 1–2 เกิน 3 กม.: สั่งครบ ฿500 ส่งฟรี — ไม่ถึง ค่าส่ง กม.ละ ฿40–100"
+   },
+   {
+    "en": "Zones 3–4 (east & south, remote): delivery ฿40–100 per km — free from ฿2,000",
+    "th": "โซน 3–4 (ตะวันออก/ใต้ พื้นที่ห่างไกล): ค่าส่ง กม.ละ ฿40–100 — สั่งครบ ฿2,000 ส่งฟรี"
+   },
+   {
+    "en": "Late night (00:00–05:00): +฿100 night surcharge, on top of any delivery fee",
+    "th": "รอบดึก 00:00–05:00 น.: ค่าบริการรอบดึก +฿100 แยกจากค่าส่งปกติ"
+   },
+   {
+    "en": "⭐ 3 points = free delivery for 1 order in zones 1–2 (up to 10 km), or ฿100 off the delivery fee in zones 3–4 — we ask when your bill is ready",
+    "th": "⭐ 3 แต้ม = ส่งฟรี 1 ออเดอร์ในโซน 1–2 (ไม่เกิน 10 กม.) หรือลดค่าส่ง ฿100 ในโซน 3–4 — ถามตอนสรุปบิล"
+   },
+   {
+    "en": "Pick up at the shop: no minimum",
+    "th": "รับที่ร้าน: ไม่มีขั้นต่ำ"
+   }
+  ],
+  "note": {
+   "en": "After you confirm, the bot asks for your location in the chat to work out the delivery fee. Extra fee may apply for steep mountain / villa access; the per-km fee depends on time, access and season.",
+   "th": "หลังกดยืนยัน บอทจะขอตำแหน่งของคุณในแชทเพื่อคำนวณค่าส่ง พื้นที่ขึ้นเขาชันหรือวิลล่าบนเขาอาจมีค่าบริการเพิ่ม ค่าส่งต่อกิโลเมตรขึ้นกับช่วงเวลา ความยากของสถานที่ และฤดูกาล"
   }
  },
  "points": {
@@ -1675,7 +1770,14 @@
      "th": "Tote bag or special gift"
     }
    }
-  ]
+  ],
+  "free_delivery": {
+   "cost": 3,
+   "max_km": 10,
+   "partial": {
+    "remote": 100
+   }
+  }
  },
  "options": {
   "pickup": true,

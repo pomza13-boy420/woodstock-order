@@ -63,6 +63,7 @@
   .box h3 { margin: 0 0 6px; font-size: 15px; color: var(--brown); }
   .box ul { margin: 0; padding-left: 18px; font-size: 14px; }
   .box li { margin: 3px 0; }
+  .box li.fine { list-style: none; margin: 8px 0 0 -18px; font-size: 12px; color: var(--hint); }
   .links { display: flex; gap: 10px; margin-top: 14px; }
   .link {
     flex: 1; text-align: center; padding: 11px 6px; border-radius: 12px; font-size: 14px; font-weight: 600;
@@ -202,6 +203,7 @@
     background: var(--card); color: var(--text); font: inherit; outline: none; display: block;
   }
   .details textarea:focus { border-color: var(--green); }
+  .zonehint { margin: 8px 2px 0; font-size: 13px; font-weight: 600; color: var(--green); min-height: 0; }
   .locbtn { margin-top: 8px; color: var(--green); font-weight: 700; font-size: 15px; padding: 6px 0; }
   .sums { margin: 10px 2px 2px; font-size: 15px; }
   .sums div { display: flex; justify-content: space-between; padding: 2px 0; }
@@ -293,9 +295,11 @@
       <div id="zoneBox">
         <h3 id="zoneLabel"></h3>
         <div class="choices col" id="zones"></div>
+        <p class="zonehint" id="zoneHint"></p>
       </div>
       <h3 id="addrLabel"></h3>
-      <textarea id="addr" rows="3" maxlength="300"></textarea>
+      <textarea id="addr" rows="2" maxlength="300"></textarea>
+      <p class="zonehint" id="locLater"></p>
       <button class="locbtn hide" id="locBtn"></button>
     </div>
     <h3 id="noteLabel"></h3>
@@ -306,6 +310,7 @@
   <div class="sums">
     <div><span id="foodLabel"></span><span id="foodTotal"></span></div>
     <div id="feeRow"><span id="feeLabel"></span><span id="feeValue"></span></div>
+    <div id="nightRow" class="hide"><span id="nightLabel"></span><span id="nightValue"></span></div>
     <div id="discRow" class="hide"><span id="discLabel"></span><span id="discValue"></span></div>
     <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
   </div>
@@ -332,9 +337,20 @@ const TEXT = {
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
         points: "⭐ แต้มสะสมของคุณ", pointsRule: (n, d) => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม` + (d ? ` · อายุ ${Math.round(d / 30)} เดือนนับจากออเดอร์ล่าสุด` : ""), tapOrder: "แตะเพื่อสั่ง",
-        rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z} — ขั้นต่ำ ${m}`,
-        ruleNight: (a, b, f, o) => `${a}–${b} น. ค่าส่ง +${f}` + (o ? ` (บิล ${o} ขึ้นไป ส่งฟรี)` : ""),
-        pickupFree: "รับที่ร้านได้ทุกยอด ไม่มีขั้นต่ำ", maps: "📍 แผนที่", call: "📞 โทร",
+        rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z}: สั่งครบ ${m} ส่งฟรี`,
+        ruleFlat: f => ` (ไม่ถึง ค่าส่ง ${f})`, ruleQuote: k => ` (ไม่ถึง ค่าส่ง กม.ละ ${k})`, freeFrom: m => `สั่งครบ ${m} ส่งฟรี`,
+        feeVoucher: "🎟 คูปองส่งฟรี", feeQuote: k => `พนักงานแจ้ง (กม.ละ ${k})`,
+        feeLater: "คำนวณจากตำแหน่งของคุณ", addrOpt: "ที่อยู่ / ชื่อที่พัก / จุดสังเกต (ไม่บังคับ)",
+        locLater: "📍 หลังกดยืนยัน บอทจะขอตำแหน่งของคุณในแชท แล้วบอกค่าส่งก่อนส่งออเดอร์",
+        laterHint: "ขั้นต่อไป: ส่งตำแหน่งในแชท บอทจะบอกค่าส่งให้ยืนยันก่อน", sendLater: "✅ ยืนยัน แล้วส่งตำแหน่งในแชท",
+        zFree: "✓ ยอดถึงแล้ว ส่งฟรี", zVoucher: "🎟 ใช้คูปองส่งฟรีกับออเดอร์นี้",
+        zFlat: (f, s) => `ค่าส่ง ${f} — สั่งเพิ่มอีก ${s} ส่งฟรี`,
+        zQuote: (k, s) => `มีค่าส่ง กม.ละ ${k} พนักงานจะแจ้งยอดในแชท ชำระตอนรับของ — สั่งเพิ่มอีก ${s} ส่งฟรี`,
+        shipV: km => "ส่งฟรี 1 ออเดอร์" + (km ? ` (ไม่เกิน ${km} กม.)` : "") + " — ใช้อัตโนมัติเมื่อออเดอร์มีค่าส่ง",
+        ruleContact: z => `${z}: กรุณาติดต่อร้านก่อนสั่ง`,
+        ruleNight: (a, b, f, o) => `รอบดึก ${a}–${b} น.: ค่าบริการรอบดึก +${f}` + (o ? ` (บิล ${o} ขึ้นไป ไม่คิด)` : ""),
+        pickupFree: "รับที่ร้าน: ไม่มีขั้นต่ำ",
+        needContact: z => `${z}: กรุณาติดต่อร้านก่อน (พิมพ์ "พนักงาน" ในแชท) หรือเลือกรับที่ร้าน`, contactUs: "ติดต่อร้านก่อนสั่ง", nightFee: "ค่าบริการรอบดึก", maps: "📍 แผนที่", call: "📞 โทร",
         dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง",
         zone: "อยู่ห่างจากร้านแค่ไหน?", min: "ขั้นต่ำ ",
         addr: "ที่อยู่จัดส่ง", addrPh: "บ้านเลขที่ / ชื่อที่พัก / จุดสังเกต", useLoc: "📍 แนบตำแหน่งปัจจุบันของฉัน",
@@ -361,9 +377,20 @@ const TEXT = {
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
         points: "⭐ Your points", pointsRule: (n, d) => `Every ฿${n} of food = 1 point` + (d ? ` · valid ${Math.round(d / 30)} months from your latest order` : ""), tapOrder: "Tap to order",
-        rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z} — minimum ${m}`,
-        ruleNight: (a, b, f, o) => `${a}–${b}: delivery +${f}` + (o ? ` (free for bills of ${o} or more)` : ""),
-        pickupFree: "Pick up at the shop: no minimum", maps: "📍 Map", call: "📞 Call",
+        rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z}: free from ${m}`,
+        ruleFlat: f => ` (below that: ${f} delivery)`, ruleQuote: k => ` (below that: ${k} per km)`, freeFrom: m => `Free delivery from ${m}`,
+        feeVoucher: "🎟 Free-delivery voucher", feeQuote: k => `staff will confirm (${k}/km)`,
+        feeLater: "worked out from your location", addrOpt: "Address / place name / landmark (optional)",
+        locLater: "📍 After you confirm, the bot asks for your location in the chat and tells you the delivery fee before the order is sent.",
+        laterHint: "Next: send your location in the chat — the bot shows the delivery fee for you to confirm.", sendLater: "✅ Confirm, then send location",
+        zFree: "✓ Free delivery on this order", zVoucher: "🎟 Your free-delivery voucher covers this order",
+        zFlat: (f, s) => `Delivery ${f} — add ${s} more for free delivery`,
+        zQuote: (k, s) => `Delivery fee ${k} per km — our staff will confirm it in the chat, paid on delivery. Add ${s} more for free delivery`,
+        shipV: km => "Free delivery for 1 order" + (km ? ` (up to ${km} km)` : "") + " — used automatically when there is a delivery fee",
+        ruleContact: z => `${z}: please contact us first`,
+        ruleNight: (a, b, f, o) => `Late night (${a}–${b}): +${f} night surcharge` + (o ? ` (waived for bills of ${o} or more)` : ""),
+        pickupFree: "Pick up at the shop: no minimum",
+        needContact: z => `${z}: please contact us first (type "staff" in the chat), or choose pick up`, contactUs: "contact us before ordering", nightFee: "Night surcharge", maps: "📍 Map", call: "📞 Call",
         dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery",
         zone: "How far are you from the shop?", min: "minimum ",
         addr: "Delivery address", addrPh: "House no. / hotel name / landmark", useLoc: "📍 Attach my current location",
@@ -427,16 +454,28 @@ function shutNow(g) {            // the group's {from_hour, to_hour} if it is cl
 const groupOf = key => groups().find(g => g.id === groupOfKey[key]);
 const shutGroupInCart = () => Object.keys(cart).map(groupOf).find(g => shutNow(g)) || null;
 
-// Same rule as the bot (which has the final say): a night fee, waived for big bills.
-function deliveryFee(total) {
+// Same rules as the bot (which has the final say). Reaching the zone's minimum makes delivery
+// free; below it there is a flat fee, or a per-km fee the staff quote. The night surcharge is separate.
+function deliveryPlan(total) {
+  const p = { ship: 0, quote: false, voucher: false, night: 0, zone: null, short: 0, later: false };
+  if (how !== "d") return p;
+  p.later = !!rules().shop;   // the bot prices delivery from the location the customer sends in the chat
+  const z = p.zone = zones().find(x => x.id === zone) || null;
+  if (z && total < (z.min || 0)) {
+    p.short = (z.min || 0) - total;
+    if (typeof z.fee_below === "number") p.ship = z.fee_below;
+    else if (z.fee_below === "quote") p.quote = true;
+    if ((p.ship || p.quote) && member.fs) { p.voucher = true; p.ship = 0; p.quote = false; }   // free-delivery voucher
+  }
   const n = rules().night || {};
-  if (how !== "d" || !n.fee) return 0;
-  const h = new Date(Date.now() + 7 * 3600e3).getUTCHours();   // Bangkok time
-  const a = n.from_hour || 0, b = n.to_hour || 0;
-  const night = a <= b ? (h >= a && h < b) : (h >= a || h < b);
-  if (!night || (rules().free_over && total >= rules().free_over)) return 0;
-  return n.fee;
+  if (n.fee) {
+    const h = new Date(Date.now() + 7 * 3600e3).getUTCHours(), a = n.from_hour || 0, b = n.to_hour || 0;   // Bangkok time
+    const night = a <= b ? (h >= a && h < b) : (h >= a || h < b);
+    if (night && !(rules().free_over && total >= rules().free_over)) p.night = n.fee;
+  }
+  return p;
 }
+const perKm = z => { const k = (z && z.per_km) || [40, 100]; return `฿${k[0]}–${k[1]}`; };
 
 function change(key, delta) {
   const q = Math.max(0, Math.min(99, (cart[key] || 0) + delta));
@@ -500,15 +539,20 @@ function renderHome() {
     box.append(b);
   });
   const list = $("rules"); list.textContent = "";
-  if (opt().delivery) {
-    for (const z of zones()) list.append(el("li", "", t().ruleMin(tr(z.label), money(z.min || 0))));
+  if (opt().delivery && rules().rules_text) {   // the shop's own wording of its delivery rules
+    for (const line of rules().rules_text) list.append(el("li", "", tr(line)));
+  } else if (opt().delivery) {
+    for (const z of zones()) list.append(el("li", "", z.contact ? t().ruleContact(tr(z.label))
+      : t().ruleMin(tr(z.label), money(z.min || 0)) + (typeof z.fee_below === "number" ? t().ruleFlat(money(z.fee_below))
+        : z.fee_below === "quote" ? t().ruleQuote(perKm(z)) : "")));
     const n = rules().night;
     if (n && n.fee) {
       const hh = h => String(h).padStart(2, "0") + ":00";
       list.append(el("li", "", t().ruleNight(hh(n.from_hour || 0), hh(n.to_hour || 0), money(n.fee), rules().free_over ? money(rules().free_over) : "")));
     }
   }
-  if (opt().pickup) list.append(el("li", "", t().pickupFree));
+  if (opt().pickup && !rules().rules_text) list.append(el("li", "", t().pickupFree));
+  if (opt().delivery && tr(rules().note)) list.append(el("li", "fine", tr(rules().note)));
   $("rulesTitle").textContent = t().rulesTitle;
   $("rulesBox").classList.toggle("hide", !list.children.length);
   $("mapsLink").textContent = t().maps; $("mapsLink").classList.toggle("hide", !a.maps);
@@ -552,6 +596,7 @@ function renderCard() {
   }
   const vs = $("vouchers"); vs.textContent = "";
   if (member.d) vs.append(el("li", "", t().discV(member.d, member.dx || "—")));
+  if (member.fs) vs.append(el("li", "", t().shipV(member.fk)));
   for (const v of member.v || []) vs.append(el("li", "", v));
   $("vouchersTitle").textContent = t().vouchers; $("vouchersBox").classList.toggle("hide", !vs.children.length);
   const box = $("rewards"); box.textContent = "";
@@ -683,8 +728,9 @@ function problem() {
   if (how === "d") {
     if (zones().length && !zone) return t().needZone;
     const z = zones().find(x => x.id === zone), total = foodTotal();
-    if (z && total < (z.min || 0)) return t().needMin(money(z.min), money(z.min - total));
-    if (!$("addr").value.trim() && !loc) return t().needAddr;
+    if (z && z.contact) return t().needContact(tr(z.label));
+    if (z && total < (z.min || 0) && z.fee_below == null)   // only zones with no small-order fee refuse return t().needMin(money(z.min), money(z.min - total));
+    if (!rules().shop && !$("addr").value.trim() && !loc) return t().needAddr;   // with a shop pin set, the bot asks for the location in the chat
   }
   if (!pay) return t().needPay;
   return "";
@@ -703,18 +749,27 @@ function drawDetails() {
   $("addrBox").classList.toggle("hide", how !== "d");
   $("zoneBox").classList.toggle("hide", !zones().length);
   $("locBtn").textContent = loc ? t().locOk : t().useLoc;
-  const total = foodTotal(), fee = deliveryFee(total);
+  const total = foodTotal(), p = deliveryPlan(total);
   $("foodTotal").textContent = money(total);
   $("feeRow").classList.toggle("hide", how !== "d");
-  $("feeValue").textContent = fee ? money(fee) : t().free;
+  $("feeValue").textContent = p.later ? t().feeLater : p.voucher ? t().feeVoucher : p.quote ? t().feeQuote(perKm(p.zone)) : p.ship ? money(p.ship) : t().free;
+  $("locLater").textContent = p.later ? t().locLater : "";
+  $("addrLabel").textContent = p.later ? t().addrOpt : t().addr;
+  $("nightRow").classList.toggle("hide", !p.night);
+  $("nightValue").textContent = money(p.night);
   const disc = Math.min(member.d || 0, total);   // a points voucher comes off automatically (the bot decides)
   $("discRow").classList.toggle("hide", !disc);
   $("discValue").textContent = "-" + money(disc);
-  $("dTotal").textContent = money(total + fee - disc);
+  $("dTotal").textContent = money(total + p.ship + p.night - disc) + (p.quote || p.later ? " +" : "");
+  // Under the zones: what this bill means for delivery, and how much more makes it free.
+  const zh = $("zoneHint"), z = p.zone;
+  zh.textContent = how !== "d" || !z || z.contact ? "" : !p.short ? t().zFree
+    : p.voucher ? t().zVoucher : p.ship ? t().zFlat(money(p.ship), money(p.short))
+    : p.quote ? t().zQuote(perKm(z), money(p.short)) : "";
   const bad = problem();
-  $("dHint").textContent = bad || (pay === "q" ? t().qrHint : t().cashHint);
+  $("dHint").textContent = bad || (p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
-  $("send").textContent = pay === "q" ? t().sendQr : t().sendCash;
+  $("send").textContent = p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   $("send").classList.toggle("off", !!bad);
   $("testnote").textContent = inTelegram ? "" : t().test + payload();
 }
@@ -723,7 +778,7 @@ function drawZones() {
   const box = $("zones"); box.textContent = "";
   for (const z of zones()) {
     const b = el("button", "choice", tr(z.label)); b.dataset.zone = z.id;
-    b.append(el("small", "", t().min + money(z.min || 0)));
+    b.append(el("small", "", z.contact ? t().contactUs : t().freeFrom(money(z.min || 0))));
     b.onclick = () => { zone = z.id; drawDetails(); };
     box.append(b);
   }
@@ -772,7 +827,7 @@ function applyLang() {
   $("payLabel").textContent = t().pay; $("payQ").textContent = t().qr; $("payC").textContent = t().cash;
   $("foodLabel").textContent = t().food; $("feeLabel").textContent = t().fee; $("dTotalLabel").textContent = t().grand;
   if (!menu) return;
-  $("discLabel").textContent = t().discount;
+  $("discLabel").textContent = t().discount; $("nightLabel").textContent = t().nightFee;
   renderHome(); renderCard(); renderMenu(); drawZones(); refresh();
 }
 
