@@ -18,7 +18,7 @@
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
-    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    padding-bottom: calc(160px + env(safe-area-inset-bottom));
   }
   button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
   a { color: inherit; text-decoration: none; }
@@ -45,7 +45,7 @@
   }
   .points b { font-size: 22px; }
   .points small { display: block; font-size: 12px; opacity: .85; }
-  .groups { display: flex; gap: 12px; margin-top: 14px; }
+  .groups { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
   .group {
     flex: 1; border-radius: 18px; padding: 22px 10px 18px; color: #fff; text-align: center;
     font-size: 19px; font-weight: 700; box-shadow: 0 4px 14px rgba(78, 52, 46, .22);
@@ -55,6 +55,12 @@
   .group.g0 { background: var(--green); }
   .group.g1 { background: var(--red); }
   .group.g2 { background: var(--brown-soft); }
+  .group.g3 { background: var(--yellow); color: var(--brown); }
+  .catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 14px; }
+  .cattile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; padding: 0 0 8px; text-align: center; font-size: 13px; font-weight: 700; color: var(--brown); }
+  .cattile img, .cattile .emo { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; margin-bottom: 6px; }
+  .cattile .emo { display: flex; align-items: center; justify-content: center; font-size: 44px; background: #f1e6cd; }
+  .cattile small { display: block; font-size: 11px; font-weight: 500; color: var(--hint); }
   .group:active, .link:active { opacity: .8; }
   .group.shut { background: #9a8f86; box-shadow: none; }
   .shutbanner { background: #fff3cd; border: 1px solid var(--yellow); color: var(--brown); border-radius: 12px; padding: 10px 12px; margin: 12px 0 0; font-size: 14px; font-weight: 600; }
@@ -136,6 +142,28 @@
   .zoom { position: fixed; inset: 0; z-index: 50; background: rgba(30, 18, 10, .86); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; }
   .zoom img { width: min(92vw, 440px); aspect-ratio: 1; object-fit: cover; border-radius: 20px; }
   .zoom span { color: #fff; font-weight: 700; font-size: 17px; text-align: center; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; margin-top: 8px; }
+  .tile { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; padding: 0 6px 8px;
+          text-align: center; font-size: 13px; font-weight: 600; line-height: 1.25; color: var(--text); display: flex; flex-direction: column; align-items: center; }
+  .tile img, .tile .emo { display: block; width: calc(100% + 12px); aspect-ratio: 1; object-fit: cover; margin: 0 -6px 6px; flex: none; }
+  .tile .emo { display: flex; align-items: center; justify-content: center; font-size: 40px; background: #f1e6cd; }
+  .tile .price { margin-top: auto; padding-top: 3px; font-size: 13px; }
+  .tile .badge { position: absolute; top: 6px; right: 6px; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: var(--green);
+                 color: #fff; font-size: 13px; font-weight: 700; line-height: 24px; box-shadow: 0 2px 6px rgba(0, 0, 0, .3); }
+  .tile .badge:empty { display: none; }
+  .tile:active { opacity: .8; }
+  .ishade { position: fixed; inset: 0; z-index: 30; background: rgba(30, 18, 10, .6); display: flex; align-items: flex-end; }
+  .ipanel { width: 100%; max-height: 90vh; overflow-y: auto; background: var(--bg); border-radius: 20px 20px 0 0; padding: 0 16px calc(16px + env(safe-area-inset-bottom)); }
+  .ipanel .pic { display: block; width: calc(100% + 32px); margin: 0 -16px; max-height: 300px; object-fit: cover; border-radius: 20px 20px 0 0; }
+  .ipanel h2 { margin: 14px 0 2px; font-size: 20px; color: var(--brown); }
+  .ipanel .item { margin-top: 12px; }
+  .modrow { margin-top: 12px; }
+  .modlabel { font-size: 13px; font-weight: 700; color: var(--brown); margin-bottom: 6px; }
+  .modchips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .modchips button { padding: 8px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); font-size: 13px; font-weight: 600; color: var(--text); }
+  .modchips button.on { background: var(--yellow); border-color: var(--yellow); color: var(--brown); }
+  .modhint { margin-top: 10px; font-size: 12px; color: var(--hint); }
+  .ipanel .done { width: 100%; margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--green); color: #fff; font-size: 17px; font-weight: 700; }
   .name { font-weight: 600; }
   .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
   .price { font-weight: 700; color: var(--red); font-size: 15px; }
@@ -156,7 +184,7 @@
 
   /* ---- cart bar + sheet ---- */
   .bar {
-    position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 10;
+    position: fixed; left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 10;
     display: none; align-items: center; justify-content: space-between; gap: 12px;
     background: var(--green); color: #fff; border-radius: 16px; padding: 12px 14px 12px 18px;
     font-weight: 700; font-size: 17px; width: calc(100% - 24px); box-shadow: 0 6px 20px rgba(0, 0, 0, .28);
@@ -164,6 +192,45 @@
   .bar.show { display: flex; }
   .bar small { display: block; font-weight: 500; font-size: 13px; opacity: .92; text-align: left; }
   .bar .sum { background: var(--yellow); color: var(--brown); border-radius: 12px; padding: 8px 12px; }
+  /* ---- loading + welcome (dark) ---- */
+  .splash, .welcome { position: fixed; inset: 0; background: #080808; color: #fff; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 24px; }
+  .splash { z-index: 100; justify-content: center; transition: opacity .35s; }
+  .splash.out { opacity: 0; pointer-events: none; }
+  .welcome { z-index: 90; padding-top: calc(48px + env(safe-area-inset-top)); overflow-y: auto;
+             background: linear-gradient(#0a0c0a, #0a0c0a 62%, #0d1a10); }
+  .wname { font-family: "Arial Narrow", "Roboto Condensed", "Helvetica Neue", Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 11vw, 50px);
+           letter-spacing: .22em; margin: 0 -.22em 0 0; line-height: 1.1; }
+  .wname .g { color: #3fbf3f; } .wname .y { color: #f6c41c; } .wname .r { color: #d83030; }
+  .wbar { font-size: 20px; font-weight: 800; letter-spacing: 1.6em; margin: 14px -1.6em 0 0; color: #d83030; }
+  .wsub { margin-top: 14px; font-size: 12px; letter-spacing: .22em; color: #8d8d8d; }
+  .wload { margin-top: 26px; font-size: 11px; letter-spacing: .3em; color: #777; }
+  .wprog { width: min(64vw, 260px); height: 5px; background: #2a2a2a; margin-top: 12px; overflow: hidden; }
+  .wprog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #3fbf3f, #f6c41c, #d83030); animation: wload 1.3s ease-out forwards; }
+  @keyframes wload { to { width: 100%; } }
+  .welcome .wlogo { width: min(58vw, 230px); aspect-ratio: 1; object-fit: contain; margin-bottom: 22px; }
+  .wenter { margin-top: 28px; width: min(78vw, 320px); padding: 16px; background: #f6c41c; color: #1c1408; font-size: 19px; font-weight: 800; letter-spacing: .12em;
+            clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%); }
+  .wenter:active { opacity: .8; }
+  .wchoose { margin-top: 24px; font-size: 13px; letter-spacing: .14em; color: #ddd; }
+  .wlangs { display: flex; gap: 10px; margin-top: 12px; }
+  .wlangs button { width: 62px; padding: 9px 0; border: 2px solid #5a1c1c; color: #8d8d8d; font-weight: 800; letter-spacing: .12em; font-size: 14px; }
+  .wlangs button.on { border-color: #f6c41c; color: #f6c41c; }
+  /* ---- bottom tabs ---- */
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; display: flex; background: #1b1310; border-top: 2px solid var(--yellow);
+            padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
+  .tabbar button { flex: 1; padding: 6px 2px; border-radius: 12px; color: #a39686; font-size: 11px; font-weight: 600; }
+  .tabbar button span { display: block; font-size: 21px; line-height: 1.2; filter: grayscale(1) opacity(.7); }
+  .tabbar button.on { color: var(--yellow); background: rgba(246, 185, 24, .12); }
+  .tabbar button.on span { filter: none; }
+  /* ---- map page ---- */
+  .mapbox { width: 100%; height: 240px; border: 1px solid var(--line); border-radius: 16px; background: #e9e2d0; margin-top: 10px; }
+  .mapbtns { display: flex; gap: 10px; margin-top: 12px; }
+  .mapbtns > * { flex: 1; padding: 13px; border-radius: 14px; text-align: center; font-weight: 700; font-size: 16px; }
+  .mapbtns .route { background: var(--green); color: #fff; } .mapbtns .call { background: var(--yellow); color: var(--brown); }
+  .contact { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 0; border-top: 1px solid var(--line); text-align: left; }
+  .contact:first-of-type { border-top: 0; }
+  .contact .ic { font-size: 22px; } .contact b { display: block; font-size: 15px; } .contact small { color: var(--hint); font-size: 13px; }
+  .contact .go { margin-left: auto; color: var(--hint); font-size: 20px; }
   .shade { position: fixed; inset: 0; background: rgba(43, 29, 20, .5); z-index: 20; display: none; }
   .shade.show { display: block; }
   .sheet {
@@ -217,6 +284,41 @@
 </style>
 </head>
 <body>
+
+<!-- ============ loading ============ -->
+<div class="splash" id="splash">
+  <div class="wname"><span class="g">WOOD</span><span class="y">STOCK</span></div>
+  <div class="wbar">B·A·R</div>
+  <div class="wsub">Koh Phangan · Thailand · Est. 2020</div>
+  <div class="wload">LOADING...</div>
+  <div class="wprog"><i></i></div>
+</div>
+
+<!-- ============ welcome: language, then into the app ============ -->
+<div class="welcome" id="welcome">
+  <img class="wlogo" id="wlogo" alt="" src="logo.png" onerror="this.remove()">
+  <div class="wname" style="font-size:clamp(26px,8.4vw,40px)"><span class="g">WOOD</span><span class="y">STOCK</span><span class="r">BAR</span></div>
+  <div class="wsub">★ Koh Phangan · Thailand · Est. 2020 ★</div>
+  <button class="wenter" id="wenter"></button>
+  <div class="wchoose" id="wchoose"></div>
+  <div class="wlangs"><button data-lang="en">EN</button><button data-lang="th">TH</button></div>
+</div>
+
+<!-- ============ map & contact ============ -->
+<div id="mapView" class="cardview hide">
+  <h2 id="mapTitle" style="margin:0;color:var(--brown)"></h2>
+  <iframe class="mapbox" id="mapFrame" title="map" loading="lazy" referrerpolicy="no-referrer"></iframe>
+  <div class="mapbtns"><button class="route" id="mapRoute"></button><a class="call" id="mapCall"></a></div>
+  <div class="box"><h3 id="mapShopTitle"></h3><p id="mapAddress" style="margin:0;font-size:14px"></p><p id="mapHours" style="margin:6px 0 0;font-size:14px;font-weight:600"></p></div>
+  <div class="box"><h3 id="contactTitle"></h3><div id="contacts"></div></div>
+</div>
+
+<nav class="tabbar" id="tabbar">
+  <button data-tab="home"><span>🏠</span><b id="tabHome"></b></button>
+  <button data-tab="menu"><span>🍽</span><b id="tabMenu"></b></button>
+  <button data-tab="map"><span>📍</span><b id="tabMap"></b></button>
+  <button data-tab="card"><span>⭐</span><b id="tabCard"></b></button>
+</nav>
 
 <!-- ============ home ============ -->
 <div id="home">
@@ -334,7 +436,8 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
+  th: { enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
+        mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
@@ -374,7 +477,8 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
+  en: { enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
+        mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
         next: "Next: choose pickup or delivery, and how to pay.",
@@ -445,7 +549,13 @@ const rules = () => (menu && menu.delivery_rules) || {};
 const zones = () => rules().zones || [];
 const groups = () => (menu && menu.groups && menu.groups.length) ? menu.groups
   : [{ id: "all", label: { th: "เมนู", en: "Menu" }, icon: "🍽", categories: menu ? menu.categories.map(c => c.id) : [] }];
-const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[k], 0);
+const baseKey = k => k.split("@")[0];   // a cart key without its choices ("latte~i@s:50,i:sep" → "latte~i")
+const modTags = k => (k.split("@")[1] || "").split(",").filter(Boolean).map(p => {   // the choices that differ from the usual
+  const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {}, ch = (def.choices || []).find(x => x.id === c);
+  return ch && c !== def.default ? tr(ch.tag || ch.label) : "";
+}).filter(Boolean).join(" · ");
+const nameOf = k => tr(names[baseKey(k)]) + (modTags(k) ? " [" + modTags(k) + "]" : "");
+const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[baseKey(k)], 0);
 
 // Opening hours per menu group (e.g. the kitchen closes at night, drinks don't). The bot checks again.
 const groupOfKey = {};           // cart key -> group id
@@ -455,7 +565,7 @@ function shutNow(g) {            // the group's {from_hour, to_hour} if it is cl
   const h = new Date(Date.now() + 7 * 3600e3).getUTCHours(), a = c.from_hour || 0, b = c.to_hour || 0;
   return (a <= b ? (h >= a && h < b) : (h >= a || h < b)) ? c : null;
 }
-const groupOf = key => groups().find(g => g.id === groupOfKey[key]);
+const groupOf = key => groups().find(g => g.id === groupOfKey[baseKey(key)]);
 const shutGroupInCart = () => Object.keys(cart).map(groupOf).find(g => shutNow(g)) || null;
 
 // Same rules as the bot (which has the final say). Reaching the zone's minimum makes delivery
@@ -513,6 +623,44 @@ function thumb(it) {   // the item's picture (menu.json "img"); tap to see it la
   };
   return im;
 }
+function inCart(id) {   // how many of this item (all its options) are in the cart
+  return Object.keys(cart).reduce((n, k) => n + (k === id || k.startsWith(id + "~") || k.startsWith(id + "@") ? cart[k] : 0), 0);
+}
+function openItem(it, cat) {   // details of one item: picture, description, options with their add buttons
+  const shade = el("div", "ishade"), panel = el("div", "ipanel");
+  if (it.img) { const im = el("img", "pic"); im.alt = ""; im.src = it.img; panel.append(im); }
+  panel.append(el("h2", "", tr(it.name)));
+  if (it.desc) panel.append(el("div", "desc", tr(it.desc)));
+  const card = el("div", "item"), defs = menu.modifiers || {};
+  const mods = ((cat && cat.mods) || []).filter(m => defs[m] && !(it.no_mods || []).includes(m)), pick = {};
+  for (const m of mods) pick[m] = defs[m].default;
+  const tail = optId => {   // "@s:50,i:sep" for the choices that differ from the usual; "" when all are usual
+    const parts = mods.filter(m => pick[m] !== defs[m].default && !(optId && (defs[m].not_options || []).includes(optId))).map(m => m + ":" + pick[m]);
+    return parts.length ? "@" + parts.join(",") : "";
+  };
+  const rows = () => {
+    card.textContent = "";
+    if (it.options && it.options.length) it.options.forEach((o, i) => card.append(itemRow(it.id + "~" + o.id + tail(o.id), tr(o.name), "", o.price, i ? "opt" : "")));
+    else card.append(itemRow(it.id + tail(""), t().price, "", it.price));
+  };
+  for (const m of mods) {   // sweetness, ice: choose first, then add
+    const wrap = el("div", "modrow"); wrap.append(el("div", "modlabel", tr(defs[m].label)));
+    const line = el("div", "modchips");
+    for (const ch of defs[m].choices) {
+      const b = el("button", ch.id === pick[m] ? "on" : "", tr(ch.label));
+      b.onclick = () => { pick[m] = ch.id; line.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); rows(); };
+      line.append(b);
+    }
+    wrap.append(line); panel.append(wrap);
+  }
+  if (mods.length) panel.append(el("div", "modhint", t().modHint));
+  rows();
+  const done = el("button", "done", t().done);
+  panel.append(card, done); shade.append(panel);
+  done.onclick = () => shade.remove();
+  shade.onclick = e => { if (e.target === shade) shade.remove(); };
+  document.body.append(shade);
+}
 function itemRow(key, name, desc, price, cls) {
   const row = el("div", "row" + (cls ? " " + cls : ""));
   const what = el("div", "what");
@@ -543,7 +691,7 @@ function renderHome() {
   $("pointsGo").textContent = t().pointsGo;
   const box = $("groups"); box.textContent = "";
   groups().forEach((g, i) => {
-    const b = el("button", "group g" + (i % 3));
+    const b = el("button", "group g" + (i % 4));
     const c = shutNow(g);
     if (c) b.classList.add("shut");
     b.append(el("span", "ico", g.icon || "🍽"), document.createTextNode(tr(g.label)),
@@ -576,7 +724,35 @@ function renderHome() {
 $("mapsLink").onclick = () => openUrl(menu.about.maps);
 $("igLink").onclick = () => openUrl(menu.about.instagram);
 
-function show(view) {   // "home" | "menu" | "card"
+function renderMap() {
+  const a = menu.about || {}, shop = rules().shop;
+  $("mapTitle").textContent = t().mapTitle; $("mapRoute").textContent = t().route; $("mapCall").textContent = t().callBtn;
+  $("mapRoute").classList.toggle("hide", !a.maps); $("mapCall").classList.toggle("hide", !a.phone);
+  if (a.phone) $("mapCall").href = "tel:" + a.phone.replace(/[^0-9+]/g, "");
+  $("mapShopTitle").textContent = tr(menu.shop_name) || "Woodstock";
+  $("mapAddress").textContent = tr(a.address) ? "📍 " + tr(a.address) : ""; $("mapHours").textContent = tr(a.hours) ? "🕘 " + tr(a.hours) : "";
+  $("contactTitle").textContent = t().contact;
+  const box = $("contacts"); box.textContent = "";
+  const row = (ic, title, sub, go) => {
+    const b = el("button", "contact"), w = el("span"); w.append(el("b", "", title), el("small", "", sub));
+    b.append(el("span", "ic", ic), w, el("span", "go", "›")); b.onclick = go; box.append(b);
+  };
+  if (a.instagram) row("📷", "Instagram", "@" + a.instagram.replace(/\/+$/, "").split("/").pop(), () => openUrl(a.instagram));
+  if (a.phone) row("📞", t().phone, a.phone, () => { location.href = "tel:" + a.phone.replace(/[^0-9+]/g, ""); });
+  if (a.maps) row("🗺", "Google Maps", t().route, () => openUrl(a.maps));
+  const f = $("mapFrame");
+  f.classList.toggle("hide", !shop);
+  if (shop && !f.src) {   // OpenStreetMap: free, no key
+    const [la, lo] = shop;
+    f.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lo - .012},${la - .008},${lo + .012},${la + .008}&layer=mapnik&marker=${la},${lo}`;
+  }
+}
+$("mapRoute").onclick = () => openUrl(menu.about.maps);
+
+function show(view) {   // "home" | "menu" | "card" | "map"
+  $("mapView").classList.toggle("hide", view !== "map");
+  if (view === "map" && menu) renderMap();
+  document.querySelectorAll("#tabbar button").forEach(b => b.classList.toggle("on", b.dataset.tab === view));
   $("home").classList.toggle("hide", view !== "home");
   $("menuView").classList.toggle("hide", view !== "menu");
   $("cardView").classList.toggle("hide", view !== "card");
@@ -657,30 +833,40 @@ function renderMenu() {
   box.textContent = ""; chips.textContent = "";
   const shut = shutNow(g);
   if (shut) box.append(el("p", "shutbanner", t().closedBanner(tr(g.label), hh(shut.from_hour || 0), hh(shut.to_hour || 0))));
-  for (const cat of menu.categories) {
-    if (!g.categories.includes(cat.id)) continue;
+  const mine = g.categories.map(id => menu.categories.find(c => c.id === id)).filter(Boolean);   // in the group's own order
+  if (!q && mine.length > 1) {   // picture grid of this group's categories: tap one to jump to it
+    const grid = el("div", "catgrid");
+    for (const cat of mine) {
+      const label = tr(cat.label), cut = label.indexOf(" "), pic = cat.items.find(it => it.img);
+      const tile = el("button", "cattile");
+      if (pic) { const im = el("img"); im.loading = "lazy"; im.alt = ""; im.src = pic.img; tile.append(im); }
+      else tile.append(el("span", "emo", cut > 0 ? label.slice(0, cut) : "🍽"));
+      tile.append(document.createTextNode(cut > 0 ? label.slice(cut + 1) : label), el("small", "", t().nItems(cat.items.length)));
+      tile.onclick = () => { const sec = document.getElementById("cat-" + cat.id); if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" }); };
+      grid.append(tile);
+    }
+    box.append(grid);
+  }
+  for (const cat of mine) {
     const items = cat.items.filter(it => !q || Object.values(it.name).join(" ").toLowerCase().includes(q)
       || (it.options || []).some(o => Object.values(o.name).join(" ").toLowerCase().includes(q)));
     if (!items.length) continue;
     const sec = el("section"); sec.id = "cat-" + cat.id;
     sec.append(el("h2", "", tr(cat.label)));
     if (cat.note) sec.append(el("p", "note", tr(cat.note)));
-    for (const it of items) {
-      const card = el("div", "item");
-      if (it.options && it.options.length) {
-        const head = el("div", "row"), what = el("div", "what");
-        what.append(el("div", "name", tr(it.name)));
-        if (it.desc) what.append(el("div", "desc", tr(it.desc)));
-        if (it.img) head.append(thumb(it));
-        head.append(what); card.append(head);
-        for (const o of it.options) card.append(itemRow(it.id + "~" + o.id, tr(o.name), "", o.price, "opt"));
-      } else {
-        const row = itemRow(it.id, tr(it.name), tr(it.desc), it.price);
-        if (it.img) row.prepend(thumb(it));
-        card.append(row);
-      }
-      sec.append(card);
+    const tiles = el("div", "tiles"), label = tr(cat.label), cut = label.indexOf(" ");
+    for (const it of items) {   // picture + name + price; the details open on tap
+      const tile = el("button", "tile");
+      if (it.img) { const im = el("img"); im.loading = "lazy"; im.alt = ""; im.src = it.img; tile.append(im); }
+      else tile.append(el("span", "emo", cut > 0 ? label.slice(0, cut) : "🍽"));
+      const prices = (it.options && it.options.length) ? it.options.map(o => o.price) : [it.price];
+      const low = Math.min(...prices);
+      const badge = el("span", "badge"); badge.dataset.item = it.id;
+      tile.append(document.createTextNode(tr(it.name)), el("span", "price", money(low) + (Math.max(...prices) > low ? "+" : "")), badge);
+      tile.onclick = () => openItem(it, cat);
+      tiles.append(tile);
     }
+    sec.append(tiles);
     box.append(sec);
     const chip = el("button", "", tr(cat.label)); chip.dataset.cat = cat.id;
     chip.onclick = () => sec.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -709,6 +895,7 @@ function watchSections() {
 // ---------------- cart ----------------
 function refresh() {
   document.querySelectorAll(".stepper").forEach(drawStepper);
+  document.querySelectorAll(".tile .badge").forEach(b => { b.textContent = inCart(b.dataset.item) || ""; });
   const keys = Object.keys(cart);
   const count = keys.reduce((n, k) => n + cart[k], 0), total = foodTotal();
   $("bar").classList.toggle("show", count > 0);
@@ -719,7 +906,7 @@ function refresh() {
   const lines = $("lines"); lines.textContent = "";
   for (const k of keys) {
     const line = el("div", "line row"), what = el("div", "what");
-    what.append(el("div", "name", tr(names[k])), el("div", "price", `${money(prices[k])} × ${cart[k]} = ${money(prices[k] * cart[k])}`));
+    what.append(el("div", "name", nameOf(k)), el("div", "price", `${money(prices[baseKey(k)])} × ${cart[k]} = ${money(prices[baseKey(k)] * cart[k])}`));
     line.append(what, stepper(k));
     lines.append(line);
   }
@@ -834,7 +1021,9 @@ $("send").onclick = () => {
 // ---------------- wiring ----------------
 function applyLang() {
   document.documentElement.lang = lang;
-  document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+  document.querySelectorAll(".lang button, .wlangs button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+  $("wenter").textContent = t().enter; $("wchoose").textContent = t().chooseLang;
+  $("tabHome").textContent = t().tabHome; $("tabMenu").textContent = t().tabMenu; $("tabMap").textContent = t().tabMap; $("tabCard").textContent = t().tabCard;
   $("search").placeholder = t().search;
   $("sheetTitle").textContent = t().cart; $("sheetClose").textContent = t().close;
   $("totalLabel").textContent = t().total; $("next").textContent = t().next; $("confirm").textContent = t().confirm;
@@ -846,10 +1035,19 @@ function applyLang() {
   $("foodLabel").textContent = t().food; $("feeLabel").textContent = t().fee; $("dTotalLabel").textContent = t().grand;
   if (!menu) return;
   $("discLabel").textContent = t().discount; $("nightLabel").textContent = t().nightFee;
-  renderHome(); renderCard(); renderMenu(); drawZones(); refresh();
+  renderHome(); renderCard(); renderMenu(); renderMap(); drawZones(); refresh();
 }
 
-document.querySelectorAll(".lang button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
+document.querySelectorAll(".lang button, .wlangs button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
+$("wenter").onclick = () => { $("welcome").classList.add("hide"); show("home"); };
+document.querySelectorAll("#tabbar button").forEach(b => b.onclick = () => {
+  if (!menu) return;
+  const tab = b.dataset.tab;
+  if (tab === "menu") openGroup(group || groups()[0].id);
+  else { if (tab === "card") renderCard(); show(tab); }
+});
+const started = Date.now();
+const splashOff = () => setTimeout(() => $("splash").classList.add("out"), Math.max(0, 1400 - (Date.now() - started)));   // let the bar finish
 $("search").oninput = renderMenu;
 $("toHome").onclick = () => show("home");
 $("bar").onclick = () => openSheet(true);
@@ -870,9 +1068,9 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
         names[k] = Object.fromEntries(Object.keys(it.name).map(l => [l, `${it.name[l]} (${o.name[l] || ""})`]));
       } else { prices[it.id] = it.price; names[it.id] = it.name; }
     }
-    applyLang();
+    applyLang(); show("home"); splashOff();
   })
-  .catch(() => { $("about").textContent = t().fail; });
+  .catch(() => { $("about").textContent = t().fail; splashOff(); });
 </script>
 </body>
 </html>

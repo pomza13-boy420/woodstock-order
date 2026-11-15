@@ -878,6 +878,10 @@
     "en": "☕ Coffee",
     "th": "☕ กาแฟ"
    },
+   "mods": [
+    "s",
+    "i"
+   ],
    "items": [
     {
      "id": "esp",
@@ -1079,6 +1083,10 @@
     "en": "🍵 Tea & Signature",
     "th": "🍵 ชา & ซิกเนเจอร์"
    },
+   "mods": [
+    "s",
+    "i"
+   ],
    "items": [
     {
      "id": "black",
@@ -1086,7 +1094,14 @@
       "en": "Black tea",
       "th": "ชาดำ"
      },
-     "price": 60
+     "desc": {
+      "en": "Hot tea",
+      "th": "ชาร้อน"
+     },
+     "price": 60,
+     "no_mods": [
+      "i"
+     ]
     },
     {
      "id": "gtea",
@@ -1094,7 +1109,14 @@
       "en": "Green tea",
       "th": "ชาเขียว"
      },
-     "price": 60
+     "desc": {
+      "en": "Hot tea",
+      "th": "ชาร้อน"
+     },
+     "price": 60,
+     "no_mods": [
+      "i"
+     ]
     },
     {
      "id": "jasm",
@@ -1102,7 +1124,39 @@
       "en": "Jasmine tea",
       "th": "ชามะลิ"
      },
-     "price": 60
+     "desc": {
+      "en": "Hot tea",
+      "th": "ชาร้อน"
+     },
+     "price": 60,
+     "no_mods": [
+      "i"
+     ]
+    },
+    {
+     "id": "lemontea",
+     "name": {
+      "en": "Lemon tea",
+      "th": "ชามะนาว"
+     },
+     "options": [
+      {
+       "id": "h",
+       "name": {
+        "en": "Hot",
+        "th": "ร้อน"
+       },
+       "price": 60
+      },
+      {
+       "id": "i",
+       "name": {
+        "en": "Iced",
+        "th": "เย็น"
+       },
+       "price": 70
+      }
+     ]
     },
     {
      "id": "herb",
@@ -1110,7 +1164,14 @@
       "en": "Herbal tea (lemongrass, ginger)",
       "th": "ชาสมุนไพร (ตะไคร้ ขิง)"
      },
-     "price": 80
+     "desc": {
+      "en": "Hot tea",
+      "th": "ชาร้อน"
+     },
+     "price": 80,
+     "no_mods": [
+      "i"
+     ]
     },
     {
      "id": "caramel",
@@ -1220,6 +1281,10 @@
     "en": "🥤 Shake · Soda · Juice",
     "th": "🥤 ปั่น · โซดา · น้ำผลไม้"
    },
+   "mods": [
+    "s",
+    "i"
+   ],
    "items": [
     {
      "id": "shake",
@@ -1368,6 +1433,9 @@
     "en": "🍓 Smoothies",
     "th": "🍓 สมูทตี้"
    },
+   "mods": [
+    "s"
+   ],
    "items": [
     {
      "id": "sunrise",
@@ -1509,6 +1577,10 @@
     "en": "Contains alcohol — 20+ only.",
     "th": "มีแอลกอฮอล์ — สำหรับอายุ 20 ปีขึ้นไป"
    },
+   "mods": [
+    "s",
+    "i"
+   ],
    "items": [
     {
      "id": "ck_coco",
@@ -1915,6 +1987,106 @@
    ]
   }
  ],
+ "modifiers": {
+  "s": {
+   "label": {
+    "en": "Sweetness",
+    "th": "ความหวาน"
+   },
+   "default": "100",
+   "choices": [
+    {
+     "id": "0",
+     "label": {
+      "en": "0% · none",
+      "th": "0% · ไม่หวาน"
+     },
+     "tag": {
+      "en": "no sugar",
+      "th": "ไม่หวาน 0%"
+     }
+    },
+    {
+     "id": "25",
+     "label": {
+      "en": "25% · little",
+      "th": "25% · หวานน้อย"
+     },
+     "tag": {
+      "en": "sweet 25%",
+      "th": "หวาน 25%"
+     }
+    },
+    {
+     "id": "50",
+     "label": {
+      "en": "50% · half",
+      "th": "50% · หวานครึ่ง"
+     },
+     "tag": {
+      "en": "sweet 50%",
+      "th": "หวาน 50%"
+     }
+    },
+    {
+     "id": "100",
+     "label": {
+      "en": "100% · normal",
+      "th": "100% · ปกติ"
+     },
+     "tag": {
+      "en": "sweet 100%",
+      "th": "หวานปกติ"
+     }
+    },
+    {
+     "id": "125",
+     "label": {
+      "en": "125% · extra",
+      "th": "125% · หวานมาก"
+     },
+     "tag": {
+      "en": "extra sweet 125%",
+      "th": "หวานมาก 125%"
+     }
+    }
+   ]
+  },
+  "i": {
+   "label": {
+    "en": "Ice",
+    "th": "น้ำแข็ง"
+   },
+   "default": "in",
+   "not_options": [
+    "h"
+   ],
+   "choices": [
+    {
+     "id": "in",
+     "label": {
+      "en": "Ice in the drink",
+      "th": "ใส่น้ำแข็งเลย"
+     },
+     "tag": {
+      "en": "ice in",
+      "th": "ใส่น้ำแข็ง"
+     }
+    },
+    {
+     "id": "sep",
+     "label": {
+      "en": "Ice separate (for delivery)",
+      "th": "แยกน้ำแข็ง (สำหรับจัดส่ง)"
+     },
+     "tag": {
+      "en": "ICE SEPARATE",
+      "th": "แยกน้ำแข็ง"
+     }
+    }
+   ]
+  }
+ },
  "groups": [
   {
    "id": "food",
@@ -1932,8 +2104,6 @@
     "nd",
     "tc",
     "sf",
-    "sn",
-    "ds",
     "ad"
    ]
   },
@@ -1948,8 +2118,34 @@
     "cf",
     "te",
     "sh",
-    "sm",
+    "sm"
+   ]
+  },
+  {
+   "id": "cocktail",
+   "label": {
+    "en": "Cocktails",
+    "th": "ค็อกเทล"
+   },
+   "icon": "🍹",
+   "categories": [
     "ck"
+   ]
+  },
+  {
+   "id": "sweet",
+   "closed": {
+    "from_hour": 23,
+    "to_hour": 8
+   },
+   "label": {
+    "en": "Snacks & Desserts",
+    "th": "ขนม & ของหวาน"
+   },
+   "icon": "🍰",
+   "categories": [
+    "sn",
+    "ds"
    ]
   }
  ],
