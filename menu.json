@@ -684,6 +684,10 @@
       "en": "Pad Krapow",
       "th": "ผัดกะเพรา"
      },
+     "desc": {
+      "en": "Fried egg not included — add one from Add-ons (+฿20)",
+      "th": "ไม่รวมไข่ดาว — เพิ่มไข่ดาวได้ในหมวดของเพิ่ม (+฿20)"
+     },
      "options": [
       {
        "id": "v",
@@ -1146,7 +1150,7 @@
         "en": "Hot",
         "th": "ร้อน"
        },
-       "price": 60
+       "price": 50
       },
       {
        "id": "i",
@@ -2130,7 +2134,11 @@
    "icon": "🍹",
    "categories": [
     "ck"
-   ]
+   ],
+   "closed": {
+    "from_hour": 2,
+    "to_hour": 12
+   }
   },
   {
    "id": "sweet",
@@ -2155,8 +2163,8 @@
    "th": "อาหารไทย & มังสวิรัติ กาแฟ สมูทตี้ และค็อกเทล ที่โฉลกหลำ เกาะพะงัน 🌿"
   },
   "hours": {
-   "en": "Drinks 24 h · Food 08:00–23:00",
-   "th": "เครื่องดื่ม 24 ชม. · อาหาร 08:00–23:00"
+   "en": "Drinks 24 h · Food 08:00–23:00 · Cocktails 12:00–02:00",
+   "th": "เครื่องดื่ม 24 ชม. · อาหาร 08:00–23:00 · ค็อกเทล 12:00–02:00"
   },
   "address": {
    "en": "Baan Chaloklum, Moo 7, Koh Phangan",
@@ -2165,7 +2173,8 @@
   "phone": "095-759-9558",
   "maps": "https://maps.app.goo.gl/igMciMDUefPhDLSU6",
   "instagram": "https://www.instagram.com/woodstock.kpg/",
-  "logo": "logo.png"
+  "logo": "logo.png",
+  "photo": "shop.jpg"
  },
  "delivery_rules": {
   "shop": [

@@ -120,6 +120,15 @@
   .title { display: flex; align-items: center; gap: 10px; }
   .title h1 { margin: 0; font-size: 19px; flex: 1; }
   .title .nav { font-size: 14px; font-weight: 600; color: var(--yellow); padding: 6px 0; white-space: nowrap; }
+  .gtabs { display: flex; gap: 8px; overflow-x: auto; margin: 8px -16px 0; padding: 0 16px; scrollbar-width: none; }
+  .gtabs::-webkit-scrollbar { display: none; }
+  .gtabs button { flex: none; padding: 9px 14px; border-radius: 12px; background: rgba(255, 255, 255, .12); color: #fff8e7; font-size: 15px; font-weight: 700; white-space: nowrap; }
+  .gtabs button.on { background: var(--green); color: #fff; }
+  .gtabs button.shut { opacity: .55; }
+  .shopphoto { display: block; width: 100%; max-height: 300px; object-fit: cover; border-radius: 18px; margin-top: 14px; box-shadow: 0 4px 14px rgba(78, 52, 46, .22); }
+  .openmenu { width: 100%; margin-top: 12px; padding: 15px; border-radius: 16px; background: var(--green); color: #fff; font-size: 18px; font-weight: 700; box-shadow: 0 4px 14px rgba(78, 52, 46, .22); }
+  .openmenu:active { opacity: .85; }
+  .again { width: 100%; margin-top: 10px; padding: 13px; border-radius: 16px; background: var(--card); border: 1.5px solid var(--green); color: var(--green); font-size: 16px; font-weight: 700; }
   .search {
     width: 100%; padding: 10px 14px; border-radius: 12px; border: 0; margin-top: 8px;
     background: #fffdf8; color: var(--text); font: inherit; outline: none;
@@ -332,10 +341,13 @@
     <div class="facts"><span id="hours"></span><span id="address"></span></div>
   </div>
   <div class="home">
+    <img class="shopphoto hide" id="shopPhoto" alt="">
+    <p class="shutbanner hide" id="shopShut"></p>
+    <button class="openmenu" id="openMenu"></button>
+    <button class="again hide" id="again"></button>
     <button class="points" id="pointsBox">
       <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
     </button>
-    <div class="groups" id="groups"></div>
     <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     <div class="links">
       <button class="link" id="mapsLink"></button>
@@ -373,8 +385,8 @@
     <div class="title">
       <button class="nav" id="toHome"></button>
       <h1 id="groupTitle"></h1>
-      <button class="nav" id="toOther"></button>
     </div>
+    <div class="gtabs" id="gtabs"></div>
     <input class="search" id="search" type="search" autocomplete="off">
     <div class="chips" id="chips"></div>
   </div>
@@ -436,7 +448,7 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
+  th: { again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
         mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
@@ -477,7 +489,7 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
+  en: { again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
         mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
@@ -689,16 +701,14 @@ function renderHome() {
   $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days) : "";
   $("pointsValue").textContent = myPoints.toLocaleString("en-US");
   $("pointsGo").textContent = t().pointsGo;
-  const box = $("groups"); box.textContent = "";
-  groups().forEach((g, i) => {
-    const b = el("button", "group g" + (i % 4));
-    const c = shutNow(g);
-    if (c) b.classList.add("shut");
-    b.append(el("span", "ico", g.icon || "🍽"), document.createTextNode(tr(g.label)),
-             el("small", "", c ? t().closedTill(hh(c.to_hour || 0)) : t().tapOrder));
-    b.onclick = () => openGroup(g.id);
-    box.append(b);
-  });
+  const ph = $("shopPhoto");   // the shop's own photo: webapp/<about.photo>
+  if (a.photo && !ph.dataset.done) { ph.dataset.done = "1"; ph.onload = () => ph.classList.remove("hide"); ph.src = a.photo; }
+  $("openMenu").textContent = t().openMenu;
+  $("shopShut").textContent = t().shopShut; $("shopShut").classList.toggle("hide", !member.c);
+  const again = Object.keys(member.r || {}).filter(k => prices[baseKey(k)] != null);   // the last order, still on the menu
+  $("again").classList.toggle("hide", !again.length);
+  $("again").textContent = t().again(again.reduce((n, k) => n + member.r[k], 0));
+  $("again").onclick = () => { for (const k of again) cart[k] = Math.min(99, member.r[k]); refresh(); openSheet(true); };
   const list = $("rules"); list.textContent = "";
   if (opt().delivery && rules().rules_text) {   // the shop's own wording of its delivery rules
     for (const line of rules().rules_text) list.append(el("li", "", tr(line)));
@@ -826,8 +836,13 @@ function renderMenu() {
   const other = gs.length > 1 ? gs[(gs.indexOf(g) + 1) % gs.length] : null;
   $("toHome").textContent = t().home;
   $("groupTitle").textContent = (g.icon ? g.icon + " " : "") + tr(g.label);
-  $("toOther").textContent = other ? (other.icon || "") + " " + tr(other.label) + " ➜" : "";
-  $("toOther").onclick = other ? () => openGroup(other.id) : null;
+  const gt = $("gtabs"); gt.textContent = "";   // the groups (food, drinks, …): tap to switch
+  for (const x of gs) {
+    const b = el("button", x.id === g.id ? "on" : "", (x.icon ? x.icon + " " : "") + tr(x.label));
+    if (shutNow(x)) b.classList.add("shut");
+    b.onclick = () => openGroup(x.id); gt.append(b);
+  }
+  const cur = gt.querySelector(".on"); if (cur) cur.scrollIntoView({ block: "nearest", inline: "center" });
   const q = $("search").value.trim().toLowerCase();
   const box = $("menu"), chips = $("chips");
   box.textContent = ""; chips.textContent = "";
@@ -1039,6 +1054,7 @@ function applyLang() {
 }
 
 document.querySelectorAll(".lang button, .wlangs button").forEach(b => b.onclick = () => { lang = b.dataset.lang; applyLang(); });
+$("openMenu").onclick = () => { if (menu) openGroup(group || groups()[0].id); };
 $("wenter").onclick = () => { $("welcome").classList.add("hide"); show("home"); };
 document.querySelectorAll("#tabbar button").forEach(b => b.onclick = () => {
   if (!menu) return;
