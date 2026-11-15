@@ -132,6 +132,10 @@
   .item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
   .row { display: flex; align-items: center; gap: 12px; }
   .row .what { flex: 1; min-width: 0; }
+  .thumb { flex: none; width: 68px; height: 68px; border-radius: 50%; object-fit: cover; background: #eadfc8; cursor: zoom-in; }
+  .zoom { position: fixed; inset: 0; z-index: 50; background: rgba(30, 18, 10, .86); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; }
+  .zoom img { width: min(92vw, 440px); aspect-ratio: 1; object-fit: cover; border-radius: 20px; }
+  .zoom span { color: #fff; font-weight: 700; font-size: 17px; text-align: center; }
   .name { font-weight: 600; }
   .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
   .price { font-weight: 700; color: var(--red); font-size: 15px; }
@@ -500,6 +504,15 @@ function drawStepper(box) {
 }
 function stepper(key) { const s = el("div", "stepper"); s.dataset.key = key; drawStepper(s); return s; }
 
+function thumb(it) {   // the item's picture (menu.json "img"); tap to see it large. No file → no picture.
+  const im = el("img", "thumb"); im.loading = "lazy"; im.alt = ""; im.src = it.img;
+  im.onerror = () => im.remove();
+  im.onclick = () => {
+    const z = el("div", "zoom"), big = el("img"); big.src = it.img; big.alt = "";
+    z.append(big, el("span", "", tr(it.name))); z.onclick = () => z.remove(); document.body.append(z);
+  };
+  return im;
+}
 function itemRow(key, name, desc, price, cls) {
   const row = el("div", "row" + (cls ? " " + cls : ""));
   const what = el("div", "what");
@@ -655,11 +668,16 @@ function renderMenu() {
     for (const it of items) {
       const card = el("div", "item");
       if (it.options && it.options.length) {
-        card.append(el("div", "name", tr(it.name)));
-        if (it.desc) card.append(el("div", "desc", tr(it.desc)));
+        const head = el("div", "row"), what = el("div", "what");
+        what.append(el("div", "name", tr(it.name)));
+        if (it.desc) what.append(el("div", "desc", tr(it.desc)));
+        if (it.img) head.append(thumb(it));
+        head.append(what); card.append(head);
         for (const o of it.options) card.append(itemRow(it.id + "~" + o.id, tr(o.name), "", o.price, "opt"));
       } else {
-        card.append(itemRow(it.id, tr(it.name), tr(it.desc), it.price));
+        const row = itemRow(it.id, tr(it.name), tr(it.desc), it.price);
+        if (it.img) row.prepend(thumb(it));
+        card.append(row);
       }
       sec.append(card);
     }

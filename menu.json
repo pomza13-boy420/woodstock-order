@@ -93,7 +93,8 @@
        },
        "price": 140
       }
-     ]
+     ],
+     "img": "img/padthai.jpg"
     },
     {
      "id": "glass",
@@ -175,7 +176,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/soup.jpg"
     },
     {
      "id": "gravy",
@@ -183,7 +185,8 @@
       "en": "Pork gravy noodles",
       "th": "ราดหน้าหมู"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/gravy.jpg"
     },
     {
      "id": "seeew",
@@ -224,7 +227,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/seeew.jpg"
     }
    ]
   },
@@ -319,7 +323,8 @@
        },
        "price": 150
       }
-     ]
+     ],
+     "img": "img/massaman.jpg"
     },
     {
      "id": "green",
@@ -360,7 +365,8 @@
        },
        "price": 150
       }
-     ]
+     ],
+     "img": "img/green.jpg"
     },
     {
      "id": "pumpkin",
@@ -401,7 +407,8 @@
        },
        "price": 150
       }
-     ]
+     ],
+     "img": "img/pumpkin.jpg"
     }
    ]
   },
@@ -668,7 +675,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/larb.jpg"
     },
     {
      "id": "krapow",
@@ -709,7 +717,8 @@
        },
        "price": 100
       }
-     ]
+     ],
+     "img": "img/krapow.jpg"
     }
    ]
   },
@@ -840,7 +849,8 @@
       "en": "Chocolate fondue with ice cream & banana",
       "th": "ช็อกโกแลตฟองดูว์"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/fondue.jpg"
     },
     {
      "id": "mango",
@@ -848,7 +858,8 @@
       "en": "Mango sticky rice",
       "th": "ข้าวเหนียวมะม่วง"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/mango.jpg"
     },
     {
      "id": "pumpk",
@@ -856,7 +867,8 @@
       "en": "Pumpkin in coconut milk",
       "th": "ฟักทองกะทิ"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/pumpk.jpg"
     }
    ]
   },
@@ -873,7 +885,8 @@
       "en": "Espresso",
       "th": "เอสเพรสโซ"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/esp.jpg"
     },
     {
      "id": "desp",
@@ -906,7 +919,8 @@
        },
        "price": 55
       }
-     ]
+     ],
+     "img": "img/amer.jpg"
     },
     {
      "id": "capp",
@@ -931,7 +945,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/capp.jpg"
     },
     {
      "id": "latte",
@@ -956,7 +971,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/latte.jpg"
     },
     {
      "id": "macch",
@@ -982,6 +998,78 @@
        "price": 80
       }
      ]
+    },
+    {
+     "id": "carcoco",
+     "name": {
+      "en": "Caramel coconut (iced)",
+      "th": "คาราเมลโคโคนัท (เย็น)"
+     },
+     "price": 60,
+     "img": "img/carcoco.jpg"
+    },
+    {
+     "id": "carcof",
+     "name": {
+      "en": "Iced caramel coffee",
+      "th": "กาแฟคาราเมลเย็น"
+     },
+     "price": 60,
+     "img": "img/carcof.jpg"
+    },
+    {
+     "id": "orangeesp",
+     "name": {
+      "en": "Orange espresso (iced)",
+      "th": "ออเรนจ์เอสเพรสโซ (เย็น)"
+     },
+     "price": 60,
+     "img": "img/orangeesp.jpg"
+    },
+    {
+     "id": "yuzu",
+     "name": {
+      "en": "Yuzu Americano soda (iced)",
+      "th": "ยูซุอเมริกาโน่โซดา (เย็น)"
+     },
+     "price": 60,
+     "img": "img/yuzu.jpg"
+    },
+    {
+     "id": "mochamint",
+     "name": {
+      "en": "Mocha Mint Marvel (iced)",
+      "th": "มอคค่ามินต์ (เย็น)"
+     },
+     "price": 60,
+     "img": "img/mochamint.jpg"
+    },
+    {
+     "id": "cmocha",
+     "name": {
+      "en": "Mocha (iced)",
+      "th": "มอคค่า (เย็น)"
+     },
+     "price": 60,
+     "img": "img/cmocha.jpg"
+    },
+    {
+     "id": "vanilla",
+     "name": {
+      "en": "Vanilla milk latte (iced)",
+      "th": "วานิลลามิลค์ลาเต้ (เย็น)"
+     },
+     "price": 50,
+     "img": "img/vanilla.jpg"
+    },
+    {
+     "id": "espcoco",
+     "name": {
+      "en": "Espresso coconut (iced)",
+      "th": "เอสเพรสโซมะพร้าว (เย็น)"
+     },
+     "price": 60,
+     "img": "img/espcoco.jpg"
     }
    ]
   },
@@ -1412,6 +1500,292 @@
    ]
   },
   {
+   "id": "ck",
+   "label": {
+    "en": "🍹 Cocktails",
+    "th": "🍹 ค็อกเทล"
+   },
+   "note": {
+    "en": "Contains alcohol — 20+ only.",
+    "th": "มีแอลกอฮอล์ — สำหรับอายุ 20 ปีขึ้นไป"
+   },
+   "items": [
+    {
+     "id": "ck_coco",
+     "name": {
+      "en": "Woodstock Coco Special",
+      "th": "Woodstock Coco Special"
+     },
+     "desc": {
+      "en": "Malibu, Bacardi, triple sec, pineapple, coconut cream — served in a fresh coconut",
+      "th": "Malibu, Bacardi, triple sec, pineapple, coconut cream — served in a fresh coconut"
+     },
+     "price": 250,
+     "img": "img/ck_coco.jpg"
+    },
+    {
+     "id": "ck_maitai",
+     "name": {
+      "en": "Mai Tai",
+      "th": "Mai Tai"
+     },
+     "desc": {
+      "en": "Bacardi, dark rum, orange curaçao, brandy, orange, pineapple, lemon, grenadine",
+      "th": "Bacardi, dark rum, orange curaçao, brandy, orange, pineapple, lemon, grenadine"
+     },
+     "price": 250,
+     "img": "img/ck_maitai.jpg"
+    },
+    {
+     "id": "ck_orgasm",
+     "name": {
+      "en": "Orgasm",
+      "th": "Orgasm"
+     },
+     "desc": {
+      "en": "Baileys, Kahlúa, milk",
+      "th": "Baileys, Kahlúa, milk"
+     },
+     "price": 200,
+     "img": "img/ck_orgasm.jpg"
+    },
+    {
+     "id": "ck_scream",
+     "name": {
+      "en": "Screaming Orgasm",
+      "th": "Screaming Orgasm"
+     },
+     "desc": {
+      "en": "Baileys, Kahlúa, Cointreau, milk",
+      "th": "Baileys, Kahlúa, Cointreau, milk"
+     },
+     "price": 200,
+     "img": "img/ck_scream.jpg"
+    },
+    {
+     "id": "ck_pink",
+     "name": {
+      "en": "Pink Lady",
+      "th": "Pink Lady"
+     },
+     "desc": {
+      "en": "Gin, Cointreau, milk, grenadine",
+      "th": "Gin, Cointreau, milk, grenadine"
+     },
+     "price": 200,
+     "img": "img/ck_pink.jpg"
+    },
+    {
+     "id": "ck_chichi",
+     "name": {
+      "en": "Chi Chi",
+      "th": "Chi Chi"
+     },
+     "desc": {
+      "en": "Vodka, triple sec, pineapple, coconut cream",
+      "th": "Vodka, triple sec, pineapple, coconut cream"
+     },
+     "price": 200,
+     "img": "img/ck_chichi.jpg"
+    },
+    {
+     "id": "ck_island",
+     "name": {
+      "en": "Island Dream",
+      "th": "Island Dream"
+     },
+     "desc": {
+      "en": "Malibu, Bacardi, Galliano, pineapple, coconut cream, lemon",
+      "th": "Malibu, Bacardi, Galliano, pineapple, coconut cream, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_island.jpg"
+    },
+    {
+     "id": "ck_irish",
+     "name": {
+      "en": "Irish Coffee",
+      "th": "Irish Coffee"
+     },
+     "desc": {
+      "en": "Whisky, Kahlúa, coffee, cream",
+      "th": "Whisky, Kahlúa, coffee, cream"
+     },
+     "price": 200,
+     "img": "img/ck_irish.jpg"
+    },
+    {
+     "id": "ck_carib",
+     "name": {
+      "en": "Caribbean Coffee",
+      "th": "Caribbean Coffee"
+     },
+     "desc": {
+      "en": "Dark rum, Kahlúa, coffee",
+      "th": "Dark rum, Kahlúa, coffee"
+     },
+     "price": 200,
+     "img": "img/ck_carib.jpg"
+    },
+    {
+     "id": "ck_kami",
+     "name": {
+      "en": "Kamikaze",
+      "th": "Kamikaze"
+     },
+     "desc": {
+      "en": "Vodka, triple sec, blue curaçao, lemon",
+      "th": "Vodka, triple sec, blue curaçao, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_kami.jpg"
+    },
+    {
+     "id": "ck_marg",
+     "name": {
+      "en": "Margarita",
+      "th": "Margarita"
+     },
+     "desc": {
+      "en": "Tequila, Cointreau, lemon",
+      "th": "Tequila, Cointreau, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_marg.jpg"
+    },
+    {
+     "id": "ck_wrussian",
+     "name": {
+      "en": "White Russian",
+      "th": "White Russian"
+     },
+     "desc": {
+      "en": "Kahlúa, vodka, milk",
+      "th": "Kahlúa, vodka, milk"
+     },
+     "price": 200,
+     "img": "img/ck_wrussian.jpg"
+    },
+    {
+     "id": "ck_brussian",
+     "name": {
+      "en": "Black Russian",
+      "th": "Black Russian"
+     },
+     "desc": {
+      "en": "Kahlúa, vodka, coke",
+      "th": "Kahlúa, vodka, coke"
+     },
+     "price": 200,
+     "img": "img/ck_brussian.jpg"
+    },
+    {
+     "id": "ck_sunrise",
+     "name": {
+      "en": "Tequila Sunrise",
+      "th": "Tequila Sunrise"
+     },
+     "desc": {
+      "en": "Tequila, orange, lemon, grenadine",
+      "th": "Tequila, orange, lemon, grenadine"
+     },
+     "price": 200,
+     "img": "img/ck_sunrise.jpg"
+    },
+    {
+     "id": "ck_wsour",
+     "name": {
+      "en": "Whisky Sour",
+      "th": "Whisky Sour"
+     },
+     "desc": {
+      "en": "Whisky, lemon, sugar, soda",
+      "th": "Whisky, lemon, sugar, soda"
+     },
+     "price": 200,
+     "img": "img/ck_wsour.jpg"
+    },
+    {
+     "id": "ck_sotb",
+     "name": {
+      "en": "Sex on the Beach",
+      "th": "Sex on the Beach"
+     },
+     "desc": {
+      "en": "Peach schnapps, vodka, triple sec, orange, grenadine",
+      "th": "Peach schnapps, vodka, triple sec, orange, grenadine"
+     },
+     "price": 200,
+     "img": "img/ck_sotb.jpg"
+    },
+    {
+     "id": "ck_bhawaii",
+     "name": {
+      "en": "Blue Hawaii",
+      "th": "Blue Hawaii"
+     },
+     "desc": {
+      "en": "Bacardi, blue curaçao, lemon, pineapple",
+      "th": "Bacardi, blue curaçao, lemon, pineapple"
+     },
+     "price": 200,
+     "img": "img/ck_bhawaii.jpg"
+    },
+    {
+     "id": "ck_bmarg",
+     "name": {
+      "en": "Blue Margarita",
+      "th": "Blue Margarita"
+     },
+     "desc": {
+      "en": "Tequila, Cointreau, blue curaçao, lemon",
+      "th": "Tequila, Cointreau, blue curaçao, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_bmarg.jpg"
+    },
+    {
+     "id": "ck_blagoon",
+     "name": {
+      "en": "Blue Lagoon",
+      "th": "Blue Lagoon"
+     },
+     "desc": {
+      "en": "Gin, blue curaçao, lemon",
+      "th": "Gin, blue curaçao, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_blagoon.jpg"
+    },
+    {
+     "id": "ck_opium",
+     "name": {
+      "en": "Opium",
+      "th": "Opium"
+     },
+     "desc": {
+      "en": "Vodka, blue curaçao, lemon",
+      "th": "Vodka, blue curaçao, lemon"
+     },
+     "price": 200,
+     "img": "img/ck_opium.jpg"
+    },
+    {
+     "id": "ck_lit",
+     "name": {
+      "en": "Long Island Iced Tea",
+      "th": "Long Island Iced Tea"
+     },
+     "desc": {
+      "en": "Gin, vodka, tequila, Bacardi, triple sec, lemon, coke",
+      "th": "Gin, vodka, tequila, Bacardi, triple sec, lemon, coke"
+     },
+     "price": 250,
+     "img": "img/ck_lit.jpg"
+    }
+   ]
+  },
+  {
    "id": "ad",
    "label": {
     "en": "➕ Add-ons",
@@ -1574,7 +1948,8 @@
     "cf",
     "te",
     "sh",
-    "sm"
+    "sm",
+    "ck"
    ]
   }
  ],
