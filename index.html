@@ -3,7 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Woodstock — Order</title>
+<title>Woodstock Koh Phangan — Menu & Order</title>
+<meta name="description" content="Woodstock, Chaloklum, Koh Phangan — Thai & vegetarian food, coffee, smoothies and cocktails. See the menu and order for pickup or delivery.">
+<meta property="og:title" content="Woodstock Koh Phangan — Menu & Order">
+<meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum. Order for pickup or delivery.">
+<meta property="og:image" content="shop.jpg">
+<meta property="og:type" content="restaurant">
+<meta name="theme-color" content="#4e342e">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
   /* Woodstock colours: brown, green, yellow, red on warm cream */
@@ -290,6 +300,139 @@
   .sums .grand { font-size: 20px; font-weight: 700; color: var(--brown); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 6px; }
   .hint2 { font-size: 13px; color: var(--hint); margin: 4px 2px 10px; min-height: 18px; }
   .hint2.warn { color: var(--red); font-weight: 700; }
+  /* ---- opened in a normal browser (no Telegram): name + phone, and the "send to the shop" sheet ---- */
+  .details input.txt {
+    width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); margin-bottom: 8px;
+    background: var(--card); color: var(--text); font: inherit; outline: none; display: block;
+  }
+  .details input.txt:focus { border-color: var(--green); }
+  .web #rewardsBox { display: none !important; }   /* the website card collects points; rewards are not offered there yet */
+  .via { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.55); display: none; align-items: flex-end; justify-content: center; }
+  .via.show { display: flex; }
+  .viabox { background: var(--bg, #fbf5e6); width: 100%; max-width: 560px; max-height: 92vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
+  .viabox h2 { font-size: 19px; margin: 0 0 6px; color: var(--brown); }
+  .viabox p { font-size: 14px; color: var(--hint); margin: 0 0 10px; }
+  .viabox pre { white-space: pre-wrap; word-break: break-word; font: 14px/1.45 inherit; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin: 0 0 12px; max-height: 34vh; overflow: auto; }
+  .viabtn { display: block; width: 100%; box-sizing: border-box; text-align: center; text-decoration: none; padding: 14px 10px; border-radius: 14px; font-size: 16px; font-weight: 700; margin-bottom: 8px; background: var(--card); color: var(--text); border: 2px solid var(--line); }
+  .viabtn.main { background: var(--green); border-color: var(--green); color: #fff; }
+  .viabtn.plain { border: 0; background: none; color: var(--hint); font-weight: 600; }
+
+  /* ================= 2nd layer: modern look, same Woodstock colours ================= */
+  :root { --shadow: 0 6px 22px rgba(78, 52, 46, .10); --shadow-lg: 0 14px 40px rgba(43, 29, 20, .18); --r: 20px; --wrap: 1120px; }
+  body { font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif; font-weight: 400;
+         padding-bottom: calc(168px + env(safe-area-inset-bottom)); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, button, .name, .price { font-family: inherit; }
+  button, .link, .tile, .cattile, .choice { transition: transform .12s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease; }
+  button:active { transform: scale(.98); }
+
+  /* ---- home: who we are ---- */
+  .hero { position: relative; overflow: hidden; padding: 0; border-radius: 0 0 28px 28px; background: var(--brown); min-height: 440px; display: flex; }
+  .heroimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .heroshade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 19, 16, .55) 0%, rgba(27, 19, 16, .35) 35%, rgba(27, 19, 16, .92) 100%); }
+  .heroin { position: relative; width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 16px 18px 26px; display: flex; flex-direction: column; }
+  .hero .row1 { margin-bottom: auto; }
+  .est { font-size: 11px; font-weight: 600; letter-spacing: .2em; color: var(--yellow); }
+  .hero .logo { width: 104px; max-width: 34%; margin: 18px 0 6px; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .5)); }
+  .hero h1 { font-size: clamp(38px, 9vw, 64px); font-weight: 700; line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin-top: 8px; }
+  .hero.haslogo p, .hero p { text-align: left; font-size: 16px; line-height: 1.5; margin: 10px 0 14px; max-width: 34em; opacity: .95; }
+  .hero.haslogo .facts { justify-content: flex-start; }
+  .facts span { background: rgba(255, 255, 255, .13); border: 1px solid rgba(255, 255, 255, .18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); padding: 6px 12px; }
+  .lang { background: rgba(0, 0, 0, .25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .cta { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .openmenu { width: auto; flex: 1 1 220px; margin: 0; padding: 16px 22px; border-radius: 999px; font-size: 18px; font-weight: 600;
+              background: linear-gradient(135deg, #37943b, var(--green)); box-shadow: 0 10px 26px rgba(46, 125, 50, .45); }
+  .ghost { flex: 0 1 auto; padding: 16px 22px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff8e7; border: 1.5px solid rgba(255, 255, 255, .55); }
+  .home { max-width: var(--wrap); margin: 0 auto; }
+  .sec { margin: 26px 2px 12px; font-size: 20px; font-weight: 600; color: var(--brown); display: flex; align-items: center; gap: 10px; }
+  .sec::before { content: ""; width: 26px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--green), var(--yellow), var(--red)); }
+  .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feat { background: var(--card); border-radius: var(--r); padding: 16px 14px; box-shadow: var(--shadow); }
+  .feat .ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; font-size: 24px; margin-bottom: 10px; background: #f3e9d2; }
+  .feat b { display: block; font-size: 16px; font-weight: 600; color: var(--brown); line-height: 1.25; }
+  .feat small { display: block; font-size: 13px; color: var(--hint); margin-top: 4px; line-height: 1.35; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: st; }
+  .steps li { counter-increment: st; display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow); font-size: 15px; }
+  .steps li::before { content: counter(st); flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--yellow); color: var(--brown); font-weight: 700; }
+  .duo { display: grid; gap: 0; }
+  .points { border-radius: var(--r); padding: 16px 18px; margin-top: 18px; box-shadow: 0 8px 22px rgba(246, 185, 24, .35); }
+  .box { border: 0; border-radius: var(--r); box-shadow: var(--shadow); padding: 16px 18px; }
+  .box h3 { font-size: 16px; font-weight: 600; }
+  .links { flex-wrap: wrap; }
+  .link { border: 0; border-radius: 999px; box-shadow: var(--shadow); padding: 13px 10px; font-weight: 500; flex: 1 1 30%; }
+  .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
+  .shutbanner { border-radius: 16px; margin-top: 16px; }
+  .foot { text-align: center; font-size: 12px; letter-spacing: .08em; color: var(--hint); margin: 26px 0 0; }
+
+  /* ---- cards, tiles, buttons ---- */
+  .cattile, .tile, .item, .line { border: 0; box-shadow: var(--shadow); border-radius: 18px; }
+  .cattile { font-weight: 600; padding-bottom: 10px; } .tile { font-weight: 500; }
+  .item { padding: 14px 16px; }
+  .top { padding-top: 12px; border-radius: 0 0 22px 22px; box-shadow: 0 6px 18px rgba(43, 29, 20, .18); }
+  .gtabs button { border-radius: 999px; font-weight: 500; padding: 9px 16px; }
+  .search { border-radius: 999px; padding: 11px 18px; }
+  .chips button { font-weight: 500; }
+  main, .cardview { max-width: var(--wrap); margin: 0 auto; }
+  .confirm, .ipanel .done, .viabtn { border-radius: 999px; font-weight: 600; }
+  .choice { border-radius: 16px; font-weight: 500; }
+  .details textarea, .details input.txt { border-radius: 14px; }
+  .bar { border-radius: 999px; padding: 10px 10px 10px 22px; font-weight: 600; box-shadow: 0 10px 28px rgba(46, 125, 50, .45); bottom: calc(84px + env(safe-area-inset-bottom)); }
+  .bar .sum { border-radius: 999px; padding: 9px 16px; }
+  .sheet, .ipanel, .viabox { border-radius: 26px 26px 0 0; box-shadow: var(--shadow-lg); }
+  .shade, .ishade, .via { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+  .mcard { border-radius: 24px; } .mapbox { border: 0; border-radius: var(--r); box-shadow: var(--shadow); height: 280px; }
+  .mapbtns > * { border-radius: 999px; font-weight: 600; }
+  .cardview h2, .details header h2, .sheet h2 { font-weight: 600; }
+
+  /* ---- navigation: bottom bar on phones ---- */
+  .tabbar { left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); border: 0; border-radius: 22px; padding: 7px 8px;
+            background: rgba(27, 19, 16, .94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 12px 30px rgba(0, 0, 0, .35); gap: 4px; }
+  .tabbar .brand { display: none; }
+  .tabbar button { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 7px 2px 6px; border-radius: 16px; color: #b9ab99; font-size: 11.5px; font-weight: 500; }
+  .tabbar button svg { width: 23px; height: 23px; }
+  .tabbar button b { font-weight: 500; }
+  .tabbar button.on { color: #1b1310; background: var(--yellow); }
+  .tabbar button.on b { font-weight: 600; }
+
+  /* ---- wide screens (a computer): navigation on top, content in a centred column ---- */
+  @media (min-width: 900px) {
+    body { padding-top: 68px; padding-bottom: 60px; font-size: 17px; }
+    .tabbar { top: 0; bottom: auto; left: 0; right: 0; height: 68px; border-radius: 0; padding: 0 max(24px, calc(50vw - 560px)); align-items: center; gap: 6px;
+              background: #1b1310; border-bottom: 3px solid var(--yellow); box-shadow: 0 6px 22px rgba(0, 0, 0, .25); z-index: 15; }
+    .tabbar .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; font-size: 22px; letter-spacing: .14em; }
+    .tabbar .brand img { width: 44px; height: 44px; object-fit: contain; }
+    .tabbar .brand b { color: #3fbf3f; font-weight: 700; } .tabbar .brand i { color: var(--yellow); font-style: normal; font-weight: 700; }
+    .tabbar button { flex: none; flex-direction: row; gap: 9px; padding: 11px 20px; border-radius: 999px; font-size: 16px; color: #e9dcc8; }
+    .tabbar button b { font-weight: 500; }
+    .tabbar button:hover { background: rgba(255, 255, 255, .10); color: #fff; }
+    .tabbar button.on, .tabbar button.on:hover { background: var(--yellow); color: #1b1310; }
+    .hero { min-height: 560px; border-radius: 0 0 40px 40px; }
+    .heroin { padding: 26px 28px 46px; }
+    .hero .logo { width: 132px; }
+    .hero p { font-size: 19px; }
+    .openmenu { flex: 0 0 auto; padding: 18px 34px; font-size: 20px; } .ghost { padding: 18px 30px; font-size: 18px; }
+    .openmenu:hover { box-shadow: 0 14px 34px rgba(46, 125, 50, .6); transform: translateY(-1px); } .ghost:hover { background: rgba(255, 255, 255, .12); }
+    .home { padding: 0 28px; }
+    .sec { font-size: 24px; margin-top: 38px; }
+    .feats { grid-template-columns: repeat(4, 1fr); gap: 18px; } .feat { padding: 22px 20px; }
+    .feat:hover, .cattile:hover, .tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 18px; } .steps li { padding: 18px; }
+    .duo { grid-template-columns: 1fr 1.4fr; gap: 18px; align-items: start; margin-top: 20px; } .duo .points, .duo .box { margin-top: 18px; }
+    .links { max-width: 720px; }
+    .top { top: 68px; border-radius: 0; padding: 14px max(28px, calc(50vw - 560px)) 0; }
+    .gtabs, .chips { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; flex-wrap: wrap; }
+    .search { max-width: 420px; }
+    main { padding: 0 28px; } section { scroll-margin-top: 250px; }
+    .catgrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
+    .tiles { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+    .tile, .cattile { font-size: 15px; } .tile .price { font-size: 15px; }
+    .cardview { max-width: 760px; padding: 28px; } .mapbox { height: 420px; }
+    .bar { left: auto; right: 28px; bottom: 28px; width: 400px; }
+    .sheet { left: 50%; right: auto; bottom: 50%; transform: translate(-50%, 50%); width: 540px; border-radius: 26px; padding: 22px; }
+    .ishade, .via { align-items: center; justify-content: center; }
+    .ipanel, .viabox { max-width: 540px; border-radius: 26px; }
+    .ipanel .pic { border-radius: 26px 26px 0 0; }
+    .details { padding: 96px max(16px, calc(50vw - 300px)) 28px; z-index: 12; }
+  }
 </style>
 </head>
 <body>
@@ -323,37 +466,49 @@
 </div>
 
 <nav class="tabbar" id="tabbar">
-  <button data-tab="home"><span>🏠</span><b id="tabHome"></b></button>
-  <button data-tab="menu"><span>🍽</span><b id="tabMenu"></b></button>
-  <button data-tab="map"><span>📍</span><b id="tabMap"></b></button>
-  <button data-tab="card"><span>⭐</span><b id="tabCard"></b></button>
+  <span class="brand"><img src="logo.png" alt="" onerror="this.remove()"><span><b>WOOD</b><i>STOCK</i></span></span>
+  <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/></svg><b id="tabHome"></b></button>
+  <button data-tab="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8"/><path d="M4 3v5a3 3 0 0 0 6 0V3"/><path d="M7 11v10"/><path d="M17 3c-2 1.5-3 4-3 7v3h3"/><path d="M17 3v18"/></svg><b id="tabMenu"></b></button>
+  <button data-tab="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.500C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg><b id="tabMap"></b></button>
+  <button data-tab="card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg><b id="tabCard"></b></button>
 </nav>
 
 <!-- ============ home ============ -->
 <div id="home">
-  <div class="hero">
-    <div class="row1">
+  <header class="hero">
+    <img class="heroimg hide" id="shopPhoto" alt="">
+    <div class="heroshade"></div>
+    <div class="heroin">
+      <div class="row1">
+        <span class="est">EST. 2020 · KOH PHANGAN</span>
+        <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
+      </div>
+      <img class="logo hide" id="logo" alt="">
       <h1 id="shop">Woodstock</h1>
-      <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
+      <p id="about"></p>
+      <div class="facts"><span id="hours"></span><span id="address"></span></div>
+      <div class="cta"><button class="openmenu" id="openMenu"></button><button class="ghost" id="heroMap"></button></div>
     </div>
-    <img class="logo hide" id="logo" alt="">
-    <p id="about"></p>
-    <div class="facts"><span id="hours"></span><span id="address"></span></div>
-  </div>
+  </header>
   <div class="home">
-    <img class="shopphoto hide" id="shopPhoto" alt="">
     <p class="shutbanner hide" id="shopShut"></p>
-    <button class="openmenu" id="openMenu"></button>
     <button class="again hide" id="again"></button>
-    <button class="points" id="pointsBox">
-      <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
-    </button>
-    <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
+    <h2 class="sec" id="whoTitle"></h2>
+    <div class="feats" id="feats"></div>
+    <h2 class="sec" id="howTitle"></h2>
+    <ol class="steps" id="steps"></ol>
+    <div class="duo">
+      <button class="points" id="pointsBox">
+        <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
+      </button>
+      <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
+    </div>
     <div class="links">
       <button class="link" id="mapsLink"></button>
       <a class="link" id="phoneLink"></a>
       <button class="link hide" id="igLink">📷 Instagram</button>
     </div>
+    <p class="foot">Woodstock Bar · Chaloklum, Koh Phangan · Est. 2020</p>
   </div>
 </div>
 
@@ -407,6 +562,11 @@
 <div class="details" id="details">
   <header><button class="back" id="dBack"></button><h2 id="dTitle"></h2></header>
   <div class="body">
+    <div id="webBox" class="hide">
+      <h3 id="whoLabel"></h3>
+      <input class="txt" id="cname" maxlength="60" autocomplete="name">
+      <input class="txt" id="cphone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel">
+    </div>
     <h3 id="howLabel"></h3>
     <div class="choices"><button class="choice" id="howP" data-how="p"></button><button class="choice" id="howD" data-how="d"></button></div>
     <div id="addrBox" class="hide">
@@ -437,18 +597,35 @@
   <div class="testnote" id="testnote"></div>
 </div>
 
+<!-- ============ browser only: send the order to the shop ============ -->
+<div class="via" id="via"><div class="viabox">
+  <h2 id="viaTitle"></h2><p id="viaHint"></p><pre id="viaText"></pre>
+  <div id="viaBtns"></div>
+</div></div>
+
 <script>
 const tg = window.Telegram && window.Telegram.WebApp;
 // Opened from the keyboard button, Telegram gives an EMPTY initData, so that can't
 // be the test. The platform is "unknown" only in a plain browser.
 const inTelegram = !!(tg && tg.platform && tg.platform !== "unknown");
+if (!inTelegram) document.documentElement.classList.add("web");   // a normal browser: no member card, order goes out by chat app / phone
 if (tg) {
   tg.ready(); tg.expand();
   try { tg.setHeaderColor("#4e342e"); tg.setBackgroundColor("#fbf5e6"); } catch (e) {}
 }
 
 const TEXT = {
-  th: { again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
+  th: { whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
+        feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
+                ["🍹", "ค็อกเทลบาร์", "ค็อกเทลกว่า 20 เมนู"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
+        stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
+        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ส่งออเดอร์ทาง WhatsApp — ร้านยืนยันแล้วโอนเงิน"],
+        who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", webCardNone: "สั่งผ่านเว็บแล้วได้แต้มเหมือนกัน — เมื่อออเดอร์แรกเสร็จ ร้านจะส่งลิงก์บัตรสมาชิกของคุณให้ทางแชท", webCardHas: "แต้มจะอัปเดตเมื่อเปิดลิงก์บัตรสมาชิกล่าสุดที่ร้านส่งให้หลังแต่ละออเดอร์", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
+        viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
+        viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
+        callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
         mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
@@ -489,7 +666,17 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
+  en: { whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
+        feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
+                ["🍹", "Cocktail bar", "More than 20 cocktails"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
+        stepsTg: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Confirm and pay in the chat — we keep you posted"],
+        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Send the order by WhatsApp — pay once the shop confirms"],
+        who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", webCardNone: "Website orders earn points too — when your first order is completed, the shop sends your member-card link in the chat.", webCardHas: "Your points update when you open the newest member-card link the shop sends after each order.", feeStaff: "the shop will confirm",
+        webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
+        viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
+        viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
+        callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
         mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
@@ -538,7 +725,9 @@ if (!TEXT[lang]) lang = "en";
 // Member card data the bot puts in the link: name, member-since (epoch s), points, expiry, vouchers.
 let member = { n: "", s: 0, p: Math.max(0, parseInt(params.get("pts") || "0", 10) || 0), x: "", d: 0, dx: "", v: [] };
 try {
-  const m = params.get("m");
+  let m = params.get("m");
+  // On the website the card arrives in a link the shop sends after an order; the phone keeps the newest one.
+  if (!inTelegram) { try { if (m) localStorage.setItem("ws_card", m); else m = localStorage.getItem("ws_card"); } catch (e) {} }
   if (m) {
     const b = m.replace(/-/g, "+").replace(/_/g, "/"), bin = atob(b + "=".repeat((4 - b.length % 4) % 4));
     Object.assign(member, JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)))));
@@ -592,7 +781,7 @@ const shutGroupInCart = () => Object.keys(cart).map(groupOf).find(g => shutNow(g
 function deliveryPlan(total) {
   const p = { ship: 0, quote: false, voucher: false, night: 0, zone: null, short: 0, later: false };
   if (how !== "d") return p;
-  p.later = !!rules().shop;   // the bot prices delivery from the location the customer sends in the chat
+  p.later = inTelegram && !!rules().shop;   // the bot prices delivery from the location the customer sends in the chat
   const z = p.zone = zones().find(x => x.id === zone) || null;
   if (z && total < (z.min || 0)) {
     p.short = (z.min || 0) - total;
@@ -710,7 +899,12 @@ function renderHome() {
   $("pointsGo").textContent = t().pointsGo;
   const ph = $("shopPhoto");   // the shop's own photo: webapp/<about.photo>
   if (a.photo && !ph.dataset.done) { ph.dataset.done = "1"; ph.onload = () => ph.classList.remove("hide"); ph.src = a.photo; }
-  $("openMenu").textContent = t().openMenu;
+  $("openMenu").textContent = t().openMenu; $("heroMap").textContent = t().heroMap;
+  $("whoTitle").textContent = t().whoTitle; $("howTitle").textContent = t().howTitle;
+  const feats = $("feats"); feats.textContent = "";
+  for (const [ic, title, sub] of t().feats) { const c = el("div", "feat"); c.append(el("span", "ic", ic), el("b", "", title), el("small", "", sub)); feats.append(c); }
+  const steps = $("steps"); steps.textContent = "";
+  for (const line of (inTelegram ? t().stepsTg : t().stepsWeb)) steps.append(el("li", "", line));
   $("shopShut").textContent = t().shopShut; $("shopShut").classList.toggle("hide", !member.c);
   const again = Object.keys(member.r || {}).filter(k => prices[baseKey(k)] != null);   // the last order, still on the menu
   $("again").classList.toggle("hide", !again.length);
@@ -739,6 +933,7 @@ function renderHome() {
   $("igLink").classList.toggle("hide", !a.instagram);
 }
 $("mapsLink").onclick = () => openUrl(menu.about.maps);
+$("heroMap").onclick = () => show("map");
 $("igLink").onclick = () => openUrl(menu.about.instagram);
 
 function renderMap() {
@@ -791,7 +986,7 @@ function renderCard() {
   const d = new Date((member.s + 7 * 3600) * 1000), two = n => String(n).padStart(2, "0");   // Bangkok date
   $("cardSince").textContent = member.s ? `${two(d.getUTCDate())}/${two(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}` : t().noSince;
   $("cardUntil").textContent = member.x || "—";
-  $("tierNote").textContent = !member.s ? t().tierStart
+  $("tierNote").textContent = !inTelegram ? (member.s ? t().webCardHas : t().webCardNone) : !member.s ? t().tierStart
     : next ? t().tierNext(Math.max(1, Math.ceil((next.after_days || 0) - days)), tr(next.label)) : (tiers.length ? t().tierTop : "");
   const em = $("emblem");   // the members-only symbol: webapp/<card_image>, or a leaf until one is uploaded
   if (P.card_image && !em.dataset.done) {
@@ -939,7 +1134,7 @@ function openSheet(on) { $("sheet").classList.toggle("show", on); $("shade").cla
 
 // ---------------- order details ----------------
 function payload() {
-  const d = { cart, method: how, pay, lang };
+  const d = { cart, method: how, pay, lang, cname: $("cname").value.trim().slice(0, 60), phone: $("cphone").value.trim().slice(0, 20) };
   const addr = $("addr").value.trim(), note = $("note").value.trim();
   if (how === "d" && zone) d.zone = zone;
   if (how === "d" && addr) d.address = addr;
@@ -951,13 +1146,15 @@ function payload() {
 function problem() {
   const sg = shutGroupInCart();
   if (sg) return t().needRemove(tr(sg.label), hh(sg.closed.to_hour || 0));
+  if (!$("cname").value.trim()) return t().needName;
+  if ($("cphone").value.replace(/\D/g, "").length < 8) return t().needPhone;
   if (!how) return t().needHow;
   if (how === "d") {
     if (zones().length && !zone) return t().needZone;
     const z = zones().find(x => x.id === zone), total = foodTotal();
-    if (z && z.contact) return t().needContact(tr(z.label));
+    if (z && z.contact) return (inTelegram ? t().needContact : t().webContact)(tr(z.label));
     if (z && total < (z.min || 0) && z.fee_below == null)   // only zones with no small-order fee refuse return t().needMin(money(z.min), money(z.min - total));
-    if (!rules().shop && !$("addr").value.trim() && !loc) return t().needAddr;   // with a shop pin set, the bot asks for the location in the chat
+    if ((!inTelegram || !rules().shop) && !$("addr").value.trim() && !loc) return t().needAddr;   // with a shop pin set, the bot asks for the location in the chat
   }
   if (!pay) return t().needPay;
   return "";
@@ -966,10 +1163,12 @@ function problem() {
 function drawDetails() {
   if (!menu) return;
   const o = opt();
+  if (!inTelegram) pay = "q";   // website orders are paid by transfer once the shop confirms, before delivery / pickup
   if (!how && o.pickup !== o.delivery) how = o.pickup ? "p" : "d";   // only one way offered: preselect it
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
   $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery);
-  $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash);
+  $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || !inTelegram);
+  if (!inTelegram) $("payQ").textContent = t().payWeb;
   document.querySelectorAll("[data-how]").forEach(b => b.classList.toggle("on", b.dataset.how === how));
   document.querySelectorAll("[data-pay]").forEach(b => b.classList.toggle("on", b.dataset.pay === pay));
   document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
@@ -977,28 +1176,30 @@ function drawDetails() {
   $("zoneBox").classList.toggle("hide", !zones().length);
   $("locBtn").textContent = loc ? t().locOk : t().useLoc;
   const total = foodTotal(), p = deliveryPlan(total);
+  const web = !inTelegram, ask = web && how === "d" && !p.zone;   // in a browser the shop quotes the delivery fee in the chat
+  $("webBox").classList.remove("hide");   // name and number: asked on the website and in Telegram alike
   $("foodTotal").textContent = money(total);
   $("feeRow").classList.toggle("hide", how !== "d");
-  $("feeValue").textContent = p.later ? t().feeLater : p.voucher ? t().feeVoucher : p.quote ? t().feeQuote(perKm(p.zone)) : p.ship ? money(p.ship) : t().free;
-  $("locLater").textContent = p.later ? t().locLater : "";
+  $("feeValue").textContent = ask ? t().feeStaff : p.later ? t().feeLater : p.voucher ? t().feeVoucher : p.quote ? t().feeQuote(perKm(p.zone)) : p.ship ? money(p.ship) : t().free;
+  $("locLater").textContent = p.later ? t().locLater : ask && !loc ? t().webLoc : "";
   $("addrLabel").textContent = p.later ? t().addrOpt : t().addr;
   $("nightRow").classList.toggle("hide", !p.night);
   $("nightValue").textContent = money(p.night);
   const disc = Math.min(member.d || 0, total);   // a points voucher comes off automatically (the bot decides)
   $("discRow").classList.toggle("hide", !disc);
   $("discValue").textContent = "-" + money(disc);
-  $("dTotal").textContent = money(total + p.ship + p.night - disc) + (p.quote || p.later ? " +" : "");
+  $("dTotal").textContent = money(total + p.ship + p.night - disc) + (p.quote || p.later || ask ? " +" : "");
   // Under the zones: what this bill means for delivery, and how much more makes it free.
   const zh = $("zoneHint"), z = p.zone;
   zh.textContent = how !== "d" || !z || z.contact ? "" : !p.short ? t().zFree
     : p.voucher ? t().zVoucher : p.ship ? t().zFlat(money(p.ship), money(p.short))
     : p.quote ? t().zQuote(perKm(z), money(p.short)) : "";
   const bad = problem();
-  $("dHint").textContent = bad || (p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
+  $("dHint").textContent = bad || (web ? (pay === "q" ? t().qrWeb : t().webHint) : p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
-  $("send").textContent = p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
+  $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   $("send").classList.toggle("off", !!bad);
-  $("testnote").textContent = inTelegram ? "" : t().test + payload();
+  $("testnote").textContent = inTelegram || !params.has("debug") ? "" : t().test + payload();
 }
 
 function drawZones() {
@@ -1021,8 +1222,15 @@ const LM = tg && tg.isVersionAtLeast && tg.isVersionAtLeast("8.0") && tg.Locatio
 if (inTelegram && LM) {
   try { LM.init(() => { if (LM.isLocationAvailable) $("locBtn").classList.remove("hide"); }); } catch (e) {}
 }
+if (!inTelegram && navigator.geolocation) $("locBtn").classList.remove("hide");
 $("locBtn").onclick = () => {
   if (loc) { loc = null; return drawDetails(); }
+  if (!inTelegram) {   // a normal browser asks the customer for permission itself
+    navigator.geolocation.getCurrentPosition(
+      g => { loc = [Number(g.coords.latitude.toFixed(6)), Number(g.coords.longitude.toFixed(6))]; drawDetails(); },
+      () => { $("locBtn").textContent = t().locFail; }, { enableHighAccuracy: true, timeout: 15000 });
+    return;
+  }
   try {
     LM.getLocation(d => {
       if (d && typeof d.latitude === "number") loc = [Number(d.latitude.toFixed(6)), Number(d.longitude.toFixed(6))];
@@ -1038,6 +1246,82 @@ $("dBack").onclick = () => { openDetails(false); openSheet(true); };
 $("send").onclick = () => {
   if (!Object.keys(cart).length || problem()) return drawDetails();
   if (inTelegram) tg.sendData(payload());   // closes the app; the bot sends the order or the QR
+  else openVia();
+};
+
+// ---------------- browser only: the order as a message for the shop ----------------
+// No Telegram, no server: the order becomes a text the customer sends with WhatsApp / LINE (about.whatsapp,
+// about.line in catalog.json), copies, or reads out on the phone. Staff read Thai, so the text is Thai.
+function orderText() {
+  const keep = lang; lang = "th";
+  try {
+    const total = foodTotal(), p = deliveryPlan(total), L = ["/web 🧾 ออเดอร์จากเว็บ Woodstock"];
+    const addr = $("addr").value.trim(), note = $("note").value.trim();
+    L.push(`👤 ${$("cname").value.trim()} · 📞 ${$("cphone").value.trim()}`);
+    for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(prices[baseKey(k)] * cart[k])}`);
+    L.push(`💰 ค่าอาหาร ${money(total)}`);
+    let plus = "";
+    if (how === "d") {
+      L.push("🛵 จัดส่ง" + (p.zone ? ` (${tr(p.zone.label)})` : ""));
+      if (addr) L.push("🏠 " + addr);
+      if (loc) {
+        const shop = rules().shop, rad = x => x * Math.PI / 180;
+        if (shop) {
+          const h = Math.sin(rad(loc[0] - shop[0]) / 2) ** 2 + Math.cos(rad(shop[0])) * Math.cos(rad(loc[0])) * Math.sin(rad(loc[1] - shop[1]) / 2) ** 2;
+          L.push(`📏 ประมาณ ${(2 * 6371 * Math.asin(Math.sqrt(h)) * (rules().road_factor || 1.4)).toFixed(1)} กม. จากร้าน`);
+        }
+        L.push(`📍 https://maps.google.com/?q=${loc[0]},${loc[1]}`);
+      }
+      if (!p.zone || p.quote) { L.push("🛵 ค่าส่ง: รอร้านแจ้ง"); plus = " + ค่าส่ง"; }
+      else L.push("🛵 ค่าส่ง: " + (p.ship ? money(p.ship) : "ฟรี"));
+      if (p.night) L.push(`🌙 ค่าบริการรอบดึก ${money(p.night)}`);
+    } else L.push("🏪 รับที่ร้าน");
+    L.push(`💵 ยอดรวม ${money(total + p.ship + p.night)}${plus}`);
+    L.push("💳 ชำระ: โอนก่อน — รอร้านยืนยันและส่ง QR");
+    if (note) L.push("📝 " + note);
+    if (keep !== "th") L.push("🌐 ลูกค้าใช้ภาษา: " + keep.toUpperCase());
+    // The same order for the shop's system: staff paste this whole message into the shop's Telegram group.
+    const code = { c: cart, m: how, n: $("cname").value.trim().slice(0, 60), t: $("cphone").value.trim().slice(0, 20), g: keep, ts: Math.floor(Date.now() / 1000) };
+    if (how === "d" && addr) code.a = addr;
+    if (how === "d" && loc) code.l = loc;
+    if (note) code.o = note;
+    const bytes = new TextEncoder().encode(JSON.stringify(code));
+    let bin = ""; for (const b of bytes) bin += String.fromCharCode(b);
+    L.push("🔑 W1:" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""));
+    return L.join("\n");
+  } finally { lang = keep; }
+}
+
+function openVia() {
+  const a = menu.about || {}, text = orderText(), box = $("viaBtns");
+  const link = (label, href, cls) => { const b = el("a", "viabtn" + (cls ? " " + cls : ""), label); b.href = href; b.target = "_blank"; b.rel = "noopener"; box.append(b); return b; };
+  let wa = String(a.whatsapp || "").replace(/\D/g, "");
+  if (wa.startsWith("0")) wa = "66" + wa.slice(1);   // a Thai number written the local way
+  box.textContent = "";
+  $("viaTitle").textContent = t().viaTitle; $("viaText").textContent = text;
+  $("viaHint").textContent = wa || a.line ? t().viaHint : t().viaNone;
+  if (wa) link("🟢 " + t().wa, `https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "main");
+  if (a.line) link("💬 " + t().lineBtn, `https://line.me/R/oaMessage/${encodeURIComponent(a.line)}/?${encodeURIComponent(text)}`, wa ? "" : "main");
+  const copy = el("button", "viabtn", t().copy);
+  copy.onclick = async () => {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const r = document.createRange(); r.selectNodeContents($("viaText")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand("copy"); } catch (e2) {} }
+    copy.textContent = t().copied;
+  };
+  box.append(copy);
+  if (a.phone) link(t().callShop, "tel:" + a.phone.replace(/[^0-9+]/g, "")).removeAttribute("target");
+  const done = el("button", "viabtn", t().viaDone);
+  done.onclick = () => { for (const k of Object.keys(cart)) delete cart[k]; $("via").classList.remove("show"); openDetails(false); refresh(); };
+  const back = el("button", "viabtn plain", t().viaBack);
+  back.onclick = () => $("via").classList.remove("show");
+  box.append(done, back);
+  $("via").classList.add("show");
+}
+// The customer's name and number are kept on their own phone for next time (never sent anywhere by this page).
+try { $("cname").value = localStorage.getItem("ws_name") || ""; $("cphone").value = localStorage.getItem("ws_phone") || ""; } catch (e) {}
+$("cname").oninput = $("cphone").oninput = () => {
+  try { localStorage.setItem("ws_name", $("cname").value); localStorage.setItem("ws_phone", $("cphone").value); } catch (e) {}
+  drawDetails();
 };
 
 // ---------------- wiring ----------------
@@ -1053,6 +1337,7 @@ function applyLang() {
   $("howP").textContent = t().pickup; $("howD").textContent = t().delivery; $("zoneLabel").textContent = t().zone;
   $("addrLabel").textContent = t().addr; $("addr").placeholder = t().addrPh;
   $("noteLabel").textContent = t().note; $("note").placeholder = t().notePh;
+  $("whoLabel").textContent = t().who; $("cname").placeholder = t().namePh; $("cphone").placeholder = t().phonePh;
   $("payLabel").textContent = t().pay; $("payQ").textContent = t().qr; $("payC").textContent = t().cash;
   $("foodLabel").textContent = t().food; $("feeLabel").textContent = t().fee; $("dTotalLabel").textContent = t().grand;
   if (!menu) return;
