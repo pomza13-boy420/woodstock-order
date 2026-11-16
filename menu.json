@@ -2176,7 +2176,48 @@
   "maps": "https://maps.app.goo.gl/igMciMDUefPhDLSU6",
   "instagram": "https://www.instagram.com/woodstock.kpg/",
   "logo": "logo.png",
-  "photo": "shop.jpg"
+  "photo": "shop.jpg",
+  "promos": [
+   {
+    "type": "promo",
+    "icon": "🛵",
+    "title": {
+     "th": "สั่งครบ ฿200 ส่งฟรี",
+     "en": "Free delivery from ฿200"
+    },
+    "text": {
+     "th": "โซน 1–2 (เหนือ/ตะวันตก) ในระยะ 3 กม. จากร้าน",
+     "en": "Zones 1–2 (north & west), within 3 km of the shop"
+    },
+    "go": "menu"
+   },
+   {
+    "type": "promo",
+    "icon": "⭐",
+    "title": {
+     "th": "ทุก ฿100 รับ 1 แต้ม",
+     "en": "1 point for every ฿100"
+    },
+    "text": {
+     "th": "สะสมแต้มได้ทุกออเดอร์ ด้วยบัตรสมาชิก Woodstock",
+     "en": "Collect points on every order with your Woodstock member card"
+    },
+    "go": "card"
+   },
+   {
+    "type": "news",
+    "icon": "🍹",
+    "title": {
+     "th": "ค็อกเทล 12:00–02:00",
+     "en": "Cocktails 12:00–02:00"
+    },
+    "text": {
+     "th": "เครื่องดื่มเปิด 24 ชม. · อาหาร 08:00–23:00",
+     "en": "Drinks 24 h · Food 08:00–23:00"
+    },
+    "go": "menu"
+   }
+  ]
  },
  "delivery_rules": {
   "shop": [

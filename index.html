@@ -345,6 +345,30 @@
   .home { max-width: var(--wrap); margin: 0 auto; }
   .sec { margin: 26px 2px 12px; font-size: 20px; font-weight: 600; color: var(--brown); display: flex; align-items: center; gap: 10px; }
   .sec::before { content: ""; width: 26px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--green), var(--yellow), var(--red)); }
+  /* promos & events: a strip that slides by itself (about.promos in catalog.json) */
+  .ptrack { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; }
+  .ptrack::-webkit-scrollbar { display: none; }
+  .pslide { flex: 0 0 88%; scroll-snap-align: center; position: relative; overflow: hidden; min-height: 158px; border-radius: var(--r); padding: 18px 18px 16px;
+            color: #fff8e7; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; box-shadow: var(--shadow); background: linear-gradient(135deg, #37943b, #1f5f23); }
+  .pslide:only-child { flex-basis: 100%; }
+  .pslide.c1 { background: linear-gradient(135deg, #6d4c41, #2b1d14); }
+  .pslide.c2 { background: linear-gradient(135deg, #d9483b, #8e1f17); }
+  .pslide.c3 { background: linear-gradient(135deg, #f6c544, #e09b17); color: #2b1d14; }
+  .pslide.tap { cursor: pointer; }
+  .pslide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pslide.pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 19, 16, .25), rgba(27, 19, 16, .85)); }
+  .pslide.pic { color: #fff8e7; justify-content: flex-end; min-height: 190px; }
+  .pslide > :not(img) { position: relative; z-index: 1; }
+  .pslide .ptag { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .22); }
+  .pslide.c3 .ptag { background: rgba(43, 29, 20, .14); }
+  .pslide .pic0 { position: absolute; right: 10px; top: 4px; font-size: 64px; line-height: 1; opacity: .28; z-index: 0; }
+  .pslide b { font-size: 21px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
+  .pslide small { font-size: 14px; line-height: 1.4; opacity: .95; }
+  .pslide .pgo { margin-top: auto; padding-top: 8px; font-size: 14px; font-weight: 600; }
+  .pdots { display: flex; justify-content: center; gap: 7px; }
+  .pdots i { width: 7px; height: 7px; border-radius: 999px; background: var(--line); transition: width .25s, background .25s; }
+  .pdots i.on { width: 22px; background: var(--green); }
+  @media (min-width: 900px) { .pslide { flex-basis: calc(50% - 6px); scroll-snap-align: start; min-height: 180px; } }
   .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .feat { background: var(--card); border-radius: var(--r); padding: 16px 14px; box-shadow: var(--shadow); }
   .feat .ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; font-size: 24px; margin-bottom: 10px; background: #f3e9d2; }
@@ -493,6 +517,11 @@
   <div class="home">
     <p class="shutbanner hide" id="shopShut"></p>
     <button class="again hide" id="again"></button>
+    <section class="promos hide" id="promos">
+      <h2 class="sec" id="promoTitle"></h2>
+      <div class="ptrack" id="ptrack"></div>
+      <div class="pdots" id="pdots"></div>
+    </section>
     <h2 class="sec" id="whoTitle"></h2>
     <div class="feats" id="feats"></div>
     <h2 class="sec" id="howTitle"></h2>
@@ -615,7 +644,8 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
+  th: { promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
+        whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
         feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
                 ["🍹", "ค็อกเทลบาร์", "ค็อกเทลกว่า 20 เมนู"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
@@ -666,7 +696,8 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
+  en: { promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
+        whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
         feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
                 ["🍹", "Cocktail bar", "More than 20 cocktails"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Confirm and pay in the chat — we keep you posted"],
@@ -880,8 +911,50 @@ function itemRow(key, name, desc, price, cls) {
 }
 
 // ---------------- home ----------------
+// Promos & events (about.promos in catalog.json): { type: "promo" | "event" | "news", icon, title, text, img, go, from, until }.
+// go = "menu" | "card" | "map" | a web link.  from / until = "YYYY-MM-DD": the slide shows only inside those days.
+let promoTimer = 0, promoHold = 0;
+function renderPromos() {
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
+  const list = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today));
+  const box = $("promos"), track = $("ptrack"), dots = $("pdots");
+  box.classList.toggle("hide", !list.length);
+  track.textContent = ""; dots.textContent = "";
+  if (!list.length) return;
+  $("promoTitle").textContent = t().promoTitle;
+  list.forEach((p, i) => {
+    const s = el("div", "pslide c" + (i % 4));
+    if (p.img) { const im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.onload = () => s.classList.add("pic"); im.onerror = () => im.remove(); im.src = p.img; s.append(im); }
+    if (p.icon) s.append(el("span", "pic0", p.icon));
+    s.append(el("span", "ptag", t().ptags[p.type] || t().ptags.promo), el("b", "", tr(p.title)));
+    if (tr(p.text)) s.append(el("small", "", tr(p.text)));
+    if (p.go) {
+      const view = ["menu", "card", "map"].includes(p.go) ? p.go : "";
+      s.classList.add("tap"); s.setAttribute("role", "button"); s.tabIndex = 0;
+      s.append(el("span", "pgo", t().pgo[view || "link"]));
+      s.onclick = () => view ? show(view) : /^https:\/\//.test(p.go) && openUrl(p.go);
+      s.onkeydown = e => { if (e.key === "Enter") s.onclick(); };
+    }
+    track.append(s);
+    dots.append(document.createElement("i"));
+  });
+  dots.classList.toggle("hide", list.length < 2);
+  const at = () => { let best = 0, d = 1e9; [...track.children].forEach((c, i) => { const x = Math.abs(c.offsetLeft - track.offsetLeft - track.scrollLeft); if (x < d) { d = x; best = i; } }); return best; };
+  const mark = () => { const n = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4 ? list.length - 1 : at(); [...dots.children].forEach((c, i) => c.classList.toggle("on", i === n)); };
+  track.onscroll = mark; mark();
+  const hold = () => { promoHold = Date.now() + 8000; };
+  ["pointerdown", "touchstart", "wheel", "mouseenter", "focusin"].forEach(ev => track.addEventListener(ev, hold, { passive: true }));
+  clearInterval(promoTimer);
+  if (list.length > 1 && !matchMedia("(prefers-reduced-motion: reduce)").matches) promoTimer = setInterval(() => {
+    if (Date.now() < promoHold || document.hidden || !track.offsetParent) return;
+    const end = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+    const next = end ? 0 : at() + 1;
+    track.scrollTo({ left: end ? 0 : track.children[Math.min(next, list.length - 1)].offsetLeft - track.offsetLeft, behavior: "smooth" });
+  }, 4500);
+}
 function renderHome() {
   const a = menu.about || {};
+  renderPromos();
   $("shop").textContent = tr(menu.shop_name) || "Woodstock";
   $("about").textContent = tr(a.text);
   const logo = $("logo");   // the shop's logo: webapp/<about.logo>; the header simply stays text-only without it
