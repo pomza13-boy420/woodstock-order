@@ -772,6 +772,9 @@ try {
   }
 } catch (e) {}
 const myPoints = Math.max(0, parseInt(member.p, 10) || 0);
+// Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
+// written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
+const BUILD = 2;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1502,6 +1505,10 @@ applyLang();
 fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(data => {
+    if ((data.build || 0) > BUILD && !/[?&]_b=/.test(location.search)) {   // this copy of the page is older than the menu
+      location.replace(location.pathname + (location.search ? location.search + "&" : "?") + "_b=" + data.build + location.hash);
+      return;
+    }
     menu = data;
     for (const cat of menu.categories) for (const it of cat.items) {
       const gid = (groups().find(g => g.categories.includes(cat.id)) || {}).id;
