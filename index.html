@@ -601,6 +601,41 @@
     .tabbar button.on, .tabbar button.on:hover { background: none; color: #2D5A27; }
     .tabbar button.on b { font-weight: 700; }
   }
+  /* profile page: quiet inputs, one green button, an outline for signing out */
+  .cardview > * + * { margin-top: 16px; }
+  .cardview > .tiernote { margin-top: 10px; }
+  #profBox .txt { background: #FAF8F5; border: 1px solid #DCD6CD; border-radius: 12px; }
+  #profBox .txt:focus { outline: none; border-color: #2D5A27; }
+  #profBox .pbtn { background: #2D5A27; color: #fff; border: 0; }
+  #profBox .pbtn.plain { background: transparent; color: #1E1B18; border: 1px solid #1E1B18; }
+  /* member card: espresso with cream type, more air, and both dates always inside the card */
+  .mcard, .mcard.silver, .mcard.gold { background: #2C2621; color: #FAF8F5; border: 0; border-radius: 16px; padding: 28px 24px 24px;
+                                       box-sizing: border-box; width: 100%; overflow: hidden; box-shadow: none; }
+  .mcard.silver { box-shadow: inset 0 0 0 1px #B9BEC2; } .mcard.gold { box-shadow: inset 0 0 0 1px #C2A24A; }
+  .mcard .head { align-items: flex-start; gap: 16px; }
+  .mcard .shop { font-size: 11px; letter-spacing: .22em; opacity: .7; }
+  .mcard .level { font-size: 18px; font-weight: 600; letter-spacing: .08em; margin-top: 4px; }
+  .mcard .who { font-size: 19px; font-weight: 600; margin: 18px 0 4px; }
+  .mcard .pts { font-size: 14px; opacity: .95; }
+  .mcard .pts b { font-size: 36px; font-weight: 600; color: #FAF8F5; margin-right: 8px; }
+  .mcard .emblem { flex: none; max-width: 34%; }
+  .mcard .emblem img { max-width: 100%; height: auto; }
+  .mcard .dates { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(250, 248, 245, .16);
+                  font-size: 11px; letter-spacing: .04em; }
+  .mcard .dates > span { min-width: 0; opacity: .75; }
+  .mcard .dates b { display: block; margin-top: 3px; font-size: 14px; font-weight: 600; letter-spacing: 0; opacity: 1; color: #FAF8F5; overflow-wrap: anywhere; }
+  /* map & contact: one main button, one outline, even gaps between the boxes */
+  .mapbox { display: block; height: 240px; margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; box-shadow: none; background: #F2EFE9; }
+  .mapbtns { gap: 12px; margin-top: 16px; }
+  .mapbtns > * { padding: 13px; border-radius: 999px; font-size: 15px; font-weight: 600; }
+  .mapbtns .route { background: #2D5A27; color: #fff; border: 0; }
+  .mapbtns .call { background: transparent; color: #1E1B18; border: 1px solid #1E1B18; }
+  #mapView .box { border-radius: 12px; padding: 18px; }
+  #mapView .box h3 { margin: 0 0 10px; }
+  .contact { padding: 14px 0; }
+  .contact .ic { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: #F2EFE9; font-size: 18px; flex: none; }
+  .contact .ic .ico-l { width: 18px; height: 18px; }
+  .contact b { font-weight: 600; }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -1001,7 +1036,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 8;
+const BUILD = 9;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
