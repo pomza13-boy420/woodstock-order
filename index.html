@@ -607,8 +607,27 @@
     .hero.haslogo p, .hero p { font-size: 18px; }
     .visitmap { width: auto; padding: 13px 28px; }
   }
-  .cattile .emo, .tile .emo { background: var(--bg); color: var(--hint); }
-  .cattile .emo .ico-l, .tile .emo .ico-l { width: 34px; height: 34px; stroke-width: 1.25; }
+  /* menu page: one row of categories (plain words, the chosen one underlined) instead of two rows of pills */
+  #gtabs, #chips { display: none; }
+  .top { padding-bottom: 0; border-radius: 0; box-shadow: none; }
+  .search { border-radius: 12px; }
+  .tile .price, .cattile small { color: var(--text); font-weight: 500; }
+  .cattile small { color: var(--hint); font-weight: 400; }
+  .catbar { display: flex; gap: 22px; overflow-x: auto; margin: 6px -16px 0; padding: 0 16px; scrollbar-width: none; }
+  .catbar::-webkit-scrollbar { display: none; }
+  .catbar button { flex: none; padding: 11px 0 10px; font-size: 14px; font-weight: 400; color: var(--hint); white-space: nowrap;
+                   border-bottom: 2px solid transparent; border-radius: 0; background: none; }
+  .catbar button.on { color: var(--text); font-weight: 600; border-bottom-color: #2D5A27; }
+  .catbar button.shut { opacity: .5; }
+  .catbar i { flex: none; width: 1px; margin: 12px 0; background: var(--line); }
+  /* menu cards: one corner radius, white, a hairline, no glow */
+  .cattile, .tile, .item, .line, .shutbanner { background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; box-shadow: none; }
+  .cattile:hover, .tile:hover { transform: none; box-shadow: none; border-color: #CFC9BF; }
+  .cattile img, .tile img { border-radius: 0; }
+  .tile .badge { background: var(--green); }
+  /* no photo yet: a pale panel with one line icon in the middle */
+  .cattile .emo, .tile .emo { background: #F2EFE9; color: #8A837B; font-size: 28px; }
+  .cattile .emo .ico-l, .tile .emo .ico-l { width: 28px; height: 28px; stroke-width: 1.5; }
   .shutbanner { background: var(--card); border: 1px solid var(--line); color: var(--text); font-weight: 500; }
   .group.shut { background: var(--card); color: var(--hint); }
   .stepper .minus { border-color: var(--text); color: var(--text); background: transparent; }
@@ -743,6 +762,7 @@
     <div class="gtabs" id="gtabs"></div>
     <input class="search" id="search" type="search" autocomplete="off">
     <div class="chips" id="chips"></div>
+    <nav class="catbar" id="catbar"></nav>
   </div>
   <main><div id="menu"></div></main>
 </div>
@@ -959,7 +979,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 6;
+const BUILD = 7;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1844,6 +1864,50 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   .catch(() => { $("about").textContent = t().fail; splashOff(); });
 </script>
 
+<!-- ============ looks only: the menu page's single row of categories ============
+     The two rows the page draws itself (#gtabs = food / drinks / …, #chips = that group's categories) stay in the page,
+     hidden, and keep doing the work; this row just presses them. -->
+<script>
+(function () {
+  const bar = document.getElementById("catbar"), chips = document.getElementById("chips");
+  if (!bar || !chips) return;
+  const plain = s => String(s).replace(/\p{Extended_Pictographic}(?:️|‍\p{Extended_Pictographic})*/gu, "").trim();
+  let drawnFor = "";
+  function draw() {
+    if (!menu) return;
+    const key = lang + "|" + groups().map(g => g.id + (shutNow(g) ? "!" : "")).join(",");
+    if (key !== drawnFor) {
+      drawnFor = key; bar.textContent = "";
+      groups().forEach((g, gi) => {
+        if (gi) bar.append(document.createElement("i"));
+        for (const id of g.categories) {
+          const cat = menu.categories.find(c => c.id === id);
+          if (!cat) continue;
+          const b = document.createElement("button");
+          b.textContent = plain(tr(cat.label)); b.dataset.cat = cat.id; b.dataset.group = g.id;
+          if (shutNow(g)) b.classList.add("shut");
+          b.onclick = () => {
+            if (group !== g.id || document.getElementById("search").value) openGroup(g.id);   // the page's own way of switching
+            const chip = chips.querySelector('button[data-cat="' + cat.id + '"]');
+            if (chip) chip.click();                                                              // … and of jumping to a category
+            mark(cat.id);
+          };
+          bar.append(b);
+        }
+      });
+    }
+    const on = chips.querySelector("button.on") || chips.querySelector("button");
+    mark(on ? on.dataset.cat : "");
+  }
+  function mark(id) {
+    let cur = null;
+    bar.querySelectorAll("button").forEach(b => { const on = b.dataset.cat === id; b.classList.toggle("on", on); if (on) cur = b; });
+    if (cur) bar.scrollLeft += cur.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - cur.offsetWidth) / 2;
+  }
+  new MutationObserver(draw).observe(chips, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+})();
+</script>
+
 <!-- ============ looks only: line icons (Lucide) where the texts carry an emoji ============
      The texts, the menu and the order message keep their emoji (the shop's Telegram messages use them);
      this only changes how they are DRAWN on the page. No icons library → the emoji simply stay. -->
@@ -1886,7 +1950,8 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     while ((m = RE.exec(s))) {
       if (KEEP.test(m[0])) continue;
       frag.append(s.slice(last, m.index));
-      const ic = icon(MAP[[...m[0]][0]]);   // an emoji the map does not know is simply left out
+      const first = [...m[0]][0], blank = par.classList.contains("emo");   // "emo" = the panel shown when a dish has no photo
+      const ic = icon(blank && first === "➕" ? "Utensils" : MAP[first]) || (blank ? icon("Utensils") : null);   // an unknown emoji is simply left out
       if (ic) frag.append(ic);
       last = m.index + m[0].length; did = true;
     }
