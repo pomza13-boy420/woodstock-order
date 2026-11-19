@@ -579,6 +579,28 @@
     .tabbar button:hover { background: var(--bg); color: var(--text); }
     .tabbar button.on, .tabbar button.on:hover { background: var(--green); color: #fff; }
   }
+  /* bottom navigation (phones): flush with the bottom edge, see-through white, the chosen tab only changes colour */
+  @media (max-width: 899px) {
+    .tabbar { position: fixed; left: 0; right: 0; bottom: 0; width: 100%; box-sizing: border-box; margin: 0; gap: 0;
+              padding: 6px 4px env(safe-area-inset-bottom); border: 0; border-top: 1px solid #E8E4DD; border-radius: 0; box-shadow: none;
+              background: rgba(255, 255, 255, .92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .tabbar button { padding: 6px 2px 8px; border-radius: 0; background: none; color: #8C857B; font-weight: 400; }
+    .tabbar button b { font-weight: 400; }
+    .tabbar button.on { background: none; color: #2D5A27; }
+    .tabbar button.on b { font-weight: 700; }
+    .tabbar button.on svg { stroke-width: 2; }
+    /* room for the bar under every page's last line or button */
+    body { padding-bottom: 0; }
+    #home, #menuView, #cardView, #mapView { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+    body:has(.bar.show) #home, body:has(.bar.show) #menuView, body:has(.bar.show) #cardView, body:has(.bar.show) #mapView {
+      padding-bottom: calc(156px + env(safe-area-inset-bottom)); }   /* the cart button floats above the bar: room for it too */
+    .bar { bottom: calc(74px + env(safe-area-inset-bottom)); }
+  }
+  @media (min-width: 900px) {   /* a computer: the same bar sits on top; the chosen page is green and bold there too */
+    .tabbar button { color: #8C857B; }
+    .tabbar button.on, .tabbar button.on:hover { background: none; color: #2D5A27; }
+    .tabbar button.on b { font-weight: 700; }
+  }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -979,7 +1001,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 7;
+const BUILD = 8;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
