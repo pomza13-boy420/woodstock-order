@@ -193,7 +193,13 @@
   .visit div { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.45; }
   .visit div:last-child { border-bottom: 0; }
   .visit div b { flex: 0 0 5.2em; font-weight: 600; color: var(--brown); }
-  .trackbar { width: 100%; margin: 14px 0 0; padding: 14px 16px; border-radius: var(--r); text-align: left; font-size: 16px; font-weight: 600; color: var(--brown); background: var(--yellow); box-shadow: var(--shadow); }
+  .trackbar { display: block; width: 100%; margin: 14px 0 0; padding: 12px 0; border-radius: 999px; overflow: hidden; white-space: nowrap; text-align: left; font-size: 15px; font-weight: 600; color: #fff8e7; background: var(--brown); box-shadow: var(--shadow); }
+  .trackbar.live { color: var(--brown); background: var(--yellow); }
+  .trackbar .run { display: inline-block; animation: tick 20s linear infinite; }
+  .trackbar .run span { display: inline-block; padding: 0 28px; }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .trackbar .run { animation: none; } }
+  #profBox .pbtn.ok { background: #1f5f23; }
   .ocard { padding: 12px 0; border-bottom: 1px solid var(--line); }
   .ocard:last-child { border-bottom: 0; }
   .ocard .ohead { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; color: var(--brown); font-size: 16px; }
@@ -696,6 +702,8 @@ if (tg) {
 const TEXT = {
   th: { site: { pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
           ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
+          noOrders: "ยังไม่มีออเดอร์ที่กำลังติดตาม — เมื่อสั่งอาหารแล้ว สถานะออเดอร์จะขึ้นที่นี่", orderNow: "สั่งอาหารเลย", saving: "กำลังบันทึก…",
+          tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
           st: { new: "ส่งออเดอร์แล้ว · รอร้านรับ", acc: "รับออเดอร์แล้ว", prep: "กำลังจัดเตรียม", pack: "ออเดอร์เสร็จแล้ว · เตรียมจัดส่ง", out: "อยู่ระหว่างจัดส่ง", rdy: "ออเดอร์เสร็จแล้ว · พร้อมรับที่ร้าน", done_d: "จัดส่งสำเร็จ", done_p: "รับสินค้าแล้ว", cancelled: "ออเดอร์ถูกยกเลิก" },
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
@@ -710,7 +718,7 @@ const TEXT = {
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
         stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
-        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", webCardNone: "สั่งผ่านเว็บแล้วได้แต้มเหมือนกัน — เมื่อออเดอร์แรกเสร็จ ร้านจะส่งลิงก์บัตรสมาชิกของคุณให้ทางแชท", webCardHas: "แต้มจะอัปเดตเมื่อเปิดลิงก์บัตรสมาชิกล่าสุดที่ร้านส่งให้หลังแต่ละออเดอร์", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
@@ -757,6 +765,8 @@ const TEXT = {
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { site: { pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
+          noOrders: "No order to track yet — once you order, its status shows up here.", orderNow: "Order now", saving: "Saving…",
+          tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
           st: { new: "Order sent · waiting for the shop", acc: "Order accepted", prep: "Being prepared", pack: "Order ready · getting it out for delivery", out: "Out for delivery", rdy: "Order ready · pick up at the shop", done_d: "Delivered", done_p: "Picked up", cancelled: "Order cancelled" },
           paid: "Paid ✓", unpaid: "Waiting for payment", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
@@ -771,7 +781,7 @@ const TEXT = {
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Confirm and pay in the chat — we keep you posted"],
         stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Send the order — the shop contacts you to confirm and take payment"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
-        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", webCardNone: "Website orders earn points too — when your first order is completed, the shop sends your member-card link in the chat.", webCardHas: "Your points update when you open the newest member-card link the shop sends after each order.", feeStaff: "the shop will confirm",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
@@ -835,7 +845,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 3;
+const BUILD = 4;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1587,7 +1597,11 @@ const liveOrders = () => myOrders.filter(o => !finalState(o.v) && Date.now() - o
 function drawOrders() {
   const S = t().site, box = $("orderList"); box.textContent = "";
   $("ordersTitle").textContent = S.ordersTitle;
-  $("ordersBox").classList.toggle("hide", inTelegram || !myOrders.length);
+  $("ordersBox").classList.toggle("hide", inTelegram);
+  if (!myOrders.length) {
+    const go = el("button", "morebtn", S.orderNow); go.onclick = () => $("openMenu").click();
+    box.append(el("div", "onote", S.noOrders), go);
+  }
   for (const o of myOrders.slice(0, 5)) {
     const v = o.v, card = el("div", "ocard"), d = new Date(o.ts), two = n => String(n).padStart(2, "0");
     const head = el("div", "ohead"); head.append(el("span", "", v && v.o ? "#" + v.o : S.waiting), el("span", "", money(v && v.t != null ? v.t : o.sum) + (v && v.m === "d" && !v.f && !finalState(v) ? "+" : "")));
@@ -1602,9 +1616,18 @@ function drawOrders() {
     box.append(card);
   }
   if (liveOrders().length) box.append(el("div", "onote", S.auto));
-  const live = liveOrders()[0];
-  $("trackBar").classList.toggle("hide", inTelegram || !live);
-  if (live) $("trackBar").textContent = S.trackBar(live.v && live.v.o);
+  // the running strip on the home page: the order being followed, or else the shop's promos
+  const live = inTelegram ? null : liveOrders()[0], bar = $("trackBar"), lv = live && live.v;
+  const promos = ((menu.about || {}).promos || []).map(p => [p.icon, tr(p.title)].filter(Boolean).join(" ")).filter(Boolean);
+  const text = live ? S.tick(lv && lv.o, S.st[lv ? (lv.s === "done" ? (lv.m === "d" ? "done_d" : "done_p") : lv.s) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
+  bar.classList.remove("hide"); bar.classList.toggle("live", !!live);
+  if (bar.dataset.text !== text) {
+    bar.dataset.text = text; bar.textContent = "";
+    const run = el("span", "run"); run.append(el("span", "", text), el("span", "", text));
+    run.style.animationDuration = Math.max(12, text.length * 0.28) + "s";
+    bar.append(run);
+  }
+  bar.onclick = () => { if (live) { renderCard(); show("card"); } else $("openMenu").click(); };
 }
 let pollBusy = false;
 async function pollOrders() {
@@ -1635,11 +1658,14 @@ function drawProfile() {
   go.onclick = async () => {
     const n = name.value.trim(), ph = phone.value.trim();
     if (!n || ph.replace(/\D/g, "").length < 8) { msg.textContent = S.needBoth; return; }
+    go.disabled = true; go.textContent = S.saving;
     acct = { mk: acct && acct.mk || rnd(20), n, t: ph }; LS.set("ws_acct", acct);
     $("cname").value = n; $("cphone").value = ph; try { localStorage.setItem("ws_name", n); localStorage.setItem("ws_phone", ph); } catch (e) {}
     member.n = n;
     if (inboxUrl()) { try { await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ reg: 1, n, t: ph, mk: acct.mk, g: lang, ts: Math.floor(Date.now() / 1000) }) }) }); } catch (e) {} }
-    renderCard(); $("profBox").querySelector("p").textContent = S.saved;
+    renderCard();
+    const again = $("profBox").querySelector(".pbtn");   // the box was drawn again: show the result on the new button
+    if (again) { again.textContent = S.saved; again.classList.add("ok"); setTimeout(() => { again.textContent = S.saveBtn; again.classList.remove("ok"); }, 2500); }
     pollOrders.memberAt = 0; setTimeout(pollOrders, 15000);
   };
   row.append(go);
@@ -1670,7 +1696,6 @@ function drawSite() {   // the home page's "normal website" parts: popular picks
   line(S.hoursL, tr(a.hours)); line(S.addrL, tr(a.address)); line(S.contactL, [a.phone, a.whatsapp && a.whatsapp !== a.phone ? "WhatsApp " + a.whatsapp : ""].filter(Boolean).join(" · "));
   drawOrders();
 }
-$("trackBar").onclick = () => { renderCard(); show("card"); };
 const baseRenderCard = renderCard, baseRenderHome = renderHome;
 renderCard = function () { baseRenderCard(); drawOrders(); drawProfile(); pollOrders(); };
 renderHome = function () { baseRenderHome(); drawSite(); };
