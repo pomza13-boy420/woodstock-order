@@ -503,6 +503,99 @@
     .ipanel .pic { border-radius: 26px 26px 0 0; }
     .details { padding: 96px max(16px, calc(50vw - 300px)) 28px; z-index: 12; }
   }
+
+  /* ================= minimal theme (the last word on colours) =================
+     Cream page, white cards with a hairline border instead of shadows, near-black text,
+     one accent (olive green) for the buttons that matter; every other button is an outline. */
+  :root {
+    --bg: #FAF8F5; --card: #FFFFFF; --text: #1E1B18; --hint: #77706A; --line: #E8E4DD;
+    --green: #2D5A27; --brown: #1E1B18; --brown-soft: #1E1B18; --yellow: #2D5A27; --red: #A8322A;
+    --shadow: none; --shadow-lg: 0 10px 40px rgba(30, 27, 24, .10); --r: 16px;
+  }
+  body { background: var(--bg); color: var(--text); }
+  /* cards */
+  .box, .feat, .pick, .visit, .item, .pslide, .steps li, .viabox pre, .group, .points, .mcard, .sheet, .ipanel, .viabox, .catgrid button, .tile {
+    box-shadow: none; }
+  .box, .feat, .pick, .visit, .item, .pslide, .steps li, .group, .points { background: var(--card); border: 1px solid var(--line); }
+  .feat .ic, .steps li::before, .pick img, #profBox .tag { background: var(--bg); }
+  .steps li::before { color: var(--text); border: 1px solid var(--line); }
+  .sec { color: var(--text); font-weight: 600; letter-spacing: -.01em; }
+  .sec::before { width: 18px; height: 1px; border-radius: 0; background: var(--text); }
+  /* primary buttons: the one accent, flat */
+  .openmenu, .morebtn, .confirm, .ipanel .done, #profBox .pbtn, .stepper .add, .viabtn.main, .bar, .mapbtns .route, .reward button, .gtabs button.on {
+    background: var(--green); color: #fff; box-shadow: none; border: 0; }
+  .openmenu:hover { box-shadow: none; transform: none; }
+  #profBox .pbtn.ok { background: #1F3F1B; }
+  .bar .sum { background: rgba(255, 255, 255, .16); color: #fff; }
+  /* secondary buttons: outline only */
+  .link, .viabtn, .again, #profBox .pbtn.plain, .choice, .locbtn, .mapbtns .call, .mapbtns button, .back, .title .nav, .reward button.sure {
+    background: transparent; color: var(--text); border: 1px solid var(--text); box-shadow: none; }
+  .viabtn.main, .mapbtns .route { border: 0; color: #fff; background: var(--green); }
+  .back, .title .nav { border: 0; padding-left: 0; }
+  .choice.on { background: var(--text); color: #fff; border-color: var(--text); }
+  .viabtn.plain { border-color: transparent; color: var(--hint); }
+  /* small "selected" states: text-colour fill instead of yellow */
+  .lang button.on, .chips button.on, .modchips button.on { background: var(--text); border-color: var(--text); color: #fff; }
+  .modchips button { background: transparent; border: 1px solid var(--line); color: var(--text); font-weight: 500; }
+  /* menu header: light, not a brown block */
+  .top { background: var(--bg); color: var(--text); border-bottom: 1px solid var(--line); }
+  .gtabs button { background: transparent; color: var(--text); border: 1px solid var(--line); font-weight: 500; }
+  .chips button { background: transparent; color: var(--hint); border: 1px solid var(--line); }
+  .search { background: var(--card); border: 1px solid var(--line); }
+  /* home page pieces */
+  .points { color: var(--text); }
+  .points b { color: var(--green); }
+  .group, .group.g0, .group.g1, .group.g2, .group.g3 { background: var(--card); color: var(--text); }
+  .trackbar, .trackbar.live { background: var(--card); color: var(--text); border: 1px solid var(--line); box-shadow: none; font-weight: 500; }
+  .trackbar.live { border-color: var(--green); color: var(--green); }
+  .pslide, .pslide.c1, .pslide.c2, .pslide.c3 { background: var(--card); color: var(--text); }
+  .pslide .ptag, .pslide.c3 .ptag { background: transparent; border: 1px solid var(--line); color: var(--hint); }
+  .pslide .pgo { color: var(--green); }
+  .pslide .pic0 { opacity: 1; color: var(--line); font-size: 56px; right: 14px; top: 12px; }
+  .pslide.pic { color: #fff; border: 0; }
+  .pdots i.on { background: var(--text); }
+  .pick span, .item .price, .row .price { color: var(--text); }
+  .tl li.now::before { background: var(--card); border-color: var(--green); box-shadow: 0 0 0 4px rgba(45, 90, 39, .14); }
+  .tl li.now { color: var(--green); }
+  .ocard .osub .ok { color: var(--green); } .ocard .osub .no { color: var(--red); }
+  .facts span { background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22); }
+  .est { color: #fff; opacity: .8; }
+  .ghost { border: 1px solid rgba(255, 255, 255, .7); }
+  .hero, .heroimg { border-radius: 0 0 20px 20px; }
+  /* member card: white, hairline, the accent only on the number */
+  .mcard, .mcard.silver, .mcard.gold { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+  .mcard.silver { border-color: #B9BEC2; } .mcard.gold { border-color: #C2A24A; }
+  .mcard .pts b { color: var(--green); }
+  /* navigation */
+  .tabbar { background: rgba(255, 255, 255, .96); border: 1px solid var(--line); box-shadow: 0 6px 24px rgba(30, 27, 24, .08); }
+  .tabbar button { color: var(--hint); }
+  .tabbar button svg { stroke-width: 1.5; }
+  .tabbar button.on { background: transparent; color: var(--green); }
+  .tabbar button.on b { font-weight: 600; }
+  @media (min-width: 900px) {
+    .tabbar { background: rgba(255, 255, 255, .97); border: 0; border-bottom: 1px solid var(--line); box-shadow: none; }
+    .tabbar .brand b, .tabbar .brand i { color: var(--text); }
+    .tabbar button { color: var(--text); }
+    .tabbar button:hover { background: var(--bg); color: var(--text); }
+    .tabbar button.on, .tabbar button.on:hover { background: var(--green); color: #fff; }
+  }
+  /* loading + welcome: light */
+  .splash, .welcome { background: var(--bg); color: var(--text); }
+  .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
+  .wsub, .wload, .wchoose { color: var(--hint); }
+  .wprog { background: var(--line); height: 2px; } .wprog i { background: var(--green); }
+  .wenter { background: var(--green); color: #fff; clip-path: none; border-radius: 999px; letter-spacing: .04em; font-weight: 600; }
+  .wlangs button { border: 1px solid var(--line); color: var(--hint); border-radius: 999px; font-weight: 500; }
+  .wlangs button.on { border-color: var(--text); color: var(--text); }
+  .cattile .emo, .tile .emo { background: var(--bg); color: var(--hint); }
+  .cattile .emo .ico-l, .tile .emo .ico-l { width: 34px; height: 34px; stroke-width: 1.25; }
+  .shutbanner { background: var(--card); border: 1px solid var(--line); color: var(--text); font-weight: 500; }
+  .group.shut { background: var(--card); color: var(--hint); }
+  .stepper .minus { border-color: var(--text); color: var(--text); background: transparent; }
+  /* line icons (Lucide) that stand where an emoji was */
+  .ico-l { display: inline-block; width: 1.15em; height: 1.15em; vertical-align: -0.2em; stroke-width: 1.5; flex: none; }
+  .feat .ic .ico-l, .group .ico .ico-l { width: 24px; height: 24px; vertical-align: middle; }
+  .pslide .pic0 .ico-l { width: 56px; height: 56px; }
 </style>
 </head>
 <body>
@@ -845,7 +938,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 4;
+const BUILD = 5;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1728,6 +1821,76 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     }
   })
   .catch(() => { $("about").textContent = t().fail; splashOff(); });
+</script>
+
+<!-- ============ looks only: line icons (Lucide) where the texts carry an emoji ============
+     The texts, the menu and the order message keep their emoji (the shop's Telegram messages use them);
+     this only changes how they are DRAWN on the page. No icons library → the emoji simply stay. -->
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+(function () {
+  const L = window.lucide;
+  if (!L || !L.createElement) return;
+  const MAP = {
+    "🌿": "Leaf", "🍽": "Utensils", "📍": "MapPin", "🕒": "Clock", "🕘": "Clock", "🕗": "Clock", "⏰": "Clock", "🛵": "Bike", "📷": "Instagram", "🌙": "Moon",
+    "🛒": "ShoppingCart", "📦": "Package", "⭐": "Star", "🌟": "Star", "🍹": "Martini", "🍸": "Martini", "🥤": "CupSoda", "🍰": "CakeSlice", "🍳": "EggFried",
+    "🍜": "Soup", "🍲": "Soup", "🍛": "Soup", "🥘": "CookingPot", "🍟": "Popcorn", "🍨": "IceCreamBowl", "☕": "Coffee", "🍵": "Coffee", "🍓": "Cherry",
+    "➕": "Plus", "🥣": "Salad", "🥗": "Salad", "🏪": "Store", "📱": "Smartphone", "💵": "Banknote", "💰": "Wallet", "📝": "NotebookPen", "👤": "User",
+    "📞": "Phone", "🟢": "MessageCircle", "💬": "MessageCircle", "✅": "CircleCheck", "⚠": "TriangleAlert", "🔍": "Search", "🚪": "DoorClosed", "🎁": "Gift",
+    "🏠": "House", "🗺": "Map", "🧾": "Receipt", "💳": "CreditCard", "🔑": "Key", "📏": "Ruler", "🌐": "Globe", "▶": "Play", "❌": "X", "🚫": "Ban",
+    "🍯": "Droplets", "🛍": "ShoppingBag", "👨": "ChefHat", "🏁": "Flag", "⏳": "Hourglass", "⌛": "Hourglass", "🔄": "RefreshCw", "🚚": "Truck", "✨": "Sparkles",
+    "❤": "Heart", "💚": "Heart", "🎵": "Music", "🎶": "Music", "📅": "Calendar", "🗓": "Calendar", "🎉": "PartyPopper", "🍷": "Wine", "🍺": "Beer", "🍻": "Beer",
+    "🥪": "Sandwich", "🍕": "Pizza", "🐟": "Fish", "🔥": "Flame", "☀": "Sun", "🌴": "TreePalm", "🏝": "TreePalm", "🌅": "Sunset", "🍌": "Banana", "🍗": "Drumstick",
+    "🥥": "Nut", "🥜": "Nut", "🍊": "Citrus", "🍋": "Citrus", "🥭": "Citrus", "🍎": "Apple", "🧊": "Snowflake", "❄": "Snowflake", "💧": "Droplet", "📊": "ChartColumn",
+    "🆕": "BadgePlus", "🔔": "Bell", "📣": "Megaphone", "🎂": "Cake", "🧑": "User", "👥": "Users", "🏷": "Tag", "💸": "Banknote", "🪙": "Coins", "🎫": "Ticket",
+  };
+  const KEEP = /^[✓✔★✦←→↑↓©®™]/;
+  const RE = /\p{Extended_Pictographic}(?:️|‍\p{Extended_Pictographic}|[\u{1F3FB}-\u{1F3FF}])*/gu;
+  const SKIP = "#viaText, #testnote, script, style, textarea, input, select, option, title";
+  function icon(name) {
+    const node = name && ((L.icons && L.icons[name]) || L[name]);
+    if (!node) return null;
+    const svg = L.createElement(node);
+    svg.setAttribute("stroke-width", "1.5"); svg.setAttribute("class", "ico-l"); svg.setAttribute("aria-hidden", "true");
+    return svg;
+  }
+  function fix(node) {
+    const s = node.nodeValue, par = node.parentNode;
+    if (!s || !par || par.nodeType !== 1 || par.closest(SKIP)) return;
+    RE.lastIndex = 0;
+    if (!RE.test(s)) return;
+    RE.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m, did = false;
+    while ((m = RE.exec(s))) {
+      if (KEEP.test(m[0])) continue;
+      frag.append(s.slice(last, m.index));
+      const ic = icon(MAP[[...m[0]][0]]);   // an emoji the map does not know is simply left out
+      if (ic) frag.append(ic);
+      last = m.index + m[0].length; did = true;
+    }
+    if (!did) return;
+    frag.append(s.slice(last));
+    par.replaceChild(frag, node);
+  }
+  function hint(elm) {   // a placeholder cannot hold an icon: its emoji is just taken out
+    const p = elm.getAttribute("placeholder");
+    if (p && RE.test(p)) { RE.lastIndex = 0; elm.setAttribute("placeholder", p.replace(RE, m => KEEP.test(m) ? m : "").trim()); }
+    RE.lastIndex = 0;
+  }
+  function sweep(root) {
+    if (root.nodeType === 3) return fix(root);
+    if (root.nodeType !== 1) return;
+    if (root.hasAttribute("placeholder")) hint(root);
+    root.querySelectorAll("[placeholder]").forEach(hint);
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [];
+    while (w.nextNode()) list.push(w.currentNode);
+    list.forEach(fix);
+  }
+  sweep(document.body);
+  new MutationObserver(ms => { for (const m of ms) { if (m.type === "characterData") fix(m.target); else if (m.type === "attributes") hint(m.target); else m.addedNodes.forEach(sweep); } })
+    .observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["placeholder"] });
+})();
 </script>
 </body>
 </html>
