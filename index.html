@@ -182,6 +182,7 @@
   .modchips button { padding: 8px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); font-size: 13px; font-weight: 600; color: var(--text); }
   .modchips button.on { background: var(--yellow); border-color: var(--yellow); color: var(--brown); }
   .modhint { margin-top: 10px; font-size: 12px; color: var(--hint); }
+  .pickfirst { padding: 14px; text-align: center; font-size: 14px; font-weight: 600; color: var(--hint); }
   .ipanel .done { width: 100%; margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--green); color: #fff; font-size: 17px; font-weight: 700; }
   .name { font-weight: 600; }
   .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
@@ -644,12 +645,15 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
+  th: { sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการและส่ง QR ชำระเงิน — ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
+        autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
+        pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
+        promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
         whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
         feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
                 ["🍹", "ค็อกเทลบาร์", "ค็อกเทลกว่า 20 เมนู"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
-        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ส่งออเดอร์ทาง WhatsApp — ร้านยืนยันแล้วโอนเงิน"],
+        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
         webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", webCardNone: "สั่งผ่านเว็บแล้วได้แต้มเหมือนกัน — เมื่อออเดอร์แรกเสร็จ ร้านจะส่งลิงก์บัตรสมาชิกของคุณให้ทางแชท", webCardHas: "แต้มจะอัปเดตเมื่อเปิดลิงก์บัตรสมาชิกล่าสุดที่ร้านส่งให้หลังแต่ละออเดอร์", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
@@ -696,12 +700,15 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
+  en: { sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm and send the payment QR — no need to send it again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
+        autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
+        pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
+        promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
         whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
         feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
                 ["🍹", "Cocktail bar", "More than 20 cocktails"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Confirm and pay in the chat — we keep you posted"],
-        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Send the order by WhatsApp — pay once the shop confirms"],
+        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Send the order — the shop contacts you to confirm and take payment"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
         webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", webCardNone: "Website orders earn points too — when your first order is completed, the shop sends your member-card link in the chat.", webCardHas: "Your points update when you open the newest member-card link the shop sends after each order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
@@ -790,8 +797,8 @@ document.addEventListener("error", e => {
 }, true);
 const baseKey = k => k.split("@")[0];   // a cart key without its choices ("latte~i@s:50,i:sep" → "latte~i")
 const modTags = k => (k.split("@")[1] || "").split(",").filter(Boolean).map(p => {   // the choices that differ from the usual
-  const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {}, ch = (def.choices || []).find(x => x.id === c);
-  return ch && c !== def.default ? tr(ch.tag || ch.label) : "";
+  const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {};
+  return (c || "").split("+").map(id => { const ch = (def.choices || []).find(x => x.id === id); return ch && id !== def.default ? tr(ch.tag || ch.label) : ""; }).filter(Boolean).join(" · ");
 }).filter(Boolean).join(" · ");
 const nameOf = k => tr(names[baseKey(k)]) + (modTags(k) ? " [" + modTags(k) + "]" : "");
 const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[baseKey(k)], 0);
@@ -872,27 +879,41 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   if (it.desc) panel.append(el("div", "desc", tr(it.desc)));
   const card = el("div", "item"), defs = menu.modifiers || {};
   const mods = ((cat && cat.mods) || []).filter(m => defs[m] && !(it.no_mods || []).includes(m)), pick = {};
-  for (const m of mods) pick[m] = defs[m].default;
+  // A modifier with "max" above 1 takes several choices (fruit: 2–3); one without "default" must be chosen (base: pick 1).
+  const multi = m => (defs[m].max || 1) > 1, least = m => defs[m].min != null ? defs[m].min : (defs[m].default == null ? 1 : 0);
+  const order = m => defs[m].choices.map(c => c.id);
+  for (const m of mods) pick[m] = multi(m) ? [] : defs[m].default;
+  const ready = () => mods.every(m => multi(m) ? pick[m].length >= least(m) : pick[m] != null);
   const tail = optId => {   // "@s:50,i:sep" for the choices that differ from the usual; "" when all are usual
-    const parts = mods.filter(m => pick[m] !== defs[m].default && !(optId && (defs[m].not_options || []).includes(optId))).map(m => m + ":" + pick[m]);
+    const parts = mods.filter(m => !(optId && (defs[m].not_options || []).includes(optId)) && (multi(m) ? pick[m].length : pick[m] != null && pick[m] !== defs[m].default))
+      .map(m => m + ":" + (multi(m) ? order(m).filter(id => pick[m].includes(id)).join("+") : pick[m]));
     return parts.length ? "@" + parts.join(",") : "";
   };
   const rows = () => {
     card.textContent = "";
+    if (!ready()) { card.append(el("div", "pickfirst", t().pickFirst)); return; }
     if (it.options && it.options.length) it.options.forEach((o, i) => card.append(itemRow(it.id + "~" + o.id + tail(o.id), tr(o.name), "", o.price, i ? "opt" : "")));
     else card.append(itemRow(it.id + tail(""), t().price, "", it.price));
   };
   for (const m of mods) {   // sweetness, ice: choose first, then add
-    const wrap = el("div", "modrow"); wrap.append(el("div", "modlabel", tr(defs[m].label)));
+    const max = defs[m].max || 1, must = least(m);
+    const wrap = el("div", "modrow"); wrap.append(el("div", "modlabel", tr(defs[m].label) + (must ? " — " + t().pickN(must, max) : "")));
     const line = el("div", "modchips");
     for (const ch of defs[m].choices) {
       const b = el("button", ch.id === pick[m] ? "on" : "", tr(ch.label));
-      b.onclick = () => { pick[m] = ch.id; line.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); rows(); };
+      b.onclick = () => {
+        if (multi(m)) {
+          if (pick[m].includes(ch.id)) pick[m] = pick[m].filter(x => x !== ch.id);
+          else if (pick[m].length < max) pick[m].push(ch.id);
+          b.classList.toggle("on", pick[m].includes(ch.id));
+        } else { pick[m] = ch.id; line.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }
+        rows();
+      };
       line.append(b);
     }
     wrap.append(line); panel.append(wrap);
   }
-  if (mods.length) panel.append(el("div", "modhint", t().modHint));
+  if (mods.some(m => defs[m].default != null)) panel.append(el("div", "modhint", t().modHint));
   rows();
   const done = el("button", "done", t().done);
   panel.append(card, done); shade.append(panel);
@@ -1319,8 +1340,45 @@ $("dBack").onclick = () => { openDetails(false); openSheet(true); };
 $("send").onclick = () => {
   if (!Object.keys(cart).length || problem()) return drawDetails();
   if (inTelegram) tg.sendData(payload());   // closes the app; the bot sends the order or the QR
+  else if ((menu.about || {}).order_inbox) sendAuto();
   else openVia();
 };
+
+// ---------------- browser only: the order goes to the shop by itself ----------------
+// about.order_inbox (catalog.json) is the shop's order inbox; the bot collects from it and posts the order in the
+// shop's group. Only the order code is sent (items, name, phone, address) — prices come from the shop's own menu.
+// If the inbox cannot be reached, the customer sends the same order by WhatsApp instead (openVia).
+let sending = false;
+async function sendAuto() {
+  if (sending) return;
+  const text = orderText(), code = (text.match(/W1:([A-Za-z0-9_-]+)/) || [])[1], btn = $("send"), label = btn.textContent;
+  sending = true; btn.textContent = t().sending; btn.classList.add("off");
+  let ok = false;
+  try {
+    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 25000);
+    // text/plain keeps this a "simple" request: Apps Script web apps do not answer CORS preflights
+    const r = await fetch(menu.about.order_inbox, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code }), signal: ctl.signal });
+    clearTimeout(timer);
+    ok = !!(await r.json()).ok;
+  } catch (e) { ok = false; }
+  sending = false; btn.textContent = label; btn.classList.remove("off");
+  if (!ok) return openVia(text, true);   // the same text, so the shop's system sees one order even if both arrive
+  const a = menu.about || {}, box = $("viaBtns");
+  let wa = String(a.whatsapp || "").replace(/\D/g, "");
+  if (wa.startsWith("0")) wa = "66" + wa.slice(1);
+  const link = (label2, href) => { const b = el("a", "viabtn", label2); b.href = href; b.rel = "noopener"; box.append(b); return b; };
+  box.textContent = "";
+  $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = t().sentHint;
+  $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
+  const done = el("button", "viabtn main", t().sentDone);
+  done.onclick = () => { $("via").classList.remove("show"); openDetails(false); show("home"); };
+  box.append(done);
+  if (wa) link("🟢 " + t().sentWa, "https://wa.me/" + wa).target = "_blank";
+  if (a.phone) link(t().callShop, "tel:" + a.phone.replace(/[^0-9+]/g, ""));
+  for (const k of Object.keys(cart)) delete cart[k];
+  refresh();
+  $("via").classList.add("show");
+}
 
 // ---------------- browser only: the order as a message for the shop ----------------
 // No Telegram, no server: the order becomes a text the customer sends with WhatsApp / LINE (about.whatsapp,
@@ -1365,14 +1423,14 @@ function orderText() {
   } finally { lang = keep; }
 }
 
-function openVia() {
-  const a = menu.about || {}, text = orderText(), box = $("viaBtns");
+function openVia(sameText, failed) {
+  const a = menu.about || {}, text = sameText || orderText(), box = $("viaBtns");
   const link = (label, href, cls) => { const b = el("a", "viabtn" + (cls ? " " + cls : ""), label); b.href = href; b.target = "_blank"; b.rel = "noopener"; box.append(b); return b; };
   let wa = String(a.whatsapp || "").replace(/\D/g, "");
   if (wa.startsWith("0")) wa = "66" + wa.slice(1);   // a Thai number written the local way
   box.textContent = "";
   $("viaTitle").textContent = t().viaTitle; $("viaText").textContent = text;
-  $("viaHint").textContent = wa || a.line ? t().viaHint : t().viaNone;
+  $("viaHint").textContent = (failed ? t().autoFail + "\n" : "") + (wa || a.line ? t().viaHint : t().viaNone);
   if (wa) link("🟢 " + t().wa, `https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "main");
   if (a.line) link("💬 " + t().lineBtn, `https://line.me/R/oaMessage/${encodeURIComponent(a.line)}/?${encodeURIComponent(text)}`, wa ? "" : "main");
   const copy = el("button", "viabtn", t().copy);
