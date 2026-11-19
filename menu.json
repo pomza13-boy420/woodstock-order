@@ -1,5 +1,5 @@
 {
- "build": 5,
+ "build": 6,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -2508,8 +2508,8 @@
  ],
  "about": {
   "text": {
-   "en": "Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum, Koh Phangan 🌿",
-   "th": "อาหารไทย & มังสวิรัติ กาแฟ สมูทตี้ และค็อกเทล ที่โฉลกหลำ เกาะพะงัน 🌿"
+   "en": "Thai food, coffee & cocktails · Koh Phangan",
+   "th": "อาหารไทย กาแฟ และค็อกเทล · เกาะพะงัน"
   },
   "hours": {
    "en": "Drinks 24 h · Food 08:00–23:00 · Cocktails 12:00–02:00",
