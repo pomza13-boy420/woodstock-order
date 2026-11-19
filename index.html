@@ -801,7 +801,12 @@ const modTags = k => (k.split("@")[1] || "").split(",").filter(Boolean).map(p =>
   return (c || "").split("+").map(id => { const ch = (def.choices || []).find(x => x.id === id); return ch && id !== def.default ? tr(ch.tag || ch.label) : ""; }).filter(Boolean).join(" · ");
 }).filter(Boolean).join(" · ");
 const nameOf = k => tr(names[baseKey(k)]) + (modTags(k) ? " [" + modTags(k) + "]" : "");
-const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * prices[baseKey(k)], 0);
+const modExtra = k => (k.split("@")[1] || "").split(",").filter(Boolean).reduce((n, p) => {   // paid choices: extra fruit +20 …
+  const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {};
+  return n + (c || "").split("+").reduce((s, id) => s + (((def.choices || []).find(x => x.id === id) || {}).price || 0), 0);
+}, 0);
+const priceOf = k => prices[baseKey(k)] + modExtra(k);
+const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * priceOf(k), 0);
 
 // Opening hours per menu group (e.g. the kitchen closes at night, drinks don't). The bot checks again.
 const groupOfKey = {};           // cart key -> group id
@@ -892,15 +897,15 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   const rows = () => {
     card.textContent = "";
     if (!ready()) { card.append(el("div", "pickfirst", t().pickFirst)); return; }
-    if (it.options && it.options.length) it.options.forEach((o, i) => card.append(itemRow(it.id + "~" + o.id + tail(o.id), tr(o.name), "", o.price, i ? "opt" : "")));
-    else card.append(itemRow(it.id + tail(""), t().price, "", it.price));
+    if (it.options && it.options.length) it.options.forEach((o, i) => { const k = it.id + "~" + o.id + tail(o.id); card.append(itemRow(k, tr(o.name), "", o.price + modExtra(k), i ? "opt" : "")); });
+    else { const k = it.id + tail(""); card.append(itemRow(k, t().price, "", it.price + modExtra(k))); }
   };
   for (const m of mods) {   // sweetness, ice: choose first, then add
     const max = defs[m].max || 1, must = least(m);
     const wrap = el("div", "modrow"); wrap.append(el("div", "modlabel", tr(defs[m].label) + (must ? " — " + t().pickN(must, max) : "")));
     const line = el("div", "modchips");
     for (const ch of defs[m].choices) {
-      const b = el("button", ch.id === pick[m] ? "on" : "", tr(ch.label));
+      const b = el("button", ch.id === pick[m] ? "on" : "", tr(ch.label) + (ch.price ? " +" + money(ch.price) : ""));
       b.onclick = () => {
         if (multi(m)) {
           if (pick[m].includes(ch.id)) pick[m] = pick[m].filter(x => x !== ch.id);
@@ -1217,7 +1222,7 @@ function refresh() {
   const lines = $("lines"); lines.textContent = "";
   for (const k of keys) {
     const line = el("div", "line row"), what = el("div", "what");
-    what.append(el("div", "name", nameOf(k)), el("div", "price", `${money(prices[baseKey(k)])} × ${cart[k]} = ${money(prices[baseKey(k)] * cart[k])}`));
+    what.append(el("div", "name", nameOf(k)), el("div", "price", `${money(priceOf(k))} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`));
     line.append(what, stepper(k));
     lines.append(line);
   }
@@ -1389,7 +1394,7 @@ function orderText() {
     const total = foodTotal(), p = deliveryPlan(total), L = ["/web 🧾 ออเดอร์จากเว็บ Woodstock"];
     const addr = $("addr").value.trim(), note = $("note").value.trim();
     L.push(`👤 ${$("cname").value.trim()} · 📞 ${$("cphone").value.trim()}`);
-    for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(prices[baseKey(k)] * cart[k])}`);
+    for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`);
     L.push(`💰 ค่าอาหาร ${money(total)}`);
     let plus = "";
     if (how === "d") {
