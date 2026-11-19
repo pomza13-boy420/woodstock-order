@@ -42,13 +42,16 @@
     "th": "🥣 กรีกโยเกิร์ตโบว์ล"
    },
    "note": {
-    "en": "🍯 Honey included free. Extras: tell us which fruit / topping in the order note.",
-    "th": "🍯 น้ำผึ้งฟรีในชุด · ของเพิ่ม: บอกชนิดผลไม้/ท็อปปิ้งในหมายเหตุตอนสั่งครับ"
+    "en": "🍯 Honey included free.",
+    "th": "🍯 น้ำผึ้งฟรีในชุด"
    },
    "mods": [
     "yb",
     "yf",
-    "yt"
+    "yt",
+    "yxf",
+    "yxt",
+    "yxo"
    ],
    "items": [
     {
@@ -58,75 +61,10 @@
       "th": "กรีกโยเกิร์ตผลไม้"
      },
      "desc": {
-      "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯",
-      "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯"
+      "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯 Add extras below if you like.",
+      "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯 เพิ่มของได้ด้านล่าง"
      },
      "price": 150
-    },
-    {
-     "id": "yfruit",
-     "name": {
-      "en": "Extra fruit (each)",
-      "th": "เพิ่มผลไม้ (อย่างละ)"
-     },
-     "price": 20,
-     "no_mods": [
-      "yb",
-      "yf",
-      "yt"
-     ]
-    },
-    {
-     "id": "ytop",
-     "name": {
-      "en": "Extra topping (each)",
-      "th": "เพิ่มท็อปปิ้ง (อย่างละ)"
-     },
-     "price": 10,
-     "no_mods": [
-      "yb",
-      "yf",
-      "yt"
-     ]
-    },
-    {
-     "id": "ygran",
-     "name": {
-      "en": "Extra granola",
-      "th": "เพิ่มกราโนล่า"
-     },
-     "price": 15,
-     "no_mods": [
-      "yb",
-      "yf",
-      "yt"
-     ]
-    },
-    {
-     "id": "yhoney",
-     "name": {
-      "en": "Extra honey",
-      "th": "เพิ่มน้ำผึ้ง"
-     },
-     "price": 15,
-     "no_mods": [
-      "yb",
-      "yf",
-      "yt"
-     ]
-    },
-    {
-     "id": "yscoop",
-     "name": {
-      "en": "Extra yogurt scoop",
-      "th": "เพิ่มโยเกิร์ต 1 สกู๊ป"
-     },
-     "price": 30,
-     "no_mods": [
-      "yb",
-      "yf",
-      "yt"
-     ]
     }
    ]
   },
@@ -2310,6 +2248,192 @@
       "en": "Basil seeds",
       "th": "เม็ดแมงลัก"
      }
+    }
+   ]
+  },
+  "yxf": {
+   "label": {
+    "en": "Extra fruit (optional)",
+    "th": "เพิ่มผลไม้ (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 7,
+   "choices": [
+    {
+     "id": "st",
+     "label": {
+      "en": "Strawberry",
+      "th": "สตรอว์เบอร์รี่"
+     },
+     "tag": {
+      "en": "+Strawberry",
+      "th": "เพิ่มสตรอว์เบอร์รี่"
+     },
+     "price": 20
+    },
+    {
+     "id": "bl",
+     "label": {
+      "en": "Blueberry",
+      "th": "บลูเบอร์รี่"
+     },
+     "tag": {
+      "en": "+Blueberry",
+      "th": "เพิ่มบลูเบอร์รี่"
+     },
+     "price": 20
+    },
+    {
+     "id": "bn",
+     "label": {
+      "en": "Banana",
+      "th": "กล้วย"
+     },
+     "tag": {
+      "en": "+Banana",
+      "th": "เพิ่มกล้วย"
+     },
+     "price": 20
+    },
+    {
+     "id": "ki",
+     "label": {
+      "en": "Kiwi",
+      "th": "กีวี"
+     },
+     "tag": {
+      "en": "+Kiwi",
+      "th": "เพิ่มกีวี"
+     },
+     "price": 20
+    },
+    {
+     "id": "mg",
+     "label": {
+      "en": "Mango",
+      "th": "มะม่วง"
+     },
+     "tag": {
+      "en": "+Mango",
+      "th": "เพิ่มมะม่วง"
+     },
+     "price": 20
+    },
+    {
+     "id": "or",
+     "label": {
+      "en": "Orange",
+      "th": "ส้ม"
+     },
+     "tag": {
+      "en": "+Orange",
+      "th": "เพิ่มส้ม"
+     },
+     "price": 20
+    },
+    {
+     "id": "dr",
+     "label": {
+      "en": "Dragon fruit",
+      "th": "แก้วมังกร"
+     },
+     "tag": {
+      "en": "+Dragon fruit",
+      "th": "เพิ่มแก้วมังกร"
+     },
+     "price": 20
+    }
+   ]
+  },
+  "yxt": {
+   "label": {
+    "en": "Extra topping (optional)",
+    "th": "เพิ่มท็อปปิ้ง (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 4,
+   "choices": [
+    {
+     "id": "gr",
+     "label": {
+      "en": "Granola",
+      "th": "กราโนล่า"
+     },
+     "tag": {
+      "en": "+Granola",
+      "th": "เพิ่มกราโนล่า"
+     },
+     "price": 15
+    },
+    {
+     "id": "oa",
+     "label": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต"
+     },
+     "tag": {
+      "en": "+Oats",
+      "th": "เพิ่มข้าวโอ๊ต"
+     },
+     "price": 10
+    },
+    {
+     "id": "ch",
+     "label": {
+      "en": "Chia seeds",
+      "th": "เมล็ดเจีย"
+     },
+     "tag": {
+      "en": "+Chia seeds",
+      "th": "เพิ่มเมล็ดเจีย"
+     },
+     "price": 10
+    },
+    {
+     "id": "bs",
+     "label": {
+      "en": "Basil seeds",
+      "th": "เม็ดแมงลัก"
+     },
+     "tag": {
+      "en": "+Basil seeds",
+      "th": "เพิ่มเม็ดแมงลัก"
+     },
+     "price": 10
+    }
+   ]
+  },
+  "yxo": {
+   "label": {
+    "en": "More (optional)",
+    "th": "เพิ่มอื่น ๆ (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 2,
+   "choices": [
+    {
+     "id": "hn",
+     "label": {
+      "en": "Extra honey",
+      "th": "น้ำผึ้ง"
+     },
+     "tag": {
+      "en": "+honey",
+      "th": "เพิ่มน้ำผึ้ง"
+     },
+     "price": 15
+    },
+    {
+     "id": "sc",
+     "label": {
+      "en": "Yogurt scoop",
+      "th": "โยเกิร์ต 1 สกู๊ป"
+     },
+     "tag": {
+      "en": "+yogurt scoop",
+      "th": "เพิ่มโยเกิร์ต 1 สกู๊ป"
+     },
+     "price": 30
     }
    ]
   }
