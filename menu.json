@@ -32,18 +32,101 @@
       "th": "แพนเค้กน้ำผึ้งกล้วย"
      },
      "price": 100
-    },
+    }
+   ]
+  },
+  {
+   "id": "yg",
+   "label": {
+    "en": "🥣 Greek Yogurt Bowl",
+    "th": "🥣 กรีกโยเกิร์ตโบว์ล"
+   },
+   "note": {
+    "en": "🍯 Honey included free. Extras: tell us which fruit / topping in the order note.",
+    "th": "🍯 น้ำผึ้งฟรีในชุด · ของเพิ่ม: บอกชนิดผลไม้/ท็อปปิ้งในหมายเหตุตอนสั่งครับ"
+   },
+   "mods": [
+    "yb",
+    "yf",
+    "yt"
+   ],
+   "items": [
     {
      "id": "yogurt",
      "name": {
-      "en": "Greek yogurt bowl",
+      "en": "Greek Yogurt Bowl",
       "th": "กรีกโยเกิร์ตผลไม้"
      },
      "desc": {
-      "en": "Base · 2–3 fruits · 1 topping — tell us in the order note.",
-      "th": "เบส · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — บอกในหมายเหตุตอนสั่งครับ"
+      "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯",
+      "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯"
      },
      "price": 150
+    },
+    {
+     "id": "yfruit",
+     "name": {
+      "en": "Extra fruit (each)",
+      "th": "เพิ่มผลไม้ (อย่างละ)"
+     },
+     "price": 20,
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt"
+     ]
+    },
+    {
+     "id": "ytop",
+     "name": {
+      "en": "Extra topping (each)",
+      "th": "เพิ่มท็อปปิ้ง (อย่างละ)"
+     },
+     "price": 10,
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt"
+     ]
+    },
+    {
+     "id": "ygran",
+     "name": {
+      "en": "Extra granola",
+      "th": "เพิ่มกราโนล่า"
+     },
+     "price": 15,
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt"
+     ]
+    },
+    {
+     "id": "yhoney",
+     "name": {
+      "en": "Extra honey",
+      "th": "เพิ่มน้ำผึ้ง"
+     },
+     "price": 15,
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt"
+     ]
+    },
+    {
+     "id": "yscoop",
+     "name": {
+      "en": "Extra yogurt scoop",
+      "th": "เพิ่มโยเกิร์ต 1 สกู๊ป"
+     },
+     "price": 30,
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt"
+     ]
     }
    ]
   },
@@ -1917,46 +2000,6 @@
      "price": 20
     },
     {
-     "id": "yfruit",
-     "name": {
-      "en": "Extra fruit (yogurt bowl)",
-      "th": "เพิ่มผลไม้ (โยเกิร์ต)"
-     },
-     "price": 20
-    },
-    {
-     "id": "ytop",
-     "name": {
-      "en": "Extra topping (yogurt bowl)",
-      "th": "เพิ่มท็อปปิ้ง (โยเกิร์ต)"
-     },
-     "price": 10
-    },
-    {
-     "id": "ygran",
-     "name": {
-      "en": "Extra granola",
-      "th": "เพิ่มกราโนล่า"
-     },
-     "price": 15
-    },
-    {
-     "id": "yhoney",
-     "name": {
-      "en": "Extra honey (yogurt bowl)",
-      "th": "เพิ่มน้ำผึ้ง (โยเกิร์ต)"
-     },
-     "price": 15
-    },
-    {
-     "id": "yscoop",
-     "name": {
-      "en": "Extra yogurt scoop",
-      "th": "เพิ่มโยเกิร์ต 1 สกู๊ป"
-     },
-     "price": 30
-    },
-    {
      "id": "oat",
      "name": {
       "en": "Oat milk (drinks)",
@@ -2089,6 +2132,186 @@
      }
     }
    ]
+  },
+  "yb": {
+   "label": {
+    "en": "1 · Base",
+    "th": "1 · เบส"
+   },
+   "choices": [
+    {
+     "id": "gy",
+     "label": {
+      "en": "Greek yogurt",
+      "th": "กรีกโยเกิร์ต"
+     },
+     "tag": {
+      "en": "Greek yogurt",
+      "th": "กรีกโยเกิร์ต"
+     }
+    },
+    {
+     "id": "ms",
+     "label": {
+      "en": "Mango smoothie",
+      "th": "มะม่วงปั่น"
+     },
+     "tag": {
+      "en": "Mango smoothie",
+      "th": "มะม่วงปั่น"
+     }
+    },
+    {
+     "id": "ba",
+     "label": {
+      "en": "Berry açaí smoothie",
+      "th": "เบอร์รี่อาซาอิปั่น"
+     },
+     "tag": {
+      "en": "Berry açaí smoothie",
+      "th": "เบอร์รี่อาซาอิปั่น"
+     }
+    }
+   ]
+  },
+  "yf": {
+   "label": {
+    "en": "2 · Fruit",
+    "th": "2 · ผลไม้"
+   },
+   "min": 2,
+   "max": 3,
+   "choices": [
+    {
+     "id": "st",
+     "label": {
+      "en": "Strawberry",
+      "th": "สตรอว์เบอร์รี่"
+     },
+     "tag": {
+      "en": "Strawberry",
+      "th": "สตรอว์เบอร์รี่"
+     }
+    },
+    {
+     "id": "bl",
+     "label": {
+      "en": "Blueberry",
+      "th": "บลูเบอร์รี่"
+     },
+     "tag": {
+      "en": "Blueberry",
+      "th": "บลูเบอร์รี่"
+     }
+    },
+    {
+     "id": "bn",
+     "label": {
+      "en": "Banana",
+      "th": "กล้วย"
+     },
+     "tag": {
+      "en": "Banana",
+      "th": "กล้วย"
+     }
+    },
+    {
+     "id": "ki",
+     "label": {
+      "en": "Kiwi",
+      "th": "กีวี"
+     },
+     "tag": {
+      "en": "Kiwi",
+      "th": "กีวี"
+     }
+    },
+    {
+     "id": "mg",
+     "label": {
+      "en": "Mango",
+      "th": "มะม่วง"
+     },
+     "tag": {
+      "en": "Mango",
+      "th": "มะม่วง"
+     }
+    },
+    {
+     "id": "or",
+     "label": {
+      "en": "Orange",
+      "th": "ส้ม"
+     },
+     "tag": {
+      "en": "Orange",
+      "th": "ส้ม"
+     }
+    },
+    {
+     "id": "dr",
+     "label": {
+      "en": "Dragon fruit",
+      "th": "แก้วมังกร"
+     },
+     "tag": {
+      "en": "Dragon fruit",
+      "th": "แก้วมังกร"
+     }
+    }
+   ]
+  },
+  "yt": {
+   "label": {
+    "en": "3 · Topping",
+    "th": "3 · ท็อปปิ้ง"
+   },
+   "choices": [
+    {
+     "id": "gr",
+     "label": {
+      "en": "Granola",
+      "th": "กราโนล่า"
+     },
+     "tag": {
+      "en": "Granola",
+      "th": "กราโนล่า"
+     }
+    },
+    {
+     "id": "oa",
+     "label": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต"
+     },
+     "tag": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต"
+     }
+    },
+    {
+     "id": "ch",
+     "label": {
+      "en": "Chia seeds",
+      "th": "เมล็ดเจีย"
+     },
+     "tag": {
+      "en": "Chia seeds",
+      "th": "เมล็ดเจีย"
+     }
+    },
+    {
+     "id": "bs",
+     "label": {
+      "en": "Basil seeds",
+      "th": "เม็ดแมงลัก"
+     },
+     "tag": {
+      "en": "Basil seeds",
+      "th": "เม็ดแมงลัก"
+     }
+    }
+   ]
   }
  },
  "groups": [
@@ -2105,6 +2328,7 @@
    "icon": "🍽",
    "categories": [
     "bf",
+    "yg",
     "nd",
     "tc",
     "sf",
@@ -2177,6 +2401,7 @@
   "instagram": "https://www.instagram.com/woodstock.kpg/",
   "logo": "logo.png",
   "photo": "shop.jpg",
+  "order_inbox": "https://script.google.com/macros/s/AKfycbzf9ei_VIsgp_amYnry2mVcOU9SinLyNZG0aBL4BgSWko83kCa6IQB5vHc30oXE5p0/exec",
   "promos": [
    {
     "type": "promo",
