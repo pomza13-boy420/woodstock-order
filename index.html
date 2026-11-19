@@ -182,6 +182,45 @@
   .modchips button { padding: 8px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); font-size: 13px; font-weight: 600; color: var(--text); }
   .modchips button.on { background: var(--yellow); border-color: var(--yellow); color: var(--brown); }
   .modhint { margin-top: 10px; font-size: 12px; color: var(--hint); }
+  /* website: popular picks, hours & location, order tracking, profile */
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pick { background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; text-align: left; padding: 0; display: flex; flex-direction: column; }
+  .pick img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: #f3e9d2; }
+  .pick b { padding: 10px 12px 0; font-size: 15px; font-weight: 600; color: var(--brown); line-height: 1.25; }
+  .pick span { padding: 2px 12px 12px; font-size: 14px; font-weight: 600; color: var(--red); }
+  .morebtn { width: 100%; margin-top: 12px; padding: 14px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff; background: linear-gradient(135deg, #37943b, var(--green)); }
+  .visit { background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); padding: 6px 16px; }
+  .visit div { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.45; }
+  .visit div:last-child { border-bottom: 0; }
+  .visit div b { flex: 0 0 5.2em; font-weight: 600; color: var(--brown); }
+  .trackbar { width: 100%; margin: 14px 0 0; padding: 14px 16px; border-radius: var(--r); text-align: left; font-size: 16px; font-weight: 600; color: var(--brown); background: var(--yellow); box-shadow: var(--shadow); }
+  .ocard { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .ocard:last-child { border-bottom: 0; }
+  .ocard .ohead { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; color: var(--brown); font-size: 16px; }
+  .ocard .osub { font-size: 13px; color: var(--hint); margin: 2px 0 10px; }
+  .ocard .osub .ok { color: var(--green); font-weight: 600; }
+  .ocard .osub .no { color: var(--red); font-weight: 600; }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { position: relative; padding: 0 0 14px 28px; font-size: 14px; color: var(--hint); }
+  .tl li:last-child { padding-bottom: 2px; }
+  .tl li::before { content: ""; position: absolute; left: 5px; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--card); border: 2px solid var(--line); box-sizing: border-box; }
+  .tl li::after { content: ""; position: absolute; left: 10px; top: 16px; bottom: 0; width: 2px; background: var(--line); }
+  .tl li:last-child::after { display: none; }
+  .tl li.did { color: var(--text); }
+  .tl li.did::before { background: var(--green); border-color: var(--green); }
+  .tl li.did::after { background: var(--green); }
+  .tl li.now { color: var(--brown); font-weight: 600; }
+  .tl li.now::before { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 0 4px rgba(246, 197, 68, .3); }
+  .tl li.bad { color: var(--red); font-weight: 600; }
+  .tl li.bad::before { background: var(--red); border-color: var(--red); }
+  .onote { font-size: 12px; color: var(--hint); margin-top: 8px; }
+  #profBox p { margin: 4px 0 10px; font-size: 14px; color: var(--hint); line-height: 1.45; }
+  #profBox .txt { display: block; width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px; color: var(--text); background: var(--card); }
+  #profBox .row2 { display: flex; gap: 8px; flex-wrap: wrap; }
+  #profBox .pbtn { flex: 1 1 140px; padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff; background: var(--green); }
+  #profBox .pbtn.plain { background: none; color: var(--hint); border: 1.5px solid var(--line); }
+  #profBox .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #f3e9d2; color: var(--brown); margin-left: 8px; vertical-align: middle; }
+  @media (min-width: 900px) { .picks { grid-template-columns: repeat(4, 1fr); } }
   .pickfirst { padding: 14px; text-align: center; font-size: 14px; font-weight: 600; color: var(--hint); }
   .ipanel .done { width: 100%; margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--green); color: #fff; font-size: 17px; font-weight: 700; }
   .name { font-weight: 600; }
@@ -516,12 +555,18 @@
     </div>
   </header>
   <div class="home">
+    <button class="trackbar hide" id="trackBar"></button>
     <p class="shutbanner hide" id="shopShut"></p>
     <button class="again hide" id="again"></button>
     <section class="promos hide" id="promos">
       <h2 class="sec" id="promoTitle"></h2>
       <div class="ptrack" id="ptrack"></div>
       <div class="pdots" id="pdots"></div>
+    </section>
+    <section class="hide" id="pickBox">
+      <h2 class="sec" id="pickTitle"></h2>
+      <div class="picks" id="picks"></div>
+      <button class="morebtn" id="pickMore"></button>
     </section>
     <h2 class="sec" id="whoTitle"></h2>
     <div class="feats" id="feats"></div>
@@ -533,6 +578,8 @@
       </button>
       <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     </div>
+    <h2 class="sec" id="visitTitle"></h2>
+    <div class="visit" id="visit"></div>
     <div class="links">
       <button class="link" id="mapsLink"></button>
       <a class="link" id="phoneLink"></a>
@@ -545,6 +592,8 @@
 <!-- ============ member card ============ -->
 <div id="cardView" class="cardview hide">
   <button class="back" id="cardBack"></button>
+  <div class="box hide" id="ordersBox"><h3 id="ordersTitle"></h3><div id="orderList"></div></div>
+  <div class="box hide" id="profBox"></div>
   <div class="mcard" id="mcard">
     <div class="head">
       <div class="info">
@@ -645,7 +694,13 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการและส่ง QR ชำระเงิน — ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
+  th: { site: { pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
+          ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
+          st: { new: "ส่งออเดอร์แล้ว · รอร้านรับ", acc: "รับออเดอร์แล้ว", prep: "กำลังจัดเตรียม", pack: "ออเดอร์เสร็จแล้ว · เตรียมจัดส่ง", out: "อยู่ระหว่างจัดส่ง", rdy: "ออเดอร์เสร็จแล้ว · พร้อมรับที่ร้าน", done_d: "จัดส่งสำเร็จ", done_p: "รับสินค้าแล้ว", cancelled: "ออเดอร์ถูกยกเลิก" },
+          paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
+          regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
+          acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
+        sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการและส่ง QR ชำระเงิน — ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
         autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
         pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
         promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
@@ -659,7 +714,7 @@ const TEXT = {
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
-        callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "บัตรสมาชิก",
+        callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "ข้อมูลส่วนตัว",
         mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
@@ -700,7 +755,13 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm and send the payment QR — no need to send it again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
+  en: { site: { pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
+          ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
+          st: { new: "Order sent · waiting for the shop", acc: "Order accepted", prep: "Being prepared", pack: "Order ready · getting it out for delivery", out: "Out for delivery", rdy: "Order ready · pick up at the shop", done_d: "Delivered", done_p: "Picked up", cancelled: "Order cancelled" },
+          paid: "Paid ✓", unpaid: "Waiting for payment", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
+          regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
+          acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
+        sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm and send the payment QR — no need to send it again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
         autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
         pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
         promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
@@ -714,7 +775,7 @@ const TEXT = {
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
-        callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Card",
+        callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Profile",
         mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
@@ -771,10 +832,10 @@ try {
     Object.assign(member, JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)))));
   }
 } catch (e) {}
-const myPoints = Math.max(0, parseInt(member.p, 10) || 0);
+let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 2;
+const BUILD = 3;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1378,9 +1439,11 @@ async function sendAuto() {
   box.textContent = "";
   $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = t().sentHint;
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
-  const done = el("button", "viabtn main", t().sentDone);
-  done.onclick = () => { $("via").classList.remove("show"); openDetails(false); show("home"); };
+  myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
+  const done = el("button", "viabtn main", "📦 " + t().site.track);
+  done.onclick = () => { $("via").classList.remove("show"); openDetails(false); renderCard(); show("card"); };
   box.append(done);
+  setTimeout(pollOrders, 12000);
   if (wa) link("🟢 " + t().sentWa, "https://wa.me/" + wa).target = "_blank";
   if (a.phone) link(t().callShop, "tel:" + a.phone.replace(/[^0-9+]/g, ""));
   for (const k of Object.keys(cart)) delete cart[k];
@@ -1424,6 +1487,8 @@ function orderText() {
     if (how === "d" && addr) code.a = addr;
     if (how === "d" && loc) code.l = loc;
     if (note) code.o = note;
+    code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
+    if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
     const bytes = new TextEncoder().encode(JSON.stringify(code));
     let bin = ""; for (const b of bytes) bin += String.fromCharCode(b);
     L.push("🔑 W1:" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""));
@@ -1501,6 +1566,117 @@ $("bar").onclick = () => openSheet(true);
 $("shade").onclick = $("sheetClose").onclick = () => openSheet(false);
 $("confirm").onclick = () => { if (Object.keys(cart).length) openDetails(true); };
 
+// ---------------- website: track my order, profile (member / guest), the site's home sections ----------------
+// The page can read two things back from the shop's inbox (about.order_inbox), each with a code only this phone has:
+// where an order is (the order's own code, kept in localStorage "ws_orders") and a member's points ("ws_acct").
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const rnd = n => { const a = new Uint8Array(n); crypto.getRandomValues(a); return [...a].map(b => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join(""); };
+const b64u = o => { let bin = ""; for (const b of new TextEncoder().encode(JSON.stringify(o))) bin += String.fromCharCode(b); return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+let myOrders = LS.get("ws_orders") || [];   // newest first: { k, ts, sum, v: what the shop last said }
+let acct = LS.get("ws_acct");                // { mk, n, t } once signed up on this phone
+let lastK = "";                              // the tracking code of the order being sent
+const inboxUrl = () => (menu && menu.about || {}).order_inbox || "";
+async function ask(q) {
+  try { const d = await (await fetch(inboxUrl() + "?" + q + "&_=" + Date.now())).json(); return d && d.ok ? d.v : null; } catch (e) { return null; }
+}
+const finalState = v => v && (v.s === "done" || v.s === "cancelled" || v.s === "void");
+const liveOrders = () => myOrders.filter(o => !finalState(o.v) && Date.now() - o.ts < 36 * 3600e3);
+function drawOrders() {
+  const S = t().site, box = $("orderList"); box.textContent = "";
+  $("ordersTitle").textContent = S.ordersTitle;
+  $("ordersBox").classList.toggle("hide", inTelegram || !myOrders.length);
+  for (const o of myOrders.slice(0, 5)) {
+    const v = o.v, card = el("div", "ocard"), d = new Date(o.ts), two = n => String(n).padStart(2, "0");
+    const head = el("div", "ohead"); head.append(el("span", "", v && v.o ? "#" + v.o : S.waiting), el("span", "", money(v && v.t != null ? v.t : o.sum) + (v && v.m === "d" && !v.f && !finalState(v) ? "+" : "")));
+    const sub = el("div", "osub"); sub.append(document.createTextNode(`${two(d.getDate())}/${two(d.getMonth() + 1)} ${two(d.getHours())}:${two(d.getMinutes())} · `));
+    if (v) sub.append(el("span", v.p ? "ok" : "no", v.p ? S.paid : S.unpaid));
+    card.append(head, sub);
+    const steps = (v ? v.m : o.m) === "d" ? ["new", "acc", "prep", "pack", "out", "done"] : ["new", "acc", "prep", "rdy", "done"];
+    const tl = el("ul", "tl"), at = v ? steps.indexOf(v.s) : 0;
+    if (v && (v.s === "cancelled" || v.s === "void")) tl.append(el("li", "bad", S.st.cancelled));
+    else steps.forEach((s, i) => tl.append(el("li", i < at || (i === at && s === "done") ? "did" : i === at ? "now" : "", S.st[s === "done" ? ((v ? v.m : o.m) === "d" ? "done_d" : "done_p") : s])));
+    card.append(tl);
+    box.append(card);
+  }
+  if (liveOrders().length) box.append(el("div", "onote", S.auto));
+  const live = liveOrders()[0];
+  $("trackBar").classList.toggle("hide", inTelegram || !live);
+  if (live) $("trackBar").textContent = S.trackBar(live.v && live.v.o);
+}
+let pollBusy = false;
+async function pollOrders() {
+  if (inTelegram || pollBusy || !inboxUrl() || document.hidden) return;
+  pollBusy = true;
+  let changed = false;
+  for (const o of liveOrders().slice(0, 3)) {
+    const v = await ask("track=" + o.k);
+    if (v && JSON.stringify(v) !== JSON.stringify(o.v)) { o.v = v; changed = true; }
+  }
+  if (acct && acct.mk && (changed || !pollOrders.memberAt || Date.now() - pollOrders.memberAt > 120e3)) {
+    pollOrders.memberAt = Date.now();
+    const u = await ask("member=" + acct.mk);
+    if (u) { member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0); changed = true; }
+  }
+  pollBusy = false;
+  if (changed) { LS.set("ws_orders", myOrders.slice(0, 10)); drawOrders(); if (!$("cardView").classList.contains("hide")) renderCard(); $("pointsValue").textContent = myPoints.toLocaleString("en-US"); }
+}
+function drawProfile() {
+  const S = t().site, box = $("profBox"); box.textContent = "";
+  box.classList.toggle("hide", inTelegram);
+  if (inTelegram) return;
+  const h = el("h3", "", acct ? S.acctTitle : S.regTitle); h.append(el("span", "tag", acct ? S.memberTag : S.guestTag));
+  const name = el("input", "txt"), phone = el("input", "txt"), msg = el("p", "", acct ? "" : S.regHint), row = el("div", "row2");
+  name.maxLength = 60; name.placeholder = S.nameL; name.autocomplete = "name"; name.value = acct ? acct.n : $("cname").value;
+  phone.maxLength = 20; phone.placeholder = S.phoneL; phone.type = "tel"; phone.inputMode = "tel"; phone.autocomplete = "tel"; phone.value = acct ? acct.t : $("cphone").value;
+  const go = el("button", "pbtn", acct ? S.saveBtn : S.regBtn);
+  go.onclick = async () => {
+    const n = name.value.trim(), ph = phone.value.trim();
+    if (!n || ph.replace(/\D/g, "").length < 8) { msg.textContent = S.needBoth; return; }
+    acct = { mk: acct && acct.mk || rnd(20), n, t: ph }; LS.set("ws_acct", acct);
+    $("cname").value = n; $("cphone").value = ph; try { localStorage.setItem("ws_name", n); localStorage.setItem("ws_phone", ph); } catch (e) {}
+    member.n = n;
+    if (inboxUrl()) { try { await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ reg: 1, n, t: ph, mk: acct.mk, g: lang, ts: Math.floor(Date.now() / 1000) }) }) }); } catch (e) {} }
+    renderCard(); $("profBox").querySelector("p").textContent = S.saved;
+    pollOrders.memberAt = 0; setTimeout(pollOrders, 15000);
+  };
+  row.append(go);
+  if (acct) { const out = el("button", "pbtn plain", S.outBtn); out.onclick = () => { acct = null; LS.set("ws_acct", null); try { localStorage.removeItem("ws_card"); } catch (e) {} member.n = ""; member.p = 0; member.s = 0; member.x = ""; myPoints = 0; renderCard(); }; row.append(out); }
+  box.append(h, msg, name, phone, row);
+  if (!acct) box.append(el("p", "", S.guest));
+  $("mcard").classList.toggle("hide", !acct && !member.s);
+  $("tierNote").classList.toggle("hide", !acct && !member.s);
+}
+function drawSite() {   // the home page's "normal website" parts: popular picks, hours & location
+  const S = t().site, a = menu.about || {}, picks = $("picks"); picks.textContent = "";
+  const want = a.featured || [], all = [];
+  for (const cat of menu.categories) for (const it of cat.items) if (it.img) all.push([it, cat]);
+  const chosen = (want.length ? want.map(id => all.find(x => x[0].id === id)).filter(Boolean) : all.filter((x, i, arr) => arr.findIndex(y => y[1].id === x[1].id) === i).concat(all).filter((x, i, arr) => arr.indexOf(x) === i)).slice(0, 8);
+  for (const [it, cat] of chosen) {
+    const b = el("button", "pick"), im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.src = it.img;
+    const low = it.options && it.options.length ? Math.min(...it.options.map(o => o.price)) : it.price;
+    b.append(im, el("b", "", tr(it.name)), el("span", "", money(low)));
+    b.onclick = () => { openGroup((groups().find(g => g.categories.includes(cat.id)) || groups()[0]).id); openItem(it, cat); };
+    picks.append(b);
+  }
+  $("pickBox").classList.toggle("hide", !chosen.length);
+  $("pickTitle").textContent = S.pickTitle; $("pickMore").textContent = S.pickMore;
+  $("pickMore").onclick = () => $("openMenu").click();
+  $("visitTitle").textContent = S.visitTitle;
+  const v = $("visit"); v.textContent = "";
+  const line = (label, text) => { if (!text) return; const d = el("div"); d.append(el("b", "", label), el("span", "", text)); v.append(d); };
+  line(S.hoursL, tr(a.hours)); line(S.addrL, tr(a.address)); line(S.contactL, [a.phone, a.whatsapp && a.whatsapp !== a.phone ? "WhatsApp " + a.whatsapp : ""].filter(Boolean).join(" · "));
+  drawOrders();
+}
+$("trackBar").onclick = () => { renderCard(); show("card"); };
+const baseRenderCard = renderCard, baseRenderHome = renderHome;
+renderCard = function () { baseRenderCard(); drawOrders(); drawProfile(); pollOrders(); };
+renderHome = function () { baseRenderHome(); drawSite(); };
+setInterval(pollOrders, 20000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) pollOrders(); });
+
 applyLang();
 fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -1520,6 +1696,11 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
       } else { prices[it.id] = it.price; names[it.id] = it.name; }
     }
     applyLang(); show("home"); splashOff();
+    if (!inTelegram) {   // the website opens on its own home page (no "enter the shop" screen); the member's name comes back
+      $("welcome").classList.add("hide");
+      if (acct) member.n = member.n || acct.n;
+      pollOrders();
+    }
   })
   .catch(() => { $("about").textContent = t().fail; splashOff(); });
 </script>
