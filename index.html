@@ -673,6 +673,16 @@
     @keyframes rise { from { transform: translateY(16px); } to { transform: none; } }   /* movement only: the text is never hidden if a phone stalls the animation */
   }
   .trackbar:hover .run, .trackbar:focus-visible .run, .trackbar:active .run { animation-play-state: paused; }
+  /* a dish with choices: what the price includes, then the paid extras folded under one line */
+  .modsec { margin-top: 16px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+  .modmore { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 18px; padding: 13px 14px;
+             border: 1px solid var(--line); border-radius: 12px; background: #FAF8F5; color: var(--text); font-size: 15px; font-weight: 500; text-align: left; }
+  .modmore::after { content: "+"; font-size: 20px; line-height: 1; color: var(--hint); }
+  .modmore.open::after { content: "–"; }
+  .modchips button { transition: none; }   /* a chosen chip turns dark at once, never half-way */
+  .modextra { padding: 2px 0 4px; }
+  .modextra.hide { display: none; }
+  #viaText { font-family: inherit; font-size: 14px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -929,7 +939,8 @@ if (tg) {
 }
 
 const TEXT = {
-  th: { site: { pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
+  th: { incTitle: p => "รวมในราคา" + (p ? " " + p : ""), moreTitle: "เพิ่มเติม (คิดเงินเพิ่ม)",
+        site: { pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
           ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
           noOrders: "ยังไม่มีออเดอร์ที่กำลังติดตาม — เมื่อสั่งอาหารแล้ว สถานะออเดอร์จะขึ้นที่นี่", orderNow: "สั่งอาหารเลย", saving: "กำลังบันทึก…",
           tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
@@ -992,7 +1003,8 @@ const TEXT = {
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
-  en: { site: { pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
+  en: { incTitle: p => "Included in the price" + (p ? " · " + p : ""), moreTitle: "Add extras (charged)",
+        site: { pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
           noOrders: "No order to track yet — once you order, its status shows up here.", orderNow: "Order now", saving: "Saving…",
           tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
@@ -1074,7 +1086,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 11;
+const BUILD = 12;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1219,7 +1231,17 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
       };
       line.append(b);
     }
+    if (defs[m].choices.some(c => c.price)) wrap.classList.add("paid");   // choices that cost extra
     wrap.append(line); panel.append(wrap);
+  }
+  // What the price includes comes first; the paid extras wait folded under one line until the customer opens them.
+  const paidRows = [...panel.querySelectorAll(".modrow.paid")];
+  if (paidRows.length) {
+    const first = panel.querySelector(".modrow:not(.paid)");
+    if (first) first.before(el("div", "modsec", t().incTitle(it.price != null ? money(it.price) : "")));
+    const more = el("button", "modmore", t().moreTitle), fold = el("div", "modextra hide");
+    paidRows[0].before(more); more.after(fold); paidRows.forEach(r => fold.append(r));
+    more.onclick = () => more.classList.toggle("open", !fold.classList.toggle("hide"));
   }
   if (mods.some(m => defs[m].default != null)) panel.append(el("div", "modhint", t().modHint));
   rows();
@@ -1741,7 +1763,9 @@ function openVia(sameText, failed) {
   let wa = String(a.whatsapp || "").replace(/\D/g, "");
   if (wa.startsWith("0")) wa = "66" + wa.slice(1);   // a Thai number written the local way
   box.textContent = "";
-  $("viaTitle").textContent = t().viaTitle; $("viaText").textContent = text;
+  $("viaTitle").textContent = t().viaTitle;
+  // the customer reads the order; the shop's code line and the "/web" word still travel in the message itself
+  $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
   $("viaHint").textContent = (failed ? t().autoFail + "\n" : "") + (wa || a.line ? t().viaHint : t().viaNone);
   if (wa) link("🟢 " + t().wa, `https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "main");
   if (a.line) link("💬 " + t().lineBtn, `https://line.me/R/oaMessage/${encodeURIComponent(a.line)}/?${encodeURIComponent(text)}`, wa ? "" : "main");
@@ -1849,7 +1873,8 @@ function drawOrders() {
   const live = inTelegram ? null : liveOrders()[0], bar = $("trackBar"), lv = live && live.v;
   const promos = ((menu.about || {}).promos || []).map(p => [p.icon, tr(p.title)].filter(Boolean).join(" ")).filter(Boolean);
   const text = live ? S.tick(lv && lv.o, S.st[lv ? (lv.s === "done" ? (lv.m === "d" ? "done_d" : "done_p") : lv.s) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
-  bar.classList.remove("hide"); bar.classList.toggle("live", !!live);
+  bar.classList.toggle("hide", !live);   // the strip is for an order under way; the promos have their own cards right below
+  bar.classList.toggle("live", !!live);
   if (bar.dataset.text !== text) {
     bar.dataset.text = text; bar.textContent = "";
     const run = el("span", "run"); run.append(el("span", "", text), el("span", "", text));
