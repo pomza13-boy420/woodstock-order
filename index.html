@@ -9,6 +9,10 @@
 <meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum. Order for pickup or delivery.">
 <meta property="og:image" content="shop.jpg">
 <meta property="og:type" content="restaurant">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Woodstock Koh Phangan — Menu & Order">
+<meta name="twitter:description" content="Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum. Order for pickup or delivery.">
+<meta name="twitter:image" content="shop.jpg">
 <meta name="theme-color" content="#4e342e">
 <link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -640,8 +644,34 @@
   .hero .lang { background: rgba(20, 18, 16, .35); border: 1px solid rgba(255, 255, 255, .55); border-radius: 999px; padding: 0; overflow: hidden; }
   .hero .lang button { min-width: 48px; min-height: 44px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: none; }
   .hero .lang button.on { background: #fff; color: #1E1B18; border: 0; }
-  :focus-visible { outline: 2px solid #2D5A27; outline-offset: 2px; }
-  .hero :focus-visible { outline-color: #fff; }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid #2D5A27 !important; outline-offset: 2px; scroll-margin: 100px; }
+  .hero button:focus-visible { outline-color: #fff !important; }
+  /* a keyboard user can jump over the navigation; nobody else sees this link */
+  .skip { position: fixed; left: 12px; top: -60px; z-index: 200; padding: 10px 16px; border-radius: 999px; background: #2D5A27; color: #fff; font-size: 14px; text-decoration: none; }
+  .skip:focus { top: 12px; }
+  /* the muted tab labels were too faint to read (3.65:1): a darker grey that passes 4.5:1 */
+  .tabbar button { color: #6F6860; }
+  .tabbar button.on { color: #2D5A27; }
+  /* something answers the pointer on a computer */
+  @media (hover: hover) {
+    .tabbar button:hover { color: #1E1B18; }
+    .tabbar button.on:hover { color: #2D5A27; }
+    .openmenu:hover, .morebtn:hover, .confirm:hover, #profBox .pbtn:hover, .mapbtns .route:hover, .viabtn.main:hover, .stepper .add:hover { background: #244A20; }
+    .link:hover, .viabtn:hover, #profBox .pbtn.plain:hover, .mapbtns .call:hover, .choice:hover, .visitmap:hover { background: rgba(30, 27, 24, .06); }
+    #profBox .pbtn.plain:hover, .mapbtns .call:hover { color: #1E1B18; }
+    .pick:hover, .feat:hover { border-color: #CFC9BF; transform: none; box-shadow: none; }
+  }
+  /* running text at a readable size; headings on the same left edge as everything under them */
+  #rules li, .visit div, .steps li, .feat small, .box p { font-size: 16px; line-height: 1.5; }
+  .feat small { font-size: 15px; }
+  .sec { margin-left: 0; margin-right: 0; }
+  /* the hero comes in quietly on load */
+  @media (prefers-reduced-motion: no-preference) {
+    .heroin > .logo, .heroin > h1, .heroin > p, .heroin > .cta { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
+    .heroin > h1 { animation-delay: .08s; } .heroin > p { animation-delay: .16s; } .heroin > .cta { animation-delay: .24s; }
+    @keyframes rise { from { transform: translateY(16px); } to { transform: none; } }   /* movement only: the text is never hidden if a phone stalls the animation */
+  }
   .trackbar:hover .run, .trackbar:focus-visible .run, .trackbar:active .run { animation-play-state: paused; }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
@@ -702,6 +732,7 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#home">ข้ามไปที่เนื้อหา · Skip to content</a>
 
 <!-- ============ loading ============ -->
 <div class="splash" id="splash">
@@ -1043,7 +1074,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 10;
+const BUILD = 11;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
