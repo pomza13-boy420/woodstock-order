@@ -120,6 +120,7 @@
   .mcard .dates { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 12px; }
   .mcard .dates b { display: block; font-size: 14px; }
   .tiernote { font-size: 13px; color: var(--hint); margin: 10px 2px 0; }
+  .tiernote .outlink { padding: 6px 2px; font-weight: 700; color: var(--green); text-decoration: underline; text-underline-offset: 3px; }   /* "sign out": a small text link in the line, not a button */
   .reward { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
   .reward:first-of-type { border-top: 0; }
   .reward .what { flex: 1; font-size: 15px; font-weight: 600; }
@@ -747,8 +748,14 @@
   .payqr img { display: block; width: 100%; max-width: 360px; margin: 12px auto; border-radius: 8px; cursor: zoom-in; }
   .payqr.big img { position: fixed; inset: 0; z-index: 999; width: 100vw; height: 100vh; max-width: none; margin: 0; padding: 12px; border-radius: 0; object-fit: contain; background: #fff; cursor: zoom-out; }
   .payrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .payrow a { flex: 1 1 140px; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; text-align: center; border: 1px solid var(--green); color: var(--green); }
-  .payrow a.payslip { background: var(--green); color: #fff; }
+  .payrow a, .payrow button { flex: 1 1 140px; padding: 12px; border-radius: 999px; font-size: 15px; font-weight: 600; text-decoration: none; text-align: center; border: 1px solid var(--green); color: var(--green); }
+  .payrow a.payslip, .payrow button.payslip { background: var(--green); color: #fff; }
+  .payrow button.payslip { flex-basis: 100%; }   /* "send the slip here": the main way, on its own row */
+  .payrow button:disabled { opacity: .6; cursor: default; }
+  /* how the slip check went (also under a paid order) */
+  .slipmsg { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600; text-align: left; }
+  .slipmsg.ok { color: var(--green); }
+  .slipmsg.bad { color: var(--red); }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -904,6 +911,7 @@
 <div id="cardView" class="cardview hide">
   <button class="back" id="cardBack"></button>
   <div class="box hide" id="ordersBox"><h3 id="ordersTitle"></h3><div id="orderList"></div></div>
+  <input type="file" id="slipFile" accept="image/*" class="hide">
   <div class="box hide" id="profBox"></div>
   <div class="mcard" id="mcard">
     <div class="head">
@@ -1035,6 +1043,16 @@ const TEXT = {
           tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
           st: { new: "ส่งออเดอร์แล้ว · รอร้านรับ", acc: "รับออเดอร์แล้ว", prep: "กำลังจัดเตรียม", pack: "ออเดอร์เสร็จแล้ว · เตรียมจัดส่ง", out: "อยู่ระหว่างจัดส่ง", rdy: "ออเดอร์เสร็จแล้ว · พร้อมรับที่ร้าน", rdy_e: "ออเดอร์เสร็จแล้ว · พร้อมเสิร์ฟที่ร้าน", done_d: "จัดส่งสำเร็จ", done_p: "รับสินค้าแล้ว", done_e: "เสร็จเรียบร้อย", cancelled: "ออเดอร์ถูกยกเลิก" },
           payAmt: m => `ยอดโอน ${m}`, payFee: "ยอดนี้ยังไม่รวมค่าส่ง — ถ้ามีค่าส่ง ร้านจะแจ้งยอดสุดท้ายให้", payHint: "สแกน QR นี้ด้วยแอปธนาคาร (แตะรูปเพื่อขยาย) แล้วส่งสลิปให้ร้าน", paySlip: "ส่งสลิปทาง WhatsApp", paySave: "บันทึกรูป QR",
+          payHint2: "สแกน QR นี้ด้วยแอปธนาคาร (แตะรูปเพื่อขยาย) โอนแล้วกด “ส่งสลิป” — ระบบตรวจให้ทันที ไม่ต้องรอร้าน",
+          slipSend: "📎 ส่งสลิป (ระบบตรวจให้ทันที)", slipBusy: "กำลังตรวจสลิป…",
+          slip: { reading: "กำลังอ่านสลิป…", sending: "กำลังส่งให้ร้านตรวจ…", checking: "กำลังตรวจกับธนาคาร ใช้เวลาประมาณ 10–20 วินาที…",
+            ok: "✅ ตรวจสลิปแล้ว — ชำระเงินเรียบร้อย ขอบคุณครับ", amount: (a, need) => `❌ ยอดในสลิป ${a} ไม่ครบยอดออเดอร์ ${need} — โอนส่วนที่ขาด แล้วส่งสลิปทั้งหมดให้ร้านทาง WhatsApp`,
+            duplicate: "❌ สลิปนี้ถูกใช้ไปแล้ว — กรุณาส่งสลิปของออเดอร์นี้", old: "❌ สลิปนี้เก่าเกินไป — กรุณาส่งสลิปของการโอนครั้งนี้ หรือส่งให้ร้านทาง WhatsApp",
+            unreadable: "❌ รูปนี้ไม่ใช่สลิปโอนเงิน — เลือกรูปสลิปจากแอปธนาคาร", not_found: "❌ ไม่พบรายการโอนนี้ในระบบธนาคาร — ตรวจสอบแล้วส่งสลิปที่ถูกต้อง",
+            pending: "⏳ ธนาคารยังไม่ยืนยันรายการ (สลิปใหม่มาก) — รอ 1–2 นาที แล้วกดส่งสลิปอีกครั้ง", manual: "🕐 ระบบตรวจอัตโนมัติไม่ได้ในตอนนี้ — กรุณาส่งสลิปให้ร้านทาง WhatsApp ร้านจะตรวจให้",
+            limit: "ส่งสลิปหลายครั้งแล้ว — กรุณาส่งสลิปให้ร้านทาง WhatsApp", busy: "กำลังตรวจสลิปใบก่อนหน้าอยู่ — รอสักครู่", gone: "ออเดอร์นี้ไม่ได้รอชำระเงินแล้ว — ถ้าโอนเงินมาแล้ว กรุณาติดต่อร้าน",
+            off: "ตอนนี้ระบบตรวจสลิปปิดอยู่ — กรุณาส่งสลิปให้ร้านทาง WhatsApp", late: "ร้านยังไม่ตอบกลับ — ลองกดส่งสลิปอีกครั้ง หรือส่งทาง WhatsApp", fail: "ส่งไม่สำเร็จ — ตรวจอินเทอร์เน็ตแล้วลองใหม่",
+            noqr: "❌ อ่าน QR บนสลิปไม่ได้ — ใช้รูปสลิปต้นฉบับจากแอปธนาคาร (ไม่ครอบตัด ไม่ถ่ายจากหน้าจอ) หรือส่งสลิปให้ร้านทาง WhatsApp", payqr: "❌ รูปนี้คือ QR สำหรับจ่ายเงิน ไม่ใช่สลิป — เลือกรูปสลิปที่ได้หลังโอนเงินแล้ว" },
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
@@ -1114,6 +1132,16 @@ const TEXT = {
           tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
           st: { new: "Order sent · waiting for the shop", acc: "Order accepted", prep: "Being prepared", pack: "Order ready · getting it out for delivery", out: "Out for delivery", rdy: "Order ready · pick up at the shop", rdy_e: "Order ready · served at the shop", done_d: "Delivered", done_p: "Picked up", done_e: "Completed", cancelled: "Order cancelled" },
           payAmt: m => `Amount to pay ${m}`, payFee: "Delivery is not included yet — if there is a delivery fee, the shop will tell you the final amount.", payHint: "Scan this QR with your banking app (tap the picture to enlarge), then send the slip to the shop.", paySlip: "Send the slip on WhatsApp", paySave: "Save the QR picture",
+          payHint2: "Scan this QR with your banking app (tap the picture to enlarge). After paying, tap “Send slip” — it is checked right away, no waiting for the shop.",
+          slipSend: "📎 Send slip (checked right away)", slipBusy: "Checking your slip…",
+          slip: { reading: "Reading the slip…", sending: "Sending it to the shop…", checking: "Checking with the bank — about 10–20 seconds…",
+            ok: "✅ Slip checked — payment received. Thank you!", amount: (a, need) => `❌ The slip shows ${a}, less than the order total ${need}. Please transfer the rest and send all slips to the shop on WhatsApp.`,
+            duplicate: "❌ This slip has already been used. Please send the slip for this order.", old: "❌ This slip is too old. Please send the slip for this payment, or send it to the shop on WhatsApp.",
+            unreadable: "❌ This picture is not a transfer slip. Please choose the slip from your banking app.", not_found: "❌ The bank has no record of this slip. Please check and send the correct slip.",
+            pending: "⏳ The bank has not confirmed this transfer yet (very new slip). Wait 1–2 minutes and send it again.", manual: "🕐 The slip cannot be checked automatically right now. Please send it to the shop on WhatsApp — they will check it.",
+            limit: "Too many slips were sent. Please send your slip to the shop on WhatsApp.", busy: "Your previous slip is still being checked — one moment.", gone: "This order is no longer waiting for payment. If you already paid, please contact the shop.",
+            off: "Slip checking is off right now. Please send your slip to the shop on WhatsApp.", late: "No answer from the shop yet. Try sending the slip again, or send it on WhatsApp.", fail: "Could not send. Check your internet and try again.",
+            noqr: "❌ The QR code on this slip could not be read. Use the original slip image from your banking app (not cropped, not a photo of a screen), or send it to the shop on WhatsApp.", payqr: "❌ This is the QR code for paying, not a slip. Choose the slip you got after the transfer." },
           paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
@@ -1205,7 +1233,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 25;
+const BUILD = 26;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2204,13 +2232,22 @@ function drawOrders() {
       img.src = "pay_qr.jpg"; img.alt = "PromptPay QR"; img.onclick = () => pay.classList.toggle("big");
       pay.append(el("div", "payamt", S.payAmt(money(v.t))));
       if (v.m === "d" && !v.f) pay.append(el("div", "onote", S.payFee));
-      pay.append(img, el("div", "onote", S.payHint));
+      const canSlip = !!(menu.options || {}).slip && !!inboxUrl(), ui = slipUi[o.k];   // the shop's bot checks slips: send it right here
+      pay.append(img, el("div", "onote", canSlip ? S.payHint2 : S.payHint));
       let wa = String(a.whatsapp || "").replace(/\D/g, ""); if (wa.startsWith("0")) wa = "66" + wa.slice(1);
       const row = el("div", "payrow");
-      if (wa) { const s = el("a", "payslip", S.paySlip); s.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent("Slip #" + (v.o || "")); s.target = "_blank"; s.rel = "noopener"; row.append(s); }
+      if (canSlip) {
+        const up = el("button", "payslip", ui && ui.busy ? S.slipBusy : S.slipSend);
+        up.disabled = !!(ui && ui.busy); up.onclick = () => { slipFor = o.k; $("slipFile").value = ""; $("slipFile").click(); };
+        row.append(up);
+      }
+      if (wa) { const s = el("a", canSlip ? "" : "payslip", S.paySlip); s.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent("Slip #" + (v.o || "")); s.target = "_blank"; s.rel = "noopener"; row.append(s); }
       const dl = el("a", "paysave", S.paySave); dl.href = "pay_qr.jpg"; dl.download = "woodstock-qr.jpg"; row.append(dl);
-      pay.append(row); card.append(pay);
-    }
+      pay.append(row);
+      const [said, tone] = ui ? [ui.msg, ui.cls] : slipSaid(o, v);
+      if (canSlip && said) pay.append(el("div", "slipmsg" + (tone ? " " + tone : ""), said));
+      card.append(pay);
+    } else if (v && v.p && o.sr && o.sr.r === "ok") card.append(el("div", "slipmsg ok", S.slip.ok));   // paid by a slip sent from this page
     box.append(card);
   }
   if (liveOrders().length) box.append(el("div", "onote", S.auto));
@@ -2230,13 +2267,90 @@ function drawOrders() {
   }
   bar.onclick = () => { if (live) { renderCard(); show("card"); } else $("openMenu").click(); };
 }
+// ---- paying by transfer: "send slip" on the order, and the shop's system checks it with the bank ----
+// The picture never leaves the phone. Every Thai bank slip carries a small QR code; the page reads it here and sends only
+// what it says (about 60 letters) to the shop's inbox with the order's code. The bot asks the bank and answers on the
+// order's note (sl), which pollOrders reads; a slip that passes marks the order paid.
+let slipFor = "";        // the order (by its tracking code) the slip being picked is for
+const slipUi = {};       // order code → { busy, ts, msg, cls }: a slip on its way, and what the order's card says about it
+let qrLibLoad = null;
+function loadQrLib() {   // the QR reader comes only when a slip is first sent (unpkg, or jsDelivr if that one is down)
+  if (window.jsQR) return Promise.resolve();
+  const get = src => new Promise((res, rej) => {
+    const js = document.createElement("script"); js.src = src; js.crossOrigin = "anonymous";
+    js.integrity = "sha384-b5Ya4Bq3qCyz39m2ISh+4DxjAIljdeFwK/BsXLuj9gugaNwAcj/ia15fxNZL9Nlx";   // jsQR 1.4.0, exactly this file
+    js.onload = () => window.jsQR ? res() : rej(new Error("qr")); js.onerror = () => rej(new Error("qr"));
+    document.head.append(js);
+  });
+  return qrLibLoad || (qrLibLoad = get("https://unpkg.com/jsqr@1.4.0/dist/jsQR.js").catch(() => get("https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"))
+    .catch(e => { qrLibLoad = null; throw e; }));
+}
+async function slipQr(file) {   // → what the QR code on this slip picture says, "" when none can be read
+  let pic;
+  try { pic = await createImageBitmap(file); }
+  catch (e) { pic = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error("img")); im.src = URL.createObjectURL(file); }); }
+  const W = pic.width || pic.naturalWidth || 0, H = pic.height || pic.naturalHeight || 0;
+  if (!W || !H) return "";
+  try {   // the phone's own reader, where there is one
+    if ("BarcodeDetector" in window && (await BarcodeDetector.getSupportedFormats()).includes("qr_code")) {
+      const hit = (await new BarcodeDetector({ formats: ["qr_code"] }).detect(pic)).map(f => f.rawValue).find(Boolean);
+      if (hit) return hit;
+    }
+  } catch (e) {}
+  await loadQrLib();
+  // the whole picture first, then its parts enlarged: the QR on a slip is small
+  const cv = document.createElement("canvas"), cx = cv.getContext("2d", { willReadFrequently: true });
+  for (const [x, y, w, h, max] of [[0, 0, 1, 1, 1500], [0, 0, 1, 1, 900], [0, .5, 1, .5, 1400], [0, 0, 1, .5, 1400], [0, .25, 1, .5, 1400],
+                                   [.5, .5, .5, .5, 1200], [0, .5, .5, .5, 1200], [.5, 0, .5, .5, 1200], [0, 0, .5, .5, 1200], [.25, .25, .5, .5, 1200]]) {
+    const sw = w * W, sh = h * H, k = Math.min(max / Math.max(sw, sh), 3), cw = Math.max(1, Math.round(sw * k)), ch = Math.max(1, Math.round(sh * k));
+    cv.width = cw; cv.height = ch; cx.fillStyle = "#fff"; cx.fillRect(0, 0, cw, ch); cx.drawImage(pic, x * W, y * H, sw, sh, 0, 0, cw, ch);
+    const got = window.jsQR(cx.getImageData(0, 0, cw, ch).data, cw, ch, { inversionAttempts: "dontInvert" });
+    if (got && got.data) return got.data;
+    await new Promise(r => setTimeout(r, 0));   // let the page breathe between tries
+  }
+  return "";
+}
+function slipSaid(o, v) {   // → [what to say, tone] about the last slip sent for this order from this phone
+  const S = t().site.slip, sr = o.sr;
+  if (!sr || !sr.r) return ["", ""];
+  if (sr.r === "ok") return [S.ok, "ok"];
+  if (sr.r === "amount") return [S.amount(money(sr.a || 0), money(v.t)), "bad"];
+  return [typeof S[sr.r] === "string" ? S[sr.r] : S.manual, ["pending", "manual", "busy"].includes(sr.r) ? "" : "bad"];
+}
+async function sendSlip(o, file) {
+  const S = t().site.slip, ui = slipUi[o.k] = { busy: true, ts: 0, msg: S.reading, cls: "" };
+  const say = (msg, cls, busy) => { if (slipUi[o.k] !== ui) return; ui.msg = msg; ui.cls = cls || ""; ui.busy = !!busy; drawOrders(); };
+  o.sr = null; drawOrders();
+  let text = "";
+  try { text = String(await slipQr(file) || "").trim(); } catch (e) { text = ""; }
+  if (!text) return say(S.noqr, "bad");
+  if (/^000201/.test(text)) return say(S.payqr, "bad");   // a QR for paying (PromptPay), not a slip
+  if (!/^[A-Za-z0-9]{20,255}$/.test(text)) return say(S.unreadable, "bad");
+  say(S.sending, "", true);
+  const ts = Math.floor(Date.now() / 1000);
+  let ok = false;
+  try {
+    const res = await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ sl: text, k: o.k, g: lang, ts }) }) });
+    ok = !!(await res.json()).ok;
+  } catch (e) {}
+  if (!ok) return say(S.fail, "bad");
+  ui.ts = ts; say(S.checking, "", true);
+  const mine = () => slipUi[o.k] === ui && ui.busy;
+  for (const ms of [3000, 6000, 9000, 12000, 16000, 21000, 27000, 35000, 45000, 60000, 80000]) setTimeout(() => { if (mine()) pollOrders(); }, ms);
+  setTimeout(() => { if (mine()) say(S.late, "bad"); }, 100000);
+}
+$("slipFile").onchange = e => {
+  const f = e.target.files && e.target.files[0], o = myOrders.find(x => x.k === slipFor);
+  if (f && o && !(slipUi[o.k] && slipUi[o.k].busy)) sendSlip(o, f);
+};
 let pollBusy = false;
 async function pollOrders() {
   if (inTelegram || pollBusy || !inboxUrl() || document.hidden) return;
   pollBusy = true;
   let changed = false;
   for (const o of liveOrders().slice(0, 3)) {
-    const v = await ask("track=" + o.k);
+    const v = await ask("track=" + o.k), ui = slipUi[o.k];
+    if (v && v.sl && ui && ui.ts && v.sl.ts === ui.ts) { o.sr = { r: String(v.sl.r || ""), a: Number(v.sl.a) || 0 }; delete slipUi[o.k]; changed = true; }   // the shop's answer about the slip just sent from here
     if (v && JSON.stringify(v) !== JSON.stringify(o.v)) { o.v = v; changed = true; }
   }
   if (acct && acct.mk && (changed || !pollOrders.memberAt || Date.now() - pollOrders.memberAt > 120e3)) {
@@ -2300,7 +2414,7 @@ function drawProfile() {
   $("mcard").classList.toggle("hide", !acct && !member.s);
   $("tierNote").classList.toggle("hide", !acct && !member.s);
   if (acct) {   // signed in on this phone: one small line says as whom, with the way out
-    const out = el("button", "link", S.outBtn); out.onclick = logout;
+    const out = el("button", "outlink", S.outBtn); out.onclick = logout;
     line.append(document.createTextNode(S.acctAs(acct.n, acct.t) + " · "), out);
     return;
   }
