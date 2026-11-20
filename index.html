@@ -1088,7 +1088,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 13;
+const BUILD = 14;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1331,7 +1331,7 @@ function renderHome() {
   for (const [ic, title, sub] of t().feats) { const c = el("div", "feat"); c.append(el("span", "ic", ic), el("b", "", title), el("small", "", sub)); feats.append(c); }
   const steps = $("steps"); steps.textContent = "";
   for (const line of (inTelegram ? t().stepsTg : t().stepsWeb)) steps.append(el("li", "", line));
-  $("shopShut").textContent = t().shopShut; $("shopShut").classList.toggle("hide", !member.c);
+  drawShut();
   const again = Object.keys(member.r || {}).filter(k => prices[baseKey(k)] != null);   // the last order, still on the menu
   $("again").classList.toggle("hide", !again.length);
   $("again").textContent = t().again(again.reduce((n, k) => n + member.r[k], 0));
@@ -1569,7 +1569,9 @@ function payload() {
   return JSON.stringify(d);
 }
 
+function drawShut() { $("shopShut").textContent = t().shopShut + (member.cm ? " — " + member.cm : ""); $("shopShut").classList.toggle("hide", !member.c); }
 function problem() {
+  if (!inTelegram && member.c) return t().shopShut + (member.cm ? " — " + member.cm : "");   // on the website nobody else would stop the order
   const sg = shutGroupInCart();
   if (sg) return t().needRemove(tr(sg.label), hh(sg.closed.to_hour || 0));
   if (!$("cname").value.trim()) return t().needName;
@@ -1702,7 +1704,8 @@ async function sendAuto() {
   box.textContent = "";
   $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = t().sentHint;
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
-  myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
+  member.r = { ...cart };   // "order the same as last time" on the home page
+  myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null, c: member.r }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
   done.onclick = () => { $("via").classList.remove("show"); openDetails(false); renderCard(); show("card"); };
   box.append(done);
@@ -1843,6 +1846,7 @@ const b64u = o => { let bin = ""; for (const b of new TextEncoder().encode(JSON.
 let myOrders = LS.get("ws_orders") || [];   // newest first: { k, ts, sum, v: what the shop last said }
 let acct = LS.get("ws_acct");                // { mk, n, t } once signed up on this phone
 let lastK = "";                              // the tracking code of the order being sent
+if (!inTelegram && !member.r && myOrders[0] && myOrders[0].c) member.r = myOrders[0].c;   // the website's own "last order"
 const inboxUrl = () => (menu && menu.about || {}).order_inbox || "";
 async function ask(q) {
   try { const d = await (await fetch(inboxUrl() + "?" + q + "&_=" + Date.now())).json(); return d && d.ok ? d.v : null; } catch (e) { return null; }
@@ -1900,6 +1904,11 @@ async function pollOrders() {
     pollOrders.memberAt = Date.now();
     const u = await ask("member=" + acct.mk);
     if (u) { member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0); changed = true; }
+  }
+  if (!pollOrders.shopAt || Date.now() - pollOrders.shopAt > 60e3) {   // has staff closed the shop for now? (/close in the group)
+    pollOrders.shopAt = Date.now();
+    const s = await ask("track=shopstatus0000");
+    if (s) { member.c = s.c ? 1 : 0; member.cm = s.c && s.msg ? String(s.msg) : ""; drawShut(); }
   }
   pollBusy = false;
   if (changed) { LS.set("ws_orders", myOrders.slice(0, 10)); drawOrders(); if (!$("cardView").classList.contains("hide")) renderCard(); $("pointsValue").textContent = myPoints.toLocaleString("en-US"); }
