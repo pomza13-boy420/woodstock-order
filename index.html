@@ -338,6 +338,8 @@
   }
   .choice small { display: block; font-size: 13px; font-weight: 500; opacity: .85; }
   .choice.on { border-color: var(--green); background: var(--green); color: #fff; }
+  #howRow { flex-wrap: wrap; }
+  #howE { flex-basis: 100%; }   /* eat in / book a table: its own row under pickup and delivery */
   .details textarea {
     width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); resize: none;
     background: var(--card); color: var(--text); font: inherit; outline: none; display: block;
@@ -939,7 +941,11 @@
       <input class="txt" id="cphone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel">
     </div>
     <h3 id="howLabel"></h3>
-    <div class="choices"><button class="choice" id="howP" data-how="p"></button><button class="choice" id="howD" data-how="d"></button></div>
+    <div class="choices" id="howRow"><button class="choice" id="howP" data-how="p"></button><button class="choice" id="howD" data-how="d"></button><button class="choice" id="howE" data-how="e"></button></div>
+    <div id="eatBox" class="hide">
+      <h3 id="eatLabel"></h3>
+      <input class="txt" id="eatWhen" maxlength="60" autocomplete="off">
+    </div>
     <div id="addrBox" class="hide">
       <div id="zoneBox">
         <h3 id="zoneLabel"></h3>
@@ -995,22 +1001,22 @@ const TEXT = {
           ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
           noOrders: "ยังไม่มีออเดอร์ที่กำลังติดตาม — เมื่อสั่งอาหารแล้ว สถานะออเดอร์จะขึ้นที่นี่", orderNow: "สั่งอาหารเลย", saving: "กำลังบันทึก…",
           tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
-          st: { new: "ส่งออเดอร์แล้ว · รอร้านรับ", acc: "รับออเดอร์แล้ว", prep: "กำลังจัดเตรียม", pack: "ออเดอร์เสร็จแล้ว · เตรียมจัดส่ง", out: "อยู่ระหว่างจัดส่ง", rdy: "ออเดอร์เสร็จแล้ว · พร้อมรับที่ร้าน", done_d: "จัดส่งสำเร็จ", done_p: "รับสินค้าแล้ว", cancelled: "ออเดอร์ถูกยกเลิก" },
+          st: { new: "ส่งออเดอร์แล้ว · รอร้านรับ", acc: "รับออเดอร์แล้ว", prep: "กำลังจัดเตรียม", pack: "ออเดอร์เสร็จแล้ว · เตรียมจัดส่ง", out: "อยู่ระหว่างจัดส่ง", rdy: "ออเดอร์เสร็จแล้ว · พร้อมรับที่ร้าน", rdy_e: "ออเดอร์เสร็จแล้ว · พร้อมเสิร์ฟที่ร้าน", done_d: "จัดส่งสำเร็จ", done_p: "รับสินค้าแล้ว", done_e: "เสร็จเรียบร้อย", cancelled: "ออเดอร์ถูกยกเลิก" },
           payAmt: m => `ยอดโอน ${m}`, payFee: "ยอดนี้ยังไม่รวมค่าส่ง — ถ้ามีค่าส่ง ร้านจะแจ้งยอดสุดท้ายให้", payHint: "สแกน QR นี้ด้วยแอปธนาคาร (แตะรูปเพื่อขยาย) แล้วส่งสลิปให้ร้าน", paySlip: "ส่งสลิปทาง WhatsApp", paySave: "บันทึกรูป QR",
-          paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
+          paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
-        sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
+        sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentHintCash: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — ชำระเงินสดที่ร้านได้เลย ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
         autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
         pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
         promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
         whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
         feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
                 ["🍹", "ค็อกเทลบาร์", "ค็อกเทลกว่า 20 เมนู"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
-        stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
-        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้านหรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
+        stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
+        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
-        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "ร้านยืนยันรายการแล้วจะส่ง QR ให้ในแชท — ชำระก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
@@ -1036,7 +1042,7 @@ const TEXT = {
         ruleNight: (a, b, f, o) => `รอบดึก ${a}–${b} น.: ค่าบริการรอบดึก +${f}` + (o ? ` (บิล ${o} ขึ้นไป ไม่คิด)` : ""),
         pickupFree: "รับที่ร้าน: ไม่มีขั้นต่ำ",
         needContact: z => `${z}: กรุณาติดต่อร้านก่อน (พิมพ์ "พนักงาน" ในแชท) หรือเลือกรับที่ร้าน`, contactUs: "ติดต่อร้านก่อนสั่ง", nightFee: "ค่าบริการรอบดึก", maps: "📍 แผนที่", call: "📞 โทร",
-        dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง",
+        dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง", dinein: "🍽 ทานที่ร้าน / จองโต๊ะ", eatLabel: "โต๊ะที่นั่ง หรือเวลาที่จะมา (ไม่บังคับ)", eatPh: "เช่น โต๊ะ 3 · หรือ จอง 19:30 สำหรับ 2 คน",
         zone: "อยู่ห่างจากร้านแค่ไหน?", min: "ขั้นต่ำ ",
         placeLabel: "ค้นหาที่พักหรือสถานที่ของคุณ", placePh: "พิมพ์ชื่อโรงแรม ที่พัก ร้าน หรือหาด", placeNone: "ไม่พบชื่อนี้ในแผนที่ — พิมพ์ที่อยู่ด้านล่าง หรือแนบตำแหน่งแทนได้", placeOk: n => `✓ ${n} (แตะเพื่อเอาออก)`, placeKm: k => `~${k} กม.`,
         addr: "ที่อยู่จัดส่ง", addrPh: "บ้านเลขที่ / ชื่อที่พัก / จุดสังเกต", useLoc: "📍 แนบตำแหน่งปัจจุบันของฉัน",
@@ -1061,22 +1067,22 @@ const TEXT = {
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
           noOrders: "No order to track yet — once you order, its status shows up here.", orderNow: "Order now", saving: "Saving…",
           tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
-          st: { new: "Order sent · waiting for the shop", acc: "Order accepted", prep: "Being prepared", pack: "Order ready · getting it out for delivery", out: "Out for delivery", rdy: "Order ready · pick up at the shop", done_d: "Delivered", done_p: "Picked up", cancelled: "Order cancelled" },
+          st: { new: "Order sent · waiting for the shop", acc: "Order accepted", prep: "Being prepared", pack: "Order ready · getting it out for delivery", out: "Out for delivery", rdy: "Order ready · pick up at the shop", rdy_e: "Order ready · served at the shop", done_d: "Delivered", done_p: "Picked up", done_e: "Completed", cancelled: "Order cancelled" },
           payAmt: m => `Amount to pay ${m}`, payFee: "Delivery is not included yet — if there is a delivery fee, the shop will tell you the final amount.", payHint: "Scan this QR with your banking app (tap the picture to enlarge), then send the slip to the shop.", paySlip: "Send the slip on WhatsApp", paySave: "Save the QR picture",
-          paid: "Paid ✓", unpaid: "Waiting for payment", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
+          paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
-        sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
+        sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentHintCash: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Pay in cash at the shop — no need to send the order again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
         autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
         pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
         promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
         whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
         feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
                 ["🍹", "Cocktail bar", "More than 20 cocktails"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
-        stepsTg: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Confirm and pay in the chat — we keep you posted"],
-        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup or delivery", "Send the order — the shop contacts you to confirm and take payment"],
+        stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
+        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Send the order — the shop contacts you to confirm and take payment"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
-        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "The shop confirms your order and sends the QR in the chat — payment is made before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
@@ -1102,7 +1108,7 @@ const TEXT = {
         ruleNight: (a, b, f, o) => `Late night (${a}–${b}): +${f} night surcharge` + (o ? ` (waived for bills of ${o} or more)` : ""),
         pickupFree: "Pick up at the shop: no minimum",
         needContact: z => `${z}: please contact us first (type "staff" in the chat), or choose pick up`, contactUs: "contact us before ordering", nightFee: "Night surcharge", maps: "📍 Map", call: "📞 Call",
-        dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery",
+        dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery", dinein: "🍽 Dine in / book a table", eatLabel: "Your table, or the time you will come (optional)", eatPh: "e.g. table 3 · or book 19:30 for 2",
         zone: "How far are you from the shop?", min: "minimum ",
         placeLabel: "Find your hotel or place", placePh: "Type a hotel, bungalow, restaurant or beach name", placeNone: "We couldn't find that name on the map — type your address below or attach your location instead.", placeOk: n => `✓ ${n} (tap to remove)`, placeKm: k => `~${k} km`,
         addr: "Delivery address", addrPh: "House no. / hotel name / landmark", useLoc: "📍 Attach my current location",
@@ -1110,7 +1116,7 @@ const TEXT = {
         note: "Note for the kitchen (optional)", notePh: "e.g. not spicy, no peanuts", pay: "How would you like to pay?",
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
-        needHow: "Please choose pickup or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
+        needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
         needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`,
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
@@ -1141,13 +1147,13 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 21;
+const BUILD = 22;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
 const prices = {}, names = {};   // by the same key
 let placeName = "";   // set when loc came from a place picked by name, not from GPS
-let how = null, pay = null, loc = null, zone = null;   // "p"|"d", "q"|"c", [lat, lon], zone id
+let how = null, pay = null, loc = null, zone = null;   // "p"|"d"|"e" (pick up, delivery, eat in), "q"|"c", [lat, lon], zone id
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
 const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
@@ -1624,6 +1630,7 @@ function payload() {
   if (how === "d" && addr) d.address = addr;
   if (how === "d" && loc) d.loc = loc;
   if (how === "d" && loc && placeName) d.place = placeName;
+  if (how === "e" && $("eatWhen").value.trim()) d.when = $("eatWhen").value.trim().slice(0, 60);   // the table, or when they will come
   if (note) d.note = note;
   return JSON.stringify(d);
 }
@@ -1650,12 +1657,15 @@ function problem() {
 function drawDetails() {
   if (!menu) return;
   const o = opt();
-  if (!inTelegram) pay = "q";   // website orders are paid by transfer once the shop confirms, before delivery / pickup
-  if (!how && o.pickup !== o.delivery) how = o.pickup ? "p" : "d";   // only one way offered: preselect it
+  const ways = [o.pickup && "p", o.delivery && "d", o.dinein && "e"].filter(Boolean);
+  if (!how && ways.length === 1) how = ways[0];   // only one way offered: preselect it
+  const atShop = how === "p" || how === "e";   // paid at the shop's counter, so cash is possible
+  if (!inTelegram && !(atShop && o.cash && pay === "c")) pay = "q";   // website: by transfer once the shop confirms; cash only when picking up or eating in
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
-  $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery);
-  $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || !inTelegram);
-  if (!inTelegram) $("payQ").textContent = t().payWeb;
+  $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery); $("howE").classList.toggle("hide", !o.dinein);
+  $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || (!inTelegram && !atShop));
+  $("payQ").textContent = inTelegram ? t().qr : t().payWeb; $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
+  $("eatBox").classList.toggle("hide", how !== "e");
   document.querySelectorAll("[data-how]").forEach(b => b.classList.toggle("on", b.dataset.how === how));
   document.querySelectorAll("[data-pay]").forEach(b => b.classList.toggle("on", b.dataset.pay === pay));
   document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
@@ -1686,7 +1696,7 @@ function drawDetails() {
     : p.voucher ? t().zVoucher : p.ship ? t().zFlat(money(p.ship), money(p.short))
     : p.quote ? t().zQuote(perKm(z), money(p.short)) : "";
   const bad = problem();
-  $("dHint").textContent = bad || (web ? (pay === "q" ? t().qrWeb : t().webHint) : p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
+  $("dHint").textContent = bad || (web ? (pay === "c" ? t().cashWebHint : t().qrWeb) : p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   $("send").classList.toggle("off", !!bad);
@@ -1852,7 +1862,7 @@ async function sendAuto() {
   if (wa.startsWith("0")) wa = "66" + wa.slice(1);
   const link = (label2, href) => { const b = el("a", "viabtn", label2); b.href = href; b.rel = "noopener"; box.append(b); return b; };
   box.textContent = "";
-  $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = t().sentHint;
+  $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = pay === "c" && how !== "d" ? t().sentHintCash : t().sentHint;
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
   member.r = { ...cart };   // "order the same as last time" on the home page
   myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null, c: member.r }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
@@ -1875,6 +1885,7 @@ function orderText() {
   try {
     const total = foodTotal(), p = deliveryPlan(total), L = ["/web 🧾 ออเดอร์จากเว็บ Woodstock"];
     const addr = $("addr").value.trim(), note = $("note").value.trim();
+    const when = how === "e" ? $("eatWhen").value.trim().slice(0, 60) : "", cash = pay === "c" && how !== "d";
     L.push(`👤 ${$("cname").value.trim()} · 📞 ${$("cphone").value.trim()}`);
     for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`);
     L.push(`💰 ค่าอาหาร ${money(total)}`);
@@ -1894,9 +1905,9 @@ function orderText() {
       if (!p.zone || p.quote) { L.push("🛵 ค่าส่ง: รอร้านแจ้ง"); plus = " + ค่าส่ง"; }
       else L.push("🛵 ค่าส่ง: " + (p.ship ? money(p.ship) : "ฟรี"));
       if (p.night) L.push(`🌙 ค่าบริการรอบดึก ${money(p.night)}`);
-    } else L.push("🏪 รับที่ร้าน");
+    } else L.push(how === "e" ? "🍽 ทานที่ร้าน" + (when ? " · " + when : "") : "🏪 รับที่ร้าน");
     L.push(`💵 ยอดรวม ${money(total + p.ship + p.night)}${plus}`);
-    L.push("💳 ชำระ: โอนก่อน — รอร้านยืนยันและส่ง QR");
+    L.push(cash ? "💵 ชำระ: เงินสดที่ร้าน" : "💳 ชำระ: โอนก่อน — รอร้านยืนยันและส่ง QR");
     if (note) L.push("📝 " + note);
     if (keep !== "th") L.push("🌐 ลูกค้าใช้ภาษา: " + keep.toUpperCase());
     // The same order for the shop's system: staff paste this whole message into the shop's Telegram group.
@@ -1905,6 +1916,8 @@ function orderText() {
     if (how === "d" && loc) code.l = loc;
     if (how === "d" && loc && placeName) code.p = placeName.slice(0, 80);
     if (note) code.o = note;
+    if (cash) code.y = "c";                   // pays in cash at the shop (pickup / eating in); without it the bot takes it as a transfer
+    if (when) code.w = when;                  // eating in: the table, or the time booked
     code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
     if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
     const bytes = new TextEncoder().encode(JSON.stringify(code));
@@ -1959,6 +1972,7 @@ function applyLang() {
   $("totalLabel").textContent = t().total; $("next").textContent = t().next; $("confirm").textContent = t().confirm;
   $("dTitle").textContent = t().dTitle; $("dBack").textContent = t().back; $("howLabel").textContent = t().how;
   $("howP").textContent = t().pickup; $("howD").textContent = t().delivery; $("zoneLabel").textContent = t().zone;
+  $("howE").textContent = t().dinein; $("eatLabel").textContent = t().eatLabel; $("eatWhen").placeholder = t().eatPh;
   $("addrLabel").textContent = t().addr; $("addr").placeholder = t().addrPh;
   $("noteLabel").textContent = t().note; $("note").placeholder = t().notePh;
   $("whoLabel").textContent = t().who; $("cname").placeholder = t().namePh; $("cphone").placeholder = t().phonePh;
@@ -2004,6 +2018,8 @@ async function ask(q) {
   try { const d = await (await fetch(inboxUrl() + "?" + q + "&_=" + Date.now())).json(); return d && d.ok ? d.v : null; } catch (e) { return null; }
 }
 const finalState = v => v && (v.s === "done" || v.s === "cancelled" || v.s === "void");
+// which wording a step gets: m = "d" delivery, "e" eating in, else pickup
+const stKey = (s, m) => s === "done" ? (m === "d" ? "done_d" : m === "e" ? "done_e" : "done_p") : s === "rdy" && m === "e" ? "rdy_e" : s;
 const liveOrders = () => myOrders.filter(o => !finalState(o.v) && Date.now() - o.ts < 36 * 3600e3);
 function drawOrders() {
   const S = t().site, box = $("orderList"); box.textContent = "";
@@ -2018,14 +2034,14 @@ function drawOrders() {
     const head = el("div", "ohead"); head.append(el("span", "", v && v.o ? "#" + v.o : S.waiting), el("span", "", money(v && v.t != null ? v.t : o.sum) + (v && v.m === "d" && !v.f && !finalState(v) ? "+" : "")));
     const sub = el("div", "osub"); sub.append(document.createTextNode(`${two(d.getDate())}/${two(d.getMonth() + 1)} ${two(d.getHours())}:${two(d.getMinutes())}`));
     // paid / waiting for payment — but never "waiting for payment" on a cancelled order: nothing is owed any more
-    if (v && (v.p || (v.s !== "cancelled" && v.s !== "void"))) sub.append(document.createTextNode(" · "), el("span", v.p ? "ok" : "no", v.p ? S.paid : S.unpaid));
+    if (v && (v.p || (v.s !== "cancelled" && v.s !== "void"))) sub.append(document.createTextNode(" · "), el("span", v.p ? "ok" : "no", v.p ? S.paid : v.y === "c" ? S.payCash : S.unpaid));
     card.append(head, sub);
     const steps = (v ? v.m : o.m) === "d" ? ["new", "acc", "prep", "pack", "out", "done"] : ["new", "acc", "prep", "rdy", "done"];
     const tl = el("ul", "tl"), at = v ? steps.indexOf(v.s) : 0;
     if (v && (v.s === "cancelled" || v.s === "void")) tl.append(el("li", "bad", S.st.cancelled));
-    else steps.forEach((s, i) => tl.append(el("li", i < at || (i === at && s === "done") ? "did" : i === at ? "now" : "", S.st[s === "done" ? ((v ? v.m : o.m) === "d" ? "done_d" : "done_p") : s])));
+    else steps.forEach((s, i) => tl.append(el("li", i < at || (i === at && s === "done") ? "did" : i === at ? "now" : "", S.st[stKey(s, v ? v.m : o.m)])));
     card.append(tl);
-    if (v && !v.p && !finalState(v) && v.s !== "new") {   // the shop took the order and it is not paid yet: the shop's payment QR
+    if (v && !v.p && !finalState(v) && v.s !== "new" && v.y !== "c") {   // the shop took the order and it is not paid yet: the shop's payment QR (not for cash at the shop)
       const pay = el("div", "payqr"), img = el("img", ""), a = menu.about || {};
       img.src = "pay_qr.jpg"; img.alt = "PromptPay QR"; img.onclick = () => pay.classList.toggle("big");
       pay.append(el("div", "payamt", S.payAmt(money(v.t))));
@@ -2045,7 +2061,7 @@ function drawOrders() {
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
   const promos = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today))
     .map(p => [p.icon, tr(p.title) + (tr(p.text) ? " — " + tr(p.text) : "")].filter(Boolean).join(" "));   // the strip is the only place the promos show now
-  const text = live ? S.tick(lv && lv.o, S.st[lv ? (lv.s === "done" ? (lv.m === "d" ? "done_d" : "done_p") : lv.s) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
+  const text = live ? S.tick(lv && lv.o, S.st[lv ? stKey(lv.s, lv.m) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
   bar.classList.remove("hide");   // always there: the order under way, or else the promos
   bar.classList.toggle("live", !!live);
   if (bar.dataset.text !== text) {
