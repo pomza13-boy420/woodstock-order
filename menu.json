@@ -1,5 +1,5 @@
 {
- "build": 24,
+ "build": 25,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3278,9 +3278,31 @@
     "type": "discount",
     "amount": 20,
     "valid_days": 7,
+    "limit": {
+     "per": "month",
+     "max": 1
+    },
     "label": {
      "en": "฿20 off your next order (valid 7 days)",
      "th": "ส่วนลด ฿20 ออเดอร์ถัดไป (ใช้ได้ 7 วัน)"
+    }
+   },
+   {
+    "id": "ship",
+    "cost": 3,
+    "type": "ship",
+    "amount": 100,
+    "valid_days": 30,
+    "hold": 2,
+    "per_order": 2,
+    "only": "web",
+    "limit": {
+     "per": "week",
+     "max": 1
+    },
+    "label": {
+     "en": "Delivery discount ticket — up to ฿100 off the delivery fee",
+     "th": "ตั๋วส่วนลดค่าส่ง — ลดค่าส่งสูงสุด ฿100"
     }
    },
    {
@@ -3288,6 +3310,10 @@
     "cost": 5,
     "type": "item",
     "valid": "today",
+    "limit": {
+     "per": "month",
+     "max": 1
+    },
     "label": {
      "en": "Smoothie or coffee worth ฿50",
      "th": "น้ำปั่นหรือกาแฟ มูลค่า ฿50"
@@ -3298,6 +3324,10 @@
     "cost": 10,
     "type": "item",
     "valid": "today",
+    "limit": {
+     "per": "month",
+     "max": 1
+    },
     "label": {
      "en": "Tote bag or special gift",
      "th": "Tote bag or special gift"
@@ -3307,6 +3337,10 @@
   "free_delivery": {
    "cost": 3,
    "max_km": 10,
+   "limit": {
+    "per": "week",
+    "max": 1
+   },
    "partial": {
     "remote": 100
    }
