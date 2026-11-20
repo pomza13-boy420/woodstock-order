@@ -358,7 +358,6 @@
     background: var(--card); color: var(--text); font: inherit; outline: none; display: block;
   }
   .details input.txt:focus { border-color: var(--green); }
-  .web #rewardsBox { display: none !important; }   /* the website card collects points; rewards are not offered there yet */
   .via { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.55); display: none; align-items: flex-end; justify-content: center; }
   .via.show { display: flex; }
   .viabox { background: var(--bg, #fbf5e6); width: 100%; max-width: 560px; max-height: 92vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
@@ -1155,7 +1154,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 23;
+const BUILD = 24;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
