@@ -1,5 +1,5 @@
 {
- "build": 15,
+ "build": 16,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -2644,7 +2644,12 @@
    ],
    "remote": [
     {
-     "min": 2000,
+     "order_min": 600,
+     "min": 1500,
+     "no_free": {
+      "from_hour": 18,
+      "to_hour": 5
+     },
      "fee_below": "quote",
      "per_km": [
       40,
@@ -2668,8 +2673,12 @@
     "th": "โซน 1–2 เกิน 3 กม.: สั่งครบ ฿500 ส่งฟรี — ไม่ถึง ค่าส่ง กม.ละ ฿40–100"
    },
    {
-    "en": "Zones 3–4 (east & south, remote): delivery ฿40–100 per km — free from ฿2,000",
-    "th": "โซน 3–4 (ตะวันออก/ใต้ พื้นที่ห่างไกล): ค่าส่ง กม.ละ ฿40–100 — สั่งครบ ฿2,000 ส่งฟรี"
+    "en": "Zones 3–4 (east & south, remote): minimum order ฿600 — delivery ฿40–100 per km — free from ฿1,500 (orders before 18:00 only)",
+    "th": "โซน 3–4 (ตะวันออก/ใต้ พื้นที่ห่างไกล): สั่งขั้นต่ำ ฿600 — ค่าส่ง กม.ละ ฿40–100 — สั่งครบ ฿1,500 ส่งฟรี (เฉพาะก่อน 18:00 น.)"
+   },
+   {
+    "en": "Zones 3–4 from 18:00 to 05:00: no free delivery — the delivery fee applies to every order",
+    "th": "โซน 3–4 ตั้งแต่ 18:00–05:00 น.: งดส่งฟรี คิดค่าส่งทุกยอด"
    },
    {
     "en": "Late night (00:00–05:00): +฿100 night surcharge, on top of any delivery fee",
