@@ -683,6 +683,8 @@
   .modextra { padding: 2px 0 4px; }
   .modextra.hide { display: none; }
   #viaText { font-family: inherit; font-size: 14px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
+  /* the promo cards are gone from the home page: the running strip under the photo carries the promos */
+  #promos { display: none !important; }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -1086,7 +1088,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 12;
+const BUILD = 13;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1871,14 +1873,16 @@ function drawOrders() {
   if (liveOrders().length) box.append(el("div", "onote", S.auto));
   // the running strip on the home page: the order being followed, or else the shop's promos
   const live = inTelegram ? null : liveOrders()[0], bar = $("trackBar"), lv = live && live.v;
-  const promos = ((menu.about || {}).promos || []).map(p => [p.icon, tr(p.title)].filter(Boolean).join(" ")).filter(Boolean);
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
+  const promos = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today))
+    .map(p => [p.icon, tr(p.title) + (tr(p.text) ? " — " + tr(p.text) : "")].filter(Boolean).join(" "));   // the strip is the only place the promos show now
   const text = live ? S.tick(lv && lv.o, S.st[lv ? (lv.s === "done" ? (lv.m === "d" ? "done_d" : "done_p") : lv.s) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
-  bar.classList.toggle("hide", !live);   // the strip is for an order under way; the promos have their own cards right below
+  bar.classList.remove("hide");   // always there: the order under way, or else the promos
   bar.classList.toggle("live", !!live);
   if (bar.dataset.text !== text) {
     bar.dataset.text = text; bar.textContent = "";
     const run = el("span", "run"); run.append(el("span", "", text), el("span", "", text));
-    run.style.animationDuration = Math.max(12, text.length * 0.28) + "s";
+    run.style.animationDuration = Math.max(14, text.length * 0.22) + "s";
     bar.append(run);
   }
   bar.onclick = () => { if (live) { renderCard(); show("card"); } else $("openMenu").click(); };
