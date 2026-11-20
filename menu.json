@@ -1,5 +1,5 @@
 {
- "build": 19,
+ "build": 20,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -13,6 +13,15 @@
     "en": "🍳 Breakfast",
     "th": "🍳 อาหารเช้า"
    },
+   "mods": [
+    "be",
+    "b2",
+    "b3",
+    "b4",
+    "bxe",
+    "bx2",
+    "bx3"
+   ],
    "items": [
     {
      "id": "bfset",
@@ -21,10 +30,11 @@
       "th": "ชุดอาหารเช้า"
      },
      "desc": {
-      "en": "Eggs (pick 1) · 2 items · spread · toast or salad — tell us in the order note.",
-      "th": "ไข่ (เลือก 1) · เลือก 2 อย่าง · ทาขนมปัง · ขนมปังหรือสลัด — บอกในหมายเหตุตอนสั่งครับ"
+      "en": "Choose step by step: 1 eggs · 2 two sides · 3 spread · 4 toast or salad. Add extras below if you like.",
+      "th": "เลือกตามลำดับ: 1 ไข่ · 2 เครื่องเคียง 2 อย่าง · 3 ของทาขนมปัง · 4 ขนมปังหรือสลัด — เพิ่มของได้ด้านล่าง"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/bfset.jpg"
     },
     {
      "id": "pancake",
@@ -32,7 +42,17 @@
       "en": "Pancake with honey & banana",
       "th": "แพนเค้กน้ำผึ้งกล้วย"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/pancake.jpg",
+     "no_mods": [
+      "be",
+      "b2",
+      "b3",
+      "b4",
+      "bxe",
+      "bx2",
+      "bx3"
+     ]
     }
    ]
   },
@@ -65,7 +85,8 @@
       "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯 Add extras below if you like.",
       "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯 เพิ่มของได้ด้านล่าง"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/yogurt.jpg"
     }
    ]
   },
@@ -161,7 +182,8 @@
        },
        "price": 140
       }
-     ]
+     ],
+     "img": "img/glass.jpg"
     },
     {
      "id": "soup",
@@ -312,7 +334,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/tomyum.jpg"
     },
     {
      "id": "massaman",
@@ -500,7 +523,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/frice.jpg"
     },
     {
      "id": "brocc",
@@ -541,7 +565,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/brocc.jpg"
     },
     {
      "id": "ginger",
@@ -582,7 +607,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/ginger.jpg"
     },
     {
      "id": "mush",
@@ -623,7 +649,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/mush.jpg"
     },
     {
      "id": "cashew",
@@ -631,7 +658,8 @@
       "en": "Chicken with cashew nuts",
       "th": "ไก่ผัดเม็ดมะม่วง"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/cashew.jpg"
     },
     {
      "id": "kale",
@@ -672,7 +700,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/kale.jpg"
     },
     {
      "id": "larb",
@@ -778,6 +807,7 @@
     "en": "🍟 Snacks & Salad",
     "th": "🍟 ของทานเล่น"
    },
+   "cover": "img/fries.jpg",
    "items": [
     {
      "id": "nugpap",
@@ -785,7 +815,8 @@
       "en": "Chicken nuggets + papaya salad",
       "th": "นักเก็ตไก่ + ส้มตำ"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/nugpap.jpg"
     },
     {
      "id": "fries",
@@ -793,7 +824,8 @@
       "en": "French fries + fried chicken",
       "th": "เฟรนช์ฟรายส์ + ไก่ทอด"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/fries.jpg"
     },
     {
      "id": "papchk",
@@ -801,7 +833,8 @@
       "en": "Papaya salad with fried chicken",
       "th": "ส้มตำไก่ทอด"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/papchk.jpg"
     },
     {
      "id": "frroll",
@@ -809,7 +842,8 @@
       "en": "Fried spring rolls (veg)",
       "th": "ปอเปี๊ยะทอด (ผัก)"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/frroll.jpg"
     },
     {
      "id": "cheese",
@@ -817,7 +851,8 @@
       "en": "Cheese balls",
       "th": "ชีสบอล"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/cheese.jpg"
     },
     {
      "id": "burmese",
@@ -825,7 +860,8 @@
       "en": "Burmese vegetable salad",
       "th": "สลัดผักพม่า"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/burmese.jpg"
     },
     {
      "id": "fresh",
@@ -866,7 +902,8 @@
        },
        "price": 120
       }
-     ]
+     ],
+     "img": "img/fresh.jpg"
     }
    ]
   },
@@ -876,6 +913,7 @@
     "en": "🍨 Dessert",
     "th": "🍨 ขนมหวาน"
    },
+   "cover": "img/mango.jpg",
    "items": [
     {
      "id": "roti",
@@ -883,7 +921,8 @@
       "en": "Roti with Nutella, banana & cashews",
       "th": "โรตีนูเทลล่า กล้วย เม็ดมะม่วง"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/roti.jpg"
     },
     {
      "id": "panna",
@@ -891,7 +930,8 @@
       "en": "Panna cotta with passion fruit",
       "th": "พานาคอตต้าเสาวรส"
      },
-     "price": 65
+     "price": 65,
+     "img": "img/panna.jpg"
     },
     {
      "id": "fondue",
@@ -960,7 +1000,8 @@
       "en": "Double espresso",
       "th": "ดับเบิลเอสเพรสโซ"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/desp.jpg"
     },
     {
      "id": "amer",
@@ -1063,7 +1104,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/macch.jpg"
     },
     {
      "id": "carcoco",
@@ -1153,6 +1195,7 @@
     "en": "🍵 Tea & Signature",
     "th": "🍵 ชา & ซิกเนเจอร์"
    },
+   "cover": "img/gtea.jpg",
    "mods": [
     "s",
     "i"
@@ -1169,6 +1212,7 @@
       "th": "ชาร้อน"
      },
      "price": 60,
+     "img": "img/black.jpg",
      "no_mods": [
       "i"
      ]
@@ -1184,6 +1228,7 @@
       "th": "ชาร้อน"
      },
      "price": 60,
+     "img": "img/gtea.jpg",
      "no_mods": [
       "i"
      ]
@@ -1199,6 +1244,7 @@
       "th": "ชาร้อน"
      },
      "price": 60,
+     "img": "img/jasm.jpg",
      "no_mods": [
       "i"
      ]
@@ -1226,7 +1272,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/lemontea.jpg"
     },
     {
      "id": "herb",
@@ -1239,6 +1286,7 @@
       "th": "ชาร้อน"
      },
      "price": 80,
+     "img": "img/herb.jpg",
      "no_mods": [
       "i"
      ]
@@ -1266,7 +1314,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/caramel.jpg"
     },
     {
      "id": "matcha",
@@ -1291,7 +1340,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/matcha.jpg"
     },
     {
      "id": "thaitea",
@@ -1316,7 +1366,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/thaitea.jpg"
     },
     {
      "id": "choc",
@@ -1341,7 +1392,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/choc.jpg"
     }
    ]
   },
@@ -1411,7 +1463,8 @@
        },
        "price": 80
       }
-     ]
+     ],
+     "img": "img/shake.jpg"
     },
     {
      "id": "soda",
@@ -1452,7 +1505,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/soda.jpg"
     },
     {
      "id": "juice",
@@ -1493,7 +1547,8 @@
        },
        "price": 70
       }
-     ]
+     ],
+     "img": "img/juice.jpg"
     }
    ]
   },
@@ -1513,7 +1568,8 @@
       "en": "Smoothie Sunrise",
       "th": "Smoothie Sunrise"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/sunrise.jpg"
     },
     {
      "id": "bliss",
@@ -1521,7 +1577,8 @@
       "en": "Berry Bliss",
       "th": "Berry Bliss"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/bliss.jpg"
     },
     {
      "id": "tropic",
@@ -1529,7 +1586,8 @@
       "en": "Tropical Energy",
       "th": "Tropical Energy"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/tropic.jpg"
     },
     {
      "id": "glow",
@@ -1537,7 +1595,8 @@
       "en": "Green Glow",
       "th": "Green Glow"
      },
-     "price": 140
+     "price": 140,
+     "img": "img/glow.jpg"
     },
     {
      "id": "bgboost",
@@ -1545,7 +1604,8 @@
       "en": "Berry Green Boost",
       "th": "Berry Green Boost"
      },
-     "price": 140
+     "price": 140,
+     "img": "img/bgboost.jpg"
     },
     {
      "id": "zen",
@@ -1553,7 +1613,8 @@
       "en": "Zen Zest",
       "th": "Zen Zest"
      },
-     "price": 140
+     "price": 140,
+     "img": "img/zen.jpg"
     },
     {
      "id": "detox",
@@ -1561,7 +1622,8 @@
       "en": "Detox Berry Fresh",
       "th": "Detox Berry Fresh"
      },
-     "price": 140
+     "price": 140,
+     "img": "img/detox.jpg"
     },
     {
      "id": "choconut",
@@ -1569,7 +1631,8 @@
       "en": "Choco Nut Power",
       "th": "Choco Nut Power"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/choconut.jpg"
     },
     {
      "id": "mocha",
@@ -1577,7 +1640,8 @@
       "en": "Mocha Banana Fuel",
       "th": "Mocha Banana Fuel"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/mocha.jpg"
     },
     {
      "id": "protein",
@@ -1585,7 +1649,8 @@
       "en": "Protein Punch",
       "th": "Protein Punch"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/protein.jpg"
     },
     {
      "id": "island",
@@ -1593,7 +1658,8 @@
       "en": "Island Banana",
       "th": "Island Banana"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/island.jpg"
     },
     {
      "id": "kalepap",
@@ -1601,7 +1667,8 @@
       "en": "Tropical Kale Papaya",
       "th": "Tropical Kale Papaya"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/kalepap.jpg"
     },
     {
      "id": "sunpine",
@@ -1609,7 +1676,8 @@
       "en": "Sunny Papaya Pine",
       "th": "Sunny Papaya Pine"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/sunpine.jpg"
     },
     {
      "id": "matpar",
@@ -1617,7 +1685,8 @@
       "en": "Matcha Paradise",
       "th": "Matcha Paradise"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/matpar.jpg"
     },
     {
      "id": "golden",
@@ -1625,7 +1694,8 @@
       "en": "Golden Glow",
       "th": "Golden Glow"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/golden.jpg"
     },
     {
      "id": "acai",
@@ -1633,7 +1703,8 @@
       "en": "Açaí Power Bowl",
       "th": "Açaí Power Bowl"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/acai.jpg"
     }
    ]
   },
@@ -1933,6 +2004,7 @@
     "en": "➕ Add-ons",
     "th": "➕ ของเพิ่ม"
    },
+   "cover": "img/fegg.jpg",
    "items": [
     {
      "id": "rice",
@@ -1940,7 +2012,8 @@
       "en": "Steamed rice",
       "th": "ข้าวสวย"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/rice.jpg"
     },
     {
      "id": "rotiside",
@@ -1948,7 +2021,8 @@
       "en": "Roti (with curry)",
       "th": "โรตี (กับแกง)"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/rotiside.jpg"
     },
     {
      "id": "fegg",
@@ -1956,7 +2030,8 @@
       "en": "Fried egg",
       "th": "ไข่ดาว"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/fegg.jpg"
     },
     {
      "id": "larbxl",
@@ -1964,23 +2039,8 @@
       "en": "Larb extra-large",
       "th": "ลาบพิเศษ"
      },
-     "price": 20
-    },
-    {
-     "id": "bfegg",
-     "name": {
-      "en": "Extra egg (breakfast)",
-      "th": "เพิ่มไข่ (อาหารเช้า)"
-     },
-     "price": 15
-    },
-    {
-     "id": "bfitem",
-     "name": {
-      "en": "Extra item (breakfast 2 or 3)",
-      "th": "เพิ่มรายการ (อาหารเช้า ข้อ 2 หรือ 3)"
-     },
-     "price": 20
+     "price": 20,
+     "img": "img/larb.jpg"
     },
     {
      "id": "oat",
@@ -1988,7 +2048,8 @@
       "en": "Oat milk (drinks)",
       "th": "นมโอ๊ต (เครื่องดื่ม)"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/oat.jpg"
     },
     {
      "id": "almond",
@@ -1996,7 +2057,8 @@
       "en": "Almond milk (drinks)",
       "th": "นมอัลมอนด์ (เครื่องดื่ม)"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/almond.jpg"
     },
     {
      "id": "dhoney",
@@ -2004,7 +2066,8 @@
       "en": "Honey (drinks)",
       "th": "น้ำผึ้ง (เครื่องดื่ม)"
      },
-     "price": 10
+     "price": 10,
+     "img": "img/dhoney.jpg"
     },
     {
      "id": "icecup",
@@ -2012,7 +2075,8 @@
       "en": "Ice cup",
       "th": "แก้วน้ำแข็ง"
      },
-     "price": 10
+     "price": 10,
+     "img": "img/icecup.jpg"
     }
    ]
   }
@@ -2481,6 +2545,435 @@
      "price": 30
     }
    ]
+  },
+  "be": {
+   "label": {
+    "en": "1 · Eggs (2 eggs)",
+    "th": "1 · ไข่ (2 ฟอง)"
+   },
+   "choices": [
+    {
+     "id": "bo",
+     "label": {
+      "en": "Boiled",
+      "th": "ไข่ต้ม"
+     },
+     "tag": {
+      "en": "Boiled",
+      "th": "ไข่ต้ม"
+     }
+    },
+    {
+     "id": "sc",
+     "label": {
+      "en": "Scrambled",
+      "th": "ไข่ข้น"
+     },
+     "tag": {
+      "en": "Scrambled",
+      "th": "ไข่ข้น"
+     }
+    },
+    {
+     "id": "fr",
+     "label": {
+      "en": "Fried",
+      "th": "ไข่ดาว"
+     },
+     "tag": {
+      "en": "Fried",
+      "th": "ไข่ดาว"
+     }
+    },
+    {
+     "id": "om",
+     "label": {
+      "en": "Omelette",
+      "th": "ไข่เจียว"
+     },
+     "tag": {
+      "en": "Omelette",
+      "th": "ไข่เจียว"
+     }
+    }
+   ]
+  },
+  "b2": {
+   "label": {
+    "en": "2 · Sides",
+    "th": "2 · เครื่องเคียง"
+   },
+   "min": 2,
+   "max": 2,
+   "choices": [
+    {
+     "id": "ba",
+     "label": {
+      "en": "Bacon + ham",
+      "th": "เบคอน+แฮม"
+     },
+     "tag": {
+      "en": "Bacon + ham",
+      "th": "เบคอน+แฮม"
+     }
+    },
+    {
+     "id": "sa",
+     "label": {
+      "en": "Sausage",
+      "th": "ไส้กรอก"
+     },
+     "tag": {
+      "en": "Sausage",
+      "th": "ไส้กรอก"
+     }
+    },
+    {
+     "id": "ch",
+     "label": {
+      "en": "Cheese",
+      "th": "ชีส"
+     },
+     "tag": {
+      "en": "Cheese",
+      "th": "ชีส"
+     }
+    },
+    {
+     "id": "tf",
+     "label": {
+      "en": "Tofu",
+      "th": "เต้าหู้"
+     },
+     "tag": {
+      "en": "Tofu",
+      "th": "เต้าหู้"
+     }
+    },
+    {
+     "id": "to",
+     "label": {
+      "en": "Tomato",
+      "th": "มะเขือเทศ"
+     },
+     "tag": {
+      "en": "Tomato",
+      "th": "มะเขือเทศ"
+     }
+    },
+    {
+     "id": "on",
+     "label": {
+      "en": "Onion",
+      "th": "หอมใหญ่"
+     },
+     "tag": {
+      "en": "Onion",
+      "th": "หอมใหญ่"
+     }
+    },
+    {
+     "id": "le",
+     "label": {
+      "en": "Lettuce",
+      "th": "ผักสลัด"
+     },
+     "tag": {
+      "en": "Lettuce",
+      "th": "ผักสลัด"
+     }
+    }
+   ]
+  },
+  "b3": {
+   "label": {
+    "en": "3 · Spread",
+    "th": "3 · ของทาขนมปัง"
+   },
+   "choices": [
+    {
+     "id": "ja",
+     "label": {
+      "en": "Strawberry jam",
+      "th": "แยมสตรอว์เบอร์รี่"
+     },
+     "tag": {
+      "en": "Strawberry jam",
+      "th": "แยมสตรอว์เบอร์รี่"
+     }
+    },
+    {
+     "id": "nu",
+     "label": {
+      "en": "Nutella",
+      "th": "นูเทลล่า"
+     },
+     "tag": {
+      "en": "Nutella",
+      "th": "นูเทลล่า"
+     }
+    },
+    {
+     "id": "cm",
+     "label": {
+      "en": "Condensed milk",
+      "th": "นมข้นหวาน"
+     },
+     "tag": {
+      "en": "Condensed milk",
+      "th": "นมข้นหวาน"
+     }
+    },
+    {
+     "id": "sb",
+     "label": {
+      "en": "Salted butter",
+      "th": "เนยเค็ม"
+     },
+     "tag": {
+      "en": "Salted butter",
+      "th": "เนยเค็ม"
+     }
+    },
+    {
+     "id": "ub",
+     "label": {
+      "en": "Unsalted butter",
+      "th": "เนยจืด"
+     },
+     "tag": {
+      "en": "Unsalted butter",
+      "th": "เนยจืด"
+     }
+    }
+   ]
+  },
+  "b4": {
+   "label": {
+    "en": "4 · Toast or salad",
+    "th": "4 · ขนมปังหรือสลัด"
+   },
+   "choices": [
+    {
+     "id": "ts",
+     "label": {
+      "en": "2 slices of toast",
+      "th": "ขนมปัง 2 แผ่น"
+     },
+     "tag": {
+      "en": "Toast",
+      "th": "ขนมปัง"
+     }
+    },
+    {
+     "id": "vs",
+     "label": {
+      "en": "Vegetable salad",
+      "th": "สลัดผัก"
+     },
+     "tag": {
+      "en": "Vegetable salad",
+      "th": "สลัดผัก"
+     }
+    }
+   ]
+  },
+  "bxe": {
+   "label": {
+    "en": "Extra eggs (optional)",
+    "th": "เพิ่มไข่ (ไม่บังคับ)"
+   },
+   "min": 0,
+   "choices": [
+    {
+     "id": "1",
+     "label": {
+      "en": "+1 egg",
+      "th": "เพิ่ม 1 ฟอง"
+     },
+     "tag": {
+      "en": "+1 egg",
+      "th": "เพิ่มไข่ 1 ฟอง"
+     },
+     "price": 15
+    },
+    {
+     "id": "2",
+     "label": {
+      "en": "+2 eggs",
+      "th": "เพิ่ม 2 ฟอง"
+     },
+     "tag": {
+      "en": "+2 eggs",
+      "th": "เพิ่มไข่ 2 ฟอง"
+     },
+     "price": 30
+    }
+   ]
+  },
+  "bx2": {
+   "label": {
+    "en": "Extra sides (optional)",
+    "th": "เพิ่มเครื่องเคียง (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 7,
+   "choices": [
+    {
+     "id": "ba",
+     "label": {
+      "en": "Bacon + ham",
+      "th": "เบคอน+แฮม"
+     },
+     "tag": {
+      "en": "+Bacon + ham",
+      "th": "เพิ่มเบคอน+แฮม"
+     },
+     "price": 20
+    },
+    {
+     "id": "sa",
+     "label": {
+      "en": "Sausage",
+      "th": "ไส้กรอก"
+     },
+     "tag": {
+      "en": "+Sausage",
+      "th": "เพิ่มไส้กรอก"
+     },
+     "price": 20
+    },
+    {
+     "id": "ch",
+     "label": {
+      "en": "Cheese",
+      "th": "ชีส"
+     },
+     "tag": {
+      "en": "+Cheese",
+      "th": "เพิ่มชีส"
+     },
+     "price": 20
+    },
+    {
+     "id": "tf",
+     "label": {
+      "en": "Tofu",
+      "th": "เต้าหู้"
+     },
+     "tag": {
+      "en": "+Tofu",
+      "th": "เพิ่มเต้าหู้"
+     },
+     "price": 20
+    },
+    {
+     "id": "to",
+     "label": {
+      "en": "Tomato",
+      "th": "มะเขือเทศ"
+     },
+     "tag": {
+      "en": "+Tomato",
+      "th": "เพิ่มมะเขือเทศ"
+     },
+     "price": 20
+    },
+    {
+     "id": "on",
+     "label": {
+      "en": "Onion",
+      "th": "หอมใหญ่"
+     },
+     "tag": {
+      "en": "+Onion",
+      "th": "เพิ่มหอมใหญ่"
+     },
+     "price": 20
+    },
+    {
+     "id": "le",
+     "label": {
+      "en": "Lettuce",
+      "th": "ผักสลัด"
+     },
+     "tag": {
+      "en": "+Lettuce",
+      "th": "เพิ่มผักสลัด"
+     },
+     "price": 20
+    }
+   ]
+  },
+  "bx3": {
+   "label": {
+    "en": "Extra spread (optional)",
+    "th": "เพิ่มของทาขนมปัง (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 5,
+   "choices": [
+    {
+     "id": "ja",
+     "label": {
+      "en": "Strawberry jam",
+      "th": "แยมสตรอว์เบอร์รี่"
+     },
+     "tag": {
+      "en": "+Strawberry jam",
+      "th": "เพิ่มแยมสตรอว์เบอร์รี่"
+     },
+     "price": 20
+    },
+    {
+     "id": "nu",
+     "label": {
+      "en": "Nutella",
+      "th": "นูเทลล่า"
+     },
+     "tag": {
+      "en": "+Nutella",
+      "th": "เพิ่มนูเทลล่า"
+     },
+     "price": 20
+    },
+    {
+     "id": "cm",
+     "label": {
+      "en": "Condensed milk",
+      "th": "นมข้นหวาน"
+     },
+     "tag": {
+      "en": "+Condensed milk",
+      "th": "เพิ่มนมข้นหวาน"
+     },
+     "price": 20
+    },
+    {
+     "id": "sb",
+     "label": {
+      "en": "Salted butter",
+      "th": "เนยเค็ม"
+     },
+     "tag": {
+      "en": "+Salted butter",
+      "th": "เพิ่มเนยเค็ม"
+     },
+     "price": 20
+    },
+    {
+     "id": "ub",
+     "label": {
+      "en": "Unsalted butter",
+      "th": "เนยจืด"
+     },
+     "tag": {
+      "en": "+Unsalted butter",
+      "th": "เพิ่มเนยจืด"
+     },
+     "price": 20
+    }
+   ]
   }
  },
  "groups": [
@@ -2621,7 +3114,11 @@
    "fondue",
    "krapow",
    "pumpk"
-  ]
+  ],
+  "intro": {
+   "th": "Woodstock คือร้านอาหารและบาร์ที่บ้านโฉลกหลำ เกาะพะงัน เปิดมาตั้งแต่ปี 2020 เสิร์ฟอาหารไทย กาแฟ สมูทตี้ และค็อกเทล — ทานที่ร้าน มารับเอง หรือสั่งให้ส่งถึงที่พักได้",
+   "en": "Woodstock is a restaurant and bar in Baan Chaloklum, Koh Phangan, open since 2020. We serve Thai food, coffee, smoothies and cocktails — eat in, pick up, or have it delivered to where you stay."
+  }
  },
  "delivery_rules": {
   "shop": [
