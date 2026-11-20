@@ -730,6 +730,10 @@
       "en": "Fried egg not included — add one from Add-ons (+฿20)",
       "th": "ไม่รวมไข่ดาว — เพิ่มไข่ดาวได้ในหมวดของเพิ่ม (+฿20)"
      },
+     "story": {
+      "th": "ผัดไฟแรงกับกระเทียม พริกสด และใบกะเพรา หอมฉุน รสจัดจ้าน เลือกได้ทั้งหมู ไก่ กุ้ง หรือผัก เสิร์ฟกับข้าวสวย เพิ่มไข่ดาวได้",
+      "en": "Stir-fried over high heat with garlic, fresh chilli and holy basil. Bold, peppery and fragrant — with pork, chicken, shrimp or vegetables, served with steamed rice. Add a fried egg if you like."
+     },
      "options": [
       {
        "id": "v",
@@ -921,6 +925,10 @@
       "en": "Pumpkin in coconut milk",
       "th": "ฟักทองกะทิ"
      },
+     "story": {
+      "th": "ฟักทองชิ้นนุ่มต้มในน้ำกะทิหอมหวาน ตัดเค็มนิด ๆ ขนมไทยพื้นบ้าน เสิร์ฟอุ่น ๆ",
+      "en": "Soft pieces of pumpkin simmered in sweet coconut milk with a touch of salt. A traditional Thai dessert, served warm."
+     },
      "price": 80,
      "img": "img/pumpk.jpg"
     }
@@ -1072,6 +1080,10 @@
       "en": "Iced caramel coffee",
       "th": "กาแฟคาราเมลเย็น"
      },
+     "story": {
+      "th": "กาแฟเอสเพรสโซกับนมและซอสคาราเมล เสิร์ฟเย็นบนน้ำแข็ง หวานหอม กลมกล่อม",
+      "en": "Espresso with milk and caramel sauce, served over ice. Smooth, sweet and fragrant."
+     },
      "price": 60,
      "img": "img/carcof.jpg"
     },
@@ -1089,6 +1101,10 @@
      "name": {
       "en": "Yuzu Americano soda (iced)",
       "th": "ยูซุอเมริกาโน่โซดา (เย็น)"
+     },
+     "story": {
+      "th": "เอสเพรสโซช็อตเข้มราดลงบนน้ำยูซุและโซดาเย็นซ่า เปรี้ยวหอมแบบส้มญี่ปุ่น ตัดกับความขมของกาแฟ ดื่มแล้วสดชื่น",
+      "en": "A shot of espresso poured over yuzu and sparkling soda on ice. Bright Japanese citrus against the bitterness of coffee — very refreshing."
      },
      "price": 60,
      "img": "img/yuzu.jpg"
@@ -2598,14 +2614,13 @@
   ],
   "featured": [
    "padthai",
-   "massaman",
-   "larb",
-   "krapow",
-   "green",
-   "seeew",
+   "yuzu",
    "mango",
+   "massaman",
+   "carcof",
    "fondue",
-   "ck_coco"
+   "krapow",
+   "pumpk"
   ]
  },
  "delivery_rules": {
