@@ -685,6 +685,7 @@
   #viaText { font-family: inherit; font-size: 14px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
   /* the promo cards are gone from the home page: the running strip under the photo carries the promos */
   #promos { display: none !important; }
+  .wholead { margin: 0 0 16px; font-size: 17px; line-height: 1.6; color: var(--text); max-width: 46em; }
   /* home: recommended dishes — one row of pictures that drifts by itself; a tap tells the dish's story (ordering is in the Menu tab) */
   #pickBox .picks { display: block; overflow: hidden; margin: 0 -16px; }
   .pickrun { display: flex; width: max-content; animation: pickmove 70s linear infinite; }
@@ -852,6 +853,7 @@
       <div class="pdots" id="pdots"></div>
     </section>
     <h2 class="sec" id="whoTitle"></h2>
+    <p class="wholead hide" id="whoLead"></p>
     <div class="feats" id="feats"></div>
     <section class="hide" id="pickBox">
       <h2 class="sec" id="pickTitle"></h2>
@@ -1139,7 +1141,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 19;
+const BUILD = 20;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1257,7 +1259,7 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   const multi = m => (defs[m].max || 1) > 1, least = m => defs[m].min != null ? defs[m].min : (defs[m].default == null ? 1 : 0);
   const order = m => defs[m].choices.map(c => c.id);
   for (const m of mods) pick[m] = multi(m) ? [] : defs[m].default;
-  const ready = () => mods.every(m => multi(m) ? pick[m].length >= least(m) : pick[m] != null);
+  const ready = () => mods.every(m => multi(m) ? pick[m].length >= least(m) : (pick[m] != null || least(m) === 0));   // "min": 0 = may be left out (extra eggs)
   const tail = optId => {   // "@s:50,i:sep" for the choices that differ from the usual; "" when all are usual
     const parts = mods.filter(m => !(optId && (defs[m].not_options || []).includes(optId)) && (multi(m) ? pick[m].length : pick[m] != null && pick[m] !== defs[m].default))
       .map(m => m + ":" + (multi(m) ? order(m).filter(id => pick[m].includes(id)).join("+") : pick[m]));
@@ -1280,6 +1282,8 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
           if (pick[m].includes(ch.id)) pick[m] = pick[m].filter(x => x !== ch.id);
           else if (pick[m].length < max) pick[m].push(ch.id);
           b.classList.toggle("on", pick[m].includes(ch.id));
+        } else if (pick[m] === ch.id && least(m) === 0 && defs[m].default == null) {   // an optional one-of: a second tap takes it off again
+          pick[m] = undefined; b.classList.remove("on");
         } else { pick[m] = ch.id; line.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); }
         rows();
       };
@@ -1379,6 +1383,7 @@ function renderHome() {
   if (a.photo && !ph.dataset.done) { ph.dataset.done = "1"; ph.onload = () => ph.classList.remove("hide"); ph.src = a.photo; }
   $("openMenu").textContent = t().openMenu; $("heroMap").textContent = t().heroMap;
   $("whoTitle").textContent = t().whoTitle; $("howTitle").textContent = t().howTitle;
+  $("whoLead").textContent = tr(a.intro) || ""; $("whoLead").classList.toggle("hide", !tr(a.intro));   // who we are, in a sentence or two (about.intro in catalog.json)
   const feats = $("feats"); feats.textContent = "";
   for (const [ic, title, sub] of t().feats) { const c = el("div", "feat"); c.append(el("span", "ic", ic), el("b", "", title), el("small", "", sub)); feats.append(c); }
   const steps = $("steps"); steps.textContent = "";
@@ -2178,7 +2183,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   const bar = document.getElementById("catbar"), chips = document.getElementById("chips");
   if (!bar || !chips) return;
   const plain = s => String(s).replace(/\p{Extended_Pictographic}(?:️|‍\p{Extended_Pictographic})*/gu, "").trim();
-  let drawnFor = "";
+  let drawnFor = "", hold = { id: "", until: 0 };
   function draw() {
     if (!menu) return;
     const key = lang + "|" + groups().map(g => g.id + (shutNow(g) ? "!" : "")).join(",");
@@ -2195,6 +2200,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
           b.textContent = plain(tr(cat.label)); b.dataset.cat = cat.id; b.dataset.group = g.id;
           if (shutNow(g)) b.classList.add("shut");
           b.onclick = () => {
+            hold = { id: cat.id, until: Date.now() + 1500 };
             if (group !== g.id || document.getElementById("search").value) openGroup(g.id);   // the page's own way of switching
             const chip = chips.querySelector('button[data-cat="' + cat.id + '"]');
             if (chip) chip.click();                                                              // … and of jumping to a category
@@ -2204,6 +2210,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
         }
       });
     }
+    if (hold.id && Date.now() < hold.until) return mark(hold.id);   // just tapped: keep that one lit while the page glides to it
     const on = chips.querySelector("button.on") || chips.querySelector("button");
     mark(on ? on.dataset.cat : "");
   }
@@ -2221,13 +2228,15 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
       if (shut) { const p = document.createElement("p"); p.className = "catshut"; p.textContent = t().closedTill(hh(shut.to_hour || 0)); all.append(p); }
       const grid = document.createElement("div"); grid.className = "catgrid";
       for (const cat of cats) {
-        const label = tr(cat.label), cut = label.indexOf(" "), pic = cat.items.find(it => it.img), tile = document.createElement("button");
+        // the tile's picture: the category's own cover (catalog.json "cover": "img/….jpg"), else the photo of its first item that has one
+        const label = tr(cat.label), cut = label.indexOf(" "), pic = cat.cover || (cat.items.find(it => it.img) || {}).img, tile = document.createElement("button");
         tile.className = "cattile";
-        if (pic) { const im = document.createElement("img"); im.loading = "lazy"; im.alt = ""; im.src = pic.img; tile.append(im); }
+        if (pic) { const im = document.createElement("img"); im.loading = "lazy"; im.alt = ""; im.src = pic; tile.append(im); }
         else { const e = document.createElement("span"); e.className = "emo"; e.textContent = cut > 0 ? label.slice(0, cut) : "🍽"; tile.append(e); }
         const n = document.createElement("small"); n.textContent = t().nItems(cat.items.length);
         tile.append(document.createTextNode(plain(label)), n);
         tile.onclick = () => {
+          hold = { id: cat.id, until: Date.now() + 1500 };
           landing(false);
           openGroup(g.id);                                                                     // the page's own way of showing a group
           const chip = chips.querySelector('button[data-cat="' + cat.id + '"]');
