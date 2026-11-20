@@ -1,5 +1,5 @@
 {
- "build": 18,
+ "build": 19,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -81,6 +81,10 @@
      "name": {
       "en": "Pad Thai",
       "th": "ผัดไทย"
+     },
+     "story": {
+      "th": "เส้นจันท์ผัดไฟแรงกับซอสมะขามรสเปรี้ยวหวาน ใส่ไข่ เต้าหู้ ถั่วงอก และกุยช่าย โรยถั่วลิสงคั่ว เสิร์ฟพร้อมมะนาวให้บีบเอง",
+      "en": "Rice noodles tossed in a hot wok with sweet-and-sour tamarind sauce, egg, tofu, bean sprouts and garlic chives. Finished with roasted peanuts and a wedge of lime."
      },
      "options": [
       {
@@ -216,6 +220,10 @@
       "en": "Pad See Ew",
       "th": "ผัดซีอิ๊ว"
      },
+     "story": {
+      "th": "เส้นใหญ่ผัดไฟแรงกับซีอิ๊วดำจนหอมกระทะ ใส่ไข่และคะน้า รสเค็มหวาน ไม่เผ็ด",
+      "en": "Wide rice noodles stir-fried over high heat with dark soy sauce, egg and Chinese kale. Savoury-sweet and not spicy."
+     },
      "options": [
       {
        "id": "v",
@@ -312,6 +320,10 @@
       "en": "Massaman curry",
       "th": "แกงมัสมั่น"
      },
+     "story": {
+      "th": "แกงกะทิรสนุ่ม เคี่ยวช้า ๆ กับพริกแกงมัสมั่น มันฝรั่ง หอมใหญ่ และถั่วลิสง หอมเครื่องเทศอย่างอบเชยและกระวาน รสกลมกล่อม ไม่เผ็ดจัด",
+      "en": "A mild, slow-simmered coconut curry with massaman paste, potato, onion and peanuts. Warm spices like cinnamon and cardamom give it a round flavour that is not very hot."
+     },
      "options": [
       {
        "id": "v",
@@ -353,6 +365,10 @@
      "name": {
       "en": "Green curry",
       "th": "แกงเขียวหวาน"
+     },
+     "story": {
+      "th": "แกงกะทิกับพริกแกงเขียวหวานสด ใส่มะเขือ ใบโหระพา และใบมะกรูด หอมสมุนไพร รสเผ็ดกลาง ๆ หวานมันจากกะทิ",
+      "en": "Coconut curry made with fresh green curry paste, Thai eggplant, sweet basil and kaffir lime leaf. Fragrant and medium-hot, with the sweetness of coconut milk."
      },
      "options": [
       {
@@ -664,6 +680,10 @@
       "en": "Larb",
       "th": "ลาบ"
      },
+     "story": {
+      "th": "เนื้อสับรวนสุก คลุกกับน้ำมะนาว น้ำปลา พริกป่น และข้าวคั่วหอม ๆ ใส่หอมแดง ต้นหอม และใบสะระแหน่ รสเปรี้ยวเผ็ดแบบอีสาน",
+      "en": "Minced meat cooked and tossed with lime juice, fish sauce, chilli flakes and toasted ground rice, with shallots, spring onion and fresh mint. Sour and spicy, north-eastern style."
+     },
      "options": [
       {
        "id": "c",
@@ -875,6 +895,10 @@
       "en": "Chocolate fondue with ice cream & banana",
       "th": "ช็อกโกแลตฟองดูว์"
      },
+     "story": {
+      "th": "ช็อกโกแลตอุ่นละลายสำหรับจิ้ม เสิร์ฟพร้อมไอศกรีมและกล้วยหั่นชิ้น ของหวานสำหรับแบ่งกันทาน",
+      "en": "Warm melted chocolate for dipping, served with ice cream and sliced banana. A dessert made for sharing."
+     },
      "price": 120,
      "img": "img/fondue.jpg"
     },
@@ -883,6 +907,10 @@
      "name": {
       "en": "Mango sticky rice",
       "th": "ข้าวเหนียวมะม่วง"
+     },
+     "story": {
+      "th": "ข้าวเหนียวมูนกับกะทิจนนุ่มหอม เสิร์ฟคู่มะม่วงสุกหวาน ราดหน้ากะทิรสเค็มนิด ๆ ตัดหวาน",
+      "en": "Sticky rice steeped in sweet coconut milk, served with ripe mango and a lightly salted coconut cream on top."
      },
      "price": 100,
      "img": "img/mango.jpg"
@@ -2567,6 +2595,17 @@
     },
     "go": "menu"
    }
+  ],
+  "featured": [
+   "padthai",
+   "massaman",
+   "larb",
+   "krapow",
+   "green",
+   "seeew",
+   "mango",
+   "fondue",
+   "ck_coco"
   ]
  },
  "delivery_rules": {
