@@ -685,6 +685,15 @@
   #viaText { font-family: inherit; font-size: 14px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
   /* the promo cards are gone from the home page: the running strip under the photo carries the promos */
   #promos { display: none !important; }
+  /* delivery: find your place by name */
+  .placeq { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--text); font: inherit; font-size: 16px; }
+  .placeq:focus { outline: none; border-color: var(--green); }
+  .placehits { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .placehits:empty { display: none; }
+  .placehits button { display: flex; justify-content: space-between; gap: 10px; width: 100%; padding: 11px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--text); font-size: 15px; text-align: left; }
+  .placehits button small { flex: none; color: var(--hint); font-size: 13px; }
+  .placehits .none, .placehits .src { font-size: 12px; color: var(--hint); padding: 2px 4px; }
+  .placepick { display: block; width: 100%; margin-top: 8px; padding: 11px 14px; border: 1px solid var(--green); border-radius: 12px; background: #fff; color: var(--green); font-size: 15px; font-weight: 600; text-align: left; }
   /* payment QR inside a tracked order */
   .payqr { margin-top: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; text-align: center; }
   .payqr .payamt { font-size: 20px; font-weight: 700; color: var(--green); }
@@ -909,6 +918,10 @@
         <div class="choices col" id="zones"></div>
         <p class="zonehint" id="zoneHint"></p>
       </div>
+      <h3 id="placeLabel"></h3>
+      <input id="placeQ" class="placeq" type="search" autocomplete="off" maxlength="80">
+      <div id="placeHits" class="placehits"></div>
+      <button class="placepick hide" id="placePick"></button>
       <h3 id="addrLabel"></h3>
       <textarea id="addr" rows="2" maxlength="300"></textarea>
       <p class="zonehint" id="locLater"></p>
@@ -997,6 +1010,7 @@ const TEXT = {
         needContact: z => `${z}: กรุณาติดต่อร้านก่อน (พิมพ์ "พนักงาน" ในแชท) หรือเลือกรับที่ร้าน`, contactUs: "ติดต่อร้านก่อนสั่ง", nightFee: "ค่าบริการรอบดึก", maps: "📍 แผนที่", call: "📞 โทร",
         dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง",
         zone: "อยู่ห่างจากร้านแค่ไหน?", min: "ขั้นต่ำ ",
+        placeLabel: "ค้นหาที่พักหรือสถานที่ของคุณ", placePh: "พิมพ์ชื่อโรงแรม ที่พัก ร้าน หรือหาด", placeNone: "ไม่พบชื่อนี้ในแผนที่ — พิมพ์ที่อยู่ด้านล่าง หรือแนบตำแหน่งแทนได้", placeOk: n => `✓ ${n} (แตะเพื่อเอาออก)`, placeKm: k => `~${k} กม.`,
         addr: "ที่อยู่จัดส่ง", addrPh: "บ้านเลขที่ / ชื่อที่พัก / จุดสังเกต", useLoc: "📍 แนบตำแหน่งปัจจุบันของฉัน",
         locOk: "✓ แนบตำแหน่งแล้ว (แตะเพื่อเอาออก)", locFail: "แนบตำแหน่งไม่ได้ กรุณาพิมพ์ที่อยู่แทนครับ",
         note: "หมายเหตุถึงครัว (ไม่บังคับ)", notePh: "เช่น ไม่เผ็ด ไม่ใส่ถั่ว", pay: "ชำระเงินแบบไหน?",
@@ -1062,6 +1076,7 @@ const TEXT = {
         needContact: z => `${z}: please contact us first (type "staff" in the chat), or choose pick up`, contactUs: "contact us before ordering", nightFee: "Night surcharge", maps: "📍 Map", call: "📞 Call",
         dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery",
         zone: "How far are you from the shop?", min: "minimum ",
+        placeLabel: "Find your hotel or place", placePh: "Type a hotel, bungalow, restaurant or beach name", placeNone: "We couldn't find that name on the map — type your address below or attach your location instead.", placeOk: n => `✓ ${n} (tap to remove)`, placeKm: k => `~${k} km`,
         addr: "Delivery address", addrPh: "House no. / hotel name / landmark", useLoc: "📍 Attach my current location",
         locOk: "✓ Location attached (tap to remove)", locFail: "Couldn't get your location. Please type the address.",
         note: "Note for the kitchen (optional)", notePh: "e.g. not spicy, no peanuts", pay: "How would you like to pay?",
@@ -1098,11 +1113,12 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 16;
+const BUILD = 17;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
 const prices = {}, names = {};   // by the same key
+let placeName = "";   // set when loc came from a place picked by name, not from GPS
 let how = null, pay = null, loc = null, zone = null;   // "p"|"d", "q"|"c", [lat, lon], zone id
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
@@ -1575,6 +1591,7 @@ function payload() {
   if (how === "d" && zone) d.zone = zone;
   if (how === "d" && addr) d.address = addr;
   if (how === "d" && loc) d.loc = loc;
+  if (how === "d" && loc && placeName) d.place = placeName;
   if (note) d.note = note;
   return JSON.stringify(d);
 }
@@ -1612,7 +1629,11 @@ function drawDetails() {
   document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
   $("addrBox").classList.toggle("hide", how !== "d");
   $("zoneBox").classList.toggle("hide", !zones().length);
-  $("locBtn").textContent = loc ? t().locOk : t().useLoc;
+  if (!loc) placeName = "";
+  $("locBtn").textContent = loc && !placeName ? t().locOk : t().useLoc;
+  $("placeLabel").textContent = t().placeLabel; $("placeQ").placeholder = t().placePh;
+  $("placePick").textContent = placeName ? t().placeOk(placeName) : ""; $("placePick").classList.toggle("hide", !placeName);
+  $("placeQ").classList.toggle("hide", !!placeName);
   const total = foodTotal(), p = deliveryPlan(total);
   const web = !inTelegram, ask = web && how === "d" && !p.zone;   // in a browser the shop quotes the delivery fee in the chat
   $("webBox").classList.remove("hide");   // name and number: asked on the website and in Telegram alike
@@ -1661,8 +1682,95 @@ if (inTelegram && LM) {
   try { LM.init(() => { if (LM.isLocationAvailable) $("locBtn").classList.remove("hide"); }); } catch (e) {}
 }
 if (!inTelegram && navigator.geolocation) $("locBtn").classList.remove("hide");
+// ---- delivery: "type the name of your place" — the island's places (places.json, from OpenStreetMap) give the coordinates,
+// so the shop can price the delivery as if a pin had been sent. Same matching idea as the bot's places.py.
+let placeRows = null, placeLoad = null;
+const PLACE_COMMON = new Set("hotel resort bungalow bungalows villa villas hostel guesthouse guest house home homestay restaurant bar cafe coffee shop beach bay view koh ko phangan the and at by of in room rooms apartment apartments residence garden sea sunset haad hat had ao baan ban thong tong soi moo near next to opposite โรงแรม รีสอร์ท รีสอร์ต บังกะโล วิลล่า ร้าน ร้านอาหาร บ้าน หาด อ่าว เกาะ พะงัน เกาะพะงัน ซอย หมู่ ใกล้ ตรงข้าม ห้อง".split(" "));
+const placeNorm = s => String(s || "").normalize("NFKD").toLowerCase().replace(/&/g, " and ").replace(/[̀-ͯ]/g, "").replace(/[^0-9a-z฀-๿]+/g, " ").trim().replace(/\s+/g, " ");
+function placeNear(a, b) {   // 0..1: how alike two words are (letters in common, in order)
+  if (a === b) return 1;
+  if (Math.min(a.length, b.length) < 5) return 0;
+  const m = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) m[i][j] = a[i - 1] === b[j - 1] ? m[i - 1][j - 1] + 1 : Math.max(m[i - 1][j], m[i][j - 1]);
+  return 2 * m[a.length][b.length] / (a.length + b.length);
+}
+function placeScore(q, qt, key, toks) {
+  if (q === key) return 100;
+  const qs = q.replace(/ /g, ""), ks = key.replace(/ /g, "");
+  if (qs === ks) return 98;
+  let best = 0;
+  if (ks.length >= 4 && qs.includes(ks)) best = toks.join("").length >= 3 ? 92 : 0;
+  if (qs.length >= 4 && ks.includes(qs)) best = Math.max(best, 70 + 22 * qs.length / ks.length);
+  if (qt.length && toks.length) {
+    let hit = 0, got = 0, len = 0;
+    for (const a of qt) {
+      let r = Math.max(...toks.map(b => placeNear(a, b)));
+      r = r >= 0.8 ? r : (a.length >= 3 && toks.some(b => b.startsWith(a)) ? 0.6 : 0);
+      hit += r; got += r * a.length; len += a.length;
+    }
+    if (got / len >= 0.5) best = Math.max(best, 40 + 35 * got / len + 20 * Math.min(1, hit / toks.length));
+  }
+  if (qs.length >= 5 && best < 80 && Math.abs(qs.length - ks.length) <= 4) {   // the whole name with a typo or two
+    const r = placeNear(qs, ks);
+    if (r >= 0.8) best = Math.max(best, 50 + 45 * r);
+  }
+  return best;
+}
+function placeSearch(text) {
+  const q = placeNorm(text).slice(0, 120);
+  if (!placeRows || q.replace(/ /g, "").length < 3) return [];
+  const qt = q.split(" ").filter(w => !PLACE_COMMON.has(w) && !/^\d+$/.test(w));
+  if (!qt.length && PLACE_COMMON.has(q)) return [];
+  const out = [];
+  for (const r of placeRows) {
+    let s = 0;
+    for (let i = 0; i < r.keys.length; i++) s = Math.max(s, placeScore(q, qt, r.keys[i], r.toks[i]));
+    if (s >= 62) out.push({ r, s: s + (r.kind === "h" ? 0.5 : 0) });
+  }
+  out.sort((a, b) => b.s - a.s);
+  const seen = new Set(), top = [];
+  for (const o of out) {
+    const k = o.r.keys[0] + "|" + o.r.lat.toFixed(3) + "|" + o.r.lon.toFixed(3);
+    if (!seen.has(k)) { seen.add(k); top.push(o.r); }
+    if (top.length >= 5) break;
+  }
+  return top;
+}
+function placeKm(r) {
+  const shop = rules().shop, rad = x => x * Math.PI / 180;
+  if (!shop) return "";
+  const h = Math.sin(rad(r.lat - shop[0]) / 2) ** 2 + Math.cos(rad(shop[0])) * Math.cos(rad(r.lat)) * Math.sin(rad(r.lon - shop[1]) / 2) ** 2;
+  return t().placeKm((2 * 6371 * Math.asin(Math.sqrt(h)) * (rules().road_factor || 1.4)).toFixed(1));
+}
+function drawPlaceHits() {
+  const box = $("placeHits"), text = $("placeQ").value; box.textContent = "";
+  if (placeNorm(text).replace(/ /g, "").length < 3) return;
+  if (!placeRows) {   // the list is fetched the first time someone searches
+    placeLoad = placeLoad || fetch("places.json").then(r => r.json()).then(d => {
+      placeRows = (d.p || []).map(p => {
+        const names = p.slice(3).filter(Boolean).map(String), keys = [...new Set(names.map(placeNorm))].filter(Boolean);
+        return { lat: p[0], lon: p[1], kind: p[2], name: names[0], keys, toks: keys.map(k => k.split(" ").filter(w => !PLACE_COMMON.has(w))) };
+      }).filter(r => r.keys.length);
+    }).catch(() => { placeRows = []; });
+    placeLoad.then(drawPlaceHits);
+    return;
+  }
+  const hits = placeSearch(text);
+  if (!hits.length) { box.append(el("div", "none", t().placeNone)); return; }
+  for (const r of hits) {
+    const b = el("button", "", ""); b.type = "button";
+    b.append(el("span", "", r.name), el("small", "", placeKm(r)));
+    b.onclick = () => { loc = [r.lat, r.lon]; placeName = r.name; $("placeQ").value = ""; box.textContent = ""; drawDetails(); };
+    box.append(b);
+  }
+  box.append(el("div", "src", "© OpenStreetMap contributors"));
+}
+let placeTimer = 0;
+$("placeQ").oninput = () => { clearTimeout(placeTimer); placeTimer = setTimeout(drawPlaceHits, 250); };
+$("placePick").onclick = () => { loc = null; placeName = ""; drawDetails(); };
 $("locBtn").onclick = () => {
-  if (loc) { loc = null; return drawDetails(); }
+  if (loc && !placeName) { loc = null; return drawDetails(); }
+  placeName = "";   // a real position replaces a place picked by name
   if (!inTelegram) {   // a normal browser asks the customer for permission itself
     navigator.geolocation.getCurrentPosition(
       g => { loc = [Number(g.coords.latitude.toFixed(6)), Number(g.coords.longitude.toFixed(6))]; drawDetails(); },
@@ -1742,6 +1850,7 @@ function orderText() {
     if (how === "d") {
       L.push("🛵 จัดส่ง" + (p.zone ? ` (${tr(p.zone.label)})` : ""));
       if (addr) L.push("🏠 " + addr);
+      if (loc && placeName) L.push("📌 " + placeName + " (เลือกจากชื่อสถานที่)");
       if (loc) {
         const shop = rules().shop, rad = x => x * Math.PI / 180;
         if (shop) {
@@ -1762,6 +1871,7 @@ function orderText() {
     const code = { c: cart, m: how, n: $("cname").value.trim().slice(0, 60), t: $("cphone").value.trim().slice(0, 20), g: keep, ts: Math.floor(Date.now() / 1000) };
     if (how === "d" && addr) code.a = addr;
     if (how === "d" && loc) code.l = loc;
+    if (how === "d" && loc && placeName) code.p = placeName.slice(0, 80);
     if (note) code.o = note;
     code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
     if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
