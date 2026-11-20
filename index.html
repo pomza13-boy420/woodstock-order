@@ -903,7 +903,7 @@
   </div>
   <p class="tiernote" id="tierNote"></p>
   <div class="box hide" id="vouchersBox"><h3 id="vouchersTitle"></h3><ul id="vouchers"></ul></div>
-  <div class="box" id="rewardsBox"><h3 id="rewardsTitle"></h3><div id="rewards"></div></div>
+  <div class="box" id="rewardsBox"><h3 id="rewardsTitle"></h3><div id="rewards"></div><p class="zonehint" id="redeemMsg"></p></div>
 </div>
 
 <!-- ============ menu ============ -->
@@ -1061,7 +1061,11 @@ const TEXT = {
         tierNext: (d, l) => `อีก ${d} วัน เลื่อนเป็นระดับ ${l}`, tierTop: "คุณอยู่ระดับสูงสุดแล้ว 🎉",
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
-        rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
+        rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?",
+        rdSending: "กำลังส่งคำขอแลกแต้ม… รอสักครู่", rdOk: c => `แลกสำเร็จ ✓ คูปอง #${c} อยู่ที่ “คูปองของคุณ” ด้านบนแล้ว`, rdFail: "ส่งคำขอไม่สำเร็จ ยังไม่ได้หักแต้ม กรุณาลองใหม่",
+        rdLate: "ร้านยังไม่ตอบกลับ — ถ้าแต้มยังไม่ลด ลองกดแลกใหม่อีกครั้ง", rdNeedAcct: "สมัครสมาชิกด้านล่างก่อน แล้วจึงแลกแต้มได้",
+        rdErr: { pts: "แต้มไม่พอสำหรับของรางวัลนี้", has: "คุณมีคูปองส่วนลดที่ยังไม่ได้ใช้อยู่แล้ว ใช้กับออเดอร์ถัดไปก่อนนะครับ", gone: "ของรางวัลนี้ไม่มีแล้ว", shop: "ติดต่อร้านไม่ได้ในขณะนี้ ยังไม่ได้หักแต้ม กรุณาลองใหม่", db: "ระบบขัดข้อง ยังไม่ได้หักแต้ม กรุณาลองใหม่" },
+        itemV: (c, l, x) => `#${c} ${l} — เปิดหน้านี้ให้พนักงานดูที่ร้านเพื่อรับของ` + (x ? ` (ใช้ได้ถึง ${x})` : ""), todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { incTitle: p => "Included in the price" + (p ? " · " + p : ""), moreTitle: "Add extras (charged)",
         site: { storyHint: "You can order this from the “Menu” tab below.", storyClose: "Close", catsAll: "← All categories", catsPick: "Choose a category", pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
@@ -1127,7 +1131,11 @@ const TEXT = {
         tierNext: (d, l) => `${d} more days to reach ${l}`, tierTop: "You're at the top level 🎉",
         tierStart: "Your membership starts when your first order is completed.",
         vouchers: "🎟 Your vouchers", discV: (a, x) => `฿${a} off your next order — valid until ${x}`,
-        rewards: "🎁 Rewards", costW: n => `${n} point${n === 1 ? "" : "s"}`, redeem: "Redeem", sure: "Confirm?", todayOnly: "Collect at the shop · redeem on the day you come (valid until 23:59)", need: n => `${n} more needed` },
+        rewards: "🎁 Rewards", costW: n => `${n} point${n === 1 ? "" : "s"}`, redeem: "Redeem", sure: "Confirm?",
+        rdSending: "Sending your request… one moment", rdOk: c => `Done ✓ Voucher #${c} is now under “Your vouchers” above`, rdFail: "The request could not be sent. No points were used — please try again.",
+        rdLate: "The shop has not answered yet — if your points are unchanged, try again.", rdNeedAcct: "Sign up as a member below first, then you can redeem.",
+        rdErr: { pts: "Not enough points for this reward.", has: "You already have a discount voucher waiting. Use it on your next order first.", gone: "That reward is no longer available.", shop: "Couldn't reach the shop right now. No points were used — please try again.", db: "Something went wrong. No points were used — please try again." },
+        itemV: (c, l, x) => `#${c} ${l} — show this page to staff at the shop to collect it` + (x ? ` (valid until ${x})` : ""), todayOnly: "Collect at the shop · redeem on the day you come (valid until 23:59)", need: n => `${n} more needed` },
 };
 
 const params = new URLSearchParams(location.search);
@@ -1147,13 +1155,14 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 22;
+const BUILD = 23;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
 const prices = {}, names = {};   // by the same key
 let placeName = "";   // set when loc came from a place picked by name, not from GPS
 let how = null, pay = null, loc = null, zone = null;   // "p"|"d"|"e" (pick up, delivery, eat in), "q"|"c", [lat, lon], zone id
+let redeemWait = null, redeemNote = "";   // website member card: the "redeem" this page is waiting to hear about { ts, id }, and what to say under the rewards
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
 const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
@@ -1488,6 +1497,8 @@ function renderCard() {
   if (member.d) vs.append(el("li", "", t().discV(member.d, member.dx || "—")));
   if (member.fs) vs.append(el("li", "", t().shipV(member.fk)));
   for (const v of member.v || []) vs.append(el("li", "", v));
+  // website members: shop rewards redeemed here and waiting to be collected (the bot's note lists them)
+  for (const v of member.wv || []) vs.append(el("li", "", t().itemV(v.c, tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r, v.x)));
   $("vouchersTitle").textContent = t().vouchers; $("vouchersBox").classList.toggle("hide", !vs.children.length);
   const box = $("rewards"); box.textContent = "";
   for (const r of P.rewards || []) {
@@ -1495,7 +1506,8 @@ function renderCard() {
     what.append(el("span", "cost", t().costW(r.cost)));
     if (r.valid === "today") what.append(el("span", "when", t().todayOnly));
     const b = el("button");
-    if (myPoints < r.cost) { b.className = "no"; b.textContent = t().need(r.cost - myPoints); }
+    if (redeemWait) { b.className = "no"; b.textContent = "…"; }   // one redemption at a time: wait for the shop's answer
+    else if (myPoints < r.cost) { b.className = "no"; b.textContent = t().need(r.cost - myPoints); }
     else {
       b.textContent = t().redeem;
       b.onclick = () => {
@@ -1504,11 +1516,12 @@ function renderCard() {
           b.classList.add("sure"); b.textContent = t().sure; return;
         }
         const data = JSON.stringify({ redeem: r.id, lang });
-        if (inTelegram) tg.sendData(data); else b.textContent = data;
+        if (inTelegram) tg.sendData(data); else redeemWeb(r);
       };
     }
     row.append(what, b); box.append(row);
   }
+  $("redeemMsg").textContent = inTelegram ? "" : redeemNote;
   $("rewardsTitle").textContent = t().rewards; $("rewardsBox").classList.toggle("hide", !box.children.length);
   $("cardBack").textContent = t().home;
 }
@@ -1906,7 +1919,9 @@ function orderText() {
       else L.push("🛵 ค่าส่ง: " + (p.ship ? money(p.ship) : "ฟรี"));
       if (p.night) L.push(`🌙 ค่าบริการรอบดึก ${money(p.night)}`);
     } else L.push(how === "e" ? "🍽 ทานที่ร้าน" + (when ? " · " + when : "") : "🏪 รับที่ร้าน");
-    L.push(`💵 ยอดรวม ${money(total + p.ship + p.night)}${plus}`);
+    const disc = Math.min(member.d || 0, total);   // a discount voucher bought with points: the bot takes it off, shown here so both see one total
+    if (disc) L.push(`🎟 คูปองส่วนลด (แลกแต้ม) -${money(disc)}`);
+    L.push(`💵 ยอดรวม ${money(total + p.ship + p.night - disc)}${plus}`);
     L.push(cash ? "💵 ชำระ: เงินสดที่ร้าน" : "💳 ชำระ: โอนก่อน — รอร้านยืนยันและส่ง QR");
     if (note) L.push("📝 " + note);
     if (keep !== "th") L.push("🌐 ลูกค้าใช้ภาษา: " + keep.toUpperCase());
@@ -2084,7 +2099,14 @@ async function pollOrders() {
   if (acct && acct.mk && (changed || !pollOrders.memberAt || Date.now() - pollOrders.memberAt > 120e3)) {
     pollOrders.memberAt = Date.now();
     const u = await ask("member=" + acct.mk);
-    if (u) { member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0); changed = true; }
+    if (u) {
+      member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0);
+      member.d = u.da || 0; member.dx = u.dx || ""; member.wv = Array.isArray(u.v) ? u.v : [];   // vouchers bought with points: a discount for the next order, shop rewards to collect
+      if (u.rr && redeemWait && u.rr.ts === redeemWait.ts) {   // the shop's answer to the "redeem" just pressed here
+        redeemNote = u.rr.ok ? t().rdOk(u.rr.c || "") : (t().rdErr[u.rr.e] || t().rdFail); redeemWait = null;
+      }
+      changed = true;
+    }
   }
   if (!pollOrders.shopAt || Date.now() - pollOrders.shopAt > 60e3) {   // has staff closed the shop for now? (/close in the group)
     pollOrders.shopAt = Date.now();
@@ -2093,6 +2115,23 @@ async function pollOrders() {
   }
   pollBusy = false;
   if (changed) { LS.set("ws_orders", myOrders.slice(0, 10)); drawOrders(); if (!$("cardView").classList.contains("hide")) renderCard(); $("pointsValue").textContent = myPoints.toLocaleString("en-US"); }
+}
+// "Redeem" on the website's member card. The request goes to the shop's inbox the way an order does; the bot takes the
+// points, makes the voucher and answers on the member's note, which pollOrders reads (rr). Same rewards as in Telegram.
+async function redeemWeb(r) {
+  if (redeemWait) return;
+  if (!acct || !acct.mk || !inboxUrl()) { redeemNote = t().rdNeedAcct; renderCard(); return; }
+  const ts = Math.floor(Date.now() / 1000);
+  redeemWait = { ts, id: r.id }; redeemNote = t().rdSending; renderCard();
+  let ok = false;
+  try {
+    const res = await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ rd: r.id, mk: acct.mk, g: lang, ts }) }) });
+    ok = !!(await res.json()).ok;
+  } catch (e) {}
+  if (!ok) { redeemWait = null; redeemNote = t().rdFail; renderCard(); return; }
+  const mine = () => redeemWait && redeemWait.ts === ts;
+  for (const ms of [9000, 17000, 27000, 45000, 70000]) setTimeout(() => { if (mine()) { pollOrders.memberAt = 0; pollOrders(); } }, ms);
+  setTimeout(() => { if (mine()) { redeemWait = null; redeemNote = t().rdLate; renderCard(); } }, 95000);
 }
 function drawProfile() {
   const S = t().site, box = $("profBox"); box.textContent = "";
