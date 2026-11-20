@@ -338,6 +338,25 @@
   }
   .choice small { display: block; font-size: 13px; font-weight: 500; opacity: .85; }
   .choice.on { border-color: var(--green); background: var(--green); color: #fff; }
+  /* a shop reward shown as a ticket, and the small "use" button next to it in the list */
+  .tixview { position: fixed; inset: 0; z-index: 80; background: rgba(20, 18, 16, .72); display: grid; place-items: center; padding: 20px; }
+  .tixcard { width: min(360px, 100%); background: var(--card); border-radius: 20px; padding: 26px 20px; text-align: center; display: grid; gap: 10px; }
+  .tixcode { font-size: 44px; font-weight: 800; letter-spacing: 2px; }
+  .tixname { font-size: 18px; font-weight: 600; }
+  .tixshop, .tixtill, .tixhint { font-size: 14px; opacity: .8; }
+  .tixuse { margin-left: 8px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-weight: 600; font-size: 13px; }
+  /* the map for placing the delivery pin by hand: the map moves under a pin fixed in the middle */
+  .pinview { position: fixed; inset: 0; z-index: 70; background: var(--bg); display: none; flex-direction: column; }
+  .pinview.show { display: flex; }
+  .pinview header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .pinview header h2 { margin: 0; font-size: 18px; }
+  .pinwrap { position: relative; flex: 1; min-height: 0; }
+  #pinMap { position: absolute; inset: 0; background: #dfe7e2; }
+  .pindot { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; transform: translate(-50%, -100%); pointer-events: none; z-index: 500;
+    background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23c0392b' stroke='%23fff' stroke-width='1' d='M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.4 7.5 13.5 7.5 13.5s7.5-8.1 7.5-13.5A7.5 7.5 0 0 0 12 1.5zm0 10.2a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4z'/%3E%3C/svg%3E"); }
+  .pinview .zonehint { margin: 10px 16px 0; }
+  .pinok { margin: 10px 16px calc(16px + env(safe-area-inset-bottom)); padding: 16px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 700; font-size: 17px; }
+  .pinok.off { opacity: .5; }
   #howRow { flex-wrap: wrap; }
   #howE { flex-basis: 100%; }   /* eat in / book a table: its own row under pickup and delivery */
   .details textarea {
@@ -903,6 +922,7 @@
   <p class="tiernote" id="tierNote"></p>
   <div class="box hide" id="vouchersBox"><h3 id="vouchersTitle"></h3><ul id="vouchers"></ul></div>
   <div class="box" id="rewardsBox"><h3 id="rewardsTitle"></h3><div id="rewards"></div><p class="zonehint" id="redeemMsg"></p></div>
+  <p class="tiernote hide" id="acctLine"></p>
 </div>
 
 <!-- ============ menu ============ -->
@@ -928,6 +948,14 @@
   <div class="total"><span id="totalLabel"></span><span id="totalValue"></span></div>
   <p class="next" id="next"></p>
   <button class="confirm" id="confirm"></button>
+</div>
+
+<!-- ============ delivery: place the pin by hand (a map of Koh Phangan only; Leaflet is loaded when it is first opened) ============ -->
+<div class="pinview" id="pinView">
+  <header><button class="back" id="pinBack"></button><h2 id="pinTitle"></h2></header>
+  <div class="pinwrap"><div id="pinMap"></div><div class="pindot" aria-hidden="true"></div></div>
+  <p class="zonehint" id="pinHint"></p>
+  <button class="pinok" id="pinOk"></button>
 </div>
 
 <!-- ============ order details ============ -->
@@ -959,11 +987,16 @@
       <textarea id="addr" rows="2" maxlength="300"></textarea>
       <p class="zonehint" id="locLater"></p>
       <button class="locbtn hide" id="locBtn"></button>
+      <button class="locbtn" id="mapBtn"></button>
     </div>
     <h3 id="noteLabel"></h3>
     <textarea id="note" rows="2" maxlength="300"></textarea>
     <h3 id="payLabel"></h3>
     <div class="choices"><button class="choice" id="payQ" data-pay="q"></button><button class="choice" id="payC" data-pay="c"></button></div>
+    <div id="tixBox" class="hide">
+      <h3 id="tixLabel"></h3>
+      <div class="choices col" id="tixBtns"></div>
+    </div>
   </div>
   <div class="sums">
     <div><span id="foodLabel"></span><span id="foodTotal"></span></div>
@@ -1004,7 +1037,7 @@ const TEXT = {
           payAmt: m => `ยอดโอน ${m}`, payFee: "ยอดนี้ยังไม่รวมค่าส่ง — ถ้ามีค่าส่ง ร้านจะแจ้งยอดสุดท้ายให้", payHint: "สแกน QR นี้ด้วยแอปธนาคาร (แตะรูปเพื่อขยาย) แล้วส่งสลิปให้ร้าน", paySlip: "ส่งสลิปทาง WhatsApp", paySave: "บันทึกรูป QR",
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
-          acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
+          acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
         sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentHintCash: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — ชำระเงินสดที่ร้านได้เลย ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
         autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
         pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
@@ -1063,8 +1096,17 @@ const TEXT = {
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?",
         rdSending: "กำลังส่งคำขอแลกแต้ม… รอสักครู่", rdOk: c => `แลกสำเร็จ ✓ คูปอง #${c} อยู่ที่ “คูปองของคุณ” ด้านบนแล้ว`, rdFail: "ส่งคำขอไม่สำเร็จ ยังไม่ได้หักแต้ม กรุณาลองใหม่",
         rdLate: "ร้านยังไม่ตอบกลับ — ถ้าแต้มยังไม่ลด ลองกดแลกใหม่อีกครั้ง", rdNeedAcct: "สมัครสมาชิกด้านล่างก่อน แล้วจึงแลกแต้มได้",
-        rdErr: { pts: "แต้มไม่พอสำหรับของรางวัลนี้", has: "คุณมีคูปองส่วนลดที่ยังไม่ได้ใช้อยู่แล้ว ใช้กับออเดอร์ถัดไปก่อนนะครับ", gone: "ของรางวัลนี้ไม่มีแล้ว", shop: "ติดต่อร้านไม่ได้ในขณะนี้ ยังไม่ได้หักแต้ม กรุณาลองใหม่", db: "ระบบขัดข้อง ยังไม่ได้หักแต้ม กรุณาลองใหม่" },
-        itemV: (c, l, x) => `#${c} ${l} — เปิดหน้านี้ให้พนักงานดูที่ร้านเพื่อรับของ` + (x ? ` (ใช้ได้ถึง ${x})` : ""), todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
+        rdErr: { pts: "แต้มไม่พอสำหรับของรางวัลนี้", has: "คุณมีคูปองส่วนลดที่ยังไม่ได้ใช้อยู่แล้ว ใช้กับออเดอร์ถัดไปก่อนนะครับ", gone: "ของรางวัลนี้ไม่มีแล้ว", shop: "ติดต่อร้านไม่ได้ในขณะนี้ ยังไม่ได้หักแต้ม กรุณาลองใหม่", db: "ระบบขัดข้อง ยังไม่ได้หักแต้ม กรุณาลองใหม่", lim: "แลกครบตามสิทธิ์แล้ว", full: "มีตั๋วนี้ครบจำนวนที่เก็บได้แล้ว ใช้ก่อนแล้วค่อยแลกใหม่" },
+        itemV: (c, l, x) => `#${c} ${l} — เปิดหน้านี้ให้พนักงานดูที่ร้านเพื่อรับของ` + (x ? ` (ใช้ได้ถึง ${x})` : ""),
+        limW: { day: "แลกได้วันละ 1 ครั้ง", week: "แลกได้สัปดาห์ละ 1 ใบ", month: "1 เดือนแลกได้ 1 ครั้ง" }, limBtn: { day: "วันละ 1 ครั้ง", week: "สัปดาห์ละ 1 ใบ", month: "เต็มแล้ว" },
+        holdW: (h, n) => `เก็บได้สูงสุด ${h} ใบ · ใช้ได้ ${n} ใบต่อออเดอร์`, rdAgain: d => `แลกได้อีกครั้ง ${d}`, rdFull: "เต็มแล้ว", rdLim: d => `แลกครบตามสิทธิ์แล้ว — แลกได้อีกครั้ง ${d}`,
+        useAtOrder: "กดใช้ได้ตอนสั่ง", useTix: "ใช้ตั๋ว", shipT: (n, a, x) => `ตั๋วส่วนลดค่าส่ง ${n} ใบ — ลดสูงสุด ฿${a} ต่อใบ` + (x ? ` (ใบแรกหมดอายุ ${x})` : ""),
+        tixTill: x => `ใช้ได้ถึง ${x}`, tixHint: "ให้พนักงานดูหน้านี้ที่ร้าน แล้วพนักงานจะกดยืนยันในระบบให้",
+        tixLabel: "ตั๋วของคุณ (กดเพื่อใช้กับออเดอร์นี้)", tixDisc: a => `🎟 ใช้ตั๋วส่วนลด ฿${a}`, tixDiscOn: a => `✅ ใช้ตั๋วส่วนลด ฿${a} แล้ว (แตะเพื่อไม่ใช้)`,
+        tixShip: (n, a) => `🎟 ใช้ตั๋วส่วนลดค่าส่ง (มี ${n} ใบ · ลดสูงสุด ${a} ต่อใบ)`, tixShipOn: (n, a, max) => `✅ ใช้ตั๋วส่วนลดค่าส่ง ${n} ใบ — ลดสูงสุด ${a}` + (max > 1 ? " (แตะเพื่อเปลี่ยนจำนวน)" : " (แตะเพื่อไม่ใช้)"),
+        feeTix: a => `(หักตั๋วสูงสุด ${a})`,
+        pinBtn: "🗺 ปักหมุดบนแผนที่เอง", pinSet: "✅ ปักหมุดแล้ว (แตะเพื่อแก้ตำแหน่ง)", pinTitle: "ปักหมุดจุดส่ง", pinBack: "← กลับ", pinOk: "✅ ใช้ตำแหน่งนี้",
+        pinHint: "เลื่อนแผนที่ให้หมุดอยู่ตรงจุดส่ง แล้วกด “ใช้ตำแหน่งนี้” (เลือกได้เฉพาะบนเกาะพะงัน)", pinOut: "จุดนี้อยู่นอกเกาะพะงัน — เลื่อนกลับเข้ามาในเกาะก่อน", pinLoading: "กำลังโหลดแผนที่…", pinFail: "โหลดแผนที่ไม่ได้ กรุณาค้นชื่อสถานที่หรือพิมพ์ที่อยู่แทน", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { incTitle: p => "Included in the price" + (p ? " · " + p : ""), moreTitle: "Add extras (charged)",
         site: { storyHint: "You can order this from the “Menu” tab below.", storyClose: "Close", catsAll: "← All categories", catsPick: "Choose a category", pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
@@ -1074,7 +1116,7 @@ const TEXT = {
           payAmt: m => `Amount to pay ${m}`, payFee: "Delivery is not included yet — if there is a delivery fee, the shop will tell you the final amount.", payHint: "Scan this QR with your banking app (tap the picture to enlarge), then send the slip to the shop.", paySlip: "Send the slip on WhatsApp", paySave: "Save the QR picture",
           paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
-          acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
+          acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
         sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentHintCash: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Pay in cash at the shop — no need to send the order again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
         autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
         pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
@@ -1133,8 +1175,17 @@ const TEXT = {
         rewards: "🎁 Rewards", costW: n => `${n} point${n === 1 ? "" : "s"}`, redeem: "Redeem", sure: "Confirm?",
         rdSending: "Sending your request… one moment", rdOk: c => `Done ✓ Voucher #${c} is now under “Your vouchers” above`, rdFail: "The request could not be sent. No points were used — please try again.",
         rdLate: "The shop has not answered yet — if your points are unchanged, try again.", rdNeedAcct: "Sign up as a member below first, then you can redeem.",
-        rdErr: { pts: "Not enough points for this reward.", has: "You already have a discount voucher waiting. Use it on your next order first.", gone: "That reward is no longer available.", shop: "Couldn't reach the shop right now. No points were used — please try again.", db: "Something went wrong. No points were used — please try again." },
-        itemV: (c, l, x) => `#${c} ${l} — show this page to staff at the shop to collect it` + (x ? ` (valid until ${x})` : ""), todayOnly: "Collect at the shop · redeem on the day you come (valid until 23:59)", need: n => `${n} more needed` },
+        rdErr: { pts: "Not enough points for this reward.", has: "You already have a discount voucher waiting. Use it on your next order first.", gone: "That reward is no longer available.", shop: "Couldn't reach the shop right now. No points were used — please try again.", db: "Something went wrong. No points were used — please try again.", lim: "You have already redeemed this.", full: "You already hold as many of these tickets as allowed. Use one first." },
+        itemV: (c, l, x) => `#${c} ${l} — show this page to staff at the shop to collect it` + (x ? ` (valid until ${x})` : ""),
+        limW: { day: "Once a day", week: "One a week", month: "Once a month" }, limBtn: { day: "Once a day", week: "One a week", month: "Used up" },
+        holdW: (h, n) => `hold up to ${h} · use ${n} on one order`, rdAgain: d => `available again ${d}`, rdFull: "Used up", rdLim: d => `Already redeemed — available again ${d}`,
+        useAtOrder: "use it when you order", useTix: "Use ticket", shipT: (n, a, x) => `${n} delivery discount ticket${n === 1 ? "" : "s"} — up to ฿${a} off each` + (x ? ` (the first runs out ${x})` : ""),
+        tixTill: x => `Valid until ${x}`, tixHint: "Show this page to staff at the shop — they confirm it in their system.",
+        tixLabel: "Your tickets (tap to use on this order)", tixDisc: a => `🎟 Use my ฿${a} discount ticket`, tixDiscOn: a => `✅ ฿${a} discount ticket used (tap to undo)`,
+        tixShip: (n, a) => `🎟 Use a delivery discount ticket (you have ${n} · up to ${a} off each)`, tixShipOn: (n, a, max) => `✅ ${n} delivery ticket${n === 1 ? "" : "s"} used — up to ${a} off` + (max > 1 ? " (tap to change)" : " (tap to undo)"),
+        feeTix: a => `(tickets take off up to ${a})`,
+        pinBtn: "🗺 Place the pin on the map yourself", pinSet: "✅ Pin placed (tap to move it)", pinTitle: "Place your delivery pin", pinBack: "← Back", pinOk: "✅ Use this spot",
+        pinHint: "Move the map until the pin is on your place, then tap “Use this spot” (Koh Phangan only).", pinOut: "This spot is outside Koh Phangan — move back onto the island.", pinLoading: "Loading the map…", pinFail: "The map could not be loaded. Please search for your place or type your address instead.", todayOnly: "Collect at the shop · redeem on the day you come (valid until 23:59)", need: n => `${n} more needed` },
 };
 
 const params = new URLSearchParams(location.search);
@@ -1154,7 +1205,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 24;
+const BUILD = 25;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1162,6 +1213,8 @@ const prices = {}, names = {};   // by the same key
 let placeName = "";   // set when loc came from a place picked by name, not from GPS
 let how = null, pay = null, loc = null, zone = null;   // "p"|"d"|"e" (pick up, delivery, eat in), "q"|"c", [lat, lon], zone id
 let redeemWait = null, redeemNote = "";   // website member card: the "redeem" this page is waiting to hear about { ts, id }, and what to say under the rewards
+let useDisc = false, useShip = 0;         // tickets bought with points that the customer pressed "use" on at checkout: the discount, and how many delivery tickets
+let pinned = false;                       // loc was set by hand on the map (not by GPS, not by a place name)
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
 const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
@@ -1493,19 +1546,31 @@ function renderCard() {
     img.src = P.card_image;
   }
   const vs = $("vouchers"); vs.textContent = "";
-  if (member.d) vs.append(el("li", "", t().discV(member.d, member.dx || "—")));
+  if (member.d) vs.append(el("li", "", t().discV(member.d, member.dx || "—") + (inTelegram ? "" : " · " + t().useAtOrder)));
   if (member.fs) vs.append(el("li", "", t().shipV(member.fk)));
+  if (member.sn) vs.append(el("li", "", t().shipT(member.sn, member.sa || 0, member.sx || "") + " · " + t().useAtOrder));   // delivery tickets (website members)
   for (const v of member.v || []) vs.append(el("li", "", v));
   // website members: shop rewards redeemed here and waiting to be collected (the bot's note lists them)
-  for (const v of member.wv || []) vs.append(el("li", "", t().itemV(v.c, tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r, v.x)));
+  for (const v of member.wv || []) {
+    const li = el("li", "", t().itemV(v.c, tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r, v.x)), use = el("button", "tixuse", t().useTix);
+    use.onclick = () => showTicket(v);
+    li.append(use); vs.append(li);
+  }
   $("vouchersTitle").textContent = t().vouchers; $("vouchersBox").classList.toggle("hide", !vs.children.length);
   const box = $("rewards"); box.textContent = "";
   for (const r of P.rewards || []) {
+    if ((r.only === "web" && inTelegram) || (r.only === "tg" && !inTelegram)) continue;   // some rewards are offered in one place only
     const row = el("div", "reward"), what = el("div", "what", tr(r.label));
     what.append(el("span", "cost", t().costW(r.cost)));
     if (r.valid === "today") what.append(el("span", "when", t().todayOnly));
+    // how often it may be redeemed (reward.limit), and whether this member has used that up (the bot tells: u = until which day, uf = holds the most allowed)
+    const per = r.limit && r.limit.per, again = (member.u || {})[r.id], full = (member.uf || []).includes(r.id);
+    if (t().limW[per]) what.append(el("span", "when", t().limW[per] + (r.hold ? " · " + t().holdW(r.hold, r.per_order || 1) : "")));
+    if (again && !full) what.append(el("span", "when", t().rdAgain(again)));
     const b = el("button");
     if (redeemWait) { b.className = "no"; b.textContent = "…"; }   // one redemption at a time: wait for the shop's answer
+    else if (full) { b.className = "no"; b.textContent = t().rdFull; }
+    else if (again) { b.className = "no"; b.textContent = t().limBtn[per] || t().rdFull; }
     else if (myPoints < r.cost) { b.className = "no"; b.textContent = t().need(r.cost - myPoints); }
     else {
       b.textContent = t().redeem;
@@ -1523,6 +1588,17 @@ function renderCard() {
   $("redeemMsg").textContent = inTelegram ? "" : redeemNote;
   $("rewardsTitle").textContent = t().rewards; $("rewardsBox").classList.toggle("hide", !box.children.length);
   $("cardBack").textContent = t().home;
+}
+// A shop reward as a ticket to show at the counter (staff then confirm it in the shop's own system).
+function showTicket(v) {
+  const P = menu.points || {}, name = tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r;
+  const shade = el("div", "tixview"), cardBox = el("div", "tixcard"), shut = el("button", "viabtn", t().close);
+  cardBox.append(el("div", "tixshop", tr(menu.shop_name) || "Woodstock"), el("div", "tixcode", "#" + v.c), el("div", "tixname", name));
+  if (v.x) cardBox.append(el("div", "tixtill", t().tixTill(v.x)));
+  cardBox.append(el("div", "tixhint", t().tixHint), shut);
+  shut.onclick = () => shade.remove();
+  shade.onclick = e => { if (e.target === shade) shade.remove(); };
+  shade.append(cardBox); document.body.append(shade);
 }
 $("pointsBox").onclick = () => show("card");
 $("cardBack").onclick = () => show("home");
@@ -1683,8 +1759,9 @@ function drawDetails() {
   document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
   $("addrBox").classList.toggle("hide", how !== "d");
   $("zoneBox").classList.toggle("hide", !zones().length);
-  if (!loc) placeName = "";
-  $("locBtn").textContent = loc && !placeName ? t().locOk : t().useLoc;
+  if (!loc) { placeName = ""; pinned = false; }
+  $("locBtn").textContent = loc && !placeName && !pinned ? t().locOk : t().useLoc;
+  $("mapBtn").textContent = loc && pinned ? t().pinSet : t().pinBtn;
   $("placeLabel").textContent = t().placeLabel; $("placeQ").placeholder = t().placePh;
   $("placePick").textContent = placeName ? t().placeOk(placeName) : ""; $("placePick").classList.toggle("hide", !placeName);
   $("placeQ").classList.toggle("hide", !!placeName);
@@ -1698,10 +1775,28 @@ function drawDetails() {
   $("addrLabel").textContent = p.later ? t().addrOpt : t().addr;
   $("nightRow").classList.toggle("hide", !p.night);
   $("nightValue").textContent = money(p.night);
-  const disc = Math.min(member.d || 0, total);   // a points voucher comes off automatically (the bot decides)
+  // Tickets bought with points. In Telegram the discount comes off by itself (the bot decides). On the website the
+  // member presses the tickets to use here: the discount, and up to "per_order" delivery tickets on a delivery.
+  const shipRule = ((menu.points || {}).rewards || []).find(r => r.type === "ship") || {};
+  const canDisc = web && (member.d || 0) > 0, shipMax = web && how === "d" ? Math.min(member.sn || 0, shipRule.per_order || 1) : 0;
+  if (!canDisc) useDisc = false;
+  if (useShip > shipMax) useShip = shipMax;
+  const tb = $("tixBtns"); tb.textContent = "";
+  if (canDisc) {
+    const b = el("button", "choice" + (useDisc ? " on" : ""), useDisc ? t().tixDiscOn(member.d) : t().tixDisc(member.d));
+    b.onclick = () => { useDisc = !useDisc; drawDetails(); }; tb.append(b);
+  }
+  if (shipMax) {
+    const b = el("button", "choice" + (useShip ? " on" : ""), useShip ? t().tixShipOn(useShip, money(useShip * (member.sa || 0)), shipMax) : t().tixShip(member.sn, money(member.sa || 0)));
+    b.onclick = () => { useShip = (useShip + 1) % (shipMax + 1); drawDetails(); }; tb.append(b);
+  }
+  $("tixLabel").textContent = t().tixLabel; $("tixBox").classList.toggle("hide", !tb.children.length);
+  const shipOff = useShip * (member.sa || 0), shipCut = useShip && !ask && !p.quote && !p.later ? Math.min(p.ship, shipOff) : 0;
+  if (how === "d" && useShip) $("feeValue").textContent = (shipCut ? money(p.ship - shipCut) : $("feeValue").textContent) + " " + t().feeTix(money(shipOff));
+  const disc = Math.min(member.d || 0, total) * (web && !useDisc ? 0 : 1);
   $("discRow").classList.toggle("hide", !disc);
   $("discValue").textContent = "-" + money(disc);
-  $("dTotal").textContent = money(total + p.ship + p.night - disc) + (p.quote || p.later || ask ? " +" : "");
+  $("dTotal").textContent = money(total + p.ship - shipCut + p.night - disc) + (p.quote || p.later || ask ? " +" : "");
   // Under the zones: what this bill means for delivery, and how much more makes it free.
   const zh = $("zoneHint"), z = p.zone;
   zh.textContent = how !== "d" || !z || z.contact ? "" : !p.short ? t().zFree
@@ -1814,7 +1909,7 @@ function drawPlaceHits() {
   for (const r of hits) {
     const b = el("button", "", ""); b.type = "button";
     b.append(el("span", "", r.name), el("small", "", placeKm(r)));
-    b.onclick = () => { loc = [r.lat, r.lon]; placeName = r.name; $("placeQ").value = ""; box.textContent = ""; drawDetails(); };
+    b.onclick = () => { loc = [r.lat, r.lon]; placeName = r.name; pinned = false; $("placeQ").value = ""; box.textContent = ""; drawDetails(); };
     box.append(b);
   }
   box.append(el("div", "src", "© OpenStreetMap contributors"));
@@ -1823,8 +1918,8 @@ let placeTimer = 0;
 $("placeQ").oninput = () => { clearTimeout(placeTimer); placeTimer = setTimeout(drawPlaceHits, 250); };
 $("placePick").onclick = () => { loc = null; placeName = ""; drawDetails(); };
 $("locBtn").onclick = () => {
-  if (loc && !placeName) { loc = null; return drawDetails(); }
-  placeName = "";   // a real position replaces a place picked by name
+  if (loc && !placeName && !pinned) { loc = null; return drawDetails(); }
+  placeName = ""; pinned = false;   // a real position replaces a place picked by name or a pin placed by hand
   if (!inTelegram) {   // a normal browser asks the customer for permission itself
     navigator.geolocation.getCurrentPosition(
       g => { loc = [Number(g.coords.latitude.toFixed(6)), Number(g.coords.longitude.toFixed(6))]; drawDetails(); },
@@ -1838,6 +1933,46 @@ $("locBtn").onclick = () => {
       if (loc) drawDetails();
     });
   } catch (e) { $("locBtn").textContent = t().locFail; }
+};
+// ---- delivery: "place the pin yourself" — a map the customer moves under a pin fixed in the middle. It never asks
+// the phone where it is. Only Koh Phangan can be chosen: the map does not leave the island and a spot outside it is refused.
+const ISLAND = [[9.655, 99.935], [9.815, 100.09]];   // south-west and north-east corners (from the island's places, with a margin)
+const onIsland = (la, lo) => la >= ISLAND[0][0] && la <= ISLAND[1][0] && lo >= ISLAND[0][1] && lo <= ISLAND[1][1];
+let pinMap = null, leafletLoad = null;
+function loadLeaflet() {   // the map library comes only when the map is first opened
+  if (window.L && window.L.map) return Promise.resolve();
+  return leafletLoad || (leafletLoad = new Promise((res, rej) => {
+    const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    const js = document.createElement("script"); js.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    js.onload = () => res(); js.onerror = () => { leafletLoad = null; rej(new Error("map")); };
+    document.head.append(css, js);
+  }));
+}
+function pinState() {
+  const c = pinMap.getCenter(), inside = onIsland(c.lat, c.lng);
+  $("pinOk").classList.toggle("off", !inside); $("pinHint").textContent = inside ? t().pinHint : t().pinOut;
+}
+async function openPin() {
+  $("pinTitle").textContent = t().pinTitle; $("pinBack").textContent = t().pinBack; $("pinOk").textContent = t().pinOk; $("pinHint").textContent = t().pinLoading;
+  $("pinView").classList.add("show");
+  try { await loadLeaflet(); } catch (e) { $("pinHint").textContent = t().pinFail; return; }
+  const L = window.L, start = loc && onIsland(loc[0], loc[1]) ? loc : rules().shop || [9.7386, 100.0136];
+  if (!pinMap) {
+    pinMap = L.map("pinMap", { maxBounds: [[ISLAND[0][0] - 0.02, ISLAND[0][1] - 0.02], [ISLAND[1][0] + 0.02, ISLAND[1][1] + 0.02]], maxBoundsViscosity: 1, minZoom: 11, maxZoom: 19 });
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(pinMap);
+    pinMap.on("move", pinState);
+  }
+  pinMap.setView(start, loc ? 17 : 15);
+  setTimeout(() => { pinMap.invalidateSize(); pinState(); }, 80);   // the box had no size while it was hidden
+}
+$("mapBtn").onclick = openPin;
+$("pinBack").onclick = () => $("pinView").classList.remove("show");
+$("pinOk").onclick = () => {
+  if (!pinMap) return;
+  const c = pinMap.getCenter();
+  if (!onIsland(c.lat, c.lng)) { $("pinHint").textContent = t().pinOut; return; }
+  loc = [Number(c.lat.toFixed(6)), Number(c.lng.toFixed(6))]; placeName = ""; pinned = true;
+  $("pinView").classList.remove("show"); drawDetails();
 };
 document.querySelectorAll("[data-how]").forEach(b => b.onclick = () => { how = b.dataset.how; drawDetails(); });
 document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => { pay = b.dataset.pay; drawDetails(); });
@@ -1876,6 +2011,9 @@ async function sendAuto() {
   box.textContent = "";
   $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = pay === "c" && how !== "d" ? t().sentHintCash : t().sentHint;
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
+  if (useDisc) member.d = 0;   // the tickets used on this order are spent (the bot's note confirms it a moment later)
+  if (how === "d" && useShip) member.sn = Math.max(0, (member.sn || 0) - useShip);
+  useDisc = false; useShip = 0;
   member.r = { ...cart };   // "order the same as last time" on the home page
   myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null, c: member.r }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
@@ -1918,9 +2056,12 @@ function orderText() {
       else L.push("🛵 ค่าส่ง: " + (p.ship ? money(p.ship) : "ฟรี"));
       if (p.night) L.push(`🌙 ค่าบริการรอบดึก ${money(p.night)}`);
     } else L.push(how === "e" ? "🍽 ทานที่ร้าน" + (when ? " · " + when : "") : "🏪 รับที่ร้าน");
-    const disc = Math.min(member.d || 0, total);   // a discount voucher bought with points: the bot takes it off, shown here so both see one total
-    if (disc) L.push(`🎟 คูปองส่วนลด (แลกแต้ม) -${money(disc)}`);
-    L.push(`💵 ยอดรวม ${money(total + p.ship + p.night - disc)}${plus}`);
+    // tickets bought with points that the customer pressed "use" on: the bot takes them off, shown here so both see one total
+    const disc = useDisc ? Math.min(member.d || 0, total) : 0, tix = how === "d" ? useShip : 0, tixOff = tix * (member.sa || 0);
+    const cut = tix && p.zone && !p.quote ? Math.min(p.ship, tixOff) : 0;
+    if (disc) L.push(`🎟 ใช้ตั๋วส่วนลด (แลกแต้ม) -${money(disc)}`);
+    if (tix) L.push(`🎟 ใช้ตั๋วส่วนลดค่าส่ง ${tix} ใบ (ลดค่าส่งสูงสุด ${money(tixOff)})`);
+    L.push(`💵 ยอดรวม ${money(total + p.ship - cut + p.night - disc)}${plus}`);
     L.push(cash ? "💵 ชำระ: เงินสดที่ร้าน" : "💳 ชำระ: โอนก่อน — รอร้านยืนยันและส่ง QR");
     if (note) L.push("📝 " + note);
     if (keep !== "th") L.push("🌐 ลูกค้าใช้ภาษา: " + keep.toUpperCase());
@@ -1932,6 +2073,9 @@ function orderText() {
     if (note) code.o = note;
     if (cash) code.y = "c";                   // pays in cash at the shop (pickup / eating in); without it the bot takes it as a transfer
     if (when) code.w = when;                  // eating in: the table, or the time booked
+    if (disc) code.ud = 1;                    // use the discount ticket on this order
+    if (tix) code.us = tix;                   // use this many delivery tickets on this order
+    if (how === "d" && loc && pinned) code.lm = 1;   // the pin was placed by hand on the map
     code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
     if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
     const bytes = new TextEncoder().encode(JSON.stringify(code));
@@ -2098,11 +2242,15 @@ async function pollOrders() {
   if (acct && acct.mk && (changed || !pollOrders.memberAt || Date.now() - pollOrders.memberAt > 120e3)) {
     pollOrders.memberAt = Date.now();
     const u = await ask("member=" + acct.mk);
-    if (u) {
+    const mine = u && u.rr && redeemWait && u.rr.ts === redeemWait.ts;   // the shop's answer to the "redeem" just pressed here
+    if (u && (!redeemWait || mine)) {   // while a redemption is on its way, an older note must not put the old points back
       member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0);
-      member.d = u.da || 0; member.dx = u.dx || ""; member.wv = Array.isArray(u.v) ? u.v : [];   // vouchers bought with points: a discount for the next order, shop rewards to collect
-      if (u.rr && redeemWait && u.rr.ts === redeemWait.ts) {   // the shop's answer to the "redeem" just pressed here
-        redeemNote = u.rr.ok ? t().rdOk(u.rr.c || "") : (t().rdErr[u.rr.e] || t().rdFail); redeemWait = null;
+      // tickets bought with points: a discount (da, until dx), delivery tickets (sn of them, each up to sa baht, the first runs out on sx), shop rewards to collect (v)
+      member.d = u.da || 0; member.dx = u.dx || ""; member.sn = u.sn || 0; member.sa = u.sa || 0; member.sx = u.sx || ""; member.wv = Array.isArray(u.v) ? u.v : [];
+      member.u = u.u || {}; member.uf = Array.isArray(u.uf) ? u.uf : [];   // rewards that cannot be redeemed right now: until which day / holding the most allowed
+      if (mine) {
+        redeemNote = u.rr.ok ? t().rdOk(u.rr.c || "") : u.rr.e === "lim" && u.rr.n ? t().rdLim(u.rr.n) : (t().rdErr[u.rr.e] || t().rdFail);
+        redeemWait = null;
       }
       changed = true;
     }
@@ -2128,14 +2276,34 @@ async function redeemWeb(r) {
     ok = !!(await res.json()).ok;
   } catch (e) {}
   if (!ok) { redeemWait = null; redeemNote = t().rdFail; renderCard(); return; }
+  myPoints = Math.max(0, myPoints - r.cost);   // show the new balance at once; the shop's answer then confirms it (or puts the true number back)
+  $("pointsValue").textContent = myPoints.toLocaleString("en-US"); renderCard();
   const mine = () => redeemWait && redeemWait.ts === ts;
-  for (const ms of [9000, 17000, 27000, 45000, 70000]) setTimeout(() => { if (mine()) { pollOrders.memberAt = 0; pollOrders(); } }, ms);
-  setTimeout(() => { if (mine()) { redeemWait = null; redeemNote = t().rdLate; renderCard(); } }, 95000);
+  for (const ms of [4000, 8000, 12000, 17000, 27000, 45000, 70000]) setTimeout(() => { if (mine()) { pollOrders.memberAt = 0; pollOrders(); } }, ms);
+  setTimeout(() => {
+    if (!mine()) return;
+    redeemWait = null; redeemNote = t().rdLate; myPoints += r.cost;   // no answer: assume nothing was taken; the next refresh shows the true balance
+    $("pointsValue").textContent = myPoints.toLocaleString("en-US"); pollOrders.memberAt = 0; renderCard();
+  }, 95000);
+}
+function logout() {   // this phone forgets the member; the points stay with the phone number at the shop
+  acct = null; LS.set("ws_acct", null); try { localStorage.removeItem("ws_card"); } catch (e) {}
+  Object.assign(member, { n: "", p: 0, s: 0, x: "", d: 0, dx: "", sn: 0, sa: 0, sx: "", wv: [], u: {}, uf: [] });
+  myPoints = 0; useDisc = false; useShip = 0; redeemNote = "";
+  $("pointsValue").textContent = "0"; renderCard();
 }
 function drawProfile() {
-  const S = t().site, box = $("profBox"); box.textContent = "";
-  box.classList.toggle("hide", inTelegram);
+  const S = t().site, box = $("profBox"), line = $("acctLine"); box.textContent = ""; line.textContent = "";
+  box.classList.toggle("hide", inTelegram || !!acct);   // the sign-up form is for visitors; once signed in, the member sees the card instead
+  line.classList.toggle("hide", inTelegram || !acct);
   if (inTelegram) return;
+  $("mcard").classList.toggle("hide", !acct && !member.s);
+  $("tierNote").classList.toggle("hide", !acct && !member.s);
+  if (acct) {   // signed in on this phone: one small line says as whom, with the way out
+    const out = el("button", "link", S.outBtn); out.onclick = logout;
+    line.append(document.createTextNode(S.acctAs(acct.n, acct.t) + " · "), out);
+    return;
+  }
   const h = el("h3", "", acct ? S.acctTitle : S.regTitle); h.append(el("span", "tag", acct ? S.memberTag : S.guestTag));
   const name = el("input", "txt"), phone = el("input", "txt"), msg = el("p", "", acct ? "" : S.regHint), row = el("div", "row2");
   name.maxLength = 60; name.placeholder = S.nameL; name.autocomplete = "name"; name.value = acct ? acct.n : $("cname").value;
@@ -2150,16 +2318,11 @@ function drawProfile() {
     member.n = n;
     if (inboxUrl()) { try { await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ reg: 1, n, t: ph, mk: acct.mk, g: lang, ts: Math.floor(Date.now() / 1000) }) }) }); } catch (e) {} }
     renderCard();
-    const again = $("profBox").querySelector(".pbtn");   // the box was drawn again: show the result on the new button
-    if (again) { again.textContent = S.saved; again.classList.add("ok"); setTimeout(() => { again.textContent = S.saveBtn; again.classList.remove("ok"); }, 2500); }
-    pollOrders.memberAt = 0; setTimeout(pollOrders, 15000);
+    // The shop keeps the member under the phone number (whatever name is typed): its points and tickets arrive a moment later.
+    for (const ms of [5000, 10000, 16000, 25000]) setTimeout(() => { pollOrders.memberAt = 0; pollOrders(); }, ms);
   };
   row.append(go);
-  if (acct) { const out = el("button", "pbtn plain", S.outBtn); out.onclick = () => { acct = null; LS.set("ws_acct", null); try { localStorage.removeItem("ws_card"); } catch (e) {} member.n = ""; member.p = 0; member.s = 0; member.x = ""; myPoints = 0; renderCard(); }; row.append(out); }
-  box.append(h, msg, name, phone, row);
-  if (!acct) box.append(el("p", "", S.guest));
-  $("mcard").classList.toggle("hide", !acct && !member.s);
-  $("tierNote").classList.toggle("hide", !acct && !member.s);
+  box.append(h, msg, name, phone, row, el("p", "", S.guest));
 }
 function openStory(it) {   // a recommended dish, told: picture, how it is made and what goes in it. No ordering here.
   const S = t().site, shade = el("div", "ishade"), panel = el("div", "ipanel"), close = () => shade.remove();
