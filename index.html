@@ -719,12 +719,12 @@
   .hero .cta { margin-top: 20px; }
   .hero .openmenu { flex: 0 1 320px; }
   .visitmap { display: block; width: 100%; margin: 12px 0 0; padding: 13px; border-radius: 999px; font-size: 15px; font-weight: 500; text-align: center; }
-  /* the running strip: a plain band, 36px, right under the hero */
-  .trackbar, .trackbar.live { height: 36px; line-height: 36px; padding: 0; margin: 0 -16px; width: calc(100% + 32px); border: 0; border-radius: 0;
-                              background: #F2EFE9; color: #1E1B18; font-size: 13px; font-weight: 400; box-shadow: none; }
-  .trackbar.live { font-weight: 600; }
-  .trackbar .run span { padding: 0 22px; }
-  .trackbar .ico-l { width: 14px; height: 14px; vertical-align: -2px; }
+  /* the running strip: a plain band, 44px, right under the hero */
+  .trackbar, .trackbar.live { height: 44px; line-height: 44px; padding: 0; margin: 0 -16px; width: calc(100% + 32px); border: 0; border-radius: 0;
+                              background: #F2EFE9; color: #1E1B18; font-size: 15px; font-weight: 600; box-shadow: none; }
+  .trackbar.live { font-weight: 700; }
+  .trackbar .run span { padding: 0 24px; }
+  .trackbar .ico-l { width: 16px; height: 16px; vertical-align: -3px; stroke-width: 2.2; }
   @media (min-width: 900px) {
     .trackbar, .trackbar.live { margin: 0 -28px; width: calc(100% + 56px); }
     .hero.haslogo p, .hero p { font-size: 18px; }
@@ -1113,7 +1113,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 17;
+const BUILD = 18;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
