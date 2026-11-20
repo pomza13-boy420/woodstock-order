@@ -1098,7 +1098,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 15;
+const BUILD = 16;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1591,7 +1591,7 @@ function problem() {
     if (zones().length && !zone) return t().needZone;
     const z = zones().find(x => x.id === zone), total = foodTotal();
     if (z && z.contact) return (inTelegram ? t().needContact : t().webContact)(tr(z.label));
-    if (z && total < (z.min || 0) && z.fee_below == null)   // only zones with no small-order fee refuse return t().needMin(money(z.min), money(z.min - total));
+    if (z && total < (z.min || 0) && z.fee_below == null) return t().needMin(money(z.min), money(z.min - total));   // only zones with no small-order fee refuse
     if ((!inTelegram || !rules().shop) && !$("addr").value.trim() && !loc) return t().needAddr;   // with a shop pin set, the bot asks for the location in the chat
   }
   if (!pay) return t().needPay;
