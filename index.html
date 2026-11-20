@@ -1141,7 +1141,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 20;
+const BUILD = 21;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2016,8 +2016,9 @@ function drawOrders() {
   for (const o of myOrders.slice(0, 5)) {
     const v = o.v, card = el("div", "ocard"), d = new Date(o.ts), two = n => String(n).padStart(2, "0");
     const head = el("div", "ohead"); head.append(el("span", "", v && v.o ? "#" + v.o : S.waiting), el("span", "", money(v && v.t != null ? v.t : o.sum) + (v && v.m === "d" && !v.f && !finalState(v) ? "+" : "")));
-    const sub = el("div", "osub"); sub.append(document.createTextNode(`${two(d.getDate())}/${two(d.getMonth() + 1)} ${two(d.getHours())}:${two(d.getMinutes())} · `));
-    if (v) sub.append(el("span", v.p ? "ok" : "no", v.p ? S.paid : S.unpaid));
+    const sub = el("div", "osub"); sub.append(document.createTextNode(`${two(d.getDate())}/${two(d.getMonth() + 1)} ${two(d.getHours())}:${two(d.getMinutes())}`));
+    // paid / waiting for payment — but never "waiting for payment" on a cancelled order: nothing is owed any more
+    if (v && (v.p || (v.s !== "cancelled" && v.s !== "void"))) sub.append(document.createTextNode(" · "), el("span", v.p ? "ok" : "no", v.p ? S.paid : S.unpaid));
     card.append(head, sub);
     const steps = (v ? v.m : o.m) === "d" ? ["new", "acc", "prep", "pack", "out", "done"] : ["new", "acc", "prep", "rdy", "done"];
     const tl = el("ul", "tl"), at = v ? steps.indexOf(v.s) : 0;
