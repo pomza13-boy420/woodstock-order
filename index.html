@@ -636,6 +636,13 @@
   .contact .ic { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: #F2EFE9; font-size: 18px; flex: none; }
   .contact .ic .ico-l { width: 18px; height: 18px; }
   .contact b { font-weight: 600; }
+  /* from the design check: thumb-sized language buttons, a focus ring you can see, a running strip that stops under a finger */
+  .hero .lang { background: rgba(20, 18, 16, .35); border: 1px solid rgba(255, 255, 255, .55); border-radius: 999px; padding: 0; overflow: hidden; }
+  .hero .lang button { min-width: 48px; min-height: 44px; padding: 0 14px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: none; }
+  .hero .lang button.on { background: #fff; color: #1E1B18; border: 0; }
+  :focus-visible { outline: 2px solid #2D5A27; outline-offset: 2px; }
+  .hero :focus-visible { outline-color: #fff; }
+  .trackbar:hover .run, .trackbar:focus-visible .run, .trackbar:active .run { animation-play-state: paused; }
   /* loading + welcome: light */
   .splash, .welcome { background: var(--bg); color: var(--text); }
   .wname .g, .wname .y, .wname .r, .wbar { color: var(--text); }
@@ -1036,7 +1043,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 9;
+const BUILD = 10;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1962,6 +1969,9 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     if (cur) bar.scrollLeft += cur.getBoundingClientRect().left - bar.getBoundingClientRect().left - (bar.clientWidth - cur.offsetWidth) / 2;
   }
   new MutationObserver(draw).observe(chips, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+  // pictures that only decorate (the member card's emblem, …) say so to screen readers
+  const quiet = () => document.querySelectorAll("img:not([alt])").forEach(im => im.setAttribute("alt", ""));
+  quiet(); new MutationObserver(quiet).observe(document.body, { childList: true, subtree: true });
 })();
 </script>
 
