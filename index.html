@@ -685,6 +685,32 @@
   #viaText { font-family: inherit; font-size: 14px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
   /* the promo cards are gone from the home page: the running strip under the photo carries the promos */
   #promos { display: none !important; }
+  /* home: recommended dishes — one row of pictures that drifts by itself; a tap tells the dish's story (ordering is in the Menu tab) */
+  #pickBox .picks { display: block; overflow: hidden; margin: 0 -16px; }
+  .pickrun { display: flex; width: max-content; animation: pickmove 70s linear infinite; }
+  #pickBox .picks:hover .pickrun, #pickBox .picks:focus-within .pickrun { animation-play-state: paused; }
+  @keyframes pickmove { to { transform: translateX(-50%); } }
+  .pickrun .pick { position: relative; flex: none; width: 240px; aspect-ratio: 4 / 3; margin-right: 12px; border: 0; border-radius: 12px; cursor: pointer; }
+  .pickrun .pick img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; }
+  .pickrun .pick b { position: absolute; left: 0; right: 0; bottom: 0; padding: 34px 14px 12px; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.25; text-align: left;
+                     background: linear-gradient(transparent, rgba(0, 0, 0, .75)); }
+  .ipanel .story { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: var(--text); }
+  .ipanel .storyhint { margin: 14px 0 0; font-size: 13px; color: var(--hint); }
+  .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
+  @media (min-width: 900px) { #pickBox .picks { margin: 0 -28px; } .pickrun .pick { width: 300px; } }
+  @media (prefers-reduced-motion: reduce) { .pickrun { animation: none; } #pickBox .picks { overflow-x: auto; } }
+  /* menu tab: the table of all categories comes first */
+  #menuView.cats #menu, #menuView.cats #catbar { display: none; }
+  #menuView:not(.cats) #catAll { display: none; }
+  #menu > .catgrid { display: none; }   /* the group's own small table: the big one replaces it */
+  .catall h3 { margin: 24px 0 0; font-size: 14px; font-weight: 600; letter-spacing: .02em; color: var(--hint); }
+  .catall h3:first-child { margin-top: 14px; }
+  .catall .catshut { margin: 4px 0 0; font-size: 13px; color: var(--hint); }
+  .catall .catgrid { margin-top: 10px; grid-template-columns: repeat(3, 1fr); }
+  .catall .cattile { font-size: 14px; line-height: 1.3; padding: 0 6px 10px; }
+  .catall .cattile img, .catall .cattile .emo { width: calc(100% + 12px); margin: 0 -6px 8px; aspect-ratio: 4 / 3; }
+  .catbar .allcats { color: var(--green); font-weight: 600; }
+  @media (min-width: 700px) { .catall .catgrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); } }
   /* delivery: find your place by name */
   .placeq { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--text); font: inherit; font-size: 16px; }
   .placeq:focus { outline: none; border-color: var(--green); }
@@ -825,13 +851,13 @@
       <div class="ptrack" id="ptrack"></div>
       <div class="pdots" id="pdots"></div>
     </section>
+    <h2 class="sec" id="whoTitle"></h2>
+    <div class="feats" id="feats"></div>
     <section class="hide" id="pickBox">
       <h2 class="sec" id="pickTitle"></h2>
       <div class="picks" id="picks"></div>
-      <button class="morebtn" id="pickMore"></button>
+      <button class="morebtn hide" id="pickMore"></button>
     </section>
-    <h2 class="sec" id="whoTitle"></h2>
-    <div class="feats" id="feats"></div>
     <h2 class="sec" id="howTitle"></h2>
     <ol class="steps" id="steps"></ol>
     <div class="duo">
@@ -963,7 +989,7 @@ if (tg) {
 
 const TEXT = {
   th: { incTitle: p => "รวมในราคา" + (p ? " " + p : ""), moreTitle: "เพิ่มเติม (คิดเงินเพิ่ม)",
-        site: { pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
+        site: { storyHint: "สั่งเมนูนี้ได้ที่แท็บ “เมนู” ด้านล่าง", storyClose: "ปิด", catsAll: "← หมวดทั้งหมด", catsPick: "เลือกหมวด", pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
           ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
           noOrders: "ยังไม่มีออเดอร์ที่กำลังติดตาม — เมื่อสั่งอาหารแล้ว สถานะออเดอร์จะขึ้นที่นี่", orderNow: "สั่งอาหารเลย", saving: "กำลังบันทึก…",
           tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
@@ -986,7 +1012,7 @@ const TEXT = {
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
-        callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนูและสั่งเลย", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "ข้อมูลส่วนตัว",
+        callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนู", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "ข้อมูลส่วนตัว",
         mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
@@ -1029,7 +1055,7 @@ const TEXT = {
         vouchers: "🎟 คูปองของคุณ", discV: (a, x) => `ส่วนลด ฿${a} ออเดอร์ถัดไป — ใช้ได้ถึง ${x}`,
         rewards: "🎁 แลกแต้ม", costW: n => `${n} แต้ม`, redeem: "แลก", sure: "ยืนยันแลก?", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { incTitle: p => "Included in the price" + (p ? " · " + p : ""), moreTitle: "Add extras (charged)",
-        site: { pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
+        site: { storyHint: "You can order this from the “Menu” tab below.", storyClose: "Close", catsAll: "← All categories", catsPick: "Choose a category", pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
           noOrders: "No order to track yet — once you order, its status shows up here.", orderNow: "Order now", saving: "Saving…",
           tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
@@ -1052,7 +1078,7 @@ const TEXT = {
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
-        callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu & order", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Profile",
+        callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Profile",
         mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
@@ -1113,7 +1139,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 18;
+const BUILD = 19;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1502,7 +1528,8 @@ function renderMenu() {
   box.textContent = ""; chips.textContent = "";
   const shut = shutNow(g);
   if (shut) box.append(el("p", "shutbanner", t().closedBanner(tr(g.label), hh(shut.from_hour || 0), hh(shut.to_hour || 0))));
-  const mine = g.categories.map(id => menu.categories.find(c => c.id === id)).filter(Boolean);   // in the group's own order
+  // in the group's own order; a search looks through every group (the Menu tab opens on all categories, so no group is "the" one)
+  const mine = (q ? gs.flatMap(x => x.categories) : g.categories).map(id => menu.categories.find(c => c.id === id)).filter(Boolean);
   if (!q && mine.length > 1) {   // picture grid of this group's categories: tap one to jump to it
     const grid = el("div", "catgrid");
     for (const cat of mine) {
@@ -2074,21 +2101,35 @@ function drawProfile() {
   $("mcard").classList.toggle("hide", !acct && !member.s);
   $("tierNote").classList.toggle("hide", !acct && !member.s);
 }
+function openStory(it) {   // a recommended dish, told: picture, how it is made and what goes in it. No ordering here.
+  const S = t().site, shade = el("div", "ishade"), panel = el("div", "ipanel"), close = () => shade.remove();
+  if (it.img) { const im = el("img", "pic"); im.alt = ""; im.src = it.img; panel.append(im); }
+  panel.append(el("h2", "", tr(it.name)));
+  const text = tr(it.story) || tr(it.desc);
+  if (text) panel.append(el("p", "story", text));
+  panel.append(el("p", "storyhint", S.storyHint));
+  const x = el("button", "storyclose", S.storyClose); x.onclick = close; panel.append(x);
+  shade.onclick = e => { if (e.target === shade) close(); };
+  shade.append(panel); document.body.append(shade);
+}
 function drawSite() {   // the home page's "normal website" parts: popular picks, hours & location
   const S = t().site, a = menu.about || {}, picks = $("picks"); picks.textContent = "";
   const want = a.featured || [], all = [];
   for (const cat of menu.categories) for (const it of cat.items) if (it.img) all.push([it, cat]);
   const chosen = (want.length ? want.map(id => all.find(x => x[0].id === id)).filter(Boolean) : all.filter((x, i, arr) => arr.findIndex(y => y[1].id === x[1].id) === i).concat(all).filter((x, i, arr) => arr.indexOf(x) === i)).slice(0, 8);
-  for (const [it, cat] of chosen) {
+  // one row that drifts by itself (the list twice, so it loops without a jump); a tap tells about the dish — ordering is in the Menu tab
+  const run = el("div", "pickrun");
+  for (let pass = 0; pass < 2; pass++) for (const [it] of chosen) {
     const b = el("button", "pick"), im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.src = it.img;
-    const low = it.options && it.options.length ? Math.min(...it.options.map(o => o.price)) : it.price;
-    b.append(im, el("b", "", tr(it.name)), el("span", "", money(low)));
-    b.onclick = () => { openGroup((groups().find(g => g.categories.includes(cat.id)) || groups()[0]).id); openItem(it, cat); };
-    picks.append(b);
+    b.append(im, el("b", "", tr(it.name)));
+    if (pass) { b.tabIndex = -1; b.setAttribute("aria-hidden", "true"); }
+    b.onclick = () => openStory(it);
+    run.append(b);
   }
+  run.style.animationDuration = Math.max(30, chosen.length * 9) + "s";
+  picks.append(run);
   $("pickBox").classList.toggle("hide", !chosen.length);
-  $("pickTitle").textContent = S.pickTitle; $("pickMore").textContent = S.pickMore;
-  $("pickMore").onclick = () => $("openMenu").click();
+  $("pickTitle").textContent = S.pickTitle;
   $("visitTitle").textContent = S.visitTitle;
   const v = $("visit"); v.textContent = "";
   const line = (label, text) => { if (!text) return; const d = el("div"); d.append(el("b", "", label), el("span", "", text)); v.append(d); };
@@ -2143,8 +2184,10 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     const key = lang + "|" + groups().map(g => g.id + (shutNow(g) ? "!" : "")).join(",");
     if (key !== drawnFor) {
       drawnFor = key; bar.textContent = "";
+      const back = document.createElement("button"); back.className = "allcats"; back.textContent = t().site.catsAll;
+      back.onclick = () => landing(true); bar.append(back);
       groups().forEach((g, gi) => {
-        if (gi) bar.append(document.createElement("i"));
+        bar.append(document.createElement("i"));
         for (const id of g.categories) {
           const cat = menu.categories.find(c => c.id === id);
           if (!cat) continue;
@@ -2164,6 +2207,48 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
     const on = chips.querySelector("button.on") || chips.querySelector("button");
     mark(on ? on.dataset.cat : "");
   }
+  // ---- the Menu tab opens on a table of every category; the row above stays, small, for switching once inside one
+  const view = document.getElementById("menuView"), all = document.createElement("div");
+  all.id = "catAll"; all.className = "catall";
+  document.getElementById("menu").before(all);
+  function drawAll() {
+    all.textContent = "";
+    for (const g of groups()) {
+      const cats = g.categories.map(id => menu.categories.find(c => c.id === id)).filter(Boolean);
+      if (!cats.length) continue;
+      const h = document.createElement("h3"); h.textContent = plain(tr(g.label)); all.append(h);
+      const shut = shutNow(g);
+      if (shut) { const p = document.createElement("p"); p.className = "catshut"; p.textContent = t().closedTill(hh(shut.to_hour || 0)); all.append(p); }
+      const grid = document.createElement("div"); grid.className = "catgrid";
+      for (const cat of cats) {
+        const label = tr(cat.label), cut = label.indexOf(" "), pic = cat.items.find(it => it.img), tile = document.createElement("button");
+        tile.className = "cattile";
+        if (pic) { const im = document.createElement("img"); im.loading = "lazy"; im.alt = ""; im.src = pic.img; tile.append(im); }
+        else { const e = document.createElement("span"); e.className = "emo"; e.textContent = cut > 0 ? label.slice(0, cut) : "🍽"; tile.append(e); }
+        const n = document.createElement("small"); n.textContent = t().nItems(cat.items.length);
+        tile.append(document.createTextNode(plain(label)), n);
+        tile.onclick = () => {
+          landing(false);
+          openGroup(g.id);                                                                     // the page's own way of showing a group
+          const chip = chips.querySelector('button[data-cat="' + cat.id + '"]');
+          if (chip) chip.click();
+          mark(cat.id);
+        };
+        grid.append(tile);
+      }
+      all.append(grid);
+    }
+  }
+  function landing(on) {
+    if (!menu) return;
+    view.classList.toggle("cats", on);
+    if (on) { drawAll(); document.getElementById("groupTitle").textContent = t().site.catsPick; document.getElementById("search").value = ""; window.scrollTo(0, 0); }
+  }
+  const enter = () => setTimeout(() => { if (!view.classList.contains("hide")) landing(true); }, 0);
+  document.getElementById("openMenu").addEventListener("click", enter);
+  const tab = document.querySelector('#tabbar [data-tab="menu"]'); if (tab) tab.addEventListener("click", enter);
+  document.getElementById("search").addEventListener("input", () => { if (view.classList.contains("cats")) { view.classList.remove("cats"); renderMenu(); } });
+  document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => setTimeout(() => { if (view.classList.contains("cats")) landing(true); }, 0)));
   function mark(id) {
     let cur = null;
     bar.querySelectorAll("button").forEach(b => { const on = b.dataset.cat === id; b.classList.toggle("on", on); if (on) cur = b; });
