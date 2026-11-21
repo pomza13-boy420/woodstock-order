@@ -385,7 +385,9 @@
   .via { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.55); display: none; align-items: flex-end; justify-content: center; }
   .via.show { display: flex; }
   .viabox { background: var(--bg, #fbf5e6); width: 100%; max-width: 560px; max-height: 92vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); }
-  .viabox h2 { font-size: 19px; margin: 0 0 6px; color: var(--brown); }
+  .viabox { position: relative; }
+  .viabox .viax { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 18px; line-height: 1; cursor: pointer; }
+  .viabox h2 { font-size: 19px; margin: 0 0 6px; padding-right: 44px; color: var(--brown); }
   .viabox p { font-size: 14px; color: var(--hint); margin: 0 0 10px; }
   .viabox pre { white-space: pre-wrap; word-break: break-word; font: 14px/1.45 inherit; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin: 0 0 12px; max-height: 34vh; overflow: auto; }
   .viabtn { display: block; width: 100%; box-sizing: border-box; text-align: center; text-decoration: none; padding: 14px 10px; border-radius: 14px; font-size: 16px; font-weight: 700; margin-bottom: 8px; background: var(--card); color: var(--text); border: 2px solid var(--line); }
@@ -1055,6 +1057,7 @@
 
 <!-- ============ browser only: send the order to the shop ============ -->
 <div class="via" id="via"><div class="viabox">
+  <button class="viax" id="viaX" type="button" aria-label="ปิด">✕</button>
   <h2 id="viaTitle"></h2><p id="viaHint"></p><pre id="viaText"></pre>
   <div id="viaBtns"></div>
 </div></div>
@@ -1292,7 +1295,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 38;
+const BUILD = 39;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2149,6 +2152,14 @@ async function prepayAnswer(k) {
   }
   return { r: "late", a: 0, v: null };
 }
+// The sheet after an order: ✕ closes it; once the shop accepts that order (its note says so) it closes by itself and
+// the member page shows the order's state ("สถานะออเดอร์"). viaFor = the tracking code of the order the sheet is about.
+let viaFor = "";
+function closeVia(toCard) {
+  $("via").classList.remove("show");
+  if (viaFor) { viaFor = ""; openDetails(false); if (toCard) { renderCard(); show("card"); } }
+}
+$("viaX").onclick = () => closeVia(false);
 let sending = false, pre_r = "", pre_v = null;
 async function sendAuto() {
   if (sending) return;
@@ -2200,9 +2211,11 @@ async function sendAuto() {
   member.r = { ...cart };   // "order the same as last time" on the home page
   myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: pre ? pre_v : null, c: member.r, ...(pre && pre_r === "ok" ? { sr: { r: "ok", a: 0 } } : {}) }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
-  done.onclick = () => { $("via").classList.remove("show"); openDetails(false); renderCard(); show("card"); };
+  viaFor = lastK;
+  done.onclick = () => closeVia(true);
   box.append(done);
   setTimeout(pollOrders, 12000);
+  const watch = setInterval(() => { if (viaFor === lastK && $("via").classList.contains("show")) pollOrders(); else clearInterval(watch); }, 8000);
   if (wa) link("🟢 " + t().sentWa, "https://wa.me/" + wa).target = "_blank";
   if (a.phone) link(t().callShop, "tel:" + a.phone.replace(/[^0-9+]/g, ""));
   for (const k of Object.keys(cart)) delete cart[k];
@@ -2563,6 +2576,10 @@ async function pollOrders() {
     if (s) { member.c = s.c ? 1 : 0; member.cm = s.c && s.msg ? String(s.msg) : ""; drawShut(); }
   }
   pollBusy = false;
+  if (viaFor && $("via").classList.contains("show")) {
+    const mine = myOrders.find(o => o.k === viaFor);
+    if (mine && mine.v && mine.v.s && mine.v.s !== "new") closeVia(true);   // the shop accepted it: the order's page takes over
+  }
   if (changed) { LS.set("ws_orders", myOrders.slice(0, 10)); drawOrders(); if (!$("cardView").classList.contains("hide")) renderCard(); $("pointsValue").textContent = myPoints.toLocaleString("en-US"); }
 }
 // "Redeem" on the website's member card. The request goes to the shop's inbox the way an order does; the bot takes the
