@@ -233,9 +233,9 @@
   #profBox .txt { display: block; width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px; color: var(--text); background: var(--card); }
   #profBox .row2 { display: flex; gap: 8px; flex-wrap: wrap; }
   #profBox .pbtn { flex: 1 1 140px; padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff; background: var(--green); }
-  #profBox .ptabs { display: flex; gap: 8px; margin-bottom: 10px; }
-  #profBox .ptabs button { flex: 1 1 0; padding: 11px 8px; border-radius: 999px; font-size: 15px; font-weight: 700; border: 1.5px solid var(--green); background: none; color: var(--green); }
-  #profBox .ptabs button.on { background: var(--green); color: #fff; }
+  #profBox .ptabs { display: flex; padding: 4px; margin-bottom: 14px; border-radius: 999px; background: #efeae1; }
+  #profBox .ptabs button { flex: 1 1 0; min-height: 40px; padding: 8px 6px; border: 0; border-radius: 999px; font-size: 15px; font-weight: 600; white-space: nowrap; background: none; color: var(--hint); cursor: pointer; }
+  #profBox .ptabs button.on { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
   #profBox .pbtn.plain { background: none; color: var(--hint); border: 1.5px solid var(--line); }
   #profBox .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #f3e9d2; color: var(--brown); margin-left: 8px; vertical-align: middle; }
   @media (min-width: 900px) { .picks { grid-template-columns: repeat(4, 1fr); } }
@@ -464,6 +464,7 @@
   .links { flex-wrap: wrap; }
   .link { border: 0; border-radius: 999px; box-shadow: var(--shadow); padding: 13px 10px; font-weight: 500; flex: 1 1 30%; }
   .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
+  @media (min-width: 700px) { .again { display: block; max-width: 420px; margin-left: auto; margin-right: auto; } }
   .shutbanner { border-radius: 16px; margin-top: 16px; }
   .foot { text-align: center; font-size: 12px; letter-spacing: .08em; color: var(--hint); margin: 26px 0 0; }
 
@@ -736,6 +737,7 @@
   .prepay .ppbtn { width: 100%; margin-top: 10px; padding: 13px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .prepay .ppbtn:disabled { opacity: .6; cursor: default; }
   .paywarn { margin: 10px 0 4px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--red); background: #fdecea; color: var(--red); font-size: 15px; font-weight: 700; line-height: 1.45; }
+  .ipanel .shutbar { margin: 6px 0 10px; padding: 10px 12px; border-radius: 12px; background: #f3efe7; color: var(--text); font-size: 15px; font-weight: 600; }
   .ipanel .storygo { display: block; width: 100%; margin-top: 16px; padding: 14px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
   @media (min-width: 900px) { #pickBox .picks { margin: 0 -28px; } .pickrun .pick { width: 300px; } }
@@ -926,7 +928,7 @@
     </div>
     <h2 class="sec" id="visitTitle"></h2>
     <div class="visit" id="visit"></div>
-    <button class="link visitmap" id="heroMap"></button>
+    <button class="link visitmap hide" id="heroMap"></button>   <!-- one row of links is enough: the map tab is in the bar below -->
     <div class="links">
       <button class="link" id="mapsLink"></button>
       <a class="link" id="phoneLink"></a>
@@ -1095,7 +1097,7 @@ const TEXT = {
             off: "ตอนนี้ระบบตรวจสลิปปิดอยู่ — กรุณาส่งสลิปให้ร้านทาง WhatsApp", late: "ร้านยังไม่ตอบกลับ — ลองกดส่งสลิปอีกครั้ง หรือส่งทาง WhatsApp", fail: "ส่งไม่สำเร็จ — ตรวจอินเทอร์เน็ตแล้วลองใหม่",
             noqr: "❌ อ่าน QR บนสลิปไม่ได้ — ใช้รูปสลิปต้นฉบับจากแอปธนาคาร (ไม่ครอบตัด ไม่ถ่ายจากหน้าจอ) หรือส่งสลิปให้ร้านทาง WhatsApp", payqr: "❌ รูปนี้คือ QR สำหรับจ่ายเงิน ไม่ใช่สลิป — เลือกรูปสลิปที่ได้หลังโอนเงินแล้ว" },
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", toQr: "📱 เปลี่ยนเป็นโอน", toCash: "💵 เปลี่ยนเป็นจ่ายเงินสดที่ร้าน", payHow: "วิธีจ่าย: ", howQr: "📱 โอน", howCash: "💵 เงินสดที่ร้าน", payBusy: "กำลังเปลี่ยนวิธีจ่าย…", payFailed: "เปลี่ยนไม่สำเร็จ — ลองอีกครั้ง หรือแจ้งร้านทาง WhatsApp", qrSoon: "QR สำหรับโอนจะขึ้นตรงนี้เมื่อร้านกดรับออเดอร์", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
-          regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", tabReg: "สมัครสมาชิก", tabLogin: "ลงชื่อเข้าใช้ (สมาชิกเก่า)", loginTitle: "ลงชื่อเข้าใช้", loginHint: "สมาชิกเก่าหรือเคยสั่งแล้ว: ใส่เบอร์โทรที่เคยใช้ แต้มและออเดอร์จะกลับมาที่เครื่องนี้", loginBtn: "เข้าสู่ระบบ", loginWait: "กำลังค้นหาสมาชิก…", loginNf: "ไม่พบเบอร์นี้ — สมัครสมาชิกใหม่ได้เลย (กดสมัครสมาชิกด้านบน)", loginFail: "ติดต่อร้านไม่ได้ — ลองใหม่อีกครั้ง", needPhoneOnly: "กรุณาใส่เบอร์โทร", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
+          regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", tabReg: "สมัครใหม่", tabLogin: "มีบัญชีแล้ว", loginTitle: "ลงชื่อเข้าใช้", loginHint: "สมาชิกเก่าหรือเคยสั่งแล้ว: ใส่เบอร์โทรที่เคยใช้ แต้มและออเดอร์จะกลับมาที่เครื่องนี้", loginBtn: "เข้าสู่ระบบ", loginWait: "กำลังค้นหาสมาชิก…", loginNf: "ไม่พบเบอร์นี้ — สมัครสมาชิกใหม่ได้เลย (กดสมัครสมาชิกด้านบน)", loginFail: "ติดต่อร้านไม่ได้ — ลองใหม่อีกครั้ง", needPhoneOnly: "กรุณาใส่เบอร์โทร", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
         sending: "กำลังส่งออเดอร์…", locChecking: "📍 กำลังเช็คตำแหน่ง…",
         locDenied: "📍 สั่งผ่านเว็บได้เฉพาะลูกค้าที่อยู่บนเกาะพะงัน — กรุณากด “อนุญาต” ตำแหน่งแล้วกดส่งอีกครั้ง หรือส่งออเดอร์ทาง WhatsApp ด้านล่าง",
@@ -1108,7 +1110,7 @@ const TEXT = {
         feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
                 ["🍹", "เครื่องดื่ม & ขนม", "น้ำผลไม้ ชา โซดา ขนมและของหวาน"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
-        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
+        stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "โอน: โอนตาม QR แล้วแนบสลิป ออเดอร์เข้าร้านทันทีเมื่อสลิปผ่าน · เงินสด: ส่งออเดอร์แล้วจ่ายที่เคาน์เตอร์"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
         webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
@@ -1121,7 +1123,7 @@ const TEXT = {
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
-        points: "⭐ แต้มสะสมของคุณ", pointsRule: (n, d) => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม` + (d ? ` · อายุ ${Math.round(d / 30)} เดือนนับจากออเดอร์ล่าสุด` : ""), tapOrder: "แตะเพื่อสั่ง",
+        points: "⭐ แต้มสะสมของคุณ", pointsRule: (n, d, c) => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม` + (c ? " (เฉพาะโอนจ่าย)" : "") + (d ? ` · อายุ ${Math.round(d / 30)} เดือนนับจากออเดอร์ล่าสุด` : ""), tapOrder: "แตะเพื่อสั่ง",
         rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z}: สั่งครบ ${m} ส่งฟรี`,
         ruleFlat: f => ` (ไม่ถึง ค่าส่ง ${f})`, ruleQuote: k => ` (ไม่ถึง ค่าส่ง กม.ละ ${k})`, freeFrom: m => `สั่งครบ ${m} ส่งฟรี`,
         feeVoucher: "🎟 คูปองส่งฟรี", feeQuote: k => `พนักงานแจ้ง (กม.ละ ${k})`,
@@ -1148,7 +1150,7 @@ const TEXT = {
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
         needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม",  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
-        shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
+        shut: "ปิดอยู่", shutWhy: "สั่งเมนูนี้ได้เมื่อเปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
         needRemove: (n, b) => `${n}ปิดแล้ว (เปิด ${b} น.) กรุณาเอารายการ${n}ออกจากตะกร้า`,
         pointsGo: "ดูบัตรสมาชิกและแลกแต้ม ➜", barNext: (b, per) => `สะสมแล้ว ฿${b} / ฿${per} — อีก ฿${per - b} ได้ 1 แต้ม`, member: "MEMBER", ptsWord: "แต้ม", since: "เริ่มสะสมแต้ม", until: "แต้มหมดอายุ",
@@ -1188,7 +1190,7 @@ const TEXT = {
             off: "Slip checking is off right now. Please send your slip to the shop on WhatsApp.", late: "No answer from the shop yet. Try sending the slip again, or send it on WhatsApp.", fail: "Could not send. Check your internet and try again.",
             noqr: "❌ The QR code on this slip could not be read. Use the original slip image from your banking app (not cropped, not a photo of a screen), or send it to the shop on WhatsApp.", payqr: "❌ This is the QR code for paying, not a slip. Choose the slip you got after the transfer." },
           paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", toQr: "📱 Pay by transfer instead", toCash: "💵 Pay cash at the shop instead", payHow: "Payment: ", howQr: "📱 Transfer", howCash: "💵 Cash at the shop", payBusy: "Changing the payment…", payFailed: "Could not change it — try again, or tell the shop on WhatsApp", qrSoon: "The QR to pay appears here once the shop accepts the order", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
-          regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", tabReg: "Sign up", tabLogin: "Sign in (members)", loginTitle: "Sign in", loginHint: "Already a member or ordered before: enter the phone number you used — your points and orders come back to this phone.", loginBtn: "Sign in", loginWait: "Looking you up…", loginNf: "This number is not a member yet — sign up above.", loginFail: "Could not reach the shop — please try again.", needPhoneOnly: "Please enter your phone number", guest: "You can also order as a guest — just add your name and number when you order.",
+          regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", tabReg: "New member", tabLogin: "I have an account", loginTitle: "Sign in", loginHint: "Already a member or ordered before: enter the phone number you used — your points and orders come back to this phone.", loginBtn: "Sign in", loginWait: "Looking you up…", loginNf: "This number is not a member yet — sign up above.", loginFail: "Could not reach the shop — please try again.", needPhoneOnly: "Please enter your phone number", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
         sending: "Sending your order…", locChecking: "📍 Checking your location…",
         locDenied: "📍 Online orders are for customers on Koh Phangan — please tap “Allow” for location and send again, or send the order by WhatsApp below.",
@@ -1201,7 +1203,7 @@ const TEXT = {
         feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
                 ["🍹", "Drinks & snacks", "Juices, tea, sodas, snacks and desserts"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
-        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Send the order — the shop contacts you to confirm and take payment"],
+        stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Transfer: pay with the QR and attach the slip — the order reaches the shop once the slip passes · Cash: send the order and pay at the counter"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
         webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
@@ -1214,7 +1216,7 @@ const TEXT = {
         next: "Next: choose pickup or delivery, and how to pay.",
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
-        points: "⭐ Your points", pointsRule: (n, d) => `Every ฿${n} of food = 1 point` + (d ? ` · valid ${Math.round(d / 30)} months from your latest order` : ""), tapOrder: "Tap to order",
+        points: "⭐ Your points", pointsRule: (n, d, c) => `Every ฿${n} of food = 1 point` + (c ? " (transfers only)" : "") + (d ? ` · valid ${Math.round(d / 30)} months from your latest order` : ""), tapOrder: "Tap to order",
         rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z}: free from ${m}`,
         ruleFlat: f => ` (below that: ${f} delivery)`, ruleQuote: k => ` (below that: ${k} per km)`, freeFrom: m => `Free delivery from ${m}`,
         feeVoucher: "🎟 Free-delivery voucher", feeQuote: k => `staff will confirm (${k}/km)`,
@@ -1241,7 +1243,7 @@ const TEXT = {
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
         needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.",  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
-        shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
+        shut: "Closed", shutWhy: "you can order it once open", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
         needRemove: (n, b) => `${n} is closed now (opens ${b}). Please remove the ${n.toLowerCase()} items from your cart.`,
         pointsGo: "Member card & rewards ➜", barNext: (b, per) => `฿${b} / ฿${per} — ฿${per - b} more for 1 point`, member: "MEMBER", ptsWord: "points", since: "Member since", until: "Points expire",
@@ -1298,7 +1300,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 40;
+const BUILD = 41;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1413,6 +1415,8 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   const shade = el("div", "ishade"), panel = el("div", "ipanel");
   if (it.img) { const im = el("img", "pic"); im.alt = ""; im.src = it.img; panel.append(im); }
   panel.append(el("h2", "", tr(it.name)));
+  const shutG = shutNow(groupOf(it.id));   // the kitchen (or bar) is closed now: say when it opens, above the choices
+  if (shutG) panel.append(el("div", "shutbar", t().closedTill(hh(shutG.to_hour || 0)) + " — " + t().shutWhy));
   if (it.desc) panel.append(el("div", "desc", tr(it.desc)));
   const card = el("div", "item"), defs = menu.modifiers || {};
   const mods = ((cat && cat.mods) || []).filter(m => defs[m] && !(it.no_mods || []).includes(m)), pick = {};
@@ -1537,7 +1541,7 @@ function renderHome() {
   $("address").textContent = "📍 " + tr(a.address); $("address").classList.toggle("hide", !tr(a.address));
   const per = (menu.points || {}).baht_per_point;
   $("pointsBox").classList.toggle("hide", !per);
-  $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days) : "";
+  $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days, (menu.points || {}).cash_earns === false) : "";
   $("pointsValue").textContent = myPoints.toLocaleString("en-US");
   $("pointsGo").textContent = t().pointsGo;
   drawBar("home");
@@ -1573,7 +1577,7 @@ function renderHome() {
   $("rulesTitle").textContent = t().rulesTitle;
   $("rulesBox").classList.toggle("hide", !list.children.length);
   $("mapsLink").textContent = t().maps; $("mapsLink").classList.toggle("hide", !a.maps);
-  $("phoneLink").textContent = t().call + " " + (a.phone || ""); $("phoneLink").classList.toggle("hide", !a.phone);
+  $("phoneLink").textContent = t().call;   // the number itself is in the box above $("phoneLink").classList.toggle("hide", !a.phone);
   if (a.phone) $("phoneLink").href = "tel:" + a.phone.replace(/[^0-9+]/g, "");
   $("igLink").classList.toggle("hide", !a.instagram);
 }
@@ -2634,7 +2638,7 @@ function drawProfile() {
   tReg.onclick = () => { profMode = "reg"; drawProfile(); }; tIn.onclick = () => { profMode = "login"; drawProfile(); };
   tabs.append(tReg, tIn); box.append(tabs);
   if (profMode === "login") return drawLogin(box);
-  const h = el("h3", "", acct ? S.acctTitle : S.regTitle); h.append(el("span", "tag", acct ? S.memberTag : S.guestTag));
+  const h = el("h3", "hide", "");   // (the switch above names the form)
   const name = el("input", "txt"), phone = el("input", "txt"), msg = el("p", "", acct ? "" : S.regHint), row = el("div", "row2");
   name.maxLength = 60; name.placeholder = S.nameL; name.autocomplete = "name"; name.value = acct ? acct.n : $("cname").value;
   phone.maxLength = 20; phone.placeholder = S.phoneL; phone.type = "tel"; phone.inputMode = "tel"; phone.autocomplete = "tel"; phone.value = acct ? acct.t : $("cphone").value;
@@ -2656,7 +2660,7 @@ function drawProfile() {
 }
 let profMode = "reg";   // the member page's form when not signed in: "reg" (sign up) or "login" (sign in)
 function drawLogin(box) {   // a member on a new phone: the phone number finds them; the shop answers on this phone's note
-  const S = t().site, h = el("h3", "", S.loginTitle), msg = el("p", "", S.loginHint), phone = el("input", "txt"), row = el("div", "row2");
+  const S = t().site, h = el("h3", "hide", ""), msg = el("p", "", S.loginHint), phone = el("input", "txt"), row = el("div", "row2");
   phone.maxLength = 20; phone.placeholder = S.phoneL; phone.type = "tel"; phone.inputMode = "tel"; phone.autocomplete = "tel"; phone.value = $("cphone").value;
   const go = el("button", "pbtn", S.loginBtn);
   go.onclick = async () => {
