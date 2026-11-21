@@ -756,6 +756,10 @@
   .payrow a.payslip, .payrow button.payslip { background: var(--green); color: #fff; }
   .payrow button.payslip { flex-basis: 100%; }   /* "send the slip here": the main way, on its own row */
   .payrow button:disabled { opacity: .6; cursor: default; }
+  /* how the order is paid, and the button to pay the other way (transfer ↔ cash at the shop) */
+  .payhow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 600; }
+  .payhow .paychg { margin-left: auto; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--green); color: var(--green); background: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .payhow .slipmsg { flex-basis: 100%; margin-top: 4px; }
   /* how the slip check went (also under a paid order) */
   .slipmsg { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600; text-align: left; }
   .slipmsg.ok { color: var(--green); }
@@ -1065,7 +1069,7 @@ const TEXT = {
             limit: "ส่งสลิปหลายครั้งแล้ว — กรุณาส่งสลิปให้ร้านทาง WhatsApp", busy: "กำลังตรวจสลิปใบก่อนหน้าอยู่ — รอสักครู่", gone: "ออเดอร์นี้ไม่ได้รอชำระเงินแล้ว — ถ้าโอนเงินมาแล้ว กรุณาติดต่อร้าน",
             off: "ตอนนี้ระบบตรวจสลิปปิดอยู่ — กรุณาส่งสลิปให้ร้านทาง WhatsApp", late: "ร้านยังไม่ตอบกลับ — ลองกดส่งสลิปอีกครั้ง หรือส่งทาง WhatsApp", fail: "ส่งไม่สำเร็จ — ตรวจอินเทอร์เน็ตแล้วลองใหม่",
             noqr: "❌ อ่าน QR บนสลิปไม่ได้ — ใช้รูปสลิปต้นฉบับจากแอปธนาคาร (ไม่ครอบตัด ไม่ถ่ายจากหน้าจอ) หรือส่งสลิปให้ร้านทาง WhatsApp", payqr: "❌ รูปนี้คือ QR สำหรับจ่ายเงิน ไม่ใช่สลิป — เลือกรูปสลิปที่ได้หลังโอนเงินแล้ว" },
-          paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
+          paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", toQr: "📱 เปลี่ยนเป็นโอน", toCash: "💵 เปลี่ยนเป็นจ่ายเงินสดที่ร้าน", payHow: "วิธีจ่าย: ", howQr: "📱 โอน", howCash: "💵 เงินสดที่ร้าน", payBusy: "กำลังเปลี่ยนวิธีจ่าย…", payFailed: "เปลี่ยนไม่สำเร็จ — ลองอีกครั้ง หรือแจ้งร้านทาง WhatsApp", qrSoon: "QR สำหรับโอนจะขึ้นตรงนี้เมื่อร้านกดรับออเดอร์", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
         sending: "กำลังส่งออเดอร์…", locChecking: "📍 กำลังเช็คตำแหน่ง…",
@@ -1158,7 +1162,7 @@ const TEXT = {
             limit: "Too many slips were sent. Please send your slip to the shop on WhatsApp.", busy: "Your previous slip is still being checked — one moment.", gone: "This order is no longer waiting for payment. If you already paid, please contact the shop.",
             off: "Slip checking is off right now. Please send your slip to the shop on WhatsApp.", late: "No answer from the shop yet. Try sending the slip again, or send it on WhatsApp.", fail: "Could not send. Check your internet and try again.",
             noqr: "❌ The QR code on this slip could not be read. Use the original slip image from your banking app (not cropped, not a photo of a screen), or send it to the shop on WhatsApp.", payqr: "❌ This is the QR code for paying, not a slip. Choose the slip you got after the transfer." },
-          paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
+          paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", toQr: "📱 Pay by transfer instead", toCash: "💵 Pay cash at the shop instead", payHow: "Payment: ", howQr: "📱 Transfer", howCash: "💵 Cash at the shop", payBusy: "Changing the payment…", payFailed: "Could not change it — try again, or tell the shop on WhatsApp", qrSoon: "The QR to pay appears here once the shop accepts the order", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
         sending: "Sending your order…", locChecking: "📍 Checking your location…",
@@ -1269,7 +1273,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 32;
+const BUILD = 33;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2305,6 +2309,18 @@ function drawOrders() {
     if (v && (v.s === "cancelled" || v.s === "void")) tl.append(el("li", "bad", S.st.cancelled));
     else steps.forEach((s, i) => tl.append(el("li", i < at || (i === at && s === "done") ? "did" : i === at ? "now" : "", S.st[stKey(s, v ? v.m : o.m)])));
     card.append(tl);
+    if (v && !v.p && !finalState(v) && inboxUrl()) {   // how it is paid, and "pay the other way" (transfer ↔ cash at the shop) until it is paid
+      const cash = v.y === "c", can = cash ? !!opt().qr : (v.m !== "d" && !!opt().cash), w = payUi[o.k], ui = slipUi[o.k];
+      if (w && w.busy && (w.want === "c") === cash) delete payUi[o.k];                    // the shop's note now says the new way
+      else if (w && w.busy && Date.now() - w.at > 90e3) payUi[o.k] = { fail: true };      // no answer in time
+      const row = el("div", "payhow"), now = payUi[o.k];
+      row.append(el("span", "", S.payHow + (cash ? S.howCash : S.howQr)));
+      if (now && now.busy) row.append(el("span", "onote", S.payBusy));
+      else if (can && !(ui && ui.busy)) { const b = el("button", "paychg", cash ? S.toQr : S.toCash); b.onclick = () => changePay(o, cash ? "q" : "c"); row.append(b); }
+      if (now && now.fail) row.append(el("div", "slipmsg bad", S.payFailed));
+      card.append(row);
+      if (!cash && v.s === "new") card.append(el("div", "onote", S.qrSoon));
+    }
     if (v && !v.p && !finalState(v) && v.s !== "new" && v.y !== "c") {   // the shop took the order and it is not paid yet: the shop's payment QR (not for cash at the shop)
       const pay = el("div", "payqr"), img = el("img", ""), a = menu.about || {};
       img.src = "pay_qr.jpg"; img.alt = "PromptPay QR"; img.onclick = () => pay.classList.toggle("big");
@@ -2349,6 +2365,20 @@ function drawOrders() {
 // The picture never leaves the phone. Every Thai bank slip carries a small QR code; the page reads it here and sends only
 // what it says (about 60 letters) to the shop's inbox with the order's code. The bot asks the bank and answers on the
 // order's note (sl), which pollOrders reads; a slip that passes marks the order paid.
+// ---- "pay the other way" on an order: the request goes to the inbox like a slip; the bot changes the order and its
+// note (y = "c" for cash) shows the new way, which pollOrders brings back. Cash only for pickup / eating in.
+const payUi = {};        // order code → { busy, want, at } while a change is on its way, or { fail }
+async function changePay(o, want) {
+  payUi[o.k] = { busy: true, want, at: Date.now() }; drawOrders();
+  let ok = false;
+  try {
+    const res = await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ kind: "order", code: b64u({ pm: want, k: o.k, g: lang, ts: Math.floor(Date.now() / 1000) }) }) });
+    ok = !!(await res.json()).ok;
+  } catch (e) {}
+  if (!ok) { payUi[o.k] = { fail: true }; return drawOrders(); }
+  for (const ms of [4000, 9000, 15000, 25000, 40000, 60000, 92000]) setTimeout(() => { if (payUi[o.k] && payUi[o.k].busy) { pollOrders(); drawOrders(); } }, ms);
+}
 let slipFor = "";        // the order (by its tracking code) the slip being picked is for
 const slipUi = {};       // order code → { busy, ts, msg, cls }: a slip on its way, and what the order's card says about it
 let qrLibLoad = null;
