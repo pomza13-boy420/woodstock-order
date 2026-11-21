@@ -1140,7 +1140,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม",  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1233,7 +1233,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.",  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1292,7 +1292,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 37;
+const BUILD = 38;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1917,7 +1917,8 @@ function drawDetails() {
   $("dHint").textContent = bad || (web ? (pay === "c" ? t().cashWebHint : t().qrWeb) : p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
-  const warn = pay === "c" ? t().warnCash : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
+  const noPts = menu.points && menu.points.cash_earns === false;   // the shop gives points for transfers only
+  const warn = pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
   $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
   const pp = prepayOn(); $("prepay").classList.toggle("hide", !pp);
   if (pp) {
