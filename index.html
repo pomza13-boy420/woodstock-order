@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="google-site-verification" content="6-v8LOyANHemiK_ylWWox0335zMLMU1qKMbOW40oGZw">
-<title>Woodstock: Thai food, coffee &amp; smoothies in Koh Phangan — order online</title>
-<meta name="description" content="Woodstock, Chaloklum, Koh Phangan — Thai & vegetarian food, coffee, smoothies and fresh juices. See the menu and order for pickup or delivery.">
-<meta property="og:title" content="Woodstock Koh Phangan — Menu & Order">
-<meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and fresh juices in Chaloklum. Order for pickup or delivery.">
+<title>Woodstock Chaloklum, Koh Phangan — Thai Restaurant, Café &amp; Food Delivery</title>
+<meta name="description" content="Thai restaurant &amp; café in Chaloklum, Koh Phangan — Thai and vegetarian food, coffee, smoothies and fresh juices. Order online for pickup, eat-in or delivery. Drinks 24 h, food 08:00–23:00. ร้านอาหารไทย คาเฟ่ โฉลกหลำ เกาะพะงัน สั่งออนไลน์ รับที่ร้าน ทานที่ร้าน หรือส่งถึงที่พัก">
+<meta property="og:title" content="Woodstock Chaloklum, Koh Phangan — Thai Restaurant, Café &amp; Food Delivery">
+<meta property="og:description" content="Thai restaurant &amp; café in Chaloklum, Koh Phangan. Order online for pickup, eat-in or delivery.">
 <meta property="og:image" content="shop.jpg">
 <meta property="og:type" content="restaurant">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Woodstock Koh Phangan — Menu & Order">
-<meta name="twitter:description" content="Thai & vegetarian food, coffee, smoothies and fresh juices in Chaloklum. Order for pickup or delivery.">
+<meta name="twitter:title" content="Woodstock Chaloklum, Koh Phangan — Thai Restaurant, Café &amp; Food Delivery">
+<meta name="twitter:description" content="Thai restaurant &amp; café in Chaloklum, Koh Phangan. Order online for pickup, eat-in or delivery.">
 <meta name="twitter:image" content="shop.jpg">
 <meta name="theme-color" content="#4e342e">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -1447,7 +1447,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 54;
+const BUILD = 55;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2532,7 +2532,7 @@ function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button, .wlangs button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
   $("skipLink").textContent = lang === "en" ? "Skip to content" : "ข้ามไปที่เนื้อหา";
-  document.title = lang === "en" ? "Woodstock: Thai food, coffee & smoothies in Koh Phangan — order online" : "Woodstock เกาะพะงัน — อาหารไทย กาแฟ และสมูทตี้ · สั่งออนไลน์";
+  document.title = lang === "en" ? "Woodstock Chaloklum, Koh Phangan — Thai Restaurant, Café & Food Delivery" : "Woodstock โฉลกหลำ เกาะพะงัน — ร้านอาหารไทย คาเฟ่ สั่งอาหารส่งถึงที่";
   $("featsTitle").textContent = lang === "en" ? "Food categories" : "หมวดอาหาร";
   $("tabbar").setAttribute("aria-label", lang === "en" ? "Main menu" : "เมนูหลัก");
   setTimeout(a11yNames, 0);
