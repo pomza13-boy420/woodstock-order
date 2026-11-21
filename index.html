@@ -1068,7 +1068,10 @@ const TEXT = {
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
           regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
-        sending: "กำลังส่งออเดอร์…", sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentHintCash: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — ชำระเงินสดที่ร้านได้เลย ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
+        sending: "กำลังส่งออเดอร์…", locChecking: "📍 กำลังเช็คตำแหน่ง…",
+        locDenied: "📍 สั่งผ่านเว็บได้เฉพาะลูกค้าที่อยู่บนเกาะพะงัน — กรุณากด “อนุญาต” ตำแหน่งแล้วกดส่งอีกครั้ง หรือส่งออเดอร์ทาง WhatsApp ด้านล่าง",
+        locNone: "📍 เช็คตำแหน่งของโทรศัพท์ไม่ได้ (เปิด GPS แล้วลองใหม่) — สั่งผ่านเว็บได้เฉพาะบนเกาะพะงัน หรือส่งออเดอร์ทาง WhatsApp ด้านล่าง",
+        locAway: "📍 ตอนนี้คุณไม่ได้อยู่บนเกาะพะงัน — สั่งผ่านเว็บได้เฉพาะบนเกาะ ถ้าจะสั่งล่วงหน้า ส่งออเดอร์ทาง WhatsApp ด้านล่าง ร้านจะติดต่อกลับ",sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentHintCash: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — ชำระเงินสดที่ร้านได้เลย ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
         autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
         pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
         promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
@@ -1158,7 +1161,10 @@ const TEXT = {
           paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
           regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
-        sending: "Sending your order…", sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentHintCash: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Pay in cash at the shop — no need to send the order again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
+        sending: "Sending your order…", locChecking: "📍 Checking your location…",
+        locDenied: "📍 Online orders are for customers on Koh Phangan — please tap “Allow” for location and send again, or send the order by WhatsApp below.",
+        locNone: "📍 Could not read your phone's location (turn on GPS and try again). Online orders are for Koh Phangan only — or send the order by WhatsApp below.",
+        locAway: "📍 You are not on Koh Phangan right now — online orders are for the island only. To order ahead, send it by WhatsApp below and the shop will get back to you.",sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentHintCash: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Pay in cash at the shop — no need to send the order again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
         autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
         pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
         promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
@@ -1263,7 +1269,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 31;
+const BUILD = 32;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2067,10 +2073,27 @@ $("send").onclick = () => {
 // about.order_inbox (catalog.json) is the shop's order inbox; the bot collects from it and posts the order in the
 // shop's group. Only the order code is sent (items, name, phone, address) — prices come from the shop's own menu.
 // If the inbox cannot be reached, the customer sends the same order by WhatsApp instead (openVia).
+// Orders sent by themselves only from a phone that is on Koh Phangan right now (owner: no prank orders from
+// elsewhere). The phone's own position goes with the order ("gl") and the bot checks it again. No position, or
+// one off the island: the order can still go by WhatsApp, where staff see who it is.
+let here = null;   // [lat, lon, accuracy in m] read just before sending
+const nearIsland = (la, lo, acc) => la >= ISLAND[0][0] - 0.03 && la <= ISLAND[1][0] + 0.03 && lo >= ISLAND[0][1] - 0.03 && lo <= ISLAND[1][1] + 0.03 && acc <= 10000;
+const whereNow = () => new Promise(done => {
+  if (!navigator.geolocation) return done({ err: "none" });
+  navigator.geolocation.getCurrentPosition(g => done({ la: g.coords.latitude, lo: g.coords.longitude, acc: g.coords.accuracy || 0 }),
+    e => done({ err: e && e.code === 1 ? "denied" : "none" }), { enableHighAccuracy: true, timeout: 20000, maximumAge: 120000 });
+});
 let sending = false;
 async function sendAuto() {
   if (sending) return;
-  const text = orderText(), code = (text.match(/W1:([A-Za-z0-9_-]+)/) || [])[1], btn = $("send"), label = btn.textContent;
+  const btn = $("send"), label = btn.textContent;
+  sending = true; btn.textContent = t().locChecking; btn.classList.add("off");
+  const g = await whereNow();
+  sending = false; btn.textContent = label; btn.classList.remove("off");
+  if (g.err) { here = null; return openVia(orderText(), false, g.err === "denied" ? t().locDenied : t().locNone); }
+  if (!nearIsland(g.la, g.lo, g.acc)) { here = null; return openVia(orderText(), false, t().locAway); }
+  here = [Number(g.la.toFixed(5)), Number(g.lo.toFixed(5)), Math.round(g.acc)];
+  const text = orderText(), code = (text.match(/W1:([A-Za-z0-9_-]+)/) || [])[1];
   sending = true; btn.textContent = t().sending; btn.classList.add("off");
   let ok = false;
   try {
@@ -2156,6 +2179,9 @@ function orderText() {
     if (disc) code.ud = 1;                    // use the discount ticket on this order
     if (tix) code.us = tix;                   // use this many delivery tickets on this order
     if (how === "d" && loc && pinned) code.lm = 1;   // the pin was placed by hand on the map
+    // where the phone is now (on the island): the bot only takes orders sent from there. Before k: the bot tells
+    // orders apart by the code's last characters, which must stay the random k (+ mk), not a spot that repeats.
+    if (here) code.gl = here;
     code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
     if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
     const bytes = new TextEncoder().encode(JSON.stringify(code));
@@ -2165,7 +2191,7 @@ function orderText() {
   } finally { lang = keep; }
 }
 
-function openVia(sameText, failed) {
+function openVia(sameText, failed, why) {
   const a = menu.about || {}, text = sameText || orderText(), box = $("viaBtns");
   const link = (label, href, cls) => { const b = el("a", "viabtn" + (cls ? " " + cls : ""), label); b.href = href; b.target = "_blank"; b.rel = "noopener"; box.append(b); return b; };
   let wa = String(a.whatsapp || "").replace(/\D/g, "");
@@ -2174,7 +2200,7 @@ function openVia(sameText, failed) {
   $("viaTitle").textContent = t().viaTitle;
   // the customer reads the order; the shop's code line and the "/web" word still travel in the message itself
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
-  $("viaHint").textContent = (failed ? t().autoFail + "\n" : "") + (wa || a.line ? t().viaHint : t().viaNone);
+  $("viaHint").textContent = (why ? why + "\n" : failed ? t().autoFail + "\n" : "") + (wa || a.line ? t().viaHint : t().viaNone);
   if (wa) link("🟢 " + t().wa, `https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "main");
   if (a.line) link("💬 " + t().lineBtn, `https://line.me/R/oaMessage/${encodeURIComponent(a.line)}/?${encodeURIComponent(text)}`, wa ? "" : "main");
   const copy = el("button", "viabtn", t().copy);
