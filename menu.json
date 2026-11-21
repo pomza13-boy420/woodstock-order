@@ -477,7 +477,8 @@
       "en": "Tom kha",
       "th": "ต้มข่า"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/tomkha.jpg"
     },
     {
      "id": "panang",
@@ -1140,7 +1141,8 @@
       "en": "Strawberry shortcake",
       "th": "สตรอว์เบอร์รี่ช็อตเค้ก"
      },
-     "price": 89
+     "price": 89,
+     "img": "img/shortcake.jpg"
     },
     {
      "id": "cheesecake",
@@ -2314,7 +2316,8 @@
       "en": "Red Bull",
       "th": "กระทิงแดง"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/redbull.jpg"
     },
     {
      "id": "sponsor",
@@ -2483,7 +2486,8 @@
       "en": "Ginger shot",
       "th": "ช็อตขิง"
      },
-     "price": 50
+     "price": 50,
+     "img": "img/gingershot.jpg"
     }
    ]
   },
@@ -2648,7 +2652,8 @@
       "en": "Extra pork",
       "th": "เพิ่มหมู"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/xpork.jpg"
     },
     {
      "id": "xshrimp",
