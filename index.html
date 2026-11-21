@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Woodstock Koh Phangan — Menu & Order</title>
-<meta name="description" content="Woodstock, Chaloklum, Koh Phangan — Thai & vegetarian food, coffee, smoothies and cocktails. See the menu and order for pickup or delivery.">
+<meta name="description" content="Woodstock, Chaloklum, Koh Phangan — Thai & vegetarian food, coffee, smoothies and fresh juices. See the menu and order for pickup or delivery.">
 <meta property="og:title" content="Woodstock Koh Phangan — Menu & Order">
-<meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum. Order for pickup or delivery.">
+<meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and fresh juices in Chaloklum. Order for pickup or delivery.">
 <meta property="og:image" content="shop.jpg">
 <meta property="og:type" content="restaurant">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Woodstock Koh Phangan — Menu & Order">
-<meta name="twitter:description" content="Thai & vegetarian food, coffee, smoothies and cocktails in Chaloklum. Order for pickup or delivery.">
+<meta name="twitter:description" content="Thai & vegetarian food, coffee, smoothies and fresh juices in Chaloklum. Order for pickup or delivery.">
 <meta name="twitter:image" content="shop.jpg">
 <meta name="theme-color" content="#4e342e">
 <link rel="icon" href="logo.png">
@@ -1074,7 +1074,7 @@ const TEXT = {
         promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
         whoTitle: "เราคือใคร", howTitle: "สั่งง่าย 3 ขั้นตอน", heroMap: "📍 แผนที่และติดต่อ",
         feats: [["🍛", "อาหารไทย & มังสวิรัติ", "อาหารเช้า เมนูเส้น ต้มยำ แกง และอาหารผัด"], ["☕", "กาแฟ & สมูทตี้", "เครื่องดื่มร้อน เย็น ปั่น และน้ำผลไม้"],
-                ["🍹", "ค็อกเทลบาร์", "ค็อกเทลกว่า 20 เมนู"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
+                ["🍹", "เครื่องดื่ม & ขนม", "น้ำผลไม้ ชา โซดา ขนมและของหวาน"], ["🛵", "จัดส่ง & รับที่ร้าน", "สั่งออนไลน์ ส่งถึงที่พักบนเกาะพะงัน"]],
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
         stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "กดส่งออเดอร์ — ร้านติดต่อกลับเพื่อยืนยันและรับชำระเงิน"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
@@ -1164,7 +1164,7 @@ const TEXT = {
         promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
         whoTitle: "Who we are", howTitle: "Order in 3 steps", heroMap: "📍 Map & contact",
         feats: [["🍛", "Thai & vegetarian food", "Breakfast, noodles, tom yum, curries and stir-fries"], ["☕", "Coffee & smoothies", "Hot, iced and blended drinks, fresh juices"],
-                ["🍹", "Cocktail bar", "More than 20 cocktails"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
+                ["🍹", "Drinks & snacks", "Juices, tea, sodas, snacks and desserts"], ["🛵", "Delivery & pickup", "Order online — delivered to your place on Koh Phangan"]],
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
         stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Send the order — the shop contacts you to confirm and take payment"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
@@ -1263,7 +1263,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 30;
+const BUILD = 31;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2414,6 +2414,7 @@ async function pollOrders() {
       // tickets bought with points: a discount (da, until dx), delivery tickets (sn of them, each up to sa baht, the first runs out on sx), shop rewards to collect (v)
       member.d = u.da || 0; member.dx = u.dx || ""; member.sn = u.sn || 0; member.sa = u.sa || 0; member.sx = u.sx || ""; member.wv = Array.isArray(u.v) ? u.v : [];
       member.u = u.u || {}; member.uf = Array.isArray(u.uf) ? u.uf : [];   // rewards that cannot be redeemed right now: until which day / holding the most allowed
+      loadAlc(u.ak || "");   // the alcohol menu: only on the cards of members the shop allows
       if (mine) {
         redeemNote = u.rr.ok ? t().rdOk(u.rr.c || "") : u.rr.e === "lim" && u.rr.n ? t().rdLim(u.rr.n) : (t().rdErr[u.rr.e] || t().rdFail);
         redeemWait = null;
@@ -2531,6 +2532,53 @@ renderHome = function () { baseRenderHome(); drawSite(); };
 setInterval(pollOrders, 20000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) pollOrders(); });
 
+function indexMenu(cats) {   // prices, names and the group of every cart key in these categories
+  for (const cat of cats) for (const it of cat.items) {
+    const gid = (groups().find(g => g.categories.includes(cat.id)) || {}).id;
+    groupOfKey[it.id] = gid;
+    for (const o of it.options || []) groupOfKey[it.id + "~" + o.id] = gid;
+    if (it.options && it.options.length) for (const o of it.options) {
+      const k = it.id + "~" + o.id; prices[k] = o.price;
+      names[k] = Object.fromEntries(Object.keys(it.name).map(l => [l, `${it.name[l]} (${o.name[l] || ""})`]));
+    } else { prices[it.id] = it.price; names[it.id] = it.name; }
+  }
+}
+// The alcohol menu is not in menu.json. Only a member the shop allows (signed up and has picked up / eaten at the
+// shop before) gets its key ("ak") on the member note; the menu then comes in pieces u_<ak>0 … from the inbox.
+// Nothing of it is kept on the phone: without the key on the card it is gone with the next page load.
+let alcKey = "", alcBusy = false;
+async function loadAlc(k) {
+  if (!menu || alcBusy) return;
+  if (!k || !/^[a-z0-9]{30}$/.test(k)) { if (alcKey) dropAlc(); return; }
+  if (k === alcKey) return;
+  alcBusy = true;
+  try {
+    const first = await ask("member=" + k + "0"), n = first ? (parseInt(first.n, 10) || 0) : 0;
+    if (n > 0 && n < 40) {
+      const rest = await Promise.all(Array.from({ length: n - 1 }, (_, i) => ask("member=" + k + (i + 1))));
+      if (rest.every(x => x && typeof x.d === "string")) {
+        const p = JSON.parse([first, ...rest].map(x => x.d).join(""));
+        if (p && Array.isArray(p.g) && Array.isArray(p.c)) {
+          dropAlc(true);
+          menu.groups = (menu.groups || []).concat(p.g.map(g => ({ ...g, _h: 1 })));
+          menu.categories = menu.categories.concat(p.c.map(c => ({ ...c, _h: 1 })));
+          indexMenu(p.c); alcKey = k; applyLang();
+        }
+      }
+    }
+  } catch (e) {}
+  alcBusy = false;
+}
+function dropAlc(quiet) {   // the card no longer has the key: the alcohol menu and anything of it in the cart go
+  const gone = new Set(menu.categories.filter(c => c._h).flatMap(c => c.items.map(it => it.id)));
+  menu.groups = (menu.groups || []).filter(g => !g._h); menu.categories = menu.categories.filter(c => !c._h);
+  for (const k of Object.keys(cart)) if (gone.has(baseKey(k).split("~")[0])) delete cart[k];
+  if (group && !groups().some(g => g.id === group)) group = groups()[0].id;   // was looking at the alcohol: back to the first group
+  const all = document.getElementById("catAll"); if (all) all.textContent = "";      // the category tiles are drawn again when next opened
+  alcKey = "";
+  if (!quiet) { applyLang(); refresh(); }
+}
+
 applyLang();
 fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -2540,15 +2588,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
       return;
     }
     menu = data;
-    for (const cat of menu.categories) for (const it of cat.items) {
-      const gid = (groups().find(g => g.categories.includes(cat.id)) || {}).id;
-      groupOfKey[it.id] = gid;
-      for (const o of it.options || []) groupOfKey[it.id + "~" + o.id] = gid;
-      if (it.options && it.options.length) for (const o of it.options) {
-        const k = it.id + "~" + o.id; prices[k] = o.price;
-        names[k] = Object.fromEntries(Object.keys(it.name).map(l => [l, `${it.name[l]} (${o.name[l] || ""})`]));
-      } else { prices[it.id] = it.price; names[it.id] = it.name; }
-    }
+    indexMenu(menu.categories);
     applyLang(); show("home"); splashOff();
     if (!inTelegram) {   // the website opens on its own home page (no "enter the shop" screen); the member's name comes back
       $("welcome").classList.add("hide");
