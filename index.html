@@ -890,6 +890,14 @@
   .tabbar .tdot { top: 8px; left: calc(50% + 7px); width: 10px; height: 10px; border-radius: 50%; background: #E0A43A; border: 2px solid #fff; }
   .tabbar .tcount.hide, .tabbar .tdot.hide { display: none; }
   @media (min-width: 900px) { .tabbar button { position: relative; } .tabbar .tcount { top: 2px; left: auto; right: 4px; } .tabbar .tdot { top: 6px; left: auto; right: 10px; } }
+  /* dish panel: the photo takes at most ~40% of the screen, so the choices start on the first screen */
+  .ishade .ipanel img.pic { height: min(40vh, 340px); max-height: none; object-fit: cover; }
+  /* pay-first box: save the QR */
+  .prepay .ppsave { display: inline-block; margin: 2px 0 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--green); color: var(--green); font-size: 16px; font-weight: 600; text-decoration: none; }
+  /* cart: "−" is not a danger, only fewer */
+  .stepper button.minus { border-color: var(--line); color: var(--text); background: transparent; }
+  /* computer: five dishes a row, bigger photos */
+  @media (min-width: 900px) { .tiles { grid-template-columns: repeat(5, 1fr); gap: 18px; } }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1091,24 +1099,25 @@
       <h3 id="tixLabel"></h3>
       <div class="choices col" id="tixBtns"></div>
     </div>
-  </div>
-  <div class="sums">
+    <div class="sums">
     <div><span id="foodLabel"></span><span id="foodTotal"></span></div>
     <div id="feeRow"><span id="feeLabel"></span><span id="feeValue"></span></div>
     <div id="nightRow" class="hide"><span id="nightLabel"></span><span id="nightValue"></span></div>
     <div id="discRow" class="hide"><span id="discLabel"></span><span id="discValue"></span></div>
     <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
-  </div>
-  <p class="hint2" id="dHint"></p>
-  <div class="prepay hide" id="prepay">   <!-- transfer, pickup / eat in: pay first, attach the slip, then send -->
+    </div>
+    <div class="prepay hide" id="prepay">   <!-- transfer, pickup / eat in: pay first, attach the slip, then send -->
     <div class="ppamt" id="ppAmt"></div>
     <img id="ppQr" src="pay_qr.jpg" alt="PromptPay QR">
+    <a class="ppsave" id="ppSave" href="pay_qr.jpg" download="woodstock-qr.jpg"></a>
     <div class="pphint" id="ppHint"></div>
     <button class="ppbtn" id="ppBtn" type="button"></button>
     <div class="slipmsg hide" id="ppMsg"></div>
     <input type="file" id="ppFile" accept="image/*" class="hide">
+    </div>
+    <div class="paywarn hide" id="payWarn" role="alert"></div>
   </div>
-  <div class="paywarn hide" id="payWarn" role="alert"></div>
+  <p class="hint2" id="dHint"></p>
   <button class="confirm" id="send"></button>
   <div class="testnote" id="testnote"></div>
 </div>
@@ -1200,7 +1209,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม", openNow: c => `เปิดอยู่ · ครัวถึง ${c} น.`, kitchenShut: o => `ครัวปิด · เปิด ${o} น. · เครื่องดื่มยังสั่งได้`, shopPaused: "ปิดรับออเดอร์ชั่วคราว", helloM: (n, p) => `สวัสดี${n ? " คุณ" + n : ""} · ⭐ ${p} แต้ม`, helloGo: "บัตรสมาชิก →", olderOrders: n => `ออเดอร์ก่อนหน้า (${n})`, allRewards: n => `ดูของรางวัลทั้งหมด (${n})`,  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppSave: "⬇ บันทึกรูป QR", ppHint2: "โอนจากมือถือเครื่องนี้: กดบันทึกรูป QR → เปิดแอปธนาคาร → สแกน → เลือกรูปจากอัลบั้ม → โอน แล้วแนบสลิปด้านล่าง", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม", openNow: c => `เปิดอยู่ · ครัวถึง ${c} น.`, kitchenShut: o => `ครัวปิด · เปิด ${o} น. · เครื่องดื่มยังสั่งได้`, shopPaused: "ปิดรับออเดอร์ชั่วคราว", helloM: (n, p) => `สวัสดี${n ? " คุณ" + n : ""} · ⭐ ${p} แต้ม`, helloGo: "บัตรสมาชิก →", olderOrders: n => `ออเดอร์ก่อนหน้า (${n})`, allRewards: n => `ดูของรางวัลทั้งหมด (${n})`,  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิดอยู่", shutWhy: "สั่งเมนูนี้ได้เมื่อเปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1292,7 +1301,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.", openNow: c => `Open now · kitchen until ${c}`, kitchenShut: o => `Kitchen closed · opens ${o} · drinks still available`, shopPaused: "Not taking orders right now", helloM: (n, p) => `Hi${n ? " " + n : ""} · ⭐ ${p} points`, helloGo: "Member card →", olderOrders: n => `Earlier orders (${n})`, allRewards: n => `See all rewards (${n})`,  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppSave: "⬇ Save the QR picture", ppHint2: "Paying from this phone: save the QR → open your banking app → Scan → choose the picture from your photos → pay, then attach the slip below", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.", openNow: c => `Open now · kitchen until ${c}`, kitchenShut: o => `Kitchen closed · opens ${o} · drinks still available`, shopPaused: "Not taking orders right now", helloM: (n, p) => `Hi${n ? " " + n : ""} · ⭐ ${p} points`, helloGo: "Member card →", olderOrders: n => `Earlier orders (${n})`, allRewards: n => `See all rewards (${n})`,  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", shutWhy: "you can order it once open", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1351,7 +1360,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 44;
+const BUILD = 45;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1468,7 +1477,8 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   panel.append(el("h2", "", tr(it.name)));
   const shutG = shutNow(groupOf(it.id));   // the kitchen (or bar) is closed now: say when it opens, above the choices
   if (shutG) panel.append(el("div", "shutbar", t().closedTill(hh(shutG.to_hour || 0)) + " — " + t().shutWhy));
-  if (it.desc) panel.append(el("div", "desc", tr(it.desc)));
+  const steps = ((cat && cat.mods) || []).some(m => (menu.modifiers || {})[m] && !(it.no_mods || []).includes(m));
+  if (it.desc && !steps) panel.append(el("div", "desc", tr(it.desc)));   // the numbered steps below say it already
   const card = el("div", "item"), defs = menu.modifiers || {};
   const mods = ((cat && cat.mods) || []).filter(m => defs[m] && !(it.no_mods || []).includes(m)), pick = {};
   // A modifier with "max" above 1 takes several choices (fruit: 2–3); one without "default" must be chosen (base: pick 1).
@@ -1989,9 +1999,10 @@ function drawDetails() {
   const noPts = menu.points && menu.points.cash_earns === false;   // the shop gives points for transfers only
   const warn = pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
   $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
+  if (!web || $("dTotal").textContent) $("send").textContent += "  ·  " + $("dTotal").textContent;
   const pp = prepayOn(); $("prepay").classList.toggle("hide", !pp);
   if (pp) {
-    $("ppAmt").textContent = t().ppAmt($("dTotal").textContent); $("ppHint").textContent = t().ppHint;
+    $("ppAmt").textContent = t().ppAmt($("dTotal").textContent); $("ppHint").textContent = t().ppHint2; $("ppSave").textContent = t().ppSave;
     $("ppBtn").textContent = preBusy ? t().ppChecking : preSlip ? t().ppAgain : t().ppAttach; $("ppBtn").disabled = preBusy;
     $("ppMsg").textContent = preMsg[0]; $("ppMsg").className = "slipmsg" + (preMsg[1] ? " " + preMsg[1] : "") + (preMsg[0] ? "" : " hide");
     if (pay === "q") $("payWarn").classList.add("hide");   // the box says it all
