@@ -973,6 +973,11 @@
   .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .links .link { width: 100%; justify-content: center; }
   @media (min-width: 600px) { .links { grid-template-columns: repeat(4, 1fr); } }
+  /* the home page is a <main> too (build 51): none of the menu page's main padding or width limit */
+  main#home { padding: 0; max-width: none; margin: 0; }
+  /* the member strip: a long name wraps instead of pushing "member card →" off the screen */
+  .hello .hm { white-space: normal; min-width: 0; flex: 0 1 auto; }
+  .hello .hbar { flex: 1 1 24px; min-width: 24px; }
   /* a heading only screen readers hear */
   .sronly { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   #home .foot { display: block; }
@@ -1448,7 +1453,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 56;
+const BUILD = 57;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
