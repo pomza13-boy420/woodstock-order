@@ -1,5 +1,5 @@
 {
- "build": 26,
+ "build": 27,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3350,6 +3350,7 @@
   "pickup": true,
   "delivery": true,
   "dinein": true,
+  "tables": 12,
   "qr": true,
   "cash": true,
   "slip": true
