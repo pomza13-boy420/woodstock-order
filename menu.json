@@ -1,5 +1,5 @@
 {
- "build": 46,
+ "build": 49,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -20,7 +20,13 @@
     "b4",
     "bxe",
     "bx2",
-    "bx3"
+    "bx3",
+    "yb",
+    "yf",
+    "yt",
+    "yxf",
+    "yxt",
+    "yxo"
    ],
    "items": [
     {
@@ -34,7 +40,37 @@
       "th": "เลือกตามลำดับ: 1 ไข่ · 2 เครื่องเคียง 2 อย่าง · 3 ของทาขนมปัง · 4 ขนมปังหรือสลัด — เพิ่มของได้ด้านล่าง"
      },
      "price": 150,
-     "img": "img/bfset.jpg"
+     "img": "img/bfset.jpg",
+     "no_mods": [
+      "yb",
+      "yf",
+      "yt",
+      "yxf",
+      "yxt",
+      "yxo"
+     ]
+    },
+    {
+     "id": "yogurt",
+     "name": {
+      "en": "Greek Yogurt Bowl",
+      "th": "กรีกโยเกิร์ตผลไม้"
+     },
+     "desc": {
+      "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯 Add extras below if you like.",
+      "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯 เพิ่มของได้ด้านล่าง"
+     },
+     "price": 150,
+     "img": "img/yogurt.jpg",
+     "no_mods": [
+      "be",
+      "b2",
+      "b3",
+      "b4",
+      "bxe",
+      "bx2",
+      "bx3"
+     ]
     },
     {
      "id": "pancake",
@@ -51,42 +87,14 @@
       "b4",
       "bxe",
       "bx2",
-      "bx3"
+      "bx3",
+      "yb",
+      "yf",
+      "yt",
+      "yxf",
+      "yxt",
+      "yxo"
      ]
-    }
-   ]
-  },
-  {
-   "id": "yg",
-   "label": {
-    "en": "🥣 Greek Yogurt Bowl",
-    "th": "🥣 กรีกโยเกิร์ต โบว์ล"
-   },
-   "note": {
-    "en": "🍯 Honey included free.",
-    "th": "🍯 น้ำผึ้งฟรีในชุด"
-   },
-   "mods": [
-    "yb",
-    "yf",
-    "yt",
-    "yxf",
-    "yxt",
-    "yxo"
-   ],
-   "items": [
-    {
-     "id": "yogurt",
-     "name": {
-      "en": "Greek Yogurt Bowl",
-      "th": "กรีกโยเกิร์ตผลไม้"
-     },
-     "desc": {
-      "en": "Pick 1 base · 2–3 fruits · 1 topping. Honey included free 🍯 Add extras below if you like.",
-      "th": "เลือกเบส 1 · ผลไม้ 2–3 อย่าง · ท็อปปิ้ง 1 — น้ำผึ้งฟรีในชุด 🍯 เพิ่มของได้ด้านล่าง"
-     },
-     "price": 150,
-     "img": "img/yogurt.jpg"
     }
    ]
   },
@@ -3626,7 +3634,6 @@
    "icon": "🍽",
    "categories": [
     "bf",
-    "yg",
     "nd",
     "tc",
     "sf",
