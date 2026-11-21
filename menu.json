@@ -1,5 +1,5 @@
 {
- "build": 37,
+ "build": 38,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3707,8 +3707,8 @@
      "en": "1 point for every ฿100"
     },
     "text": {
-     "th": "สะสมแต้มได้ทุกออเดอร์ ด้วยบัตรสมาชิก Woodstock",
-     "en": "Collect points on every order with your Woodstock member card"
+     "th": "สะสมแต้มทุกออเดอร์ที่โอนจ่าย ด้วยบัตรสมาชิก Woodstock (จ่ายเงินสดไม่ได้แต้ม)",
+     "en": "Collect points on every order paid by transfer with your Woodstock member card (cash earns no points)"
     },
     "go": "card"
    },
@@ -3872,6 +3872,7 @@
  },
  "points": {
   "baht_per_point": 100,
+  "cash_earns": false,
   "expire_days": 180,
   "card_image": "member.png",
   "tiers": [
