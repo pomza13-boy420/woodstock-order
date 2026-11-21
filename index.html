@@ -951,12 +951,24 @@
   .flabel > span { display: block; margin: 10px 0 4px; font-size: 13px; font-weight: 600; color: var(--hint); }
   .flabel > input { width: 100%; }
   .reward .rstate { flex: none; max-width: 40%; font-size: 13px; font-weight: 600; color: var(--hint); text-align: right; }
+
+  /* ---- round 49 (2026-11-22) ---- */
+  .points b.pv { display: flex; flex-direction: column; align-items: center; line-height: 1.05; }
+  .points b.pv small { font-size: 13px; font-weight: 600; color: var(--hint); }
+  /* the order form on a tablet: one centred column, not lines across the whole screen */
+  @media (min-width: 700px) { .details { padding-left: max(16px, calc(50vw - 300px)); padding-right: max(16px, calc(50vw - 300px)); } }
+  /* computer: the shop name on a calm, dark left side of the photo (not over the neon signs) */
+  @media (min-width: 900px) {
+    .heroshade { background: linear-gradient(90deg, rgba(20, 18, 16, .9) 0%, rgba(20, 18, 16, .8) 40%, rgba(20, 18, 16, .35) 58%, rgba(20, 18, 16, 0) 78%),
+                             linear-gradient(180deg, rgba(20, 18, 16, .2) 0%, rgba(20, 18, 16, 0) 40%, rgba(20, 18, 16, .55) 100%); }
+    .hero h1.htitle .hkind { font-size: 20px; }
+  }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
 </head>
 <body>
-<a class="skip" href="#home">ข้ามไปที่เนื้อหา · Skip to content</a>
+<a class="skip" id="skipLink" href="#home">ข้ามไปที่เนื้อหา</a>
 
 <!-- ============ loading ============ -->
 <div class="splash" id="splash">
@@ -987,7 +999,7 @@
   <div class="box"><h3 id="contactTitle"></h3><div id="contacts"></div></div>
 </div>
 
-<nav class="tabbar" id="tabbar">
+<nav class="tabbar" id="tabbar" aria-label="เมนูหลัก">
   <span class="brand"><img src="logo.png" alt="" onerror="this.remove()"><span><b>WOOD</b><i>STOCK</i></span></span>
   <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/></svg><b id="tabHome"></b></button>
   <button data-tab="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8"/><path d="M4 3v5a3 3 0 0 0 6 0V3"/><path d="M7 11v10"/><path d="M17 3c-2 1.5-3 4-3 7v3h3"/><path d="M17 3v18"/></svg><b id="tabMenu"></b><i class="tcount hide" id="tabCount"></i></button>
@@ -1036,7 +1048,7 @@
     <ol class="steps" id="steps"></ol>
     <div class="duo">
       <button class="points" id="pointsBox">
-        <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="pbar hide" id="homeBar"><i id="homeBarFill"></i></span><small class="pbarnote hide" id="homeBarText"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
+        <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="pbar hide" id="homeBar"><i id="homeBarFill"></i></span><small class="pbarnote hide" id="homeBarText"></small><span class="go" id="pointsGo"></span></span><b class="pv"><span id="pointsValue">0</span><small id="pointsUnit">แต้ม</small></b>
       </button>
       <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     </div>
@@ -1165,12 +1177,12 @@
     <a class="ppsave" id="ppSave" href="pay_qr.jpg" download="woodstock-qr.jpg"></a>
     <div class="pphint" id="ppHint"></div>
     <button class="ppbtn" id="ppBtn" type="button"></button>
-    <div class="slipmsg hide" id="ppMsg"></div>
+    <div class="slipmsg hide" id="ppMsg" role="status" aria-live="polite"></div>
     <input type="file" id="ppFile" accept="image/*" class="hide">
     </div>
     <div class="paywarn hide" id="payWarn" role="alert"></div>
   </div>
-  <p class="hint2" id="dHint"></p>
+  <p class="hint2" id="dHint" role="status" aria-live="polite"></p>
   <button class="confirm" id="send"></button>
   <div class="testnote" id="testnote"></div>
 </div>
@@ -1226,7 +1238,7 @@ const TEXT = {
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
         stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "โอน: โอนตาม QR แล้วแนบสลิป ออเดอร์เข้าร้านทันทีเมื่อสลิปผ่าน · เงินสด: ส่งออเดอร์แล้วจ่ายที่เคาน์เตอร์"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
-        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", payWebFirst: "📱 โอนเงิน (QR) ก่อนส่งออเดอร์", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
@@ -1318,7 +1330,7 @@ const TEXT = {
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
         stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Transfer: pay with the QR and attach the slip — the order reaches the shop once the slip passes · Cash: send the order and pay at the counter"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
-        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", payWebFirst: "📱 Bank transfer (QR) before sending", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
@@ -1413,7 +1425,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 48;
+const BUILD = 49;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1506,6 +1518,7 @@ function drawStepper(box) {
     return;
   }
   const minus = el("button", "minus", "−"), plus = el("button", "", "+");
+  minus.setAttribute("aria-label", lang === "en" ? "Remove one" : "ลดหนึ่ง"); plus.setAttribute("aria-label", lang === "en" ? "Add one more" : "เพิ่มอีกหนึ่ง");
   minus.onclick = () => change(key, -1); plus.onclick = () => change(key, 1);
   box.append(minus, el("span", "qty", q));
   if (!shut) box.append(plus);
@@ -1524,11 +1537,16 @@ function thumb(it) {   // the item's picture (menu.json "img"); tap to see it la
 function inCart(id) {   // how many of this item (all its options) are in the cart
   return Object.keys(cart).reduce((n, k) => n + (k === id || k.startsWith(id + "~") || k.startsWith(id + "@") ? cart[k] : 0), 0);
 }
-function sheetX(panel, close) {   // the ✕ in the top corner of a sheet; Esc closes it too
-  const x = el("button", "ix", "✕"); x.type = "button"; x.setAttribute("aria-label", lang === "en" ? "Close" : "ปิด"); x.onclick = close;
-  const esc = e => { if (e.key === "Escape") { close(); document.removeEventListener("keydown", esc); } };
+function sheetX(panel, close) {   // the ✕ in the top corner of a sheet; Esc closes it too; read out as a dialog named by its title
+  const back = document.activeElement;
+  const shut = () => { document.removeEventListener("keydown", esc); close(); if (back && back.focus && document.contains(back)) back.focus({ preventScroll: true }); };
+  const x = el("button", "ix", "✕"); x.type = "button"; x.setAttribute("aria-label", lang === "en" ? "Close" : "ปิด"); x.onclick = shut;
+  const esc = e => { if (e.key === "Escape" && document.contains(panel)) shut(); };
   document.addEventListener("keydown", esc);
   panel.prepend(x);
+  const h = panel.querySelector("h2");
+  panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); if (h) panel.setAttribute("aria-label", h.textContent);
+  setTimeout(() => { if (document.contains(x)) x.focus({ preventScroll: true }); }, 60);
 }
 function openItem(it, cat) {   // details of one item: picture, description, options with their add buttons
   const shade = el("div", "ishade"), panel = el("div", "ipanel");
@@ -1586,7 +1604,6 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
     paidRows[0].before(more); more.after(fold); paidRows.forEach(r => fold.append(r));
     more.onclick = () => more.classList.toggle("open", !fold.classList.toggle("hide"));
   }
-  if (mods.some(m => defs[m].default != null)) panel.append(el("div", "modhint", t().modHint));
   rows();
   const done = el("button", "done", t().done);
   panel.append(card, done); shade.append(panel);
@@ -1663,7 +1680,7 @@ function renderHome() {
   const per = (menu.points || {}).baht_per_point;
   $("pointsBox").classList.toggle("hide", !per);
   $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days, (menu.points || {}).cash_earns === false) : "";
-  $("pointsValue").textContent = myPoints.toLocaleString("en-US");
+  $("pointsValue").textContent = myPoints.toLocaleString("en-US"); $("pointsUnit").textContent = lang === "en" ? (myPoints === 1 ? "point" : "points") : "แต้ม";
   $("pointsGo").textContent = t().pointsGo;
   drawBar("home");
   const ph = $("shopPhoto");   // the shop's own photo: webapp/<about.photo>
@@ -1733,8 +1750,8 @@ function renderMap() {
     b.append(el("span", "ic", ic), w, el("span", "go", "›")); b.onclick = go; box.append(b);
   };
   if (a.instagram) row("📷", "Instagram", "@" + a.instagram.replace(/\/+$/, "").split("/").pop(), () => openUrl(a.instagram));
-  if (a.phone) row("📞", t().phone, a.phone, () => { location.href = "tel:" + a.phone.replace(/[^0-9+]/g, ""); });
-  if (a.maps) row("🗺", "Google Maps", t().route, () => openUrl(a.maps));
+  // the phone number and Google Maps are the two big buttons above: not listed again here
+  $("contactTitle").classList.toggle("hide", !box.children.length); box.classList.toggle("hide", !box.children.length);
   const f = $("mapFrame");
   f.classList.toggle("hide", !shop);
   if (shop && !f.src) {   // OpenStreetMap: free, no key
@@ -1747,7 +1764,7 @@ $("mapRoute").onclick = () => openUrl(menu.about.maps);
 function show(view) {   // "home" | "menu" | "card" | "map"
   $("mapView").classList.toggle("hide", view !== "map");
   if (view === "map" && menu) renderMap();
-  document.querySelectorAll("#tabbar button").forEach(b => b.classList.toggle("on", b.dataset.tab === view));
+  document.querySelectorAll("#tabbar button").forEach(b => { b.classList.toggle("on", b.dataset.tab === view); if (b.dataset.tab === view) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   $("home").classList.toggle("hide", view !== "home");
   $("menuView").classList.toggle("hide", view !== "menu");
   $("cardView").classList.toggle("hide", view !== "card");
@@ -2013,7 +2030,7 @@ function drawDetails() {
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
   $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery); $("howE").classList.toggle("hide", !o.dinein);
   $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || (!inTelegram && !atShop));
-  $("payQ").textContent = inTelegram ? t().qr : t().payWeb; $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
+  $("payQ").textContent = inTelegram ? t().qr : how && how !== "d" && o.slip && inboxUrl() ? t().payWebFirst : t().payWeb; $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
   $("eatBox").classList.toggle("hide", how !== "e");
   const atTable = how === "e" ? tableNo() : 0;   // the table is known: shown as it is, nothing to type ("not this table" brings the box back)
   $("eatLabel").textContent = atTable ? t().tableLabel : t().eatLabel;
@@ -2480,9 +2497,18 @@ $("cname").oninput = $("cphone").oninput = () => {
 };
 
 // ---------------- wiring ----------------
+function a11yNames() {   // fields with only a hint inside get that hint as their spoken name (screen readers)
+  document.querySelectorAll("input, textarea").forEach(i => {
+    if ((i.labels && i.labels.length) || !i.placeholder) return;
+    i.setAttribute("aria-label", i.placeholder.replace(/^[^\p{L}\p{N}]+/u, "").replace(/[…\.]+$/, "").trim());
+  });
+}
 function applyLang() {
   document.documentElement.lang = lang;
-  document.querySelectorAll(".lang button, .wlangs button").forEach(b => b.classList.toggle("on", b.dataset.lang === lang));
+  document.querySelectorAll(".lang button, .wlangs button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
+  $("skipLink").textContent = lang === "en" ? "Skip to content" : "ข้ามไปที่เนื้อหา";
+  $("tabbar").setAttribute("aria-label", lang === "en" ? "Main menu" : "เมนูหลัก");
+  setTimeout(a11yNames, 0);
   $("wenter").textContent = t().enter; $("wchoose").textContent = t().chooseLang;
   $("tabHome").textContent = t().tabHome; $("tabMenu").textContent = t().tabMenu; $("tabMap").textContent = t().tabMap; $("tabCard").textContent = t().tabCard;
   $("search").placeholder = t().search;
@@ -2765,13 +2791,13 @@ async function redeemWeb(r) {
   } catch (e) {}
   if (!ok) { redeemWait = null; redeemNote = t().rdFail; renderCard(); return; }
   myPoints = Math.max(0, myPoints - r.cost);   // show the new balance at once; the shop's answer then confirms it (or puts the true number back)
-  $("pointsValue").textContent = myPoints.toLocaleString("en-US"); renderCard();
+  $("pointsValue").textContent = myPoints.toLocaleString("en-US"); $("pointsUnit").textContent = lang === "en" ? (myPoints === 1 ? "point" : "points") : "แต้ม"; renderCard();
   const mine = () => redeemWait && redeemWait.ts === ts;
   for (const ms of [4000, 8000, 12000, 17000, 27000, 45000, 70000]) setTimeout(() => { if (mine()) { pollOrders.memberAt = 0; pollOrders(); } }, ms);
   setTimeout(() => {
     if (!mine()) return;
     redeemWait = null; redeemNote = t().rdLate; myPoints += r.cost;   // no answer: assume nothing was taken; the next refresh shows the true balance
-    $("pointsValue").textContent = myPoints.toLocaleString("en-US"); pollOrders.memberAt = 0; renderCard();
+    $("pointsValue").textContent = myPoints.toLocaleString("en-US"); $("pointsUnit").textContent = lang === "en" ? (myPoints === 1 ? "point" : "points") : "แต้ม"; pollOrders.memberAt = 0; renderCard();
   }, 95000);
 }
 function logout() {   // this phone forgets the member; the points stay with the phone number at the shop
