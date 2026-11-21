@@ -1,5 +1,5 @@
 {
- "build": 56,
+ "build": 58,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -2148,15 +2148,6 @@
      "img": "img/mocha.jpg"
     },
     {
-     "id": "protein",
-     "name": {
-      "en": "Protein Punch",
-      "th": "โปรตีนพันช์"
-     },
-     "price": 150,
-     "img": "img/protein.jpg"
-    },
-    {
      "id": "island",
      "name": {
       "en": "Island Banana",
@@ -2209,6 +2200,38 @@
      },
      "price": 150,
      "img": "img/acai.jpg"
+    }
+   ]
+  },
+  {
+   "id": "ps",
+   "label": {
+    "en": "💪 Protein shakes",
+    "th": "💪 โปรตีนเชค"
+   },
+   "note": {
+    "th": "🍌 ทุกแก้วมีกล้วย 1 ลูก · เพิ่มของได้ คิดราคาแยก",
+    "en": "🍌 Every shake comes with 1 banana · add extras, charged separately"
+   },
+   "mods": [
+    "pp",
+    "pt",
+    "pm",
+    "px"
+   ],
+   "items": [
+    {
+     "id": "protein",
+     "name": {
+      "en": "Protein Punch",
+      "th": "โปรตีนพันช์"
+     },
+     "desc": {
+      "th": "โปรตีน 1 ช้อน · ท็อปปิ้ง 1 ถ้วย · นม · กล้วย 1 ลูก — เพิ่มของได้ คิดราคาแยก",
+      "en": "1 scoop of protein · 1 cup of topping · milk · 1 banana — add extras, charged separately"
+     },
+     "price": 150,
+     "img": "img/protein.jpg"
     }
    ]
   },
@@ -3618,6 +3641,188 @@
      "price": 20
     }
    ]
+  },
+  "pp": {
+   "label": {
+    "en": "1 · Protein (1 scoop)",
+    "th": "1 · โปรตีน 1 ช้อน"
+   },
+   "choices": [
+    {
+     "id": "so",
+     "label": {
+      "en": "Soy protein",
+      "th": "โปรตีนถั่วเหลือง"
+     },
+     "tag": {
+      "en": "Soy protein",
+      "th": "โปรตีนถั่วเหลือง"
+     }
+    },
+    {
+     "id": "pl",
+     "label": {
+      "en": "Plant-based protein",
+      "th": "โปรตีนจากพืช"
+     },
+     "tag": {
+      "en": "Plant-based protein",
+      "th": "โปรตีนจากพืช"
+     }
+    },
+    {
+     "id": "ma",
+     "label": {
+      "en": "Mass protein",
+      "th": "แมสโปรตีน"
+     },
+     "tag": {
+      "en": "Mass protein",
+      "th": "แมสโปรตีน"
+     }
+    }
+   ]
+  },
+  "pt": {
+   "label": {
+    "en": "2 · Topping (1 cup)",
+    "th": "2 · ท็อปปิ้ง 1 ถ้วย"
+   },
+   "choices": [
+    {
+     "id": "nu",
+     "label": {
+      "en": "Mixed nuts",
+      "th": "ถั่วหลากชนิด"
+     },
+     "tag": {
+      "en": "Mixed nuts",
+      "th": "ถั่วหลากชนิด"
+     }
+    },
+    {
+     "id": "oa",
+     "label": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต"
+     },
+     "tag": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต"
+     }
+    }
+   ]
+  },
+  "pm": {
+   "label": {
+    "en": "3 · Milk",
+    "th": "3 · นม"
+   },
+   "choices": [
+    {
+     "id": "cw",
+     "label": {
+      "en": "Cow's milk",
+      "th": "นมวัว"
+     },
+     "tag": {
+      "en": "Cow's milk",
+      "th": "นมวัว"
+     }
+    },
+    {
+     "id": "al",
+     "label": {
+      "en": "Almond milk",
+      "th": "นมอัลมอนด์"
+     },
+     "tag": {
+      "en": "Almond milk",
+      "th": "นมอัลมอนด์"
+     }
+    },
+    {
+     "id": "ot",
+     "label": {
+      "en": "Oat milk",
+      "th": "นมโอ๊ต"
+     },
+     "tag": {
+      "en": "Oat milk",
+      "th": "นมโอ๊ต"
+     }
+    }
+   ]
+  },
+  "px": {
+   "label": {
+    "en": "Extras (optional)",
+    "th": "เพิ่ม (ไม่บังคับ)"
+   },
+   "min": 0,
+   "max": 5,
+   "choices": [
+    {
+     "id": "xp",
+     "label": {
+      "en": "Protein scoop",
+      "th": "โปรตีน 1 ช้อน"
+     },
+     "tag": {
+      "en": "+protein scoop",
+      "th": "เพิ่มโปรตีน 1 ช้อน"
+     },
+     "price": 40
+    },
+    {
+     "id": "xn",
+     "label": {
+      "en": "Mixed nuts",
+      "th": "ถั่วหลากชนิด 1 ถ้วย"
+     },
+     "tag": {
+      "en": "+mixed nuts",
+      "th": "เพิ่มถั่วหลากชนิด 1 ถ้วย"
+     },
+     "price": 30
+    },
+    {
+     "id": "xo",
+     "label": {
+      "en": "Oats",
+      "th": "ข้าวโอ๊ต 1 ถ้วย"
+     },
+     "tag": {
+      "en": "+oats",
+      "th": "เพิ่มข้าวโอ๊ต 1 ถ้วย"
+     },
+     "price": 15
+    },
+    {
+     "id": "xb",
+     "label": {
+      "en": "Banana",
+      "th": "กล้วย 1 ลูก"
+     },
+     "tag": {
+      "en": "+banana",
+      "th": "เพิ่มกล้วย 1 ลูก"
+     },
+     "price": 15
+    },
+    {
+     "id": "xm",
+     "label": {
+      "en": "Milk",
+      "th": "นม"
+     },
+     "tag": {
+      "en": "+milk",
+      "th": "เพิ่มนม"
+     },
+     "price": 20
+    }
+   ]
   }
  },
  "groups": [
@@ -3652,6 +3857,7 @@
     "te",
     "sh",
     "sm",
+    "ps",
     "cd",
     "bt",
     "kf"
