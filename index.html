@@ -233,6 +233,9 @@
   #profBox .txt { display: block; width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; font: inherit; font-size: 16px; color: var(--text); background: var(--card); }
   #profBox .row2 { display: flex; gap: 8px; flex-wrap: wrap; }
   #profBox .pbtn { flex: 1 1 140px; padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff; background: var(--green); }
+  #profBox .ptabs { display: flex; gap: 8px; margin-bottom: 10px; }
+  #profBox .ptabs button { flex: 1 1 0; padding: 11px 8px; border-radius: 999px; font-size: 15px; font-weight: 700; border: 1.5px solid var(--green); background: none; color: var(--green); }
+  #profBox .ptabs button.on { background: var(--green); color: #fff; }
   #profBox .pbtn.plain { background: none; color: var(--hint); border: 1.5px solid var(--line); }
   #profBox .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #f3e9d2; color: var(--brown); margin-left: 8px; vertical-align: middle; }
   @media (min-width: 900px) { .picks { grid-template-columns: repeat(4, 1fr); } }
@@ -1092,7 +1095,7 @@ const TEXT = {
             off: "ตอนนี้ระบบตรวจสลิปปิดอยู่ — กรุณาส่งสลิปให้ร้านทาง WhatsApp", late: "ร้านยังไม่ตอบกลับ — ลองกดส่งสลิปอีกครั้ง หรือส่งทาง WhatsApp", fail: "ส่งไม่สำเร็จ — ตรวจอินเทอร์เน็ตแล้วลองใหม่",
             noqr: "❌ อ่าน QR บนสลิปไม่ได้ — ใช้รูปสลิปต้นฉบับจากแอปธนาคาร (ไม่ครอบตัด ไม่ถ่ายจากหน้าจอ) หรือส่งสลิปให้ร้านทาง WhatsApp", payqr: "❌ รูปนี้คือ QR สำหรับจ่ายเงิน ไม่ใช่สลิป — เลือกรูปสลิปที่ได้หลังโอนเงินแล้ว" },
           paid: "ชำระแล้ว ✓", unpaid: "รอชำระเงิน", payCash: "จ่ายเงินสดที่ร้าน", toQr: "📱 เปลี่ยนเป็นโอน", toCash: "💵 เปลี่ยนเป็นจ่ายเงินสดที่ร้าน", payHow: "วิธีจ่าย: ", howQr: "📱 โอน", howCash: "💵 เงินสดที่ร้าน", payBusy: "กำลังเปลี่ยนวิธีจ่าย…", payFailed: "เปลี่ยนไม่สำเร็จ — ลองอีกครั้ง หรือแจ้งร้านทาง WhatsApp", qrSoon: "QR สำหรับโอนจะขึ้นตรงนี้เมื่อร้านกดรับออเดอร์", total: "ยอดรวม", plusFee: " + ค่าส่ง (รอร้านแจ้ง)", waiting: "กำลังรอข้อมูลจากร้าน…", auto: "หน้านี้อัปเดตเองทุก 20 วินาที",
-          regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
+          regTitle: "สมัครสมาชิก", regHint: "สะสมแต้มทุกออเดอร์ ดูแต้ม และติดตามออเดอร์ได้ที่นี่", regBtn: "สมัครสมาชิก", tabReg: "สมัครสมาชิก", tabLogin: "ลงชื่อเข้าใช้ (สมาชิกเก่า)", loginTitle: "ลงชื่อเข้าใช้", loginHint: "สมาชิกเก่าหรือเคยสั่งแล้ว: ใส่เบอร์โทรที่เคยใช้ แต้มและออเดอร์จะกลับมาที่เครื่องนี้", loginBtn: "เข้าสู่ระบบ", loginWait: "กำลังค้นหาสมาชิก…", loginNf: "ไม่พบเบอร์นี้ — สมัครสมาชิกใหม่ได้เลย (กดสมัครสมาชิกด้านบน)", loginFail: "ติดต่อร้านไม่ได้ — ลองใหม่อีกครั้ง", needPhoneOnly: "กรุณาใส่เบอร์โทร", guest: "ยังไม่สมัครก็สั่งอาหารได้ในแบบผู้มาชม — ใส่ชื่อและเบอร์โทรตอนสั่ง",
           acctTitle: "ข้อมูลส่วนตัว", nameL: "ชื่อ", phoneL: "เบอร์โทร", saveBtn: "บันทึก", saved: "บันทึกแล้ว ✓", outBtn: "ออกจากระบบ", acctAs: (n, p) => `เข้าสู่ระบบแล้ว: ${n} · ${p}`, needBoth: "กรุณาใส่ชื่อและเบอร์โทรให้ครบ", memberTag: "สมาชิก", guestTag: "ผู้มาชม" },
         sending: "กำลังส่งออเดอร์…", locChecking: "📍 กำลังเช็คตำแหน่ง…",
         locDenied: "📍 สั่งผ่านเว็บได้เฉพาะลูกค้าที่อยู่บนเกาะพะงัน — กรุณากด “อนุญาต” ตำแหน่งแล้วกดส่งอีกครั้ง หรือส่งออเดอร์ทาง WhatsApp ด้านล่าง",
@@ -1185,7 +1188,7 @@ const TEXT = {
             off: "Slip checking is off right now. Please send your slip to the shop on WhatsApp.", late: "No answer from the shop yet. Try sending the slip again, or send it on WhatsApp.", fail: "Could not send. Check your internet and try again.",
             noqr: "❌ The QR code on this slip could not be read. Use the original slip image from your banking app (not cropped, not a photo of a screen), or send it to the shop on WhatsApp.", payqr: "❌ This is the QR code for paying, not a slip. Choose the slip you got after the transfer." },
           paid: "Paid ✓", unpaid: "Waiting for payment", payCash: "Pay cash at the shop", toQr: "📱 Pay by transfer instead", toCash: "💵 Pay cash at the shop instead", payHow: "Payment: ", howQr: "📱 Transfer", howCash: "💵 Cash at the shop", payBusy: "Changing the payment…", payFailed: "Could not change it — try again, or tell the shop on WhatsApp", qrSoon: "The QR to pay appears here once the shop accepts the order", total: "Total", plusFee: " + delivery (the shop will confirm)", waiting: "Waiting for the shop…", auto: "This page updates by itself every 20 seconds",
-          regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", guest: "You can also order as a guest — just add your name and number when you order.",
+          regTitle: "Become a member", regHint: "Collect points on every order, see your points and track your orders here.", regBtn: "Sign up", tabReg: "Sign up", tabLogin: "Sign in (members)", loginTitle: "Sign in", loginHint: "Already a member or ordered before: enter the phone number you used — your points and orders come back to this phone.", loginBtn: "Sign in", loginWait: "Looking you up…", loginNf: "This number is not a member yet — sign up above.", loginFail: "Could not reach the shop — please try again.", needPhoneOnly: "Please enter your phone number", guest: "You can also order as a guest — just add your name and number when you order.",
           acctTitle: "My details", nameL: "Name", phoneL: "Phone", saveBtn: "Save", saved: "Saved ✓", outBtn: "Sign out", acctAs: (n, p) => `Signed in: ${n} · ${p}`, needBoth: "Please enter both your name and phone number", memberTag: "Member", guestTag: "Guest" },
         sending: "Sending your order…", locChecking: "📍 Checking your location…",
         locDenied: "📍 Online orders are for customers on Koh Phangan — please tap “Allow” for location and send again, or send the order by WhatsApp below.",
@@ -1295,7 +1298,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 39;
+const BUILD = 40;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2171,6 +2174,8 @@ async function sendAuto() {
   if (!nearIsland(g.la, g.lo, g.acc)) { here = null; return openVia(orderText(), false, t().locAway); }
   here = [Number(g.la.toFixed(5)), Number(g.lo.toFixed(5)), Math.round(g.acc)];
   const pre = prepayOn() && !!preSlip;
+  if (!acct && $("cname").value.trim() && $("cphone").value.replace(/\D/g, "").length >= 8)   // remember the customer: the order's phone is their member card from now on
+    acct = { mk: rnd(20), n: $("cname").value.trim().slice(0, 60), t: $("cphone").value.trim().slice(0, 20), auto: 1 };
   const text = orderText(), code = (text.match(/W1:([A-Za-z0-9_-]+)/) || [])[1];
   sending = true; btn.textContent = t().sending; btn.classList.add("off");
   let ok = false;
@@ -2209,6 +2214,7 @@ async function sendAuto() {
   if (how === "d" && useShip) member.sn = Math.max(0, (member.sn || 0) - useShip);
   useDisc = false; useShip = 0;
   member.r = { ...cart };   // "order the same as last time" on the home page
+  if (acct && acct.auto) { delete acct.auto; LS.set("ws_acct", acct); member.n = member.n || acct.n; }   // kept only once the order went
   myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: pre ? pre_v : null, c: member.r, ...(pre && pre_r === "ok" ? { sr: { r: "ok", a: 0 } } : {}) }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
   viaFor = lastK;
@@ -2623,6 +2629,11 @@ function drawProfile() {
     line.append(document.createTextNode(S.acctAs(acct.n, acct.t) + " · "), out);
     return;
   }
+  // two ways in, side by side: sign up (new) · sign in (a member already — by the phone number, as the shop keeps members)
+  const tabs = el("div", "ptabs"), tReg = el("button", profMode === "login" ? "" : "on", S.tabReg), tIn = el("button", profMode === "login" ? "on" : "", S.tabLogin);
+  tReg.onclick = () => { profMode = "reg"; drawProfile(); }; tIn.onclick = () => { profMode = "login"; drawProfile(); };
+  tabs.append(tReg, tIn); box.append(tabs);
+  if (profMode === "login") return drawLogin(box);
   const h = el("h3", "", acct ? S.acctTitle : S.regTitle); h.append(el("span", "tag", acct ? S.memberTag : S.guestTag));
   const name = el("input", "txt"), phone = el("input", "txt"), msg = el("p", "", acct ? "" : S.regHint), row = el("div", "row2");
   name.maxLength = 60; name.placeholder = S.nameL; name.autocomplete = "name"; name.value = acct ? acct.n : $("cname").value;
@@ -2642,6 +2653,32 @@ function drawProfile() {
   };
   row.append(go);
   box.append(h, msg, name, phone, row, el("p", "", S.guest));
+}
+let profMode = "reg";   // the member page's form when not signed in: "reg" (sign up) or "login" (sign in)
+function drawLogin(box) {   // a member on a new phone: the phone number finds them; the shop answers on this phone's note
+  const S = t().site, h = el("h3", "", S.loginTitle), msg = el("p", "", S.loginHint), phone = el("input", "txt"), row = el("div", "row2");
+  phone.maxLength = 20; phone.placeholder = S.phoneL; phone.type = "tel"; phone.inputMode = "tel"; phone.autocomplete = "tel"; phone.value = $("cphone").value;
+  const go = el("button", "pbtn", S.loginBtn);
+  go.onclick = async () => {
+    const ph = phone.value.trim();
+    if (ph.replace(/\D/g, "").length < 8) { msg.textContent = S.needPhoneOnly; return; }
+    if (!inboxUrl()) { msg.textContent = S.loginFail; return; }
+    go.disabled = true; go.textContent = S.loginWait; msg.textContent = S.loginWait;
+    const mk = rnd(20);
+    let sent = false;
+    try { sent = !!(await (await fetch(inboxUrl(), { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ kind: "order", code: b64u({ login: 1, t: ph, mk, g: lang, ts: Math.floor(Date.now() / 1000) }) }) })).json()).ok; } catch (e) {}
+    let u = null;
+    for (let i = 0; sent && i < 14 && !u; i++) { await new Promise(r => setTimeout(r, i < 4 ? 2500 : 4000)); u = await ask("member=" + mk); }
+    go.disabled = false; go.textContent = S.loginBtn;
+    if (!u) { msg.textContent = S.loginFail; return; }
+    if (u.nf) { msg.textContent = S.loginNf; return; }
+    acct = { mk, n: u.n || "", t: ph }; LS.set("ws_acct", acct);
+    $("cphone").value = ph; if (u.n && !$("cname").value) $("cname").value = u.n;
+    try { localStorage.setItem("ws_phone", ph); if (u.n) localStorage.setItem("ws_name", $("cname").value); } catch (e) {}
+    member.n = u.n || ""; pollOrders.memberAt = 0; pollOrders(); renderCard();
+  };
+  row.append(go);
+  box.append(h, msg, phone, row);
 }
 function openStory(it) {   // a recommended dish, told: picture, how it is made and what goes in it. No ordering here.
   const S = t().site, shade = el("div", "ishade"), panel = el("div", "ipanel"), close = () => shade.remove();
