@@ -978,6 +978,7 @@
   /* the member strip: a long name wraps instead of pushing "member card →" off the screen */
   .hello .hm { white-space: normal; min-width: 0; flex: 0 1 auto; }
   .hello .hbar { flex: 1 1 24px; min-width: 24px; }
+  .ipanel .catnote { margin: 6px 0 4px; font-size: 16px; line-height: 1.5; color: var(--text); }
   /* a heading only screen readers hear */
   .sronly { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   #home .foot { display: block; }
@@ -1453,7 +1454,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 57;
+const BUILD = 58;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1582,6 +1583,7 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   panel.append(el("h2", "", tr(it.name)));
   const shutG = shutNow(groupOf(it.id));   // the kitchen (or bar) is closed now: say when it opens, above the choices
   if (shutG) panel.append(el("div", "shutbar", t().closedTill(hh(shutG.to_hour || 0)) + " — " + t().shutWhy));
+  if (cat && cat.note && tr(cat.note)) panel.append(el("p", "catnote", tr(cat.note)));   // what the category says for every dish (a banana in every protein shake, rice +20 …)
   const steps = ((cat && cat.mods) || []).some(m => (menu.modifiers || {})[m] && !(it.no_mods || []).includes(m));
   if (it.desc && !steps) panel.append(el("div", "desc", tr(it.desc)));   // the numbered steps below say it already
   const card = el("div", "item"), defs = menu.modifiers || {};
@@ -3163,7 +3165,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   const L = window.lucide;
   if (!L || !L.createElement) return;
   const MAP = {
-    "🌿": "Leaf", "🍽": "Utensils", "📍": "MapPin", "🕒": "Clock", "🕘": "Clock", "🕗": "Clock", "⏰": "Clock", "🛵": "Bike", "📷": "Instagram", "📘": "Facebook", "🌙": "Moon",
+    "🌿": "Leaf", "🍽": "Utensils", "📍": "MapPin", "🕒": "Clock", "🕘": "Clock", "🕗": "Clock", "⏰": "Clock", "🛵": "Bike", "📷": "Instagram", "📘": "Facebook", "💪": "Dumbbell", "🥛": "Milk", "🌙": "Moon",
     "🛒": "ShoppingCart", "📦": "Package", "⭐": "Star", "🌟": "Star", "🍹": "Martini", "🍸": "Martini", "🥤": "CupSoda", "🍰": "CakeSlice", "🍳": "EggFried",
     "🍜": "Soup", "🍲": "Soup", "🍛": "Soup", "🥘": "CookingPot", "🍟": "Popcorn", "🍨": "IceCreamBowl", "☕": "Coffee", "🍵": "Coffee", "🍓": "Cherry",
     "➕": "Plus", "🥣": "Salad", "🥗": "Salad", "🏪": "Store", "📱": "Smartphone", "💵": "Banknote", "💰": "Wallet", "📝": "NotebookPen", "👤": "User",
