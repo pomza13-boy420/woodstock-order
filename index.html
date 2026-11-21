@@ -806,6 +806,11 @@
   .cattile .emo, .tile .emo { background: #F2EFE9; color: #8A837B; font-size: 28px; }
   .cattile .emo .ico-l, .tile .emo .ico-l { width: 28px; height: 28px; stroke-width: 1.5; }
   .shutbanner { background: var(--card); border: 1px solid var(--line); color: var(--text); font-weight: 500; }
+  /* the page was opened from a table's own QR (?t=5): which table the order goes to */
+  .shutbanner.tablenote { border: 1.5px solid var(--green); font-weight: 600; }
+  .tablefix { display: flex; align-items: center; gap: 12px; margin: 0; padding: 12px 14px; border: 1.5px solid var(--green); border-radius: 12px; background: var(--card); font-size: 17px; }
+  .tablefix b { flex: 1; }
+  .tablefix button { flex: none; padding: 6px 2px; font-size: 14px; font-weight: 600; color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
   .group.shut { background: var(--card); color: var(--hint); }
   .stepper .minus { border-color: var(--text); color: var(--text); background: transparent; }
   /* line icons (Lucide) that stand where an emoji was */
@@ -873,6 +878,7 @@
   <div class="home">
     <button class="trackbar hide" id="trackBar"></button>
     <p class="shutbanner hide" id="shopShut"></p>
+    <p class="shutbanner tablenote hide" id="tableNote"></p>
     <button class="again hide" id="again"></button>
     <section class="promos hide" id="promos">
       <h2 class="sec" id="promoTitle"></h2>
@@ -979,6 +985,7 @@
     <div class="choices" id="howRow"><button class="choice" id="howP" data-how="p"></button><button class="choice" id="howD" data-how="d"></button><button class="choice" id="howE" data-how="e"></button></div>
     <div id="eatBox" class="hide">
       <h3 id="eatLabel"></h3>
+      <p class="tablefix hide" id="tableFix"><b id="tableFixText"></b><button id="tableChange"></button></p>
       <input class="txt" id="eatWhen" maxlength="60" autocomplete="off">
     </div>
     <div id="addrBox" class="hide">
@@ -1093,6 +1100,7 @@ const TEXT = {
         pickupFree: "รับที่ร้าน: ไม่มีขั้นต่ำ",
         needContact: z => `${z}: กรุณาติดต่อร้านก่อน (พิมพ์ "พนักงาน" ในแชท) หรือเลือกรับที่ร้าน`, contactUs: "ติดต่อร้านก่อนสั่ง", nightFee: "ค่าบริการรอบดึก", maps: "📍 แผนที่", call: "📞 โทร",
         dTitle: "รายละเอียดการสั่ง", back: "← แก้รายการ", how: "รับอาหารแบบไหน?", pickup: "🏪 รับที่ร้าน", delivery: "🛵 จัดส่ง", dinein: "🍽 ทานที่ร้าน / จองโต๊ะ", eatLabel: "โต๊ะที่นั่ง หรือเวลาที่จะมา (ไม่บังคับ)", eatPh: "เช่น โต๊ะ 3 · หรือ จอง 19:30 สำหรับ 2 คน",
+        tableAt: n => `🍽 โต๊ะ ${n} — เลือกเมนูแล้วกดสั่งได้เลย เราเสิร์ฟให้ที่โต๊ะ`, tableMine: n => `โต๊ะ ${n}`, tableLabel: "โต๊ะของคุณ", tableChange: "ไม่ใช่โต๊ะนี้",
         zone: "อยู่ห่างจากร้านแค่ไหน?", min: "ขั้นต่ำ ",
         placeLabel: "ค้นหาที่พักหรือสถานที่ของคุณ", placePh: "พิมพ์ชื่อโรงแรม ที่พัก ร้าน หรือหาด", placeNone: "ไม่พบชื่อนี้ในแผนที่ — พิมพ์ที่อยู่ด้านล่าง หรือแนบตำแหน่งแทนได้", placeOk: n => `✓ ${n} (แตะเพื่อเอาออก)`, placeKm: k => `~${k} กม.`,
         addr: "ที่อยู่จัดส่ง", addrPh: "บ้านเลขที่ / ชื่อที่พัก / จุดสังเกต", useLoc: "📍 แนบตำแหน่งปัจจุบันของฉัน",
@@ -1182,6 +1190,7 @@ const TEXT = {
         pickupFree: "Pick up at the shop: no minimum",
         needContact: z => `${z}: please contact us first (type "staff" in the chat), or choose pick up`, contactUs: "contact us before ordering", nightFee: "Night surcharge", maps: "📍 Map", call: "📞 Call",
         dTitle: "Order details", back: "← Edit items", how: "How would you like to get it?", pickup: "🏪 Pick up", delivery: "🛵 Delivery", dinein: "🍽 Dine in / book a table", eatLabel: "Your table, or the time you will come (optional)", eatPh: "e.g. table 3 · or book 19:30 for 2",
+        tableAt: n => `🍽 Table ${n} — choose your food and order here, we bring it to your table`, tableMine: n => `Table ${n}`, tableLabel: "Your table", tableChange: "Not this table",
         zone: "How far are you from the shop?", min: "minimum ",
         placeLabel: "Find your hotel or place", placePh: "Type a hotel, bungalow, restaurant or beach name", placeNone: "We couldn't find that name on the map — type your address below or attach your location instead.", placeOk: n => `✓ ${n} (tap to remove)`, placeKm: k => `~${k} km`,
         addr: "Delivery address", addrPh: "House no. / hotel name / landmark", useLoc: "📍 Attach my current location",
@@ -1217,6 +1226,11 @@ const TEXT = {
 };
 
 const params = new URLSearchParams(location.search);
+// A table's own QR opens the page with ?t=<table number> (the shop's tables: options.tables in menu.json).
+// The order is then "eating in" at that table without the customer typing it; "not this table" switches it off.
+const tableAsk = /^\d{1,2}$/.test(params.get("t") || "") ? parseInt(params.get("t"), 10) : 0;
+let tableOff = false;
+const tableNo = () => (!inTelegram && !tableOff && menu && opt().dinein && tableAsk >= 1 && tableAsk <= (opt().tables || 0)) ? tableAsk : 0;
 let lang = params.get("lang") || "th";
 if (!TEXT[lang]) lang = "en";
 // Member card data the bot puts in the link: name, member-since (epoch s), points, expiry, vouchers.
@@ -1233,7 +1247,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 26;
+const BUILD = 27;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1746,12 +1760,15 @@ function payload() {
   if (how === "d" && addr) d.address = addr;
   if (how === "d" && loc) d.loc = loc;
   if (how === "d" && loc && placeName) d.place = placeName;
-  if (how === "e" && $("eatWhen").value.trim()) d.when = $("eatWhen").value.trim().slice(0, 60);   // the table, or when they will come
+  const atTable = how === "e" ? tableNo() : 0;
+  if (atTable) d.when = "โต๊ะ " + atTable;   // the page was opened from that table's QR
+  else if (how === "e" && $("eatWhen").value.trim()) d.when = $("eatWhen").value.trim().slice(0, 60);   // the table, or when they will come
   if (note) d.note = note;
   return JSON.stringify(d);
 }
 
-function drawShut() { $("shopShut").textContent = t().shopShut + (member.cm ? " — " + member.cm : ""); $("shopShut").classList.toggle("hide", !member.c); }
+function drawShut() { $("shopShut").textContent = t().shopShut + (member.cm ? " — " + member.cm : ""); $("shopShut").classList.toggle("hide", !member.c); drawTable(); }
+function drawTable() { const n = tableNo(); $("tableNote").textContent = n ? t().tableAt(n) : ""; $("tableNote").classList.toggle("hide", !n); }   // home: "table 5 — order here"
 function problem() {
   if (!inTelegram && member.c) return t().shopShut + (member.cm ? " — " + member.cm : "");   // on the website nobody else would stop the order
   const sg = shutGroupInCart();
@@ -1774,6 +1791,7 @@ function drawDetails() {
   if (!menu) return;
   const o = opt();
   const ways = [o.pickup && "p", o.delivery && "d", o.dinein && "e"].filter(Boolean);
+  if (!how && tableNo()) how = "e";               // came in through a table's QR: eating in, at that table
   if (!how && ways.length === 1) how = ways[0];   // only one way offered: preselect it
   const atShop = how === "p" || how === "e";   // paid at the shop's counter, so cash is possible
   if (!inTelegram && !(atShop && o.cash && pay === "c")) pay = "q";   // website: by transfer once the shop confirms; cash only when picking up or eating in
@@ -1782,6 +1800,10 @@ function drawDetails() {
   $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || (!inTelegram && !atShop));
   $("payQ").textContent = inTelegram ? t().qr : t().payWeb; $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
   $("eatBox").classList.toggle("hide", how !== "e");
+  const atTable = how === "e" ? tableNo() : 0;   // the table is known: shown as it is, nothing to type ("not this table" brings the box back)
+  $("eatLabel").textContent = atTable ? t().tableLabel : t().eatLabel;
+  $("tableFix").classList.toggle("hide", !atTable); $("eatWhen").classList.toggle("hide", !!atTable);
+  $("tableFixText").textContent = atTable ? "🍽 " + t().tableMine(atTable) : ""; $("tableChange").textContent = t().tableChange;
   document.querySelectorAll("[data-how]").forEach(b => b.classList.toggle("on", b.dataset.how === how));
   document.querySelectorAll("[data-pay]").forEach(b => b.classList.toggle("on", b.dataset.pay === pay));
   document.querySelectorAll("[data-zone]").forEach(b => b.classList.toggle("on", b.dataset.zone === zone));
@@ -2003,6 +2025,7 @@ $("pinOk").onclick = () => {
   $("pinView").classList.remove("show"); drawDetails();
 };
 document.querySelectorAll("[data-how]").forEach(b => b.onclick = () => { how = b.dataset.how; drawDetails(); });
+$("tableChange").onclick = () => { tableOff = true; drawDetails(); drawTable(); };   // "not this table": the customer types the table instead
 document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => { pay = b.dataset.pay; drawDetails(); });
 $("addr").oninput = $("note").oninput = drawDetails;
 $("dBack").onclick = () => { openDetails(false); openSheet(true); };
@@ -2063,7 +2086,8 @@ function orderText() {
   try {
     const total = foodTotal(), p = deliveryPlan(total), L = ["/web 🧾 ออเดอร์จากเว็บ Woodstock"];
     const addr = $("addr").value.trim(), note = $("note").value.trim();
-    const when = how === "e" ? $("eatWhen").value.trim().slice(0, 60) : "", cash = pay === "c" && how !== "d";
+    const atTable = how === "e" ? tableNo() : 0;   // the table whose QR opened the page
+    const when = atTable ? "โต๊ะ " + atTable : how === "e" ? $("eatWhen").value.trim().slice(0, 60) : "", cash = pay === "c" && how !== "d";
     L.push(`👤 ${$("cname").value.trim()} · 📞 ${$("cphone").value.trim()}`);
     for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`);
     L.push(`💰 ค่าอาหาร ${money(total)}`);
@@ -2101,6 +2125,7 @@ function orderText() {
     if (note) code.o = note;
     if (cash) code.y = "c";                   // pays in cash at the shop (pickup / eating in); without it the bot takes it as a transfer
     if (when) code.w = when;                  // eating in: the table, or the time booked
+    if (atTable) code.tb = atTable;           // the table's number, from its QR (the bot shows it at the top of the order)
     if (disc) code.ud = 1;                    // use the discount ticket on this order
     if (tix) code.us = tix;                   // use this many delivery tickets on this order
     if (how === "d" && loc && pinned) code.lm = 1;   // the pin was placed by hand on the map
