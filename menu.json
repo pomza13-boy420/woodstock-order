@@ -1,5 +1,5 @@
 {
- "build": 29,
+ "build": 30,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -485,7 +485,50 @@
       "en": "Panang curry",
       "th": "พะแนง"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/panang.jpg"
+    },
+    {
+     "id": "clearsoup",
+     "name": {
+      "en": "Clear soup",
+      "th": "ต้มจืด"
+     },
+     "options": [
+      {
+       "id": "e",
+       "name": {
+        "en": "Egg",
+        "th": "ไข่"
+       },
+       "price": 60
+      },
+      {
+       "id": "p",
+       "name": {
+        "en": "Pork",
+        "th": "หมู"
+       },
+       "price": 80
+      },
+      {
+       "id": "c",
+       "name": {
+        "en": "Chicken",
+        "th": "ไก่"
+       },
+       "price": 80
+      },
+      {
+       "id": "s",
+       "name": {
+        "en": "Shrimp",
+        "th": "กุ้ง"
+       },
+       "price": 100
+      }
+     ],
+     "img": "img/clearsoup.jpg"
     }
    ]
   },
@@ -821,7 +864,8 @@
       "en": "Stir-fried curry paste",
       "th": "ผัดพริกแกง"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/curryp.jpg"
     },
     {
      "id": "soyshrimp",
@@ -829,7 +873,8 @@
       "en": "Stir-fried shrimp in soy sauce",
       "th": "กุ้งผัดซีอิ๊ว"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/soyshrimp.jpg"
     }
    ]
   },
@@ -943,7 +988,8 @@
       "en": "French fries",
       "th": "เฟรนช์ฟรายส์"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/ffries.jpg"
     },
     {
      "id": "yumwoon",
@@ -951,7 +997,8 @@
       "en": "Glass noodle salad",
       "th": "ยำวุ้นเส้น"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/yumwoon.jpg"
     },
     {
      "id": "falafel",
@@ -959,7 +1006,8 @@
       "en": "Falafel",
       "th": "ฟาลาเฟล"
      },
-     "price": 50
+     "price": 50,
+     "img": "img/falafel.jpg"
     },
     {
      "id": "ricesoup",
@@ -967,7 +1015,8 @@
       "en": "Rice soup",
       "th": "ข้าวต้ม"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/ricesoup.jpg"
     },
     {
      "id": "pinefresh",
@@ -975,7 +1024,21 @@
       "en": "Fresh pineapple",
       "th": "สับปะรดสด"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/pinefresh.jpg"
+    },
+    {
+     "id": "papaya",
+     "name": {
+      "en": "Papaya salad",
+      "th": "ส้มตำ"
+     },
+     "desc": {
+      "en": "Add toppings from Add-ons: chicken, pork, shrimp, omelette.",
+      "th": "เพิ่มท็อปปิ้งได้ในหมวดของเพิ่ม: ไก่ หมู กุ้ง ไข่เจียว"
+     },
+     "price": 60,
+     "img": "img/papaya.jpg"
     }
    ]
   },
@@ -1050,7 +1113,8 @@
       "en": "Panna cotta mango",
       "th": "พานาคอตต้ามะม่วง"
      },
-     "price": 65
+     "price": 65,
+     "img": "img/pcmango.jpg"
     },
     {
      "id": "pcstraw",
@@ -1058,7 +1122,8 @@
       "en": "Panna cotta strawberry",
       "th": "พานาคอตต้าสตรอว์เบอร์รี่"
      },
-     "price": 70
+     "price": 70,
+     "img": "img/pcstraw.jpg"
     },
     {
      "id": "banoffee",
@@ -1066,7 +1131,8 @@
       "en": "Banoffee",
       "th": "บานอฟฟี่"
      },
-     "price": 55
+     "price": 55,
+     "img": "img/banoffee.jpg"
     },
     {
      "id": "shortcake",
@@ -1082,7 +1148,8 @@
       "en": "Cheesecake",
       "th": "ชีสเค้ก"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/cheesecake.jpg"
     },
     {
      "id": "bananacoco",
@@ -1098,7 +1165,8 @@
       "en": "Coconut jelly",
       "th": "วุ้นกะทิ"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/cocojelly.jpg"
     },
     {
      "id": "fruitbox",
@@ -1106,7 +1174,8 @@
       "en": "Fruit box",
       "th": "ผลไม้กล่อง"
      },
-     "price": 50
+     "price": 50,
+     "img": "img/fruitbox.jpg"
     }
    ]
   },
@@ -1123,7 +1192,8 @@
       "en": "Mango ice cream",
       "th": "ไอศกรีมมะม่วง"
      },
-     "price": 90
+     "price": 90,
+     "img": "img/icmango.jpg"
     },
     {
      "id": "icmangosteen",
@@ -1131,7 +1201,8 @@
       "en": "Mangosteen ice cream",
       "th": "ไอศกรีมมังคุด"
      },
-     "price": 90
+     "price": 90,
+     "img": "img/icmangosteen.jpg"
     },
     {
      "id": "icpine",
@@ -1139,7 +1210,8 @@
       "en": "Pineapple ice cream",
       "th": "ไอศกรีมสับปะรด"
      },
-     "price": 85
+     "price": 85,
+     "img": "img/icpine.jpg"
     },
     {
      "id": "icorange",
@@ -1147,7 +1219,8 @@
       "en": "Orange ice cream",
       "th": "ไอศกรีมส้ม"
      },
-     "price": 85
+     "price": 85,
+     "img": "img/icorange.jpg"
     },
     {
      "id": "iccoco",
@@ -1155,7 +1228,8 @@
       "en": "Coconut ice cream",
       "th": "ไอศกรีมมะพร้าว"
      },
-     "price": 85
+     "price": 85,
+     "img": "img/iccoco.jpg"
     },
     {
      "id": "ictam",
@@ -1163,7 +1237,8 @@
       "en": "Tamarind ice cream",
       "th": "ไอศกรีมมะขาม"
      },
-     "price": 85
+     "price": 85,
+     "img": "img/ictam.jpg"
     },
     {
      "id": "icdurian",
@@ -1171,7 +1246,8 @@
       "en": "Durian ice cream",
       "th": "ไอศกรีมทุเรียน"
      },
-     "price": 65
+     "price": 65,
+     "img": "img/icdurian.jpg"
     },
     {
      "id": "iccorn",
@@ -1179,7 +1255,8 @@
       "en": "Corn ice cream",
       "th": "ไอศกรีมข้าวโพด"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/iccorn.jpg"
     }
    ]
   },
@@ -1196,7 +1273,8 @@
       "en": "KitKat",
       "th": "คิทแคท"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/kitkat.jpg"
     },
     {
      "id": "lays",
@@ -1204,7 +1282,8 @@
       "en": "Lay's Stax",
       "th": "เลย์สแตกซ์"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/lays.jpg"
     },
     {
      "id": "bengbeng",
@@ -1212,7 +1291,8 @@
       "en": "Beng Beng",
       "th": "เบ็งเบ็ง"
      },
-     "price": 10
+     "price": 10,
+     "img": "img/bengbeng.jpg"
     },
     {
      "id": "bonbon",
@@ -1220,7 +1300,8 @@
       "en": "Bon bon",
       "th": "บอนบอน"
      },
-     "price": 10
+     "price": 10,
+     "img": "img/bonbon.jpg"
     },
     {
      "id": "euro",
@@ -1228,7 +1309,8 @@
       "en": "Euro custard cake",
       "th": "ยูโร่คัสตาร์ดเค้ก"
      },
-     "price": 10
+     "price": 10,
+     "img": "img/euro.jpg"
     },
     {
      "id": "cereal",
@@ -1244,7 +1326,8 @@
       "en": "Fun-O / Star cup",
       "th": "ฟันโอ / สตาร์คัพ"
      },
-     "price": 5
+     "price": 5,
+     "img": "img/funo.jpg"
     },
     {
      "id": "ovaltine",
@@ -1252,7 +1335,8 @@
       "en": "Ovaltine",
       "th": "โอวัลติน"
      },
-     "price": 15
+     "price": 15,
+     "img": "img/ovaltine.jpg"
     },
     {
      "id": "nutrend",
@@ -1284,7 +1368,17 @@
       "en": "Chocolate snack",
       "th": "ขนมช็อกโกแลต"
      },
-     "price": 15
+     "price": 15,
+     "img": "img/chocsnack.jpg"
+    },
+    {
+     "id": "gummy",
+     "name": {
+      "en": "Gummy candy",
+      "th": "กัมมี่"
+     },
+     "price": 50,
+     "img": "img/gummy.jpg"
     }
    ]
   },
@@ -1507,7 +1601,8 @@
       "en": "Mocha (hot)",
       "th": "มอคค่า (ร้อน)"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/hmocha.jpg"
     }
    ]
   },
@@ -1723,7 +1818,8 @@
       "en": "Butterfly pea & lime tea",
       "th": "ชาอัญชันมะนาว"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/peatea.jpg"
     },
     {
      "id": "camomile",
@@ -1731,7 +1827,8 @@
       "en": "Chamomile tea (pot)",
       "th": "ชาคาโมมายล์ (กา)"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/camomile.jpg"
     },
     {
      "id": "rosetea",
@@ -1739,7 +1836,8 @@
       "en": "Rose tea",
       "th": "ชากุหลาบ"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/rosetea.jpg"
     },
     {
      "id": "peajuice",
@@ -1747,7 +1845,8 @@
       "en": "Butterfly pea drink",
       "th": "น้ำอัญชัน"
      },
-     "price": 50
+     "price": 50,
+     "img": "img/peajuice.jpg"
     },
     {
      "id": "pinkmilk",
@@ -1755,7 +1854,8 @@
       "en": "Pink milk (iced)",
       "th": "นมชมพูเย็น"
      },
-     "price": 70
+     "price": 70,
+     "img": "img/pinkmilk.jpg"
     }
    ]
   },
@@ -2115,7 +2215,8 @@
       "en": "Water",
       "th": "น้ำเปล่า"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/water.jpg"
     },
     {
      "id": "waterl",
@@ -2123,7 +2224,8 @@
       "en": "Water (large)",
       "th": "น้ำเปล่าขวดใหญ่"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/waterl.jpg"
     },
     {
      "id": "sodaw",
@@ -2131,7 +2233,8 @@
       "en": "Soda water",
       "th": "น้ำโซดา"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/sodaw.jpg"
     },
     {
      "id": "cokec",
@@ -2139,7 +2242,8 @@
       "en": "Coke (can)",
       "th": "โค้กกระป๋อง"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/cokec.jpg"
     },
     {
      "id": "cokeb",
@@ -2147,7 +2251,8 @@
       "en": "Coke (bottle)",
       "th": "โค้กขวด"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/cokeb.jpg"
     },
     {
      "id": "cokez",
@@ -2155,7 +2260,8 @@
       "en": "Coke Zero",
       "th": "โค้กซีโร่"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/cokez.jpg"
     },
     {
      "id": "sprite",
@@ -2163,7 +2269,8 @@
       "en": "Sprite (bottle)",
       "th": "สไปรท์ขวด"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/sprite.jpg"
     },
     {
      "id": "orsoda",
@@ -2171,7 +2278,8 @@
       "en": "Orange soda (bottle)",
       "th": "น้ำส้มขวด"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/orsoda.jpg"
     },
     {
      "id": "schw",
@@ -2179,7 +2287,8 @@
       "en": "Schweppes (can)",
       "th": "ชเวปส์กระป๋อง"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/schw.jpg"
     },
     {
      "id": "tonic",
@@ -2187,7 +2296,8 @@
       "en": "Tonic (can)",
       "th": "โทนิกกระป๋อง"
      },
-     "price": 30
+     "price": 30,
+     "img": "img/tonic.jpg"
     },
     {
      "id": "lipton",
@@ -2195,7 +2305,8 @@
       "en": "Lipton (can)",
       "th": "ลิปตันกระป๋อง"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/lipton.jpg"
     },
     {
      "id": "redbull",
@@ -2219,7 +2330,8 @@
       "en": "Splash orange",
       "th": "สแปลชน้ำส้ม"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/splash.jpg"
     },
     {
      "id": "pulpy",
@@ -2227,7 +2339,8 @@
       "en": "Minute Maid Pulpy",
       "th": "มินิทเมดพัลพี"
      },
-     "price": 35
+     "price": 35,
+     "img": "img/pulpy.jpg"
     },
     {
      "id": "yakult",
@@ -2259,7 +2372,8 @@
       "en": "Ha-Young coconut flower",
       "th": "ฮายองน้ำดอกมะพร้าว"
      },
-     "price": 89
+     "price": 89,
+     "img": "img/hayoung.jpg"
     },
     {
      "id": "coconut",
@@ -2267,7 +2381,8 @@
       "en": "Fresh coconut",
       "th": "มะพร้าวสด"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/coconut.jpg"
     },
     {
      "id": "coconuts",
@@ -2275,7 +2390,8 @@
       "en": "Small coconut",
       "th": "มะพร้าวลูกเล็ก"
      },
-     "price": 60
+     "price": 60,
+     "img": "img/coconuts.jpg"
     },
     {
      "id": "cocowater",
@@ -2283,7 +2399,8 @@
       "en": "Coconut water",
       "th": "น้ำมะพร้าว"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/cocowater.jpg"
     },
     {
      "id": "sugarcane",
@@ -2291,7 +2408,21 @@
       "en": "Sugarcane juice",
       "th": "น้ำอ้อย"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/sugarcane.jpg"
+    },
+    {
+     "id": "lionsmane",
+     "name": {
+      "en": "Lion's Mane mushroom soda (can)",
+      "th": "โซดาเห็ดหัวลิง (กระป๋อง)"
+     },
+     "desc": {
+      "en": "Earthling sparkling mushroom tonic, 325 ml — green tea, lime juice, black galangal, salt. 0 kcal, no sugar.",
+      "th": "โซดาเห็ดหัวลิง ตรา เอิร์ธลิ่ง 325 มล. — ชาเขียว น้ำมะนาว ข่าดำ เกลือ 0 กิโลแคลอรี ไม่มีน้ำตาล"
+     },
+     "price": 120,
+     "img": "img/lionsmane.jpg"
     }
    ]
   },
@@ -2308,7 +2439,8 @@
       "en": "Green tea (bottle)",
       "th": "ชาเขียวขวด"
      },
-     "price": 50
+     "price": 50,
+     "img": "img/gtbottle.jpg"
     },
     {
      "id": "ttbottle",
@@ -2324,7 +2456,8 @@
       "en": "Pink milk (bottle)",
       "th": "นมชมพูขวด"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/pmbottle.jpg"
     },
     {
      "id": "bplsmall",
@@ -2332,7 +2465,8 @@
       "en": "Butterfly pea lemon (small bottle)",
       "th": "อัญชันมะนาวขวดเล็ก"
      },
-     "price": 25
+     "price": 25,
+     "img": "img/bplsmall.jpg"
     },
     {
      "id": "bplbig",
@@ -2340,7 +2474,8 @@
       "en": "Butterfly pea lemon (large bottle)",
       "th": "อัญชันมะนาวขวดใหญ่"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/bplbig.jpg"
     },
     {
      "id": "gingershot",
@@ -2365,7 +2500,8 @@
       "en": "Blue lotus kefir (blue)",
       "th": "คีเฟอร์บัวน้ำเงิน"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/kblue.jpg"
     },
     {
      "id": "kred",
@@ -2711,7 +2847,8 @@
       "en": "Pina Colada",
       "th": "พีน่าโคลาด้า"
      },
-     "price": 200
+     "price": 200,
+     "img": "img/ck_pina.jpg"
     }
    ]
   },
@@ -2732,7 +2869,8 @@
       "en": "Singha",
       "th": "สิงห์"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/singha.jpg"
     },
     {
      "id": "chang",
@@ -2740,7 +2878,8 @@
       "en": "Chang",
       "th": "ช้าง"
      },
-     "price": 70
+     "price": 70,
+     "img": "img/chang.jpg"
     },
     {
      "id": "changbig",
@@ -2748,7 +2887,8 @@
       "en": "Chang (large can)",
       "th": "ช้างกระป๋องใหญ่"
      },
-     "price": 90
+     "price": 90,
+     "img": "img/changbig.jpg"
     },
     {
      "id": "leo",
@@ -2756,7 +2896,8 @@
       "en": "Leo",
       "th": "ลีโอ"
      },
-     "price": 70
+     "price": 70,
+     "img": "img/leo.jpg"
     },
     {
      "id": "asahi",
@@ -2764,7 +2905,8 @@
       "en": "Asahi Super Dry",
       "th": "อาซาฮี ซูเปอร์ดราย"
      },
-     "price": 75
+     "price": 75,
+     "img": "img/asahi.jpg"
     },
     {
      "id": "asahibig",
@@ -2772,7 +2914,8 @@
       "en": "Asahi (490 ml)",
       "th": "อาซาฮีกระป๋องใหญ่"
      },
-     "price": 95
+     "price": 95,
+     "img": "img/asahibig.jpg"
     },
     {
      "id": "sanmig",
@@ -2780,7 +2923,8 @@
       "en": "San Miguel Light",
       "th": "ซานมิเกลไลท์"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/sanmig.jpg"
     },
     {
      "id": "heineken",
@@ -2788,7 +2932,8 @@
       "en": "Heineken",
       "th": "ไฮเนเก้น"
      },
-     "price": 85
+     "price": 85,
+     "img": "img/heineken.jpg"
     },
     {
      "id": "hoeg",
@@ -2796,7 +2941,8 @@
       "en": "Hoegaarden",
       "th": "ฮูการ์เด้น"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/hoeg.jpg"
     },
     {
      "id": "hoegbig",
@@ -2804,7 +2950,8 @@
       "en": "Hoegaarden (650 ml)",
       "th": "ฮูการ์เด้นขวดใหญ่"
      },
-     "price": 220
+     "price": 220,
+     "img": "img/hoegbig.jpg"
     },
     {
      "id": "bud",
@@ -2812,7 +2959,8 @@
       "en": "Budweiser (can)",
       "th": "บัดไวเซอร์กระป๋อง"
      },
-     "price": 70
+     "price": 70,
+     "img": "img/bud.jpg"
     },
     {
      "id": "redhorse",
@@ -2820,7 +2968,8 @@
       "en": "Red Horse",
       "th": "เรดฮอร์ส"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/redhorse.jpg"
     },
     {
      "id": "sapporo",
@@ -2828,7 +2977,8 @@
       "en": "Sapporo",
       "th": "ซัปโปโร"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/sapporo.jpg"
     },
     {
      "id": "zeffer",
@@ -2836,7 +2986,8 @@
       "en": "Zeffer Hazy",
       "th": "เซฟเฟอร์เฮซี่"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/zeffer.jpg"
     },
     {
      "id": "duvel",
@@ -2844,7 +2995,8 @@
       "en": "Duvel",
       "th": "ดูเวล"
      },
-     "price": 300
+     "price": 300,
+     "img": "img/duvel.jpg"
     },
     {
      "id": "savanna",
@@ -2852,7 +3004,8 @@
       "en": "Savanna",
       "th": "ซาวันนา"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/savanna.jpg"
     },
     {
      "id": "gingerbeer",
@@ -2868,7 +3021,8 @@
       "en": "Gin & tonic",
       "th": "จินโทนิก"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/gintonic.jpg"
     },
     {
      "id": "rumcoke",
@@ -2884,7 +3038,8 @@
       "en": "White wine (glass)",
       "th": "ไวน์ขาวแก้ว"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/wwine.jpg"
     },
     {
      "id": "winesmall",
@@ -2892,7 +3047,8 @@
       "en": "Wine (small bottle)",
       "th": "ไวน์ขวดเล็ก"
      },
-     "price": 299
+     "price": 299,
+     "img": "img/winesmall.jpg"
     },
     {
      "id": "winebig",
@@ -2900,7 +3056,8 @@
       "en": "Wine (750 ml bottle)",
       "th": "ไวน์ขวดใหญ่"
      },
-     "price": 499
+     "price": 499,
+     "img": "img/winebig.jpg"
     },
     {
      "id": "jack",
@@ -2916,7 +3073,8 @@
       "en": "Shot 80",
       "th": "ช็อต 80"
      },
-     "price": 80
+     "price": 80,
+     "img": "img/shot80.jpg"
     },
     {
      "id": "shot100",
@@ -2924,7 +3082,8 @@
       "en": "Shot 100",
       "th": "ช็อต 100"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/shot100.jpg"
     },
     {
      "id": "shot120",
@@ -2932,7 +3091,8 @@
       "en": "Shot 120",
       "th": "ช็อต 120"
      },
-     "price": 120
+     "price": 120,
+     "img": "img/shot120.jpg"
     },
     {
      "id": "whiskyshot",
@@ -2940,7 +3100,8 @@
       "en": "Whisky shot",
       "th": "ช็อตวิสกี้"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/whiskyshot.jpg"
     },
     {
      "id": "addshot",
@@ -2948,7 +3109,8 @@
       "en": "Add a shot (to a shake)",
       "th": "เพิ่มช็อตเหล้า (ใส่ผลไม้ปั่น)"
      },
-     "price": 150
+     "price": 150,
+     "img": "img/addshot.jpg"
     }
    ]
   },
@@ -3038,7 +3200,8 @@
       "en": "Extra chicken",
       "th": "เพิ่มไก่"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/xchicken.jpg"
     },
     {
      "id": "xpork",
@@ -3054,7 +3217,8 @@
       "en": "Extra shrimp (3 pcs)",
       "th": "เพิ่มกุ้ง 3 ตัว"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/xshrimp.jpg"
     },
     {
      "id": "omelette",
@@ -3062,7 +3226,8 @@
       "en": "Omelette",
       "th": "ไข่เจียว"
      },
-     "price": 40
+     "price": 40,
+     "img": "img/omelette.jpg"
     },
     {
      "id": "drychk",
@@ -3070,7 +3235,8 @@
       "en": "Dry chicken meat",
       "th": "เนื้อไก่อบแห้ง"
      },
-     "price": 100
+     "price": 100,
+     "img": "img/drychk.jpg"
     },
     {
      "id": "xshot",
@@ -3078,7 +3244,8 @@
       "en": "Extra espresso shot",
       "th": "เพิ่มช็อตกาแฟ"
      },
-     "price": 20
+     "price": 20,
+     "img": "img/xshot.jpg"
     }
    ]
   }
