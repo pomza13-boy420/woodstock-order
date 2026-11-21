@@ -1,5 +1,5 @@
 {
- "build": 40,
+ "build": 41,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3861,13 +3861,13 @@
     "th": "⭐ 3 แต้ม = ส่งฟรี 1 ออเดอร์ในโซน 1–2 (ไม่เกิน 10 กม.) หรือลดค่าส่ง ฿100 ในโซน 3–4 — ถามตอนสรุปบิล"
    },
    {
-    "en": "Pick up at the shop: no minimum",
-    "th": "รับที่ร้าน: ไม่มีขั้นต่ำ"
+    "en": "Pick up or eat in at the shop: minimum ฿20",
+    "th": "รับที่ร้าน / ทานที่ร้าน: ขั้นต่ำ ฿20"
    }
   ],
   "note": {
-   "en": "After you confirm, the bot asks for your location in the chat to work out the delivery fee. Extra fee may apply for steep mountain / villa access; the per-km fee depends on time, access and season.",
-   "th": "หลังกดยืนยัน บอทจะขอตำแหน่งของคุณในแชทเพื่อคำนวณค่าส่ง พื้นที่ขึ้นเขาชันหรือวิลล่าบนเขาอาจมีค่าบริการเพิ่ม ค่าส่งต่อกิโลเมตรขึ้นกับช่วงเวลา ความยากของสถานที่ และฤดูกาล"
+   "en": "When you order delivery, pin where you are staying on the map — the delivery fee comes from that spot. Steep mountain / villa access may cost extra; the per-km fee depends on time, access and season.",
+   "th": "ตอนสั่งแบบจัดส่ง ให้ปักหมุดที่พักบนแผนที่ — ค่าส่งคิดจากจุดนั้น พื้นที่ขึ้นเขาชันหรือวิลล่าบนเขาอาจมีค่าบริการเพิ่ม ค่าส่งต่อกิโลเมตรขึ้นกับช่วงเวลา ความยากของสถานที่ และฤดูกาล"
   }
  },
  "points": {
