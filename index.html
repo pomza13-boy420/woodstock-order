@@ -722,6 +722,7 @@
                      background: linear-gradient(transparent, rgba(0, 0, 0, .75)); }
   .ipanel .story { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: var(--text); }
   .ipanel .storyhint { margin: 14px 0 0; font-size: 13px; color: var(--hint); }
+  .ipanel .storygo { display: block; width: 100%; margin-top: 16px; padding: 14px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
   @media (min-width: 900px) { #pickBox .picks { margin: 0 -28px; } .pickrun .pick { width: 300px; } }
   @media (prefers-reduced-motion: reduce) { .pickrun { animation: none; } #pickBox .picks { overflow-x: auto; } }
@@ -1053,7 +1054,7 @@ if (tg) {
 
 const TEXT = {
   th: { incTitle: p => "รวมในราคา" + (p ? " " + p : ""), moreTitle: "เพิ่มเติม (คิดเงินเพิ่ม)",
-        site: { storyHint: "สั่งเมนูนี้ได้ที่แท็บ “เมนู” ด้านล่าง", storyClose: "ปิด", catsAll: "← หมวดทั้งหมด", catsPick: "เลือกหมวด", pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
+        site: { storyHint: "สั่งเมนูนี้ได้ที่แท็บ “เมนู” ด้านล่าง", storyGo: "🍽 ไปที่เมนูนี้ / สั่งเลย", storyClose: "ปิด", catsAll: "← หมวดทั้งหมด", catsPick: "เลือกหมวด", pickTitle: "เมนูแนะนำ", pickMore: "ดูเมนูทั้งหมดและสั่งอาหาร →", visitTitle: "เวลาเปิดและที่ตั้ง", hoursL: "เวลาเปิด", addrL: "ที่อยู่", contactL: "ติดต่อ",
           ordersTitle: "ติดตามออเดอร์", trackBar: n => `📦 ติดตามออเดอร์${n ? " #" + n : ""} →`, track: "ติดตามออเดอร์",
           noOrders: "ยังไม่มีออเดอร์ที่กำลังติดตาม — เมื่อสั่งอาหารแล้ว สถานะออเดอร์จะขึ้นที่นี่", orderNow: "สั่งอาหารเลย", saving: "กำลังบันทึก…",
           tick: (n, s) => `📦 ออเดอร์${n ? " #" + n : ""} · ${s} · แตะเพื่อดูรายละเอียด`, hello: "ยินดีต้อนรับสู่ Woodstock 🌿",
@@ -1121,7 +1122,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`,
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`,
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1146,7 +1147,7 @@ const TEXT = {
         pinBtn: "🗺 ปักหมุดบนแผนที่เอง", pinSet: "✅ ปักหมุดแล้ว (แตะเพื่อแก้ตำแหน่ง)", pinTitle: "ปักหมุดจุดส่ง", pinBack: "← กลับ", pinOk: "✅ ใช้ตำแหน่งนี้",
         pinHint: "เลื่อนแผนที่ให้หมุดอยู่ตรงจุดส่ง แล้วกด “ใช้ตำแหน่งนี้” (เลือกได้เฉพาะบนเกาะพะงัน)", pinOut: "จุดนี้อยู่นอกเกาะพะงัน — เลื่อนกลับเข้ามาในเกาะก่อน", pinLoading: "กำลังโหลดแผนที่…", pinFail: "โหลดแผนที่ไม่ได้ กรุณาค้นชื่อสถานที่หรือพิมพ์ที่อยู่แทน", todayOnly: "รับที่ร้าน · กดแลกในวันที่มารับเท่านั้น (ใช้ได้ถึง 23:59)", need: n => `ขาด ${n} แต้ม` },
   en: { incTitle: p => "Included in the price" + (p ? " · " + p : ""), moreTitle: "Add extras (charged)",
-        site: { storyHint: "You can order this from the “Menu” tab below.", storyClose: "Close", catsAll: "← All categories", catsPick: "Choose a category", pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
+        site: { storyHint: "You can order this from the “Menu” tab below.", storyGo: "🍽 Go to this dish & order", storyClose: "Close", catsAll: "← All categories", catsPick: "Choose a category", pickTitle: "Popular picks", pickMore: "See the full menu & order →", visitTitle: "Hours & location", hoursL: "Open", addrL: "Address", contactL: "Contact",
           ordersTitle: "Track my order", trackBar: n => `📦 Track order${n ? " #" + n : ""} →`, track: "Track my order",
           noOrders: "No order to track yet — once you order, its status shows up here.", orderNow: "Order now", saving: "Saving…",
           tick: (n, s) => `📦 Order${n ? " #" + n : ""} · ${s} · tap for details`, hello: "Welcome to Woodstock 🌿",
@@ -1214,7 +1215,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`,
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`,
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1273,7 +1274,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 34;
+const BUILD = 35;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1821,6 +1822,8 @@ function problem() {
     if (z && total < (z.min || 0) && z.fee_below == null) return t().needMin(money(z.min), money(z.min - total));   // only zones with no small-order fee refuse
     if ((!inTelegram || !rules().shop) && !$("addr").value.trim() && !loc) return t().needAddr;   // with a shop pin set, the bot asks for the location in the chat
   }
+  const sm = opt().shop_min || 0;   // pickup / eating in: the shop's own small minimum (catalog.json "shop_min")
+  if (how !== "d" && sm && foodTotal() < sm) return t().needShopMin(money(sm), money(sm - foodTotal()));
   if (!pay) return t().needPay;
   return "";
 }
@@ -2555,7 +2558,18 @@ function openStory(it) {   // a recommended dish, told: picture, how it is made 
   panel.append(el("h2", "", tr(it.name)));
   const text = tr(it.story) || tr(it.desc);
   if (text) panel.append(el("p", "story", text));
-  panel.append(el("p", "storyhint", S.storyHint));
+  const cat = menu.categories.find(c => c.items.some(x => x.id === it.id)), gid = cat && groupOfKey[it.id];
+  if (cat && gid) {   // the dish in the menu: open its group, show its tile, and its order panel on top
+    const go = el("button", "storygo", S.storyGo);
+    go.onclick = () => {
+      close(); openGroup(gid);
+      const mv = $("menuView"); if (mv) mv.classList.remove("cats");   // not the page of category tiles
+      const tile = (document.querySelector('#menu .badge[data-item="' + it.id + '"]') || {}).parentElement;
+      if (tile) tile.scrollIntoView({ block: "center" });
+      openItem(it, cat);
+    };
+    panel.append(go);
+  } else panel.append(el("p", "storyhint", S.storyHint));
   const x = el("button", "storyclose", S.storyClose); x.onclick = close; panel.append(x);
   shade.onclick = e => { if (e.target === shade) close(); };
   shade.append(panel); document.body.append(shade);
