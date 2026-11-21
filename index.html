@@ -28,7 +28,7 @@
     --line: rgba(78, 52, 46, .16);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
+  /* no page-wide smooth scrolling: keyboard focus and tab switches land at once (menu jumps ask for smooth themselves) */
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
@@ -409,7 +409,7 @@
   .hero { position: relative; overflow: hidden; padding: 0; border-radius: 0 0 28px 28px; background: var(--brown); min-height: 440px; display: flex; }
   .heroimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .heroshade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 19, 16, .55) 0%, rgba(27, 19, 16, .35) 35%, rgba(27, 19, 16, .92) 100%); }
-  .heroin { position: relative; width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 16px 18px 26px; display: flex; flex-direction: column; }
+  .heroin { position: relative; width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 16px 16px 26px; display: flex; flex-direction: column; }
   .hero .row1 { margin-bottom: auto; }
   .est { font-size: 13px; font-weight: 600; letter-spacing: .2em; color: var(--yellow); }
   .hero .logo { width: 104px; max-width: 34%; margin: 18px 0 6px; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .5)); }
@@ -901,6 +901,46 @@
   /* home: delivery rules folded to their first line */
   #rulesBox.folded #rules li:nth-child(n+2) { display: none; }
   #rulesBox .rulesmore { display: inline-block; margin-top: 8px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--green); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+  /* ---- design check fixes (taste kit, 2026-11-22) ---- */
+  /* recommended dishes: a still row, swiped by hand; labels on a solid dark band so they read on any photo */
+  #pickBox .picks { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 16px 4px; scroll-padding-inline: 16px; }
+  #pickBox .picks::-webkit-scrollbar { display: none; }
+  .pickrun { animation: none !important; width: max-content; }
+  .pickrun .pick { scroll-snap-align: start; transition: transform .2s ease; }
+  .pickrun .pick img { transition: transform .35s ease; }
+  @media (hover: hover) { .pickrun .pick:hover { transform: translateY(-2px); } .pickrun .pick:hover img { transform: scale(1.03); } }
+  .pickrun .pick b { padding: 10px 14px 12px; background: rgba(20, 16, 12, .78); white-space: normal; }
+  @media (min-width: 900px) {
+    #pickBox .picks { margin: 0; padding: 0 0 4px; overflow: visible; }
+    .pickrun { width: auto; display: grid !important; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .pickrun .pick { width: auto !important; flex: none; margin: 0 !important; }
+  }
+  /* phone: the first recommended dish a little wider than the rest */
+  @media (max-width: 899px) { .pickrun .pick:first-child { width: 320px; aspect-ratio: auto; height: 180px; } }
+  /* the four category photos: a dark ground so the white names read while a photo loads;
+     from tablet width one big (Thai food), two small, one wide — not four copies of one tile */
+  #feats .feat { background: #2b241e; }
+  @media (min-width: 600px) {
+    #feats { grid-template-columns: repeat(4, 1fr); }
+    #feats .feat:nth-child(1) { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
+    #feats .feat:nth-child(1) b { font-size: 24px; }
+    #feats .feat:nth-child(4) { grid-column: 3 / span 2; aspect-ratio: 2 / 1; }
+  }
+  /* keyboard: a focused control never hides under the top bar or the bottom tab bar */
+  html { scroll-padding-top: 84px; scroll-padding-bottom: 104px; }
+  /* the title: brand set large, the kind of place under it */
+  .hero h1.htitle { display: flex; flex-direction: column; gap: 6px; }
+  .hero h1.htitle .hkind { font-size: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; line-height: 1.4; opacity: .92; }
+  /* the promo line: wraps to a second line instead of being cut */
+  .trackbar .still { white-space: normal; text-overflow: clip; line-height: 1.4; padding: 10px 16px; }
+  nav ~ #home .trackbar, .trackbar { height: auto !important; line-height: normal !important; }
+  /* the three steps: a plain numbered list, not three more cards */
+  ol.steps li, .steps li { background: none; border: 0; box-shadow: none; padding: 8px 0; border-radius: 0; }
+  /* secondary buttons: one look — green outline (map, call, Instagram, order again) */
+  .links .link { background: none; border: 1.5px solid var(--green); color: var(--green); box-shadow: none; }
+  /* a ring you can see on every control reached with the keyboard */
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -956,8 +996,8 @@
         <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
       </div>
       <img class="logo hide" id="logo" alt="">
-      <h1 id="shop">Woodstock</h1>
-      <p id="about"></p>
+      <h1 class="htitle"><span id="shop">Woodstock</span><span class="hkind" id="about"></span></h1>
+
       <div class="facts"><span id="hours"></span><span id="address"></span></div>
       <span class="opennow hide" id="openNow"></span>
       <div class="cta"><button class="openmenu" id="openMenu"></button></div>
@@ -1363,7 +1403,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 46;
+const BUILD = 47;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2847,14 +2887,12 @@ function drawSite() {   // the home page's "normal website" parts: popular picks
   const chosen = (want.length ? want.map(id => all.find(x => x[0].id === id)).filter(Boolean) : all.filter((x, i, arr) => arr.findIndex(y => y[1].id === x[1].id) === i).concat(all).filter((x, i, arr) => arr.indexOf(x) === i)).slice(0, 8);
   // one row that drifts by itself (the list twice, so it loops without a jump); a tap tells about the dish — ordering is in the Menu tab
   const run = el("div", "pickrun");
-  for (let pass = 0; pass < 2; pass++) for (const [it] of chosen) {
-    const b = el("button", "pick"), im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.src = it.img;
+  for (const [it] of chosen) {   // one still row: swipe sideways on a phone, all in view on a computer
+    const b = el("button", "pick"), im = document.createElement("img"); im.alt = tr(it.name); im.src = it.img;
     b.append(im, el("b", "", tr(it.name)));
-    if (pass) { b.tabIndex = -1; b.setAttribute("aria-hidden", "true"); }
     b.onclick = () => openStory(it);
     run.append(b);
   }
-  run.style.animationDuration = Math.max(30, chosen.length * 9) + "s";
   picks.append(run);
   $("pickBox").classList.toggle("hide", !chosen.length);
   $("pickTitle").textContent = S.pickTitle;
