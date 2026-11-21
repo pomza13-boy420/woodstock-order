@@ -1273,7 +1273,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 33;
+const BUILD = 34;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1283,6 +1283,7 @@ let how = null, pay = null, loc = null, zone = null;   // "p"|"d"|"e" (pick up, 
 let redeemWait = null, redeemNote = "";   // website member card: the "redeem" this page is waiting to hear about { ts, id }, and what to say under the rewards
 let useDisc = false, useShip = 0;         // tickets bought with points that the customer pressed "use" on at checkout: the discount, and how many delivery tickets
 let pinned = false;                       // loc was set by hand on the map (not by GPS, not by a place name)
+let payPicked = false;                    // the customer tapped a way to pay themselves (eating in starts on cash until they do)
 const $ = id => document.getElementById(id);
 const t = () => TEXT[lang];
 const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values(v)[0] || "") : (v || "");
@@ -1831,6 +1832,7 @@ function drawDetails() {
   if (!how && tableNo()) how = "e";               // came in through a table's QR: eating in, at that table
   if (!how && ways.length === 1) how = ways[0];   // only one way offered: preselect it
   const atShop = how === "p" || how === "e";   // paid at the shop's counter, so cash is possible
+  if (how === "e" && o.cash && !payPicked) pay = "c";   // eating in: cash at the shop is chosen first (owner, 2026-11-21); transfer is one tap away
   if (!inTelegram && !(atShop && o.cash && pay === "c")) pay = "q";   // website: by transfer once the shop confirms; cash only when picking up or eating in
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
   $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery); $("howE").classList.toggle("hide", !o.dinein);
@@ -2063,7 +2065,7 @@ $("pinOk").onclick = () => {
 };
 document.querySelectorAll("[data-how]").forEach(b => b.onclick = () => { how = b.dataset.how; drawDetails(); });
 $("tableChange").onclick = () => { tableOff = true; drawDetails(); drawTable(); };   // "not this table": the customer types the table instead
-document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => { pay = b.dataset.pay; drawDetails(); });
+document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => { pay = b.dataset.pay; payPicked = true; drawDetails(); });
 $("addr").oninput = $("note").oninput = drawDetails;
 $("dBack").onclick = () => { openDetails(false); openSheet(true); };
 $("send").onclick = () => {
