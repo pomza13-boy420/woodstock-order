@@ -854,6 +854,22 @@
   /* labels break only between words (labelNode) */
   .nb { white-space: nowrap; }
   .catgrid { align-items: stretch; }   /* a two-line name does not make its tile taller than the others in the row */
+  /* hero: is the kitchen open right now */
+  .hero .opennow { display: inline-flex; align-self: flex-start; width: auto; align-items: center; gap: 8px; margin: 12px 0 16px; padding: 7px 14px; border-radius: 999px; background: rgba(20,16,12,.6); border: 1px solid rgba(255,255,255,.28); color: #fff; font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .hero .opennow.hide { display: none; }
+  #feats { margin-top: 20px; }
+  .opennow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5bd06a; }
+  .opennow.shut::before { background: #e0a43a; }
+  /* a member is greeted under the hero: points and the bar to the next one */
+  .hello { display: flex; align-items: center; gap: 12px; width: 100%; margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--text); font-size: 16px; text-align: left; cursor: pointer; }
+  .hello .hm { font-weight: 600; white-space: nowrap; }
+  .hello .hbar { flex: 1 1 auto; height: 6px; border-radius: 999px; background: #ece6db; overflow: hidden; min-width: 40px; }
+  .hello .hbar i { display: block; height: 100%; background: var(--green); border-radius: 999px; }
+  .hello .hgo { color: var(--green); font-size: 13px; font-weight: 600; white-space: nowrap; }
+  /* "earlier orders" / "all rewards": quiet, not a main action */
+  #orderList .morebtn, #rewards .morebtn { width: 100%; margin-top: 10px; padding: 11px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--green); font-size: 16px; font-weight: 600; box-shadow: none; }
+  /* the strip: one still line, no running text */
+  .trackbar .still { display: block; padding: 0 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -912,6 +928,7 @@
       <h1 id="shop">Woodstock</h1>
       <p id="about"></p>
       <div class="facts"><span id="hours"></span><span id="address"></span></div>
+      <span class="opennow hide" id="openNow"></span>
       <div class="cta"><button class="openmenu" id="openMenu"></button></div>
     </div>
   </header>
@@ -919,20 +936,21 @@
     <button class="trackbar hide" id="trackBar"></button>
     <p class="shutbanner hide" id="shopShut"></p>
     <p class="shutbanner tablenote hide" id="tableNote"></p>
+    <button class="hello hide" id="hello"></button>
     <button class="again hide" id="again"></button>
     <section class="promos hide" id="promos">
       <h2 class="sec" id="promoTitle"></h2>
       <div class="ptrack" id="ptrack"></div>
       <div class="pdots" id="pdots"></div>
     </section>
-    <h2 class="sec" id="whoTitle"></h2>
-    <p class="wholead hide" id="whoLead"></p>
     <div class="feats" id="feats"></div>
     <section class="hide" id="pickBox">
       <h2 class="sec" id="pickTitle"></h2>
       <div class="picks" id="picks"></div>
       <button class="morebtn hide" id="pickMore"></button>
     </section>
+    <h2 class="sec" id="whoTitle"></h2>
+    <p class="wholead hide" id="whoLead"></p>
     <h2 class="sec" id="howTitle"></h2>
     <ol class="steps" id="steps"></ol>
     <div class="duo">
@@ -1162,7 +1180,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม",  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม", openNow: c => `เปิดอยู่ · ครัวถึง ${c} น.`, kitchenShut: o => `ครัวปิด · เปิด ${o} น. · เครื่องดื่มยังสั่งได้`, shopPaused: "ปิดรับออเดอร์ชั่วคราว", helloM: (n, p) => `สวัสดี${n ? " คุณ" + n : ""} · ⭐ ${p} แต้ม`, helloGo: "บัตรสมาชิก →", olderOrders: n => `ออเดอร์ก่อนหน้า (${n})`, allRewards: n => `ดูของรางวัลทั้งหมด (${n})`,  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิดอยู่", shutWhy: "สั่งเมนูนี้ได้เมื่อเปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1254,7 +1272,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.",  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.", openNow: c => `Open now · kitchen until ${c}`, kitchenShut: o => `Kitchen closed · opens ${o} · drinks still available`, shopPaused: "Not taking orders right now", helloM: (n, p) => `Hi${n ? " " + n : ""} · ⭐ ${p} points`, helloGo: "Member card →", olderOrders: n => `Earlier orders (${n})`, allRewards: n => `See all rewards (${n})`,  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", shutWhy: "you can order it once open", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1313,7 +1331,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 42;
+const BUILD = 43;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1684,8 +1702,9 @@ function renderCard() {
   }
   $("vouchersTitle").textContent = t().vouchers; $("vouchersBox").classList.toggle("hide", !vs.children.length);
   const box = $("rewards"); box.textContent = "";
-  for (const r of P.rewards || []) {
-    if ((r.only === "web" && inTelegram) || (r.only === "tg" && !inTelegram)) continue;   // some rewards are offered in one place only
+  const offered = (P.rewards || []).filter(r => !((r.only === "web" && inTelegram) || (r.only === "tg" && !inTelegram)));   // some rewards are offered in one place only
+  const guest = !inTelegram && !acct && !showAllRewards;   // a visitor sees the first goal, not a list of "points missing"
+  for (const r of guest ? offered.slice(0, 1) : offered) {
     const row = el("div", "reward"), what = el("div", "what", tr(r.label));
     what.append(el("span", "cost", t().costW(r.cost)));
     if (r.valid === "today") what.append(el("span", "when", t().todayOnly));
@@ -1711,10 +1730,12 @@ function renderCard() {
     }
     row.append(what, b); box.append(row);
   }
+  if (guest && offered.length > 1) { const all = el("button", "morebtn", t().allRewards(offered.length)); all.onclick = () => { showAllRewards = true; renderCard(); }; box.append(all); }
   $("redeemMsg").textContent = inTelegram ? "" : redeemNote;
   $("rewardsTitle").textContent = t().rewards; $("rewardsBox").classList.toggle("hide", !box.children.length);
   $("cardBack").textContent = t().home;
 }
+let showAllRewards = false;
 // A shop reward as a ticket to show at the counter (staff then confirm it in the shop's own system).
 function showTicket(v) {
   const P = menu.points || {}, name = tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r;
@@ -2420,7 +2441,9 @@ function drawOrders() {
     const go = el("button", "morebtn", S.orderNow); go.onclick = () => $("openMenu").click();
     box.append(el("div", "onote", S.noOrders), go);
   }
-  for (const o of myOrders.slice(0, 5)) {
+  const recent = o => !finalState(o.v) || Date.now() - o.ts < 3 * 3600e3;
+  const shown = myOrders.slice(0, 5).filter(o => showOlder || recent(o)), older = myOrders.slice(0, 5).length - shown.length;
+  for (const o of shown) {
     const v = o.v, card = el("div", "ocard"), d = new Date(o.ts), two = n => String(n).padStart(2, "0");
     const head = el("div", "ohead"); head.append(el("span", "", v && v.o ? "#" + v.o : S.waiting), el("span", "", money(v && v.t != null ? v.t : o.sum) + (v && v.m === "d" && !v.f && !finalState(v) ? "+" : "")));
     const sub = el("div", "osub"); sub.append(document.createTextNode(`${two(d.getDate())}/${two(d.getMonth() + 1)} ${two(d.getHours())}:${two(d.getMinutes())}`));
@@ -2467,21 +2490,18 @@ function drawOrders() {
     } else if (v && v.p && o.sr && o.sr.r === "ok") card.append(el("div", "slipmsg ok", S.slip.ok));   // paid by a slip sent from this page
     box.append(card);
   }
+  if (older) { const more = el("button", "morebtn", t().olderOrders(older)); more.onclick = () => { showOlder = true; drawOrders(); }; box.append(more); }   // under the current orders
   if (liveOrders().length) box.append(el("div", "onote", S.auto));
   // the running strip on the home page: the order being followed, or else the shop's promos
   const live = inTelegram ? null : liveOrders()[0], bar = $("trackBar"), lv = live && live.v;
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
   const promos = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today))
     .map(p => [p.icon, tr(p.title) + (tr(p.text) ? " — " + tr(p.text) : "")].filter(Boolean).join(" "));   // the strip is the only place the promos show now
-  const text = live ? S.tick(lv && lv.o, S.st[lv ? stKey(lv.s, lv.m) : "new"] || S.st.new) : [S.hello, ...promos].join("   ✦   ");
-  bar.classList.remove("hide");   // always there: the order under way, or else the promos
+  const day = Math.floor(Date.now() / 864e5);
+  const text = live ? S.tick(lv && lv.o, S.st[lv ? stKey(lv.s, lv.m) : "new"] || S.st.new) : promos.length ? promos[day % promos.length] : "";
+  bar.classList.toggle("hide", !text);   // the order under way, or else today's promo — one still line, nothing running
   bar.classList.toggle("live", !!live);
-  if (bar.dataset.text !== text) {
-    bar.dataset.text = text; bar.textContent = "";
-    const run = el("span", "run"); run.append(el("span", "", text), el("span", "", text));
-    run.style.animationDuration = Math.max(14, text.length * 0.22) + "s";
-    bar.append(run);
-  }
+  if (bar.dataset.text !== text) { bar.dataset.text = text; bar.textContent = ""; bar.append(el("span", "still", text)); }
   bar.onclick = () => { if (live) { renderCard(); show("card"); } else $("openMenu").click(); };
 }
 // ---- paying by transfer: "send slip" on the order, and the shop's system checks it with the bank ----
@@ -2502,6 +2522,7 @@ async function changePay(o, want) {
   if (!ok) { payUi[o.k] = { fail: true }; return drawOrders(); }
   for (const ms of [4000, 9000, 15000, 25000, 40000, 60000, 92000]) setTimeout(() => { if (payUi[o.k] && payUi[o.k].busy) { pollOrders(); drawOrders(); } }, ms);
 }
+let showOlder = false;  // the member page shows finished / cancelled orders older than 3 hours only when asked
 let slipFor = "";        // the order (by its tracking code) the slip being picked is for
 const slipUi = {};       // order code → { busy, ts, msg, cls }: a slip on its way, and what the order's card says about it
 let qrLibLoad = null;
@@ -2705,6 +2726,28 @@ function drawLogin(box) {   // a member on a new phone: the phone number finds t
   row.append(go);
   box.append(h, msg, phone, row);
 }
+// The hero says at once whether the kitchen is open (the reason people come back to the page), and a member is greeted
+// with their points and the bar toward the next one.
+function drawNow() {
+  const pill = $("openNow"); if (!pill || !menu) return;
+  const food = groups().find(g => g.id === "food") || groups()[0], c = food && food.closed;
+  let text = "", cls = "";
+  if (member.c) { text = t().shopPaused; cls = "shut"; }
+  else if (c && shutNow(food)) { text = t().kitchenShut(hh(c.to_hour || 0)); cls = "shut"; }
+  else if (c) { text = t().openNow(hh(c.from_hour || 0)); }
+  pill.textContent = text; pill.className = "opennow" + (cls ? " " + cls : "") + (text ? "" : " hide");
+  const hi = $("hello"), signed = !inTelegram && acct;
+  hi.classList.toggle("hide", !signed);
+  if (signed) {
+    const per = parseInt((menu.points || {}).baht_per_point, 10) || 0, b = Math.max(0, parseInt(member.b, 10) || 0);
+    hi.textContent = "";
+    hi.append(el("span", "hm", t().helloM((member.n || acct.n || "").split(" ")[0], myPoints || 0)));
+    if (per) { const bar = el("span", "hbar"), fill = el("i"); fill.style.width = Math.min(100, Math.round(b * 100 / per)) + "%"; bar.append(fill); hi.append(bar); }
+    hi.append(el("span", "hgo", t().helloGo));
+    hi.onclick = () => { renderCard(); show("card"); };
+  }
+}
+setInterval(drawNow, 60000);
 function goCat(catId) {   // open the menu at one category (the photo tiles on the home page)
   const g = groups().find(x => x.categories.includes(catId)); if (!g) return;
   openGroup(g.id);
@@ -2766,7 +2809,7 @@ function drawSite() {   // the home page's "normal website" parts: popular picks
 }
 const baseRenderCard = renderCard, baseRenderHome = renderHome;
 renderCard = function () { baseRenderCard(); drawOrders(); drawProfile(); pollOrders(); };
-renderHome = function () { baseRenderHome(); drawSite(); };
+renderHome = function () { baseRenderHome(); drawSite(); drawNow(); };
 setInterval(pollOrders, 20000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) pollOrders(); });
 
