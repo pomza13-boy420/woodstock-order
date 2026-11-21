@@ -723,6 +723,13 @@
   .ipanel .story { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: var(--text); }
   .ipanel .storyhint { margin: 14px 0 0; font-size: 13px; color: var(--hint); }
   /* "pay first": right above the send button, in red (owner: the shop makes the order once the money is in) */
+  .prepay { margin: 12px 0 4px; padding: 14px; border-radius: 14px; border: 2px solid var(--green); text-align: center; }
+  .prepay .ppamt { font-size: 20px; font-weight: 800; color: var(--green); }
+  .prepay img { display: block; width: 230px; max-width: 80%; margin: 10px auto; border-radius: 8px; cursor: zoom-in; }
+  .prepay img.big { width: 100%; max-width: 100%; }
+  .prepay .pphint { font-size: 14px; line-height: 1.45; }
+  .prepay .ppbtn { width: 100%; margin-top: 10px; padding: 13px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .prepay .ppbtn:disabled { opacity: .6; cursor: default; }
   .paywarn { margin: 10px 0 4px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--red); background: #fdecea; color: var(--red); font-size: 15px; font-weight: 700; line-height: 1.45; }
   .ipanel .storygo { display: block; width: 100%; margin-top: 16px; padding: 14px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
@@ -1033,6 +1040,14 @@
     <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
   </div>
   <p class="hint2" id="dHint"></p>
+  <div class="prepay hide" id="prepay">   <!-- transfer, pickup / eat in: pay first, attach the slip, then send -->
+    <div class="ppamt" id="ppAmt"></div>
+    <img id="ppQr" src="pay_qr.jpg" alt="PromptPay QR">
+    <div class="pphint" id="ppHint"></div>
+    <button class="ppbtn" id="ppBtn" type="button"></button>
+    <div class="slipmsg hide" id="ppMsg"></div>
+    <input type="file" id="ppFile" accept="image/*" class="hide">
+  </div>
   <div class="paywarn hide" id="payWarn" role="alert"></div>
   <button class="confirm" id="send"></button>
   <div class="testnote" id="testnote"></div>
@@ -1125,7 +1140,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1218,7 +1233,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1277,7 +1292,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 36;
+const BUILD = 37;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1828,6 +1843,7 @@ function problem() {
   const sm = opt().shop_min || 0;   // pickup / eating in: the shop's own small minimum (catalog.json "shop_min")
   if (how !== "d" && sm && foodTotal() < sm) return t().needShopMin(money(sm), money(sm - foodTotal()));
   if (!pay) return t().needPay;
+  if (prepayOn() && !preSlip) return t().needSlip;
   return "";
 }
 
@@ -1903,6 +1919,13 @@ function drawDetails() {
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   const warn = pay === "c" ? t().warnCash : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
   $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
+  const pp = prepayOn(); $("prepay").classList.toggle("hide", !pp);
+  if (pp) {
+    $("ppAmt").textContent = t().ppAmt($("dTotal").textContent); $("ppHint").textContent = t().ppHint;
+    $("ppBtn").textContent = preBusy ? t().ppChecking : preSlip ? t().ppAgain : t().ppAttach; $("ppBtn").disabled = preBusy;
+    $("ppMsg").textContent = preMsg[0]; $("ppMsg").className = "slipmsg" + (preMsg[1] ? " " + preMsg[1] : "") + (preMsg[0] ? "" : " hide");
+    if (pay === "q") $("payWarn").classList.add("hide");   // the box says it all
+  }
   $("send").classList.toggle("off", !!bad);
   $("testnote").textContent = inTelegram || !params.has("debug") ? "" : t().test + payload();
 }
@@ -2091,13 +2114,41 @@ $("send").onclick = () => {
 // elsewhere). The phone's own position goes with the order ("gl") and the bot checks it again. No position, or
 // one off the island: the order can still go by WhatsApp, where staff see who it is.
 let here = null;   // [lat, lon, accuracy in m] read just before sending
+// Transfer for pickup / eating in: pay first (owner, 2026-11-21). The QR and the amount show at checkout, the customer attaches
+// the slip, and the order goes with the slip's QR text ("ps"); the shop sees it only once the bank says yes.
+let preSlip = "", preMsg = ["", ""], preBusy = false;
+const prepayOn = () => !inTelegram && pay === "q" && !!how && how !== "d" && !!opt().slip && !!inboxUrl() && !!opt().qr;
 const nearIsland = (la, lo, acc) => la >= ISLAND[0][0] - 0.03 && la <= ISLAND[1][0] + 0.03 && lo >= ISLAND[0][1] - 0.03 && lo <= ISLAND[1][1] + 0.03 && acc <= 10000;
 const whereNow = () => new Promise(done => {
   if (!navigator.geolocation) return done({ err: "none" });
   navigator.geolocation.getCurrentPosition(g => done({ la: g.coords.latitude, lo: g.coords.longitude, acc: g.coords.accuracy || 0 }),
     e => done({ err: e && e.code === 1 ? "denied" : "none" }), { enableHighAccuracy: true, timeout: 20000, maximumAge: 120000 });
 });
-let sending = false;
+$("ppQr").onclick = () => $("ppQr").classList.toggle("big");
+$("ppBtn").onclick = () => { if (!preBusy) { $("ppFile").value = ""; $("ppFile").click(); } };
+$("ppFile").onchange = async e => {   // read the slip's QR here (the picture never leaves the phone), keep only its text
+  const f = e.target.files && e.target.files[0], S = t().site.slip;
+  if (!f) return;
+  preBusy = true; preMsg = [S.reading, ""]; drawDetails();
+  let text = "";
+  try { text = String(await slipQr(f) || "").trim(); } catch (err) { text = ""; }
+  preBusy = false;
+  if (!text) { preSlip = ""; preMsg = [S.noqr, "bad"]; }
+  else if (/^000201/.test(text)) { preSlip = ""; preMsg = [S.payqr, "bad"]; }
+  else if (!/^[A-Za-z0-9]{20,255}$/.test(text)) { preSlip = ""; preMsg = [S.unreadable, "bad"]; }
+  else { preSlip = text; preMsg = [t().ppReady, "ok"]; }
+  drawDetails();
+};
+// After an order sent with its slip: wait for the bank's answer on the order's note (sl.r) before calling it sent.
+async function prepayAnswer(k) {
+  for (let i = 0; i < 40; i++) {
+    await new Promise(r => setTimeout(r, i < 5 ? 2000 : 3000));
+    const v = await ask("track=" + k);
+    if (v && v.sl && v.sl.r) return { r: String(v.sl.r), a: Number(v.sl.a) || 0, v };
+  }
+  return { r: "late", a: 0, v: null };
+}
+let sending = false, pre_r = "", pre_v = null;
 async function sendAuto() {
   if (sending) return;
   const btn = $("send"), label = btn.textContent;
@@ -2107,6 +2158,7 @@ async function sendAuto() {
   if (g.err) { here = null; return openVia(orderText(), false, g.err === "denied" ? t().locDenied : t().locNone); }
   if (!nearIsland(g.la, g.lo, g.acc)) { here = null; return openVia(orderText(), false, t().locAway); }
   here = [Number(g.la.toFixed(5)), Number(g.lo.toFixed(5)), Math.round(g.acc)];
+  const pre = prepayOn() && !!preSlip;
   const text = orderText(), code = (text.match(/W1:([A-Za-z0-9_-]+)/) || [])[1];
   sending = true; btn.textContent = t().sending; btn.classList.add("off");
   let ok = false;
@@ -2117,6 +2169,19 @@ async function sendAuto() {
     clearTimeout(timer);
     ok = !!(await r.json()).ok;
   } catch (e) { ok = false; }
+  if (ok && pre) {   // paid before ordering: the shop sees the order only if the slip passes
+    btn.textContent = t().ppChecking; preBusy = true; preMsg = [t().ppChecking, ""]; drawDetails();
+    const ans = await prepayAnswer(lastK), S = t().site.slip;
+    preBusy = false;
+    if (!["ok", "manual", "off", "late"].includes(ans.r)) {   // not paid: nothing reached the shop; the cart stays, the customer fixes it
+      sending = false; btn.textContent = label; btn.classList.remove("off");
+      preSlip = "";
+      preMsg = [(ans.r === "amount" ? S.amount(money(ans.a), $("dTotal").textContent) : (typeof S[ans.r] === "string" ? S[ans.r] : S.manual)) + " — " + t().ppRetry, "bad"];
+      return drawDetails();
+    }
+    preSlip = ""; preMsg = ["", ""];
+    pre_r = ans.r; pre_v = ans.v;
+  }
   sending = false; btn.textContent = label; btn.classList.remove("off");
   if (!ok) return openVia(text, true);   // the same text, so the shop's system sees one order even if both arrive
   const a = menu.about || {}, box = $("viaBtns");
@@ -2124,13 +2189,15 @@ async function sendAuto() {
   if (wa.startsWith("0")) wa = "66" + wa.slice(1);
   const link = (label2, href) => { const b = el("a", "viabtn", label2); b.href = href; b.rel = "noopener"; box.append(b); return b; };
   box.textContent = "";
-  $("viaTitle").textContent = t().sentTitle; $("viaHint").textContent = pay === "c" && how !== "d" ? t().sentHintCash : t().sentHint;
+  $("viaTitle").textContent = t().sentTitle;
+  $("viaHint").textContent = pre ? (pre_r === "ok" ? t().ppPaid : pre_r === "late" ? t().site.slip.late : t().site.slip.manual)
+    : pay === "c" && how !== "d" ? t().sentHintCash : t().sentHint;
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
   if (useDisc) member.d = 0;   // the tickets used on this order are spent (the bot's note confirms it a moment later)
   if (how === "d" && useShip) member.sn = Math.max(0, (member.sn || 0) - useShip);
   useDisc = false; useShip = 0;
   member.r = { ...cart };   // "order the same as last time" on the home page
-  myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: null, c: member.r }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
+  myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: pre ? pre_v : null, c: member.r, ...(pre && pre_r === "ok" ? { sr: { r: "ok", a: 0 } } : {}) }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
   done.onclick = () => { $("via").classList.remove("show"); openDetails(false); renderCard(); show("card"); };
   box.append(done);
@@ -2196,6 +2263,7 @@ function orderText() {
     // where the phone is now (on the island): the bot only takes orders sent from there. Before k: the bot tells
     // orders apart by the code's last characters, which must stay the random k (+ mk), not a spot that repeats.
     if (here) code.gl = here;
+    if (prepayOn() && preSlip) code.ps = preSlip;   // the slip of the transfer made before ordering
     code.k = lastK = rnd(18);                 // this phone follows the order with it ("track my order")
     if (acct && acct.mk) code.mk = acct.mk;   // a signed-up member: the points show in the profile
     const bytes = new TextEncoder().encode(JSON.stringify(code));
