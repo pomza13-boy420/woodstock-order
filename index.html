@@ -1229,8 +1229,19 @@ const params = new URLSearchParams(location.search);
 // A table's own QR opens the page with ?t=<table number> (the shop's tables: options.tables in menu.json).
 // The order is then "eating in" at that table without the customer typing it; "not this table" switches it off.
 const tableAsk = /^\d{1,2}$/.test(params.get("t") || "") ? parseInt(params.get("t"), 10) : 0;
-let tableOff = false;
-const tableNo = () => (!inTelegram && !tableOff && menu && opt().dinein && tableAsk >= 1 && tableAsk <= (opt().tables || 0)) ? tableAsk : 0;
+let tableOff = false, tableSince = Date.now();
+// The table holds for one visit (TABLE_HOURS). A scan is a fresh visit; a tab that was left open and comes back
+// later (the browser reloads it) keeps the time of its scan — so the next day it is the plain website again.
+const TABLE_HOURS = 8;
+if (tableAsk) {
+  try {
+    const nav = (performance.getEntriesByType("navigation")[0] || {}).type, old = JSON.parse(localStorage.getItem("ws_table") || "null");
+    if ((nav === "reload" || nav === "back_forward") && old && old.t === tableAsk && old.ts > 0) tableSince = old.ts;
+    else localStorage.setItem("ws_table", JSON.stringify({ t: tableAsk, ts: tableSince }));
+  } catch (e) {}
+}
+const tableNo = () => (!inTelegram && !tableOff && menu && opt().dinein && tableAsk >= 1 && tableAsk <= (opt().tables || 0)
+                       && Date.now() - tableSince < TABLE_HOURS * 3600e3) ? tableAsk : 0;
 let lang = params.get("lang") || "th";
 if (!TEXT[lang]) lang = "en";
 // Member card data the bot puts in the link: name, member-since (epoch s), points, expiry, vouchers.
@@ -1247,7 +1258,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 27;
+const BUILD = 28;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
