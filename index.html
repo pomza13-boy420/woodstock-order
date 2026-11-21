@@ -898,6 +898,9 @@
   .stepper button.minus { border-color: var(--line); color: var(--text); background: transparent; }
   /* computer: five dishes a row, bigger photos */
   @media (min-width: 900px) { .tiles { grid-template-columns: repeat(5, 1fr); gap: 18px; } }
+  /* home: delivery rules folded to their first line */
+  #rulesBox.folded #rules li:nth-child(n+2) { display: none; }
+  #rulesBox .rulesmore { display: inline-block; margin-top: 8px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--green); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1185,7 +1188,7 @@ const TEXT = {
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
         points: "⭐ แต้มสะสมของคุณ", pointsRule: (n, d, c) => `ทุก ฿${n} ของค่าอาหาร = 1 แต้ม` + (c ? " (เฉพาะโอนจ่าย)" : "") + (d ? ` · อายุ ${Math.round(d / 30)} เดือนนับจากออเดอร์ล่าสุด` : ""), tapOrder: "แตะเพื่อสั่ง",
-        rulesTitle: "🛵 จัดส่งฟรี", ruleMin: (z, m) => `${z}: สั่งครบ ${m} ส่งฟรี`,
+        rulesTitle: "🛵 จัดส่งฟรี", rulesMore: n => `ดูกติกาจัดส่งทั้งหมด (+${n})`, rulesLess: "ย่อกติกา", ruleMin: (z, m) => `${z}: สั่งครบ ${m} ส่งฟรี`,
         ruleFlat: f => ` (ไม่ถึง ค่าส่ง ${f})`, ruleQuote: k => ` (ไม่ถึง ค่าส่ง กม.ละ ${k})`, freeFrom: m => `สั่งครบ ${m} ส่งฟรี`,
         feeVoucher: "🎟 คูปองส่งฟรี", feeQuote: k => `พนักงานแจ้ง (กม.ละ ${k})`,
         feeLater: "คำนวณจากตำแหน่งของคุณ", addrOpt: "ที่อยู่ / ชื่อที่พัก / จุดสังเกต (ไม่บังคับ)",
@@ -1277,7 +1280,7 @@ const TEXT = {
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
         points: "⭐ Your points", pointsRule: (n, d, c) => `Every ฿${n} of food = 1 point` + (c ? " (transfers only)" : "") + (d ? ` · valid ${Math.round(d / 30)} months from your latest order` : ""), tapOrder: "Tap to order",
-        rulesTitle: "🛵 Free delivery", ruleMin: (z, m) => `${z}: free from ${m}`,
+        rulesTitle: "🛵 Free delivery", rulesMore: n => `See all delivery rules (+${n})`, rulesLess: "Show less", ruleMin: (z, m) => `${z}: free from ${m}`,
         ruleFlat: f => ` (below that: ${f} delivery)`, ruleQuote: k => ` (below that: ${k} per km)`, freeFrom: m => `Free delivery from ${m}`,
         feeVoucher: "🎟 Free-delivery voucher", feeQuote: k => `staff will confirm (${k}/km)`,
         feeLater: "worked out from your location", addrOpt: "Address / place name / landmark (optional)",
@@ -1360,7 +1363,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 45;
+const BUILD = 46;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1639,6 +1642,15 @@ function renderHome() {
   }
   if (opt().pickup && !rules().rules_text) list.append(el("li", "", t().pickupFree));
   if (opt().delivery && tr(rules().note)) list.append(el("li", "fine", tr(rules().note)));
+  // the home page shows the first rule only; the rest open on request
+  const box = $("rulesBox"), more = list.children.length - 1;
+  box.classList.toggle("folded", more > 0 && !rulesOpen);
+  let tg = box.querySelector(".rulesmore"); if (tg) tg.remove();
+  if (more > 0) {
+    tg = el("button", "rulesmore", rulesOpen ? t().rulesLess : t().rulesMore(more));
+    tg.onclick = () => { rulesOpen = !rulesOpen; drawRulesFold(); };
+    box.append(tg);
+  }
   $("rulesTitle").textContent = t().rulesTitle;
   $("rulesBox").classList.toggle("hide", !list.children.length);
   $("mapsLink").textContent = t().maps; $("mapsLink").classList.toggle("hide", !a.maps);
@@ -1766,6 +1778,12 @@ function renderCard() {
   $("cardBack").textContent = t().home;
 }
 let showAllRewards = false;
+let rulesOpen = false;
+function drawRulesFold() {
+  const box = $("rulesBox"), list = $("rules"), more = list.children.length - 1, tg = box.querySelector(".rulesmore");
+  box.classList.toggle("folded", more > 0 && !rulesOpen);
+  if (tg) tg.textContent = rulesOpen ? t().rulesLess : t().rulesMore(more);
+}
 // A shop reward as a ticket to show at the counter (staff then confirm it in the shop's own system).
 function showTicket(v) {
   const P = menu.points || {}, name = tr(((P.rewards || []).find(r => r.id === v.r) || {}).label) || v.r;
