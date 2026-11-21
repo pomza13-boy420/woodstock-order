@@ -1,5 +1,5 @@
 {
- "build": 41,
+ "build": 42,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -60,7 +60,7 @@
    "id": "yg",
    "label": {
     "en": "🥣 Greek Yogurt Bowl",
-    "th": "🥣 กรีกโยเกิร์ตโบว์ล"
+    "th": "🥣 กรีกโยเกิร์ต โบว์ล"
    },
    "note": {
     "en": "🍯 Honey included free.",
