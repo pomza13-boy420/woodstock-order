@@ -1,5 +1,5 @@
 {
- "build": 54,
+ "build": 56,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3750,8 +3750,8 @@
    "pumpk"
   ],
   "intro": {
-   "th": "Woodstock คือร้านอาหารและบาร์ที่บ้านโฉลกหลำ เกาะพะงัน เปิดมาตั้งแต่ปี 2020 เสิร์ฟอาหารไทย กาแฟ สมูทตี้ และน้ำผลไม้ — ทานที่ร้าน มารับเอง หรือสั่งให้ส่งถึงที่พักได้",
-   "en": "Woodstock is a restaurant and bar in Baan Chaloklum, Koh Phangan, open since 2020. We serve Thai food, coffee, smoothies and fresh juices — eat in, pick up, or have it delivered to where you stay."
+   "th": "Woodstock (Woodstock Chaloklum) คือร้านอาหารและร้านกาแฟที่บ้านโฉลกหลำ เกาะพะงัน เปิดมาตั้งแต่ปี 2020 เสิร์ฟอาหารเช้า อาหารไทย กาแฟ สมูทตี้ และน้ำผลไม้ — ทานที่ร้าน มารับเอง หรือสั่งอาหารส่งถึงที่พักในเกาะพะงัน",
+   "en": "Woodstock Chaloklum is a restaurant, coffee shop and bar in Baan Chaloklum, Koh Phangan, open since 2020. We serve breakfast, Thai food, coffee, smoothies and fresh juices — eat in, pick up, or order food delivery to where you stay on Koh Phangan."
   }
  },
  "delivery_rules": {
