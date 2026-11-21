@@ -941,6 +941,16 @@
   .links .link { background: none; border: 1.5px solid var(--green); color: var(--green); box-shadow: none; }
   /* a ring you can see on every control reached with the keyboard */
   button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  /* ---- design review fixes (2026-11-22) ---- */
+  .ipanel { position: relative; }
+  .ipanel .ix { position: absolute; top: 12px; right: 12px; z-index: 3; width: 44px; height: 44px; border-radius: 50%; border: 0;
+    background: rgba(20, 16, 12, .62); color: #fff; font-size: 18px; line-height: 44px; text-align: center; cursor: pointer; }
+  .ipanel .ix:hover { background: rgba(20, 16, 12, .8); }
+  .flabel { display: block; }
+  .flabel > span { display: block; margin: 10px 0 4px; font-size: 13px; font-weight: 600; color: var(--hint); }
+  .flabel > input { width: 100%; }
+  .reward .rstate { flex: none; max-width: 40%; font-size: 13px; font-weight: 600; color: var(--hint); text-align: right; }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1252,7 +1262,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppSave: "⬇ บันทึกรูป QR", ppHint2: "โอนจากมือถือเครื่องนี้: กดบันทึกรูป QR → เปิดแอปธนาคาร → สแกน → เลือกรูปจากอัลบั้ม → โอน แล้วแนบสลิปด้านล่าง", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม", openNow: c => `เปิดอยู่ · ครัวถึง ${c} น.`, kitchenShut: o => `ครัวปิด · เปิด ${o} น. · เครื่องดื่มยังสั่งได้`, shopPaused: "ปิดรับออเดอร์ชั่วคราว", helloM: (n, p) => `สวัสดี${n ? " คุณ" + n : ""} · ⭐ ${p} แต้ม`, helloGo: "บัตรสมาชิก →", olderOrders: n => `ออเดอร์ก่อนหน้า (${n})`, allRewards: n => `ดูของรางวัลทั้งหมด (${n})`,  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, ppAmt: a => `โอนก่อนสั่ง: ${a}`, ppHint: "สแกน QR นี้ด้วยแอปธนาคาร โอนยอดนี้ แล้วแนบสลิป — ร้านได้รับออเดอร์เมื่อสลิปผ่าน", ppSave: "⬇ บันทึกรูป QR", ppHint2: "โอนจากมือถือเครื่องนี้: กดบันทึกรูป QR → เปิดแอปธนาคาร → สแกน → เลือกรูปจากอัลบั้ม → โอน แล้วแนบสลิปด้านล่าง", ppAttach: "📎 แนบสลิป (หลังโอนแล้ว)", ppGo: "โอนแล้วแนบสลิปก่อน ↓", ppAgain: "📎 เปลี่ยนสลิป", ppReady: "✅ แนบสลิปแล้ว — กดส่งออเดอร์ได้เลย", needSlip: "กรุณาโอนเงินแล้วแนบสลิปก่อนส่งออเดอร์", ppChecking: "⏳ กำลังตรวจสลิปกับธนาคาร…", ppPaid: "✅ ตรวจสลิปผ่าน — จ่ายแล้ว ร้านได้รับออเดอร์และกำลังเตรียมให้", ppRetry: "ออเดอร์ยังไม่ถูกส่ง — แก้แล้วแนบสลิปใหม่", cashNoPts: "· จ่ายเงินสดไม่ได้รับแต้ม — โอนเพื่อสะสมแต้ม", openNow: c => `เปิดอยู่ · ครัวถึง ${c} น.`, kitchenShut: o => `ครัวปิด · เปิด ${o} น. · เครื่องดื่มยังสั่งได้`, shopPaused: "ปิดรับออเดอร์ชั่วคราว", helloM: (n, p) => `สวัสดี${n ? " คุณ" + n : ""} · ⭐ ${p} แต้ม`, helloGo: "บัตรสมาชิก →", olderOrders: n => `ออเดอร์ก่อนหน้า (${n})`, allRewards: n => `ดูของรางวัลทั้งหมด (${n})`,  warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิดอยู่", shutWhy: "สั่งเมนูนี้ได้เมื่อเปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1344,7 +1354,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppSave: "⬇ Save the QR picture", ppHint2: "Paying from this phone: save the QR → open your banking app → Scan → choose the picture from your photos → pay, then attach the slip below", ppAttach: "📎 Attach the slip (after paying)", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.", openNow: c => `Open now · kitchen until ${c}`, kitchenShut: o => `Kitchen closed · opens ${o} · drinks still available`, shopPaused: "Not taking orders right now", helloM: (n, p) => `Hi${n ? " " + n : ""} · ⭐ ${p} points`, helloGo: "Member card →", olderOrders: n => `Earlier orders (${n})`, allRewards: n => `See all rewards (${n})`,  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, ppAmt: a => `Pay first: ${a}`, ppHint: "Scan this QR with your banking app, transfer this amount, then attach the slip — the shop gets the order once the slip passes.", ppSave: "⬇ Save the QR picture", ppHint2: "Paying from this phone: save the QR → open your banking app → Scan → choose the picture from your photos → pay, then attach the slip below", ppAttach: "📎 Attach the slip (after paying)", ppGo: "Pay and attach the slip first ↓", ppAgain: "📎 Change the slip", ppReady: "✅ Slip attached — you can send the order", needSlip: "Please transfer and attach the slip before sending the order", ppChecking: "⏳ Checking the slip with the bank…", ppPaid: "✅ Slip checked — paid. The shop has your order and is preparing it", ppRetry: "The order was not sent — fix it and attach a new slip", cashNoPts: "· Cash earns no points — pay by transfer to collect points.", openNow: c => `Open now · kitchen until ${c}`, kitchenShut: o => `Kitchen closed · opens ${o} · drinks still available`, shopPaused: "Not taking orders right now", helloM: (n, p) => `Hi${n ? " " + n : ""} · ⭐ ${p} points`, helloGo: "Member card →", olderOrders: n => `Earlier orders (${n})`, allRewards: n => `See all rewards (${n})`,  warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", shutWhy: "you can order it once open", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1403,7 +1413,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 47;
+const BUILD = 48;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1514,6 +1524,12 @@ function thumb(it) {   // the item's picture (menu.json "img"); tap to see it la
 function inCart(id) {   // how many of this item (all its options) are in the cart
   return Object.keys(cart).reduce((n, k) => n + (k === id || k.startsWith(id + "~") || k.startsWith(id + "@") ? cart[k] : 0), 0);
 }
+function sheetX(panel, close) {   // the ✕ in the top corner of a sheet; Esc closes it too
+  const x = el("button", "ix", "✕"); x.type = "button"; x.setAttribute("aria-label", lang === "en" ? "Close" : "ปิด"); x.onclick = close;
+  const esc = e => { if (e.key === "Escape") { close(); document.removeEventListener("keydown", esc); } };
+  document.addEventListener("keydown", esc);
+  panel.prepend(x);
+}
 function openItem(it, cat) {   // details of one item: picture, description, options with their add buttons
   const shade = el("div", "ishade"), panel = el("div", "ipanel");
   if (it.img) { const im = el("img", "pic"); im.alt = ""; im.src = it.img; panel.append(im); }
@@ -1576,6 +1592,7 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   panel.append(card, done); shade.append(panel);
   done.onclick = () => shade.remove();
   shade.onclick = e => { if (e.target === shade) shade.remove(); };
+  sheetX(panel, () => shade.remove());
   document.body.append(shade);
 }
 function itemRow(key, name, desc, price, cls) {
@@ -1810,7 +1827,7 @@ function renderCard() {
         if (inTelegram) tg.sendData(data); else redeemWeb(r);
       };
     }
-    row.append(what, b); box.append(row);
+    row.append(what, b.className === "no" ? el("span", "rstate", b.textContent) : b); box.append(row);
   }
   if (guest && offered.length > 1) { const all = el("button", "morebtn", t().allRewards(offered.length)); all.onclick = () => { showAllRewards = true; renderCard(); }; box.append(all); }
   $("redeemMsg").textContent = inTelegram ? "" : redeemNote;
@@ -2055,10 +2072,12 @@ function drawDetails() {
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   const noPts = menu.points && menu.points.cash_earns === false;   // the shop gives points for transfers only
-  const warn = pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
+  const warn = !how ? "" : pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
   $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
   if (!web || $("dTotal").textContent) $("send").textContent += "  ·  " + $("dTotal").textContent;
-  const pp = prepayOn(); $("prepay").classList.toggle("hide", !pp);
+  const pp = prepayOn(), ppWas = !$("prepay").classList.contains("hide"); $("prepay").classList.toggle("hide", !pp);
+  if (pp && !ppWas) setTimeout(() => $("prepay").scrollIntoView({ behavior: "smooth", block: "start" }), 60);
+  if (pp && !preSlip && bad === t().needSlip) $("send").textContent = t().ppGo;
   if (pp) {
     $("ppAmt").textContent = t().ppAmt($("dTotal").textContent); $("ppHint").textContent = t().ppHint2; $("ppSave").textContent = t().ppSave;
     $("ppBtn").textContent = preBusy ? t().ppChecking : preSlip ? t().ppAgain : t().ppAttach; $("ppBtn").disabled = preBusy;
@@ -2239,6 +2258,7 @@ document.querySelectorAll("[data-pay]").forEach(b => b.onclick = () => { pay = b
 $("addr").oninput = $("note").oninput = drawDetails;
 $("dBack").onclick = () => { openDetails(false); openSheet(true); };
 $("send").onclick = () => {
+  if (prepayOn() && !preSlip && problem() === t().needSlip) { drawDetails(); return $("prepay").scrollIntoView({ behavior: "smooth", block: "start" }); }
   if (!Object.keys(cart).length || problem()) return drawDetails();
   if (inTelegram) tg.sendData(payload());   // closes the app; the bot sends the order or the QR
   else if ((menu.about || {}).order_inbox) sendAuto();
@@ -2795,13 +2815,17 @@ function drawProfile() {
     for (const ms of [5000, 10000, 16000, 25000]) setTimeout(() => { pollOrders.memberAt = 0; pollOrders(); }, ms);
   };
   row.append(go);
-  box.append(h, msg, name, phone, row, el("p", "", S.guest));
+  box.append(h, msg, flabel(S.nameL, name), flabel(S.phoneL, phone), row, el("p", "", S.guest));
+}
+function flabel(text, input) {   // a field with its name above it
+  const l = el("label", "flabel"); l.append(el("span", "", text), input); return l;
 }
 let profMode = "reg";   // the member page's form when not signed in: "reg" (sign up) or "login" (sign in)
 function drawLogin(box) {   // a member on a new phone: the phone number finds them; the shop answers on this phone's note
   const S = t().site, h = el("h3", "hide", ""), msg = el("p", "", S.loginHint), phone = el("input", "txt"), row = el("div", "row2");
   phone.maxLength = 20; phone.placeholder = S.phoneL; phone.type = "tel"; phone.inputMode = "tel"; phone.autocomplete = "tel"; phone.value = $("cphone").value;
   const go = el("button", "pbtn", S.loginBtn);
+  const phoneBox = flabel(S.phoneL, phone);
   go.onclick = async () => {
     const ph = phone.value.trim();
     if (ph.replace(/\D/g, "").length < 8) { msg.textContent = S.needPhoneOnly; return; }
@@ -2821,7 +2845,7 @@ function drawLogin(box) {   // a member on a new phone: the phone number finds t
     member.n = u.n || ""; pollOrders.memberAt = 0; pollOrders(); renderCard();
   };
   row.append(go);
-  box.append(h, msg, phone, row);
+  box.append(h, msg, phoneBox, row);
 }
 // The hero says at once whether the kitchen is open (the reason people come back to the page), and a member is greeted
 // with their points and the bar toward the next one.
@@ -2878,6 +2902,7 @@ function openStory(it) {   // a recommended dish, told: picture, how it is made 
   } else panel.append(el("p", "storyhint", S.storyHint));
   const x = el("button", "storyclose", S.storyClose); x.onclick = close; panel.append(x);
   shade.onclick = e => { if (e.target === shade) close(); };
+  sheetX(panel, close);
   shade.append(panel); document.body.append(shade);
 }
 function drawSite() {   // the home page's "normal website" parts: popular picks, hours & location
