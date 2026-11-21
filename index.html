@@ -103,6 +103,10 @@
   .mcard.silver { background: linear-gradient(135deg, #8e9aa3 0%, #dfe5e9 45%, #9aa5ad 100%); color: #2b2f33; }
   .mcard.gold { background: linear-gradient(135deg, #b8860b 0%, #f6d365 45%, #c9971a 100%); color: #3b2a05; }
   .mcard .head { display: flex; align-items: center; gap: 12px; }
+  /* bar toward the next point: the baht carried over from earlier orders */
+  .pbar { display: block; height: 8px; border-radius: 4px; background: rgba(127, 127, 127, .28); overflow: hidden; margin-top: 8px; }
+  .pbar i { display: block; height: 100%; width: 0; background: currentColor; border-radius: 4px; transition: width .4s; }
+  .pbarnote { display: block; font-size: 12px; opacity: .9; margin-top: 4px; }
   .emblem {
     width: 62px; height: 62px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 30px;
     background: rgba(255, 255, 255, .22); border: 2px solid rgba(255, 255, 255, .55); overflow: hidden;
@@ -897,7 +901,7 @@
     <ol class="steps" id="steps"></ol>
     <div class="duo">
       <button class="points" id="pointsBox">
-        <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
+        <span><span id="pointsLabel"></span><small id="pointsRule"></small><span class="pbar hide" id="homeBar"><i id="homeBarFill"></i></span><small class="pbarnote hide" id="homeBarText"></small><span class="go" id="pointsGo"></span></span><b id="pointsValue">0</b>
       </button>
       <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     </div>
@@ -925,6 +929,7 @@
         <div class="shop" id="cardShop"></div><div class="level" id="cardLevel"></div>
         <div class="who" id="cardName"></div>
         <div class="pts"><b id="cardPoints">0</b><span id="cardPointsLabel"></span></div>
+        <div class="pbar hide" id="cardBar"><i id="cardBarFill"></i></div><small class="pbarnote hide" id="cardBarText"></small>
       </div>
       <div class="emblem" id="emblem">🌿</div>
     </div>
@@ -1114,7 +1119,7 @@ const TEXT = {
         shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
         needRemove: (n, b) => `${n}ปิดแล้ว (เปิด ${b} น.) กรุณาเอารายการ${n}ออกจากตะกร้า`,
-        pointsGo: "ดูบัตรสมาชิกและแลกแต้ม ➜", member: "MEMBER", ptsWord: "แต้ม", since: "เริ่มสะสมแต้ม", until: "แต้มหมดอายุ",
+        pointsGo: "ดูบัตรสมาชิกและแลกแต้ม ➜", barNext: (b, per) => `สะสมแล้ว ฿${b} / ฿${per} — อีก ฿${per - b} ได้ 1 แต้ม`, member: "MEMBER", ptsWord: "แต้ม", since: "เริ่มสะสมแต้ม", until: "แต้มหมดอายุ",
         noSince: "หลังออเดอร์แรกเสร็จ", noName: "สมาชิก Woodstock",
         tierNext: (d, l) => `อีก ${d} วัน เลื่อนเป็นระดับ ${l}`, tierTop: "คุณอยู่ระดับสูงสุดแล้ว 🎉",
         tierStart: "ระดับสมาชิกเริ่มนับเมื่อออเดอร์แรกเสร็จเรียบร้อย",
@@ -1204,7 +1209,7 @@ const TEXT = {
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
         needRemove: (n, b) => `${n} is closed now (opens ${b}). Please remove the ${n.toLowerCase()} items from your cart.`,
-        pointsGo: "Member card & rewards ➜", member: "MEMBER", ptsWord: "points", since: "Member since", until: "Points expire",
+        pointsGo: "Member card & rewards ➜", barNext: (b, per) => `฿${b} / ฿${per} — ฿${per - b} more for 1 point`, member: "MEMBER", ptsWord: "points", since: "Member since", until: "Points expire",
         noSince: "after your first order", noName: "Woodstock member",
         tierNext: (d, l) => `${d} more days to reach ${l}`, tierTop: "You're at the top level 🎉",
         tierStart: "Your membership starts when your first order is completed.",
@@ -1258,7 +1263,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 29;
+const BUILD = 30;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1499,6 +1504,7 @@ function renderHome() {
   $("pointsLabel").textContent = t().points; $("pointsRule").textContent = per ? t().pointsRule(per, (menu.points || {}).expire_days) : "";
   $("pointsValue").textContent = myPoints.toLocaleString("en-US");
   $("pointsGo").textContent = t().pointsGo;
+  drawBar("home");
   const ph = $("shopPhoto");   // the shop's own photo: webapp/<about.photo>
   if (a.photo && !ph.dataset.done) { ph.dataset.done = "1"; ph.onload = () => ph.classList.remove("hide"); ph.src = a.photo; }
   $("openMenu").textContent = t().openMenu; $("heroMap").textContent = t().heroMap;
@@ -1575,6 +1581,15 @@ function show(view) {   // "home" | "menu" | "card" | "map"
 }
 
 // ---------------- member card ----------------
+// The bar toward the next point: baht of food carried over from earlier orders (member.b), 0 … baht_per_point.
+function drawBar(where) {
+  const per = parseInt((menu.points || {}).baht_per_point, 10) || 0, b = Math.max(0, Math.min(per, parseInt(member.b, 10) || 0));
+  const show = per > 0 && !!(member.s || myPoints || b);   // only for a member
+  $(where + "Bar").classList.toggle("hide", !show); $(where + "BarText").classList.toggle("hide", !show);
+  if (!show) return;
+  $(where + "BarFill").style.width = (100 * b / per).toFixed(1) + "%";
+  $(where + "BarText").textContent = t().barNext(b, per);
+}
 function renderCard() {
   const P = menu.points || {};
   const tiers = (P.tiers || []).slice().sort((a, b) => (a.after_days || 0) - (b.after_days || 0));
@@ -1585,6 +1600,7 @@ function renderCard() {
   $("cardLevel").textContent = cur ? tr(cur.label).toUpperCase() : t().member;
   $("cardName").textContent = member.n || t().noName;
   $("cardPoints").textContent = myPoints.toLocaleString("en-US"); $("cardPointsLabel").textContent = t().ptsWord;
+  drawBar("card");
   $("sinceLabel").textContent = t().since; $("untilLabel").textContent = t().until;
   const d = new Date((member.s + 7 * 3600) * 1000), two = n => String(n).padStart(2, "0");   // Bangkok date
   $("cardSince").textContent = member.s ? `${two(d.getUTCDate())}/${two(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}` : t().noSince;
@@ -2394,7 +2410,7 @@ async function pollOrders() {
     const u = await ask("member=" + acct.mk);
     const mine = u && u.rr && redeemWait && u.rr.ts === redeemWait.ts;   // the shop's answer to the "redeem" just pressed here
     if (u && (!redeemWait || mine)) {   // while a redemption is on its way, an older note must not put the old points back
-      member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; myPoints = Math.max(0, parseInt(u.p, 10) || 0);
+      member.n = u.n || acct.n; member.p = u.p || 0; member.s = u.s || 0; member.x = u.x || ""; member.b = u.b || 0; myPoints = Math.max(0, parseInt(u.p, 10) || 0);
       // tickets bought with points: a discount (da, until dx), delivery tickets (sn of them, each up to sa baht, the first runs out on sx), shop rewards to collect (v)
       member.d = u.da || 0; member.dx = u.dx || ""; member.sn = u.sn || 0; member.sa = u.sa || 0; member.sx = u.sx || ""; member.wv = Array.isArray(u.v) ? u.v : [];
       member.u = u.u || {}; member.uf = Array.isArray(u.uf) ? u.uf : [];   // rewards that cannot be redeemed right now: until which day / holding the most allowed
