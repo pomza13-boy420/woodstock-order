@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>Woodstock Koh Phangan — Menu & Order</title>
+<title>Woodstock: Thai food, coffee &amp; smoothies in Koh Phangan — order online</title>
 <meta name="description" content="Woodstock, Chaloklum, Koh Phangan — Thai & vegetarian food, coffee, smoothies and fresh juices. See the menu and order for pickup or delivery.">
 <meta property="og:title" content="Woodstock Koh Phangan — Menu & Order">
 <meta property="og:description" content="Thai & vegetarian food, coffee, smoothies and fresh juices in Chaloklum. Order for pickup or delivery.">
@@ -963,6 +963,10 @@
                              linear-gradient(180deg, rgba(20, 18, 16, .2) 0%, rgba(20, 18, 16, 0) 40%, rgba(20, 18, 16, .55) 100%); }
     .hero h1.htitle .hkind { font-size: 20px; }
   }
+
+  /* a heading only screen readers hear */
+  .sronly { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  #home .foot { display: block; }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1008,7 +1012,7 @@
 </nav>
 
 <!-- ============ home ============ -->
-<div id="home">
+<main id="home">
   <header class="hero">
     <img class="heroimg hide" id="shopPhoto" alt="">
     <div class="heroshade"></div>
@@ -1036,14 +1040,20 @@
       <div class="ptrack" id="ptrack"></div>
       <div class="pdots" id="pdots"></div>
     </section>
-    <div class="feats" id="feats"></div>
+    <section id="catsSec" aria-labelledby="featsTitle">
+      <h2 class="sronly" id="featsTitle">หมวดอาหาร</h2>
+      <div class="feats" id="feats"></div>
+    </section>
     <section class="hide" id="pickBox">
       <h2 class="sec" id="pickTitle"></h2>
       <div class="picks" id="picks"></div>
       <button class="morebtn hide" id="pickMore"></button>
     </section>
-    <h2 class="sec" id="whoTitle"></h2>
-    <p class="wholead hide" id="whoLead"></p>
+    <section id="whoSec">
+      <h2 class="sec" id="whoTitle"></h2>
+      <p class="wholead hide" id="whoLead"></p>
+    </section>
+    <section id="howSec">
     <h2 class="sec" id="howTitle"></h2>
     <ol class="steps" id="steps"></ol>
     <div class="duo">
@@ -1052,6 +1062,8 @@
       </button>
       <div class="box" id="rulesBox"><h3 id="rulesTitle"></h3><ul id="rules"></ul></div>
     </div>
+    </section>
+    <section id="visitSec">
     <h2 class="sec" id="visitTitle"></h2>
     <div class="visit" id="visit"></div>
     <button class="link visitmap hide" id="heroMap"></button>   <!-- one row of links is enough: the map tab is in the bar below -->
@@ -1060,9 +1072,10 @@
       <a class="link" id="phoneLink"></a>
       <button class="link hide" id="igLink">📷 Instagram</button>
     </div>
-    <p class="foot">Woodstock Bar · Chaloklum, Koh Phangan · Est. 2020</p>
+    </section>
+    <footer class="foot">Woodstock Bar · Chaloklum, Koh Phangan · Est. 2020</footer>
   </div>
-</div>
+</main>
 
 <!-- ============ member card ============ -->
 <div id="cardView" class="cardview hide">
@@ -1425,7 +1438,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 50;
+const BUILD = 51;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2507,6 +2520,8 @@ function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll(".lang button, .wlangs button").forEach(b => { b.classList.toggle("on", b.dataset.lang === lang); b.setAttribute("aria-pressed", b.dataset.lang === lang ? "true" : "false"); });
   $("skipLink").textContent = lang === "en" ? "Skip to content" : "ข้ามไปที่เนื้อหา";
+  document.title = lang === "en" ? "Woodstock: Thai food, coffee & smoothies in Koh Phangan — order online" : "Woodstock เกาะพะงัน — อาหารไทย กาแฟ และสมูทตี้ · สั่งออนไลน์";
+  $("featsTitle").textContent = lang === "en" ? "Food categories" : "หมวดอาหาร";
   $("tabbar").setAttribute("aria-label", lang === "en" ? "Main menu" : "เมนูหลัก");
   setTimeout(a11yNames, 0);
   $("wenter").textContent = t().enter; $("wchoose").textContent = t().chooseLang;
