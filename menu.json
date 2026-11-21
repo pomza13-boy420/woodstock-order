@@ -1,5 +1,5 @@
 {
- "build": 49,
+ "build": 54,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3694,6 +3694,7 @@
   "line": "",
   "maps": "https://maps.app.goo.gl/MAdSBryCiuzcLHNy9",
   "instagram": "https://www.instagram.com/woodstock.kpg/",
+  "facebook": "https://www.facebook.com/woodstockchaloklum",
   "logo": "logo.png",
   "photo": "shop.jpg",
   "order_inbox": "https://script.google.com/macros/s/AKfycbzf9ei_VIsgp_amYnry2mVcOU9SinLyNZG0aBL4BgSWko83kCa6IQB5vHc30oXE5p0/exec",
