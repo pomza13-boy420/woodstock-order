@@ -950,11 +950,11 @@
   .flabel { display: block; }
   .flabel > span { display: block; margin: 10px 0 4px; font-size: 13px; font-weight: 600; color: var(--hint); }
   .flabel > input { width: 100%; }
-  .reward .rstate { flex: none; max-width: 40%; font-size: 13px; font-weight: 600; color: var(--hint); text-align: right; }
+  .reward .rstate { flex: none; max-width: 40%; font-size: 13px; font-weight: 600; color: #6F6860; text-align: right; }
 
   /* ---- round 49 (2026-11-22) ---- */
   .points b.pv { display: flex; flex-direction: column; align-items: center; line-height: 1.05; }
-  .points b.pv small { font-size: 13px; font-weight: 600; color: var(--hint); }
+  .points b.pv small { font-size: 13px; font-weight: 600; color: #6F6860; opacity: 1; }   /* 5:1 on white (the lighter hint grey is 3.6:1) */
   /* the order form on a tablet: one centred column, not lines across the whole screen */
   @media (min-width: 700px) { .details { padding-left: max(16px, calc(50vw - 300px)); padding-right: max(16px, calc(50vw - 300px)); } }
   /* computer: the shop name on a calm, dark left side of the photo (not over the neon signs) */
@@ -1425,7 +1425,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 49;
+const BUILD = 50;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
