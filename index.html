@@ -722,6 +722,8 @@
                      background: linear-gradient(transparent, rgba(0, 0, 0, .75)); }
   .ipanel .story { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: var(--text); }
   .ipanel .storyhint { margin: 14px 0 0; font-size: 13px; color: var(--hint); }
+  /* "pay first": right above the send button, in red (owner: the shop makes the order once the money is in) */
+  .paywarn { margin: 10px 0 4px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--red); background: #fdecea; color: var(--red); font-size: 15px; font-weight: 700; line-height: 1.45; }
   .ipanel .storygo { display: block; width: 100%; margin-top: 16px; padding: 14px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
   @media (min-width: 900px) { #pickBox .picks { margin: 0 -28px; } .pickrun .pick { width: 300px; } }
@@ -1031,6 +1033,7 @@
     <div class="grand"><span id="dTotalLabel"></span><span id="dTotal"></span></div>
   </div>
   <p class="hint2" id="dHint"></p>
+  <div class="paywarn hide" id="payWarn" role="alert"></div>
   <button class="confirm" id="send"></button>
   <div class="testnote" id="testnote"></div>
 </div>
@@ -1122,7 +1125,7 @@ const TEXT = {
         qr: "📱 QR / พร้อมเพย์", cash: "💵 เงินสด ตอนรับอาหาร", sendCash: "✅ ส่งออเดอร์", sendQr: "✅ ยืนยัน แล้วรับ QR ในแชท",
         qrHint: "หลังยืนยัน บอทจะส่ง QR ในแชท โอนแล้วส่งรูปสลิปในแชทได้เลยครับ", cashHint: "กดแล้วออเดอร์จะถูกส่งให้ร้านทันที",
         needHow: "กรุณาเลือกวิธีรับอาหาร", needZone: "กรุณาเลือกระยะทางจากร้าน", needAddr: "กรุณาใส่ที่อยู่ หรือแนบตำแหน่ง",
-        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`,
+        needPay: "กรุณาเลือกวิธีชำระเงิน", needMin: (m, d) => `จัดส่งโซนนี้ขั้นต่ำ ${m} — ขาดอีก ${d}`, needShopMin: (m, d) => `สั่งที่ร้านขั้นต่ำ ${m} — ขาดอีก ${d}`, warnCash: "⚠️ ต้องจ่ายเงินก่อน — ชำระเงินสดที่เคาน์เตอร์ก่อน ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว", warnQr: "⚠️ ต้องจ่ายเงินก่อน — เมื่อร้านกดรับออเดอร์ QR จะขึ้นในหน้าออเดอร์ โอนแล้วส่งสลิป ร้านจะเริ่มทำเมื่อได้รับเงินแล้ว",
         food: "ค่าอาหาร", fee: "ค่าส่ง", free: "ฟรี", grand: "ยอดชำระ", discount: "🎟 คูปองส่วนลด",
         shut: "ปิด", closedTill: b => `🌙 ปิดอยู่ · เปิด ${b} น.`,
         closedBanner: (n, a, b) => `🌙 ${n}ปิดรับออเดอร์ ${a}–${b} น. เปิดอีกครั้ง ${b} น. (ดูเมนูได้ แต่ยังสั่งไม่ได้)`,
@@ -1215,7 +1218,7 @@ const TEXT = {
         qr: "📱 QR / PromptPay", cash: "💵 Cash on pickup/delivery", sendCash: "✅ Send order", sendQr: "✅ Confirm, get QR in chat",
         qrHint: "After confirming, the bot sends the QR in the chat. Pay, then send your slip photo there.", cashHint: "Your order goes to the shop right away.",
         needHow: "Please choose pickup, dine-in or delivery", needZone: "Please choose your distance from the shop", needAddr: "Please enter an address or attach your location",
-        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`,
+        needPay: "Please choose how to pay", needMin: (m, d) => `Minimum for this area is ${m} — ${d} more needed`, needShopMin: (m, d) => `Minimum order at the shop is ${m} — ${d} more needed`, warnCash: "⚠️ Please pay first — pay cash at the counter; the shop starts your order once it is paid.", warnQr: "⚠️ Please pay first — once the shop accepts the order, the QR shows on your order page. Transfer and send the slip; the shop starts once it is paid.",
         food: "Food", fee: "Delivery", free: "free", grand: "To pay", discount: "🎟 Points voucher",
         shut: "Closed", closedTill: b => `🌙 Closed · opens ${b}`,
         closedBanner: (n, a, b) => `🌙 ${n} is closed ${a}–${b} and opens again at ${b}. (You can browse, but not order yet.)`,
@@ -1274,7 +1277,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 35;
+const BUILD = 36;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1898,6 +1901,8 @@ function drawDetails() {
   $("dHint").textContent = bad || (web ? (pay === "c" ? t().cashWebHint : t().qrWeb) : p.later ? t().laterHint : pay === "q" ? t().qrHint : t().cashHint);
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
+  const warn = pay === "c" ? t().warnCash : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
+  $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
   $("send").classList.toggle("off", !!bad);
   $("testnote").textContent = inTelegram || !params.has("debug") ? "" : t().test + payload();
 }
