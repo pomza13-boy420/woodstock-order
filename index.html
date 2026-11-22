@@ -428,8 +428,12 @@
   .openmenu { width: auto; flex: 1 1 220px; margin: 0; padding: 16px 22px; border-radius: 999px; font-size: 18px; font-weight: 600;
               background: linear-gradient(135deg, #37943b, var(--green)); box-shadow: 0 10px 26px rgba(46, 125, 50, .45); }
   .ghost { flex: 0 1 auto; padding: 16px 22px; border-radius: 999px; font-size: 16px; font-weight: 600; color: #fff8e7; border: 1.5px solid rgba(255, 255, 255, .55); }
-  .home { max-width: var(--wrap); margin: 0 auto; }
-  .sec { margin: 26px 2px 12px; font-size: 24px; font-weight: 600; color: var(--brown); display: flex; align-items: center; gap: 10px; }
+  /* build 72: each part of the home page carries its own space above and below (--sec), and a band keeps the same space
+     outside its edge. So one part meets the next 28px apart on a phone, 40px on a wide screen, and no picture, box or
+     heading sits on the edge of its own section (before, the headings' and the tiles' margins did this from outside) */
+  .home { max-width: var(--wrap); margin: 0 auto; --sec: 14px; }
+  .home > section { padding: var(--sec) 0; }
+  .sec { margin: 0 2px 12px; font-size: 24px; font-weight: 600; color: var(--brown); display: flex; align-items: center; gap: 10px; }
   .sec::before { content: ""; width: 26px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--green), var(--yellow), var(--red)); }
   /* promos & events: a strip that slides by itself (about.promos in catalog.json) */
   .ptrack { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; }
@@ -464,7 +468,7 @@
   .steps li { counter-increment: st; display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow); font-size: 16px; }
   .steps li::before { content: counter(st); flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--yellow); color: var(--brown); font-weight: 700; }
   .duo { display: grid; gap: 0; }
-  .points { border-radius: var(--r); padding: 16px 18px; margin-top: 18px; box-shadow: 0 8px 22px rgba(246, 185, 24, .35); }
+  .points { border-radius: var(--r); padding: 16px 18px; margin-top: 0; box-shadow: 0 8px 22px rgba(246, 185, 24, .35); }   /* 12px under its heading, like the first thing of every other part */
   .box { border: 0; border-radius: var(--r); box-shadow: var(--shadow); padding: 16px 18px; }
   .box h3 { font-size: 16px; font-weight: 600; }
   .links { flex-wrap: wrap; }
@@ -472,7 +476,7 @@
   .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
   @media (min-width: 700px) { .again { display: block; max-width: 420px; margin-left: auto; margin-right: auto; } }
   .shutbanner { border-radius: 16px; margin-top: 16px; }
-  .foot { text-align: center; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: 26px 0 0; }
+  .foot { text-align: center; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: var(--sec) 0 0; }
 
   /* ---- cards, tiles, buttons ---- */
   .cattile, .tile, .item, .line { border: 0; box-shadow: var(--shadow); border-radius: 18px; }
@@ -522,12 +526,12 @@
     .hero p { font-size: 18px; }
     .openmenu { flex: 0 0 auto; padding: 18px 34px; font-size: 24px; } .ghost { padding: 18px 30px; font-size: 18px; }
     .openmenu:hover { box-shadow: 0 14px 34px rgba(46, 125, 50, .6); transform: translateY(-1px); } .ghost:hover { background: rgba(255, 255, 255, .12); }
-    .home { padding: 0 28px; }
-    .sec { font-size: 24px; margin-top: 38px; }
+    .home { padding: 0 28px; --sec: 20px; }
+    .sec { font-size: 24px; }
     .feats { grid-template-columns: repeat(4, 1fr); gap: 18px; } .feat { padding: 22px 20px; }
     .feat:hover, .cattile:hover, .tile:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
     .steps { grid-template-columns: repeat(3, 1fr); gap: 18px; } .steps li { padding: 18px; }
-    .duo { grid-template-columns: 1fr 1.4fr; gap: 18px; align-items: start; margin-top: 20px; } .duo .points, .duo .box { margin-top: 18px; }
+    .duo { grid-template-columns: 1fr 1.4fr; gap: 18px; align-items: start; } .duo .box { margin-top: 0; }
     .links { max-width: 720px; }
     .top { top: 68px; border-radius: 0; padding: 14px max(28px, calc(50vw - 560px)) 0; }
     .gtabs, .chips { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; flex-wrap: wrap; }
@@ -863,7 +867,6 @@
   /* hero: is the kitchen open right now */
   .hero .opennow { display: inline-flex; align-self: flex-start; width: auto; align-items: center; gap: 8px; margin: 12px 0 16px; padding: 7px 14px; border-radius: 999px; background: rgba(20,16,12,.6); border: 1px solid rgba(255,255,255,.28); color: #fff; font-size: 13px; font-weight: 600; line-height: 1.3; }
   .hero .opennow.hide { display: none; }
-  #feats { margin-top: 20px; }
   .opennow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5bd06a; }
   .opennow.shut::before { background: #e0a43a; }
   /* a member is greeted under the hero: points and the bar to the next one */
@@ -1021,13 +1024,13 @@
     radial-gradient(circle at 30px 4px, var(--bulb-g) 3.5px, transparent 4px); }
   /* the points line under the photo: a sun-gold band from edge to edge, tucked under the photo's round corners
      (the shadow paints the band out to the window's edges and the clip keeps it from making the page scroll sideways) */
-  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px -16px 0; width: calc(100% + 32px); padding: 36px 0 14px; border: 0; border-radius: 0;   /* 22px of it lies under the photo; the words get 24px of gold above and below */
+  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px -16px var(--sec); width: calc(100% + 32px); padding: 36px 0 14px; border: 0; border-radius: 0;   /* 22px of it lies under the photo; the words get 24px of gold above and below */
     background: var(--sun); color: var(--night); font-weight: 600; box-shadow: 0 0 0 100vmax var(--sun); clip-path: inset(0 -100vmax); }
   #home .hero { position: relative; z-index: 1; }
   /* who we are: the one dark band, with the shop's own art (catalog.json → points.card_image) */
-  #whoSec { margin-top: 32px; padding: 34px 0 40px; background: var(--night); color: var(--cream);
+  #whoSec { margin: var(--sec) 0; padding: 34px 0 40px; background: var(--night); color: var(--cream);
     box-shadow: 0 0 0 100vmax var(--night); clip-path: inset(0 -100vmax); display: grid; gap: 8px 40px; }
-  #whoSec .sec { color: var(--sun); margin-top: 0; }
+  #whoSec .sec { color: var(--sun); }
   #whoSec .wholead { color: var(--cream); margin: 0; white-space: pre-line; }   /* the story keeps its paragraphs */
   #whoSec .whosign { margin: 14px 0 0; display: grid; gap: 4px; }
   #whoSec .whosign .motto { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--sun); }
@@ -1039,7 +1042,7 @@
   #home .visit { background: none; border: 0; border-radius: 0; padding: 0; }   /* (no rule above or below: the heading and the buttons already part it) */
   @media (min-width: 900px) {
     .hero h1.htitle #shop { font-size: 116px; }
-    #home .trackbar, #home .trackbar.live { margin: -22px -28px 0; width: calc(100% + 56px); }
+    #home .trackbar, #home .trackbar.live { margin: -22px -28px var(--sec); width: calc(100% + 56px); }
     #whoSec { grid-template-columns: 1fr 380px; align-items: center; padding: 56px 0; }
     #whoSec .sec { grid-column: 1; grid-row: 1; align-self: end; }
     #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its story, the art in the middle of their height */
@@ -1532,7 +1535,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 71;
+const BUILD = 72;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
