@@ -870,7 +870,7 @@
   .hello .hm { font-weight: 600; white-space: nowrap; }
   .hello .hbar { flex: 1 1 auto; height: 6px; border-radius: 999px; background: #ece6db; overflow: hidden; min-width: 40px; }
   .hello .hbar i { display: block; height: 100%; background: var(--green); border-radius: 999px; }
-  .hello .hgo { color: var(--green); font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .hello .hgo { color: var(--green); font-size: 13px; font-weight: 600; white-space: nowrap; margin-left: auto; }   /* stays right also without the bar */
   /* "earlier orders" / "all rewards": quiet, not a main action */
   #orderList .morebtn, #rewards .morebtn { width: 100%; margin-top: 10px; padding: 11px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--green); font-size: 16px; font-weight: 600; box-shadow: none; }
   /* the strip: one still line, no running text */
@@ -1051,6 +1051,7 @@
   #groupTitle { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.15; }
   #menu section > h2 { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.2; }
   #mapTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; }
+  #cardTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; margin: 0 0 4px; color: var(--brown); }
   .cardview .box > h3 { font-family: var(--script); font-weight: 400; font-size: 22px; letter-spacing: 0; line-height: 1.2; }
   .mcard, .mcard.silver, .mcard.gold { background: var(--night); }
   .mcard .shop { font-family: var(--script); font-size: 30px; line-height: 1; letter-spacing: 0; text-transform: none; opacity: 1; color: var(--cream); }
@@ -1171,6 +1172,7 @@
 <!-- ============ member card ============ -->
 <div id="cardView" class="cardview hide">
   <button class="back" id="cardBack"></button>
+  <h2 id="cardTitle"></h2>   <!-- the page's name, like the menu's and the map's -->
   <div class="box hide" id="ordersBox"><h3 id="ordersTitle"></h3><div id="orderList"></div></div>
   <input type="file" id="slipFile" accept="image/*" class="hide">
   <div class="box hide" id="profBox"></div>
@@ -1347,7 +1349,7 @@ const TEXT = {
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
         callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนู", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "สมาชิก",
-        mapTitle: "📍 แผนที่และติดต่อ", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
+        mapTitle: "📍 แผนที่และติดต่อ", cardTitle: "💳 บัตรสมาชิก", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
         total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
@@ -1439,7 +1441,7 @@ const TEXT = {
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
         callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Member",
-        mapTitle: "📍 Map & contact", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
+        mapTitle: "📍 Map & contact", cardTitle: "💳 Member card", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
         total: "Total", confirm: "Next ➜", none: "No dishes found",
         next: "Next: choose pickup or delivery, and how to pay.",
@@ -1529,7 +1531,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 68;
+const BUILD = 69;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1982,7 +1984,7 @@ function renderCard() {
   if (guest && offered.length > 1) { const all = el("button", "morebtn", t().allRewards(offered.length)); all.onclick = () => { showAllRewards = true; renderCard(); }; box.append(all); }
   $("redeemMsg").textContent = inTelegram ? "" : redeemNote;
   $("rewardsTitle").textContent = t().rewards; $("rewardsBox").classList.toggle("hide", !box.children.length);
-  $("cardBack").textContent = t().home;
+  $("cardBack").textContent = t().home; $("cardTitle").textContent = t().cardTitle;
 }
 let showAllRewards = false;
 let rulesOpen = false;
@@ -3027,7 +3029,8 @@ function drawNow() {
     const hm = el("span", "hm"), txt = t().helloM((member.n || acct.n || "").split(" ")[0], myPoints || 0), cut = txt.indexOf("⭐");
     if (cut > 0) hm.append(document.createTextNode(txt.slice(0, cut)), el("span", "hp", txt.slice(cut))); else hm.textContent = txt;
     hi.append(hm);
-    if (per) { const bar = el("span", "hbar"), fill = el("i"); fill.style.width = Math.min(100, Math.round(b * 100 / per)) + "%"; bar.append(fill); hi.append(bar); }
+    // nothing saved toward the next point yet: no empty bar (it looked broken, 700px wide on a computer)
+    if (per && b > 0) { const bar = el("span", "hbar"), fill = el("i"); fill.style.width = Math.min(100, Math.round(b * 100 / per)) + "%"; bar.append(fill); hi.append(bar); }
     hi.append(el("span", "hgo", t().helloGo));
     hi.onclick = () => { renderCard(); show("card"); };
   }
@@ -3087,8 +3090,14 @@ function drawSite() {   // the home page's "normal website" parts: popular picks
   $("pickTitle").textContent = S.pickTitle;
   $("visitTitle").textContent = S.visitTitle;
   const v = $("visit"); v.textContent = "";
-  const line = (label, text) => { if (!text) return; const d = el("div"); d.append(el("b", "", label), el("span", "", text)); v.append(d); };
-  line(S.hoursL, tr(a.hours)); line(S.addrL, tr(a.address)); line(S.contactL, [a.phone, a.whatsapp && a.whatsapp !== a.phone ? "WhatsApp " + a.whatsapp : ""].filter(Boolean).join(" · "));
+  const line = (label, text) => { if (!text) return; const d = el("div"); d.append(el("b", "", label), typeof text === "string" ? el("span", "", text) : text); v.append(d); };
+  line(S.hoursL, tr(a.hours)); line(S.addrL, tr(a.address));
+  if (a.phone || a.whatsapp) {   // each number stays on one line ("063-495-" / "9896" was hard to read on a phone)
+    const tel = el("span");
+    if (a.phone) tel.append(el("span", "nb", a.phone));
+    if (a.whatsapp && a.whatsapp !== a.phone) tel.append(document.createTextNode((a.phone ? " · " : "") + "WhatsApp "), el("span", "nb", a.whatsapp));
+    line(S.contactL, tel);
+  }
   drawOrders();
 }
 const baseRenderCard = renderCard, baseRenderHome = renderHome;
@@ -3270,6 +3279,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
   if (!L || !L.createElement) return;
   const MAP = {
     "🌿": "Leaf", "🍽": "Utensils", "📍": "MapPin", "🕒": "Clock", "🕘": "Clock", "🕗": "Clock", "⏰": "Clock", "🛵": "Bike", "📷": "Instagram", "📘": "Facebook", "💪": "Dumbbell", "🥛": "Milk", "🌙": "Moon",
+    "🍶": "Milk", "🫧": "GlassWater", "🍦": "IceCreamCone", "🍬": "Candy",   // bottled drinks, kefir, ice cream, snack packs (their headings had no icon)
     "🛒": "ShoppingCart", "📦": "Package", "⭐": "Star", "🌟": "Star", "🍹": "Martini", "🍸": "Martini", "🥤": "CupSoda", "🍰": "CakeSlice", "🍳": "EggFried",
     "🍜": "Soup", "🍲": "Soup", "🍛": "Soup", "🥘": "CookingPot", "🍟": "Popcorn", "🍨": "IceCreamBowl", "☕": "Coffee", "🍵": "Coffee", "🍓": "Cherry",
     "➕": "Plus", "🥣": "Salad", "🥗": "Salad", "🏪": "Store", "📱": "Smartphone", "💵": "Banknote", "💰": "Wallet", "📝": "NotebookPen", "👤": "User",
