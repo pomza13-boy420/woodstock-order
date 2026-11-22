@@ -615,7 +615,8 @@
   }
   @media (min-width: 900px) {   /* a computer: the same bar sits on top; the chosen page is green and bold there too */
     .tabbar button { color: #8C857B; }
-    .tabbar button.on, .tabbar button.on:hover { background: none; color: #2D5A27; }
+    .tabbar button.on { background: none; color: #2D5A27; }
+    .tabbar button.on:hover { background: var(--bg); color: #2D5A27; }   /* the page you are on answers the pointer like the other three (build 75) */
     .tabbar button.on b { font-weight: 700; }
   }
   /* profile page: quiet inputs, one green button, an outline for signing out */
@@ -673,7 +674,7 @@
     .tabbar button.on:hover { color: #2D5A27; }
     .openmenu:hover, .morebtn:hover, .confirm:hover, #profBox .pbtn:hover, .mapbtns .route:hover, .viabtn.main:hover, .stepper button:not(.minus):hover,
     .ipanel .done:hover, .ipanel .storygo:hover, .prepay .ppbtn:hover, .bar:hover, .reward button:not(.sure):hover { background: #244A20; }
-    .link:hover, .viabtn:hover, #profBox .pbtn.plain:hover, .mapbtns .call:hover, .choice:not(.on):hover, .visitmap:hover,
+    .links .link:hover, .viabtn:hover, #profBox .pbtn.plain:hover, .mapbtns .call:hover, .choice:not(.on):hover,   /* (.links .link, not .link: the green-outline rule further down has the same weight and came last, so the tint never showed) */
     .again:hover, .stepper .minus:hover, .modchips button:not(.on):hover, .modmore:hover, .ipanel .storyclose:hover, .reward button.sure:hover, .locbtn:hover { background: rgba(30, 27, 24, .06); }
     .hero .lang button:not(.on):hover { background: rgba(255, 255, 255, .16); }
     #profBox .pbtn.plain:hover, .mapbtns .call:hover { color: #1E1B18; }
@@ -1515,7 +1516,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 74;
+const BUILD = 75;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
