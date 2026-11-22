@@ -412,7 +412,7 @@
   button:active { transform: scale(.98); }
 
   /* ---- home: who we are ---- */
-  .hero { position: relative; overflow: hidden; padding: 0; border-radius: 0 0 28px 28px; background: var(--brown); min-height: 440px; display: flex; }
+  .hero { position: relative; overflow: hidden; padding: 0; border-radius: 0 0 28px 28px; background: var(--night); min-height: 440px; display: flex; }   /* the one dark ground: the same as the story band and the member card */
   .heroimg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .heroshade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 19, 16, .55) 0%, rgba(27, 19, 16, .35) 35%, rgba(27, 19, 16, .92) 100%); }
   .heroin { position: relative; width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 16px 16px 26px; display: flex; flex-direction: column; }
@@ -435,30 +435,6 @@
   .home > section { padding: var(--sec) 0; }
   .sec { margin: 0 2px 12px; font-size: 24px; font-weight: 600; color: var(--brown); display: flex; align-items: center; gap: 10px; }
   .sec::before { content: ""; width: 26px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--green), var(--yellow), var(--red)); }
-  /* promos & events: a strip that slides by itself (about.promos in catalog.json) */
-  .ptrack { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; }
-  .ptrack::-webkit-scrollbar { display: none; }
-  .pslide { flex: 0 0 88%; scroll-snap-align: center; position: relative; overflow: hidden; min-height: 158px; border-radius: var(--r); padding: 18px 18px 16px;
-            color: #fff8e7; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; box-shadow: var(--shadow); background: linear-gradient(135deg, #37943b, #1f5f23); }
-  .pslide:only-child { flex-basis: 100%; }
-  .pslide.c1 { background: linear-gradient(135deg, #6d4c41, #2b1d14); }
-  .pslide.c2 { background: linear-gradient(135deg, #d9483b, #8e1f17); }
-  .pslide.c3 { background: linear-gradient(135deg, #f6c544, #e09b17); color: #2b1d14; }
-  .pslide.tap { cursor: pointer; }
-  .pslide > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .pslide.pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27, 19, 16, .25), rgba(27, 19, 16, .85)); }
-  .pslide.pic { color: #fff8e7; justify-content: flex-end; min-height: 190px; }
-  .pslide > :not(img) { position: relative; z-index: 1; }
-  .pslide .ptag { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .22); }
-  .pslide.c3 .ptag { background: rgba(43, 29, 20, .14); }
-  .pslide .pic0 { position: absolute; right: 10px; top: 4px; font-size: 64px; line-height: 1; opacity: .28; z-index: 0; }
-  .pslide b { font-size: 24px; font-weight: 600; line-height: 1.2; margin-top: 4px; }
-  .pslide small { font-size: 13px; line-height: 1.4; opacity: .95; }
-  .pslide .pgo { margin-top: auto; padding-top: 8px; font-size: 13px; font-weight: 600; }
-  .pdots { display: flex; justify-content: center; gap: 7px; }
-  .pdots i { width: 7px; height: 7px; border-radius: 999px; background: var(--line); transition: width .25s, background .25s; }
-  .pdots i.on { width: 22px; background: var(--green); }
-  @media (min-width: 900px) { .pslide { flex-basis: calc(50% - 6px); scroll-snap-align: start; min-height: 180px; } }
   .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .feat { background: var(--card); border-radius: var(--r); padding: 16px 14px; box-shadow: var(--shadow); }
   .feat .ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; font-size: 24px; margin-bottom: 10px; background: #f3e9d2; }
@@ -476,7 +452,7 @@
   .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
   @media (min-width: 700px) { .again { display: block; max-width: 420px; margin-left: auto; margin-right: auto; } }
   .shutbanner { border-radius: 16px; margin-top: 16px; }
-  .foot { text-align: center; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: var(--sec) 0 0; }
+  .foot { text-align: start; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: var(--sec) 0 0; }   /* on the same left line as every heading and text above it */
 
   /* ---- cards, tiles, buttons ---- */
   .cattile, .tile, .item, .line { border: 0; box-shadow: var(--shadow); border-radius: 18px; }
@@ -559,9 +535,9 @@
   }
   body { background: var(--bg); color: var(--text); }
   /* cards */
-  .box, .feat, .pick, .visit, .item, .pslide, .steps li, .viabox pre, .group, .points, .mcard, .sheet, .ipanel, .viabox, .catgrid button, .tile {
+  .box, .feat, .pick, .visit, .item, .steps li, .viabox pre, .group, .points, .mcard, .sheet, .ipanel, .viabox, .catgrid button, .tile {
     box-shadow: none; }
-  .box, .feat, .pick, .visit, .item, .pslide, .steps li, .group, .points { background: var(--card); border: 1px solid var(--line); }
+  .box, .feat, .pick, .visit, .item, .steps li, .group, .points { background: var(--card); border: 1px solid var(--line); }
   .feat .ic, .steps li::before, .pick img, #profBox .tag { background: var(--bg); }
   .steps li::before { color: var(--text); border: 1px solid var(--line); }
   .sec { color: var(--text); font-weight: 600; letter-spacing: -.01em; }
@@ -593,12 +569,6 @@
   .group, .group.g0, .group.g1, .group.g2, .group.g3 { background: var(--card); color: var(--text); }
   .trackbar, .trackbar.live { background: var(--card); color: var(--text); border: 1px solid var(--line); box-shadow: none; font-weight: 500; }
   .trackbar.live { border-color: var(--green); color: var(--green); }
-  .pslide, .pslide.c1, .pslide.c2, .pslide.c3 { background: var(--card); color: var(--text); }
-  .pslide .ptag, .pslide.c3 .ptag { background: transparent; border: 1px solid var(--line); color: var(--hint); }
-  .pslide .pgo { color: var(--green); }
-  .pslide .pic0 { opacity: 1; color: var(--line); font-size: 56px; right: 14px; top: 12px; }
-  .pslide.pic { color: #fff; border: 0; }
-  .pdots i.on { background: var(--text); }
   .pick span, .item .price, .row .price { color: var(--text); }
   .tl li.now::before { background: var(--card); border-color: var(--green); box-shadow: 0 0 0 4px rgba(45, 90, 39, .14); }
   .tl li.now { color: var(--green); }
@@ -724,8 +694,6 @@
   .modextra { padding: 2px 0 4px; }
   .modextra.hide { display: none; }
   #viaText { font-family: inherit; font-size: 13px; line-height: 1.6; white-space: pre-wrap; background: #FAF8F5; border: 1px solid var(--line); border-radius: 12px; }
-  /* the promo cards are gone from the home page: the running strip under the photo carries the promos */
-  #promos { display: none !important; }
   .wholead { margin: 0 0 16px; font-size: 18px; line-height: 1.6; color: var(--text); max-width: 46em; }
   /* home: recommended dishes — one row of pictures that drifts by itself; a tap tells the dish's story (ordering is in the Menu tab) */
   #pickBox .picks { display: block; overflow: hidden; margin: 0 -16px; }
@@ -851,7 +819,6 @@
   /* line icons (Lucide) that stand where an emoji was */
   .ico-l { display: inline-block; width: 1.15em; height: 1.15em; vertical-align: -0.2em; stroke-width: 1.5; flex: none; }
   .feat .ic .ico-l, .group .ico .ico-l { width: 24px; height: 24px; vertical-align: middle; }
-  .pslide .pic0 .ico-l { width: 56px; height: 56px; }
 
   /* ---- home: four real dishes that open their part of the menu (replaces the icon cards) ---- */
   #feats .feat { position: relative; display: block; padding: 0; border: 0; overflow: hidden; aspect-ratio: 1 / 1; border-radius: var(--r); background: #e9e3d8; box-shadow: none; cursor: pointer; text-align: left; transition: transform .2s ease; }
@@ -912,8 +879,7 @@
   #rulesBox .rulesmore { display: inline-block; margin-top: 8px; padding: 8px 0; min-height: 44px; border: 0; background: none; color: var(--green); font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
   /* ---- design check fixes (taste kit, 2026-11-22) ---- */
-  /* recommended dishes: a still row, swiped by hand; labels on a solid dark band so they read on any photo */
-  #pickBox .picks { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 16px 4px; scroll-padding-inline: 16px; }
+  /* recommended dishes: labels on a solid dark band so they read on any photo (the row itself: the phone rule below, a grid from 900px) */
   #pickBox .picks::-webkit-scrollbar { display: none; }
   .pickrun { animation: none !important; width: max-content; }
   .pickrun .pick { scroll-snap-align: start; transition: transform .2s ease; }
@@ -925,8 +891,12 @@
     .pickrun { width: auto; display: grid !important; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .pickrun .pick { width: auto !important; flex: none; margin: 0 !important; }
   }
-  /* phone: the first recommended dish a little wider than the rest */
-  @media (max-width: 899px) { .pickrun .pick:first-child { width: 320px; aspect-ratio: auto; height: 180px; } }
+  /* phone: a still row, swiped by hand, that stops dish by dish; the first dish a little wider than the rest
+     (on a computer the dishes are a grid with nothing to swipe, so none of this is set there) */
+  @media (max-width: 899px) {
+    #pickBox .picks { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 16px 4px; scroll-padding-inline: 16px; }
+    .pickrun .pick:first-child { width: 320px; aspect-ratio: auto; height: 180px; }
+  }
   /* the four category photos: a dark ground so the white names read while a photo loads;
      from tablet width one big (Thai food), two small, one wide — not four copies of one tile */
   #feats .feat { background: #2b241e; }
@@ -942,7 +912,7 @@
   .hero h1.htitle { display: flex; flex-direction: column; gap: 6px; }
   .hero h1.htitle .hkind { font-size: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; line-height: 1.4; opacity: .92; }
   /* the promo line: wraps to a second line instead of being cut */
-  .trackbar .still { white-space: normal; text-overflow: clip; line-height: 1.4; padding: 10px 16px; }
+  .trackbar .still { white-space: normal; text-overflow: clip; line-height: 1.4; padding: 10px 0; }
   nav ~ #home .trackbar, .trackbar { height: auto !important; line-height: normal !important; }
   /* the three steps: a plain numbered list, not three more cards */
   ol.steps li, .steps li { background: none; border: 0; box-shadow: none; padding: 8px 0; border-radius: 0; }
@@ -1022,9 +992,12 @@
     radial-gradient(circle at 4px 4px, var(--bulb-r) 3.5px, transparent 4px),
     radial-gradient(circle at 17px 4px, var(--bulb-y) 3.5px, transparent 4px),
     radial-gradient(circle at 30px 4px, var(--bulb-g) 3.5px, transparent 4px); }
-  /* the points line under the photo: a sun-gold band from edge to edge, tucked under the photo's round corners
-     (the shadow paints the band out to the window's edges and the clip keeps it from making the page scroll sideways) */
-  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px -16px var(--sec); width: calc(100% + 32px); padding: 36px 0 14px; border: 0; border-radius: 0;   /* 22px of it lies under the photo; the words get 24px of gold above and below */
+  /* the points line under the photo: a sun-gold band from edge to edge, tucked under the photo's round corners.
+     Built like the dark story band (build 73): the box stands on the content's own left and right lines, so its words start
+     where every heading and picture starts, and the shadow paints the gold out to the window's edges (the clip keeps the
+     page from scrolling sideways). 22px of it lies under the photo; above and below the words the gold is --sec plus the
+     line's own 10px: 24px on a phone, 30px on a computer */
+  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px 0 var(--sec); width: 100%; padding: calc(22px + var(--sec)) 0 var(--sec); border: 0; border-radius: 0;
     background: var(--sun); color: var(--night); font-weight: 600; box-shadow: 0 0 0 100vmax var(--sun); clip-path: inset(0 -100vmax); }
   #home .hero { position: relative; z-index: 1; }
   /* who we are: the one dark band, with the shop's own art (catalog.json → points.card_image) */
@@ -1042,7 +1015,6 @@
   #home .visit { background: none; border: 0; border-radius: 0; padding: 0; }   /* (no rule above or below: the heading and the buttons already part it) */
   @media (min-width: 900px) {
     .hero h1.htitle #shop { font-size: 116px; }
-    #home .trackbar, #home .trackbar.live { margin: -22px -28px var(--sec); width: calc(100% + 56px); }
     #whoSec { grid-template-columns: 1fr 380px; align-items: center; padding: 56px 0; }
     #whoSec .sec { grid-column: 1; grid-row: 1; align-self: end; }
     #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its story, the art in the middle of their height */
@@ -1128,11 +1100,6 @@
     <p class="shutbanner tablenote hide" id="tableNote"></p>
     <button class="hello hide" id="hello"></button>
     <button class="again hide" id="again"></button>
-    <section class="promos hide" id="promos">
-      <h2 class="sec" id="promoTitle"></h2>
-      <div class="ptrack" id="ptrack"></div>
-      <div class="pdots" id="pdots"></div>
-    </section>
     <section id="catsSec" aria-labelledby="featsTitle">
       <h2 class="sronly" id="featsTitle">หมวดอาหาร</h2>
       <div class="feats" id="feats"></div>
@@ -1342,7 +1309,6 @@ const TEXT = {
         locAway: "📍 ตอนนี้คุณไม่ได้อยู่บนเกาะพะงัน — สั่งผ่านเว็บได้เฉพาะบนเกาะ ถ้าจะสั่งล่วงหน้า ส่งออเดอร์ทาง WhatsApp ด้านล่าง ร้านจะติดต่อกลับ",sentTitle: "✅ ส่งออเดอร์ถึงร้านแล้ว", sentHint: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — เมื่อร้านรับออเดอร์แล้ว QR ชำระเงินจะขึ้นในหน้าติดตามออเดอร์ ไม่ต้องส่งซ้ำ", sentHintCash: "ร้านจะติดต่อกลับทาง WhatsApp หรือโทรตามเบอร์ที่ให้ไว้ เพื่อยืนยันรายการ — ชำระเงินสดที่ร้านได้เลย ไม่ต้องส่งซ้ำ", sentWa: "ทักร้านทาง WhatsApp", sentDone: "ตกลง",
         autoFail: "⚠️ ส่งอัตโนมัติไม่สำเร็จ — ส่งออเดอร์ให้ร้านทางช่องทางด้านล่างแทนได้เลย",
         pickFirst: "เลือกให้ครบก่อน แล้วปุ่ม + เพิ่ม จะขึ้นตรงนี้", pickN: (a, b) => b > a ? `เลือก ${a}–${b} อย่าง` : `เลือก ${a} อย่าง`,
-        promoTitle: "โปรโมชันและอีเวนต์", ptags: { promo: "โปรโมชัน", event: "อีเวนต์", news: "ข่าวจากร้าน" }, pgo: { menu: "ดูเมนู →", card: "ดูบัตรสมาชิก →", map: "ดูแผนที่ →", link: "ดูเพิ่มเติม →" },
         whoTitle: "เราคือใคร", howTitle: "แต้มสะสมและการจัดส่ง", heroMap: "📍 แผนที่และติดต่อ",
         feats: [["img/green.jpg", "อาหารไทย", "tc"], ["img/pancake.jpg", "อาหารเช้า", "bf"], ["img/latte.jpg", "กาแฟ & สมูทตี้", "cf"], ["img/banoffee.jpg", "ของหวาน", "ds"]],
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
@@ -1434,7 +1400,6 @@ const TEXT = {
         locAway: "📍 You are not on Koh Phangan right now — online orders are for the island only. To order ahead, send it by WhatsApp below and the shop will get back to you.",sentTitle: "✅ Your order has reached the shop", sentHint: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Once the shop accepts your order, the payment QR appears on the order tracking page — no need to send it again.", sentHintCash: "The shop will contact you on WhatsApp or by phone at the number you gave, to confirm. Pay in cash at the shop — no need to send the order again.", sentWa: "Message the shop on WhatsApp", sentDone: "OK",
         autoFail: "⚠️ Could not send automatically — please send the order to the shop with one of the options below.",
         pickFirst: "Finish choosing above — the + Add button appears here", pickN: (a, b) => b > a ? `pick ${a}–${b}` : `pick ${a}`,
-        promoTitle: "Promos & events", ptags: { promo: "Promo", event: "Event", news: "News" }, pgo: { menu: "See the menu →", card: "Member card →", map: "See the map →", link: "More →" },
         whoTitle: "Who we are", howTitle: "Points & delivery", heroMap: "📍 Map & contact",
         feats: [["img/green.jpg", "Thai food", "tc"], ["img/pancake.jpg", "Breakfast", "bf"], ["img/latte.jpg", "Coffee & smoothies", "cf"], ["img/banoffee.jpg", "Desserts", "ds"]],
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
@@ -1535,7 +1500,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 72;
+const BUILD = 73;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1775,50 +1740,8 @@ function itemRow(key, name, desc, price, cls) {
 }
 
 // ---------------- home ----------------
-// Promos & events (about.promos in catalog.json): { type: "promo" | "event" | "news", icon, title, text, img, go, from, until }.
-// go = "menu" | "card" | "map" | a web link.  from / until = "YYYY-MM-DD": the slide shows only inside those days.
-let promoTimer = 0, promoHold = 0;
-function renderPromos() {
-  const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
-  const list = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today));
-  const box = $("promos"), track = $("ptrack"), dots = $("pdots");
-  box.classList.toggle("hide", !list.length);
-  track.textContent = ""; dots.textContent = "";
-  if (!list.length) return;
-  $("promoTitle").textContent = t().promoTitle;
-  list.forEach((p, i) => {
-    const s = el("div", "pslide c" + (i % 4));
-    if (p.img) { const im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.onload = () => s.classList.add("pic"); im.onerror = () => im.remove(); im.src = p.img; s.append(im); }
-    if (p.icon) s.append(el("span", "pic0", p.icon));
-    s.append(el("span", "ptag", t().ptags[p.type] || t().ptags.promo), el("b", "", tr(p.title)));
-    if (tr(p.text)) s.append(el("small", "", tr(p.text)));
-    if (p.go) {
-      const view = ["menu", "card", "map"].includes(p.go) ? p.go : "";
-      s.classList.add("tap"); s.setAttribute("role", "button"); s.tabIndex = 0;
-      s.append(el("span", "pgo", t().pgo[view || "link"]));
-      s.onclick = () => view ? show(view) : /^https:\/\//.test(p.go) && openUrl(p.go);
-      s.onkeydown = e => { if (e.key === "Enter") s.onclick(); };
-    }
-    track.append(s);
-    dots.append(document.createElement("i"));
-  });
-  dots.classList.toggle("hide", list.length < 2);
-  const at = () => { let best = 0, d = 1e9; [...track.children].forEach((c, i) => { const x = Math.abs(c.offsetLeft - track.offsetLeft - track.scrollLeft); if (x < d) { d = x; best = i; } }); return best; };
-  const mark = () => { const n = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4 ? list.length - 1 : at(); [...dots.children].forEach((c, i) => c.classList.toggle("on", i === n)); };
-  track.onscroll = mark; mark();
-  const hold = () => { promoHold = Date.now() + 8000; };
-  ["pointerdown", "touchstart", "wheel", "mouseenter", "focusin"].forEach(ev => track.addEventListener(ev, hold, { passive: true }));
-  clearInterval(promoTimer);
-  if (list.length > 1 && !matchMedia("(prefers-reduced-motion: reduce)").matches) promoTimer = setInterval(() => {
-    if (Date.now() < promoHold || document.hidden || !track.offsetParent) return;
-    const end = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
-    const next = end ? 0 : at() + 1;
-    track.scrollTo({ left: end ? 0 : track.children[Math.min(next, list.length - 1)].offsetLeft - track.offsetLeft, behavior: "smooth" });
-  }, 4500);
-}
 function renderHome() {
   const a = menu.about || {};
-  renderPromos();
   $("shop").textContent = tr(menu.shop_name) || "Woodstock";
   $("about").textContent = tr(a.text);
   const logo = $("logo");   // the shop's logo: webapp/<about.logo>; the header simply stays text-only without it
@@ -2792,6 +2715,7 @@ function drawOrders() {
   if (older) { const more = el("button", "morebtn", t().olderOrders(older)); more.onclick = () => { showOlder = true; drawOrders(); }; box.append(more); }   // under the current orders
   if (liveOrders().length) box.append(el("div", "onote", S.auto));
   // the running strip on the home page: the order being followed, or else the shop's promos
+  // (about.promos in catalog.json: { icon, title, text, from, until }; from / until = "YYYY-MM-DD", the promo shows only inside those days)
   const live = inTelegram ? null : liveOrders()[0], bar = $("trackBar"), lv = live && live.v;
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
   const promos = ((menu.about || {}).promos || []).filter(p => p && tr(p.title) && (!p.from || p.from <= today) && (!p.until || p.until >= today))
