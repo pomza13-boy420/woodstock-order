@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google-site-verification" content="6-v8LOyANHemiK_ylWWox0335zMLMU1qKMbOW40oGZw">
 <title>Woodstock Chaloklum, Koh Phangan — Thai Food, Coffee, Breakfast &amp; Food Delivery</title>
 <meta name="description" content="Woodstock Chaloklum — Thai restaurant &amp; coffee shop in Chaloklum, Koh Phangan: breakfast, Thai food, coffee, smoothies and fresh juices. Order online for pickup, eat-in or food delivery on Koh Phangan. Drinks 24 h, food 08:00–23:00. ร้านอาหารไทย ร้านกาแฟ อาหารเช้า โฉลกหลำ เกาะพะงัน สั่งอาหารออนไลน์ ส่งถึงที่พัก">
@@ -63,7 +63,7 @@
     background: var(--yellow); color: var(--brown); border-radius: 16px; padding: 12px 16px;
   }
   .points b { font-size: 24px; }
-  .points small { display: block; font-size: 13px; opacity: .85; }
+  .points small { display: block; opacity: .85; } #pointsRule { font-size: 16px; }   /* the rule of the points is a sentence to read: 16px (the note under the bar and the unit keep their own 13px) */
   .groups { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
   .group {
     flex: 1; border-radius: 18px; padding: 22px 10px 18px; color: #fff; text-align: center;
@@ -133,8 +133,8 @@
   .reward { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
   .reward:first-of-type { border-top: 0; }
   .reward .what { flex: 1; font-size: 16px; font-weight: 600; }
-  .reward .cost { display: block; font-size: 13px; font-weight: 700; color: var(--red); }
-  .reward .when { display: block; font-size: 13px; font-weight: 500; color: var(--hint); }
+  .reward .cost { display: block; font-size: 16px; font-weight: 700; color: var(--red); }
+  .reward .when { display: block; font-size: 16px; font-weight: 500; color: var(--hint); }
   .reward button { flex: none; padding: 9px 16px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 700; font-size: 13px; }
   .reward button.sure { background: var(--red); }
   .reward button.no { background: none; color: var(--hint); border: 1px solid var(--line); font-weight: 600; }
@@ -167,7 +167,7 @@
   main { padding: 0 16px; }
   section { scroll-margin-top: 150px; }
   section h2 { margin: 20px 0 4px; font-size: 18px; color: var(--brown); }
-  section .note { margin: 0 0 8px; font-size: 13px; color: var(--hint); white-space: pre-line; }
+  section .note { margin: 0 0 8px; font-size: 16px; color: var(--hint); white-space: pre-line; }
   .item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 8px; }
   .row { display: flex; align-items: center; gap: 12px; }
   .row .what { flex: 1; min-width: 0; }
@@ -247,7 +247,7 @@
   .pickfirst { padding: 14px; text-align: center; font-size: 13px; font-weight: 600; color: var(--hint); }
   .ipanel .done { width: 100%; margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--green); color: #fff; font-size: 18px; font-weight: 700; }
   .name { font-weight: 600; }
-  .desc { font-size: 13px; color: var(--hint); margin-top: 2px; }
+  .desc { font-size: 16px; color: var(--hint); margin-top: 2px; }
   .price { font-weight: 700; color: var(--red); font-size: 16px; }
   .opt { padding-top: 10px; margin-top: 10px; border-top: 1px solid var(--line); }
   .opt .name { font-weight: 500; }
@@ -379,7 +379,7 @@
   }
   .details textarea:focus { border-color: var(--green); }
   .zonehint { margin: 8px 2px 0; font-size: 13px; font-weight: 600; color: var(--green); min-height: 0; }
-  .locbtn { margin-top: 8px; color: var(--green); font-weight: 700; font-size: 16px; padding: 6px 0; }
+  .locbtn { display: block; width: 100%; margin-top: 8px; padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600; text-align: center; }   /* an outlined pill like the site's other second buttons (it was a tight square box, 37px tall) */
   .sums { margin: 10px 2px 2px; font-size: 16px; }
   .sums div { display: flex; justify-content: space-between; padding: 2px 0; }
   .sums .grand { font-size: 24px; font-weight: 700; color: var(--brown); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 6px; }
@@ -742,7 +742,7 @@
   .catall .cattile { font-size: 13px; line-height: 1.3; padding: 0 6px 10px; }
   .catall .cattile img, .catall .cattile .emo { width: calc(100% + 12px); margin: 0 -6px 8px; aspect-ratio: 4 / 3; }
   .catbar .allcats { color: var(--green); font-weight: 600; }
-  @media (min-width: 700px) { .catall .catgrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); } }
+  @media (min-width: 700px) { .catall .catgrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); } .catall .cattile { font-size: 16px; } }   /* wide tiles: the category's name at reading size */
   /* delivery: find your place by name */
   .placeq { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--text); font: inherit; font-size: 16px; }
   .placeq:focus { outline: none; border-color: var(--green); }
@@ -918,7 +918,10 @@
     #feats .feat:nth-child(4) { grid-column: 3 / span 2; aspect-ratio: 2 / 1; }
   }
   /* keyboard: a focused control never hides under the top bar or the bottom tab bar */
-  html { scroll-padding-top: 84px; scroll-padding-bottom: 104px; }
+  html { scroll-padding-top: 84px; scroll-padding-bottom: 104px; touch-action: manipulation; }   /* two fingers zoom the page (build 76); a quick second tap on + adds one more and does not zoom */
+  /* build 76: the page behind stays where it is while a dish page, the cart, the order form or another layer is open
+     (it used to move under the finger, and closing a dish left the customer in another category); the gutter keeps a computer's layout from jumping */
+  html:has(.ishade, .zoom, .tixview, .sheet.show, .details.show, .pinview.show, .via.show, .payqr.big) { overflow: hidden; scrollbar-gutter: stable; }
   /* the title: brand set large, the kind of place under it */
   .hero h1.htitle { display: flex; flex-direction: column; gap: 6px; }
   .hero h1.htitle .hkind { font-size: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; line-height: 1.4; opacity: .92; }
@@ -964,10 +967,9 @@
     .hero h1.htitle .hkind { font-size: 20px; }
   }
 
-  /* map · call · Instagram · Facebook: two by two on a phone, one row of four from tablet width */
-  .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .links .link { width: 100%; justify-content: center; }
-  @media (min-width: 600px) { .links { grid-template-columns: repeat(4, 1fr); } }
+  /* map · call · WhatsApp · Instagram · Facebook (build 76 added WhatsApp): each as wide as its words and every row filled to both edges —
+     three and two on a phone, one row from tablet width (the row is the flex row of .links further up) */
+  .links .link { flex: 1 1 auto; justify-content: center; }
   /* the home page is a <main> too (build 51): none of the menu page's main padding or width limit */
   main#home { padding: 0; max-width: none; margin: 0; }
   /* the member strip: a long name wraps instead of pushing "member card →" off the screen */
@@ -1079,7 +1081,7 @@
   <h2 id="mapTitle" style="margin:0;color:var(--brown)"></h2>
   <iframe class="mapbox" id="mapFrame" title="map" loading="lazy" referrerpolicy="no-referrer"></iframe>
   <div class="mapbtns"><button class="route" id="mapRoute"></button><a class="call" id="mapCall"></a></div>
-  <div class="box"><h3 id="mapShopTitle"></h3><p id="mapAddress" style="margin:0;font-size:13px"></p><p id="mapHours" style="margin:6px 0 0;font-size:13px;font-weight:600"></p></div>
+  <div class="box"><h3 id="mapShopTitle"></h3><p id="mapAddress" style="margin:0"></p><p id="mapHours" style="margin:6px 0 0;font-weight:600"></p></div>
   <div class="box"><h3 id="contactTitle"></h3><div id="contacts"></div></div>
 </div>
 
@@ -1148,6 +1150,7 @@
     <div class="links">
       <button class="link" id="mapsLink"></button>
       <a class="link" id="phoneLink"></a>
+      <button class="link hide" id="waLink">💬 WhatsApp</button>
       <button class="link hide" id="igLink">📷 Instagram</button>
       <button class="link hide" id="fbLink">📘 Facebook</button>
     </div>
@@ -1516,7 +1519,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 75;
+const BUILD = 76;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1533,6 +1536,11 @@ const tr = v => (v && typeof v === "object") ? (v[lang] || v.en || Object.values
 const money = n => ((menu && menu.currency) || "฿") + Number(n).toLocaleString("en-US");
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 const openUrl = u => { if (inTelegram && tg.openLink) tg.openLink(u); else window.open(u, "_blank"); };
+const waUrl = text => {   // the shop's WhatsApp chat, with a message ready when one is given; "" when the shop has no number
+  let wa = String(((menu && menu.about) || {}).whatsapp || "").replace(/\D/g, "");
+  if (wa.startsWith("0")) wa = "66" + wa.slice(1);   // a Thai number written the local way
+  return wa ? "https://wa.me/" + wa + (text ? "?text=" + encodeURIComponent(text) : "") : "";
+};
 const opt = () => (menu && menu.options) || { pickup: true, delivery: true, qr: true, cash: true };
 const rules = () => (menu && menu.delivery_rules) || {};
 const zones = () => rules().zones || [];
@@ -1826,10 +1834,12 @@ function renderHome() {
   $("mapsLink").textContent = t().maps; $("mapsLink").classList.toggle("hide", !a.maps);
   $("phoneLink").textContent = t().call;   // the number itself is in the box above $("phoneLink").classList.toggle("hide", !a.phone);
   if (a.phone) $("phoneLink").href = "tel:" + a.phone.replace(/[^0-9+]/g, "");
+  $("waLink").classList.toggle("hide", !waUrl());
   $("igLink").classList.toggle("hide", !a.instagram);
   $("fbLink").classList.toggle("hide", !a.facebook);
 }
 $("mapsLink").onclick = () => openUrl(menu.about.maps);
+$("waLink").onclick = () => openUrl(waUrl());
 $("heroMap").onclick = () => show("map");
 $("igLink").onclick = () => openUrl(menu.about.instagram);
 $("fbLink").onclick = () => openUrl(menu.about.facebook);
@@ -1847,6 +1857,7 @@ function renderMap() {
     const b = el("button", "contact"), w = el("span"); w.append(el("b", "", title), el("small", "", sub));
     b.append(el("span", "ic", ic), w, el("span", "go", "›")); b.onclick = go; box.append(b);
   };
+  if (waUrl()) row("💬", "WhatsApp", a.whatsapp, () => openUrl(waUrl()));   // opens the chat with the shop (the page had no WhatsApp at all before build 76)
   if (a.instagram) row("📷", "Instagram", "@" + a.instagram.replace(/\/+$/, "").split("/").pop(), () => openUrl(a.instagram));
   if (a.facebook) row("📘", "Facebook", a.facebook.replace(/\/+$/, "").split("/").pop(), () => openUrl(a.facebook));
   // the phone number and Google Maps are the two big buttons above: not listed again here
@@ -2470,9 +2481,7 @@ async function sendAuto() {
   }
   sending = false; btn.textContent = label; btn.classList.remove("off");
   if (!ok) return openVia(text, true);   // the same text, so the shop's system sees one order even if both arrive
-  const a = menu.about || {}, box = $("viaBtns");
-  let wa = String(a.whatsapp || "").replace(/\D/g, "");
-  if (wa.startsWith("0")) wa = "66" + wa.slice(1);
+  const a = menu.about || {}, box = $("viaBtns"), wa = waUrl();
   const link = (label2, href) => { const b = el("a", "viabtn", label2); b.href = href; b.rel = "noopener"; box.append(b); return b; };
   box.textContent = "";
   $("viaTitle").textContent = t().sentTitle;
@@ -2491,7 +2500,7 @@ async function sendAuto() {
   box.append(done);
   setTimeout(pollOrders, 12000);
   const watch = setInterval(() => { if (viaFor === lastK && $("via").classList.contains("show")) pollOrders(); else clearInterval(watch); }, 8000);
-  if (wa) link("🟢 " + t().sentWa, "https://wa.me/" + wa).target = "_blank";
+  if (wa) link("🟢 " + t().sentWa, wa).target = "_blank";
   if (a.phone) link(t().callShop, "tel:" + a.phone.replace(/[^0-9+]/g, ""));
   for (const k of Object.keys(cart)) delete cart[k];
   refresh();
@@ -2563,16 +2572,14 @@ function orderText() {
 }
 
 function openVia(sameText, failed, why) {
-  const a = menu.about || {}, text = sameText || orderText(), box = $("viaBtns");
+  const a = menu.about || {}, text = sameText || orderText(), box = $("viaBtns"), wa = waUrl(text);
   const link = (label, href, cls) => { const b = el("a", "viabtn" + (cls ? " " + cls : ""), label); b.href = href; b.target = "_blank"; b.rel = "noopener"; box.append(b); return b; };
-  let wa = String(a.whatsapp || "").replace(/\D/g, "");
-  if (wa.startsWith("0")) wa = "66" + wa.slice(1);   // a Thai number written the local way
   box.textContent = "";
   $("viaTitle").textContent = t().viaTitle;
   // the customer reads the order; the shop's code line and the "/web" word still travel in the message itself
   $("viaText").textContent = text.split("\n").filter(l => !l.startsWith("🔑")).join("\n").replace(/^\/web /, "");
   $("viaHint").textContent = (why ? why + "\n" : failed ? t().autoFail + "\n" : "") + (wa || a.line ? t().viaHint : t().viaNone);
-  if (wa) link("🟢 " + t().wa, `https://wa.me/${wa}?text=${encodeURIComponent(text)}`, "main");
+  if (wa) link("🟢 " + t().wa, wa, "main");
   if (a.line) link("💬 " + t().lineBtn, `https://line.me/R/oaMessage/${encodeURIComponent(a.line)}/?${encodeURIComponent(text)}`, wa ? "" : "main");
   const copy = el("button", "viabtn", t().copy);
   copy.onclick = async () => {
@@ -2706,20 +2713,19 @@ function drawOrders() {
       if (!cash && v.s === "new") card.append(el("div", "onote", S.qrSoon));
     }
     if (v && !v.p && !finalState(v) && v.s !== "new" && v.y !== "c") {   // the shop took the order and it is not paid yet: the shop's payment QR (not for cash at the shop)
-      const pay = el("div", "payqr"), img = el("img", ""), a = menu.about || {};
+      const pay = el("div", "payqr"), img = el("img", ""), wa = waUrl("Slip #" + (v.o || ""));
       img.src = "pay_qr.jpg"; img.alt = "PromptPay QR"; img.onclick = () => pay.classList.toggle("big");
       pay.append(el("div", "payamt", S.payAmt(money(v.t))));
       if (v.m === "d" && !v.f) pay.append(el("div", "onote", S.payFee));
       const canSlip = !!(menu.options || {}).slip && !!inboxUrl(), ui = slipUi[o.k];   // the shop's bot checks slips: send it right here
       pay.append(img, el("div", "onote", canSlip ? S.payHint2 : S.payHint));
-      let wa = String(a.whatsapp || "").replace(/\D/g, ""); if (wa.startsWith("0")) wa = "66" + wa.slice(1);
       const row = el("div", "payrow");
       if (canSlip) {
         const up = el("button", "payslip", ui && ui.busy ? S.slipBusy : S.slipSend);
         up.disabled = !!(ui && ui.busy); up.onclick = () => { slipFor = o.k; $("slipFile").value = ""; $("slipFile").click(); };
         row.append(up);
       }
-      if (wa) { const s = el("a", canSlip ? "" : "payslip", S.paySlip); s.href = "https://wa.me/" + wa + "?text=" + encodeURIComponent("Slip #" + (v.o || "")); s.target = "_blank"; s.rel = "noopener"; row.append(s); }
+      if (wa) { const s = el("a", canSlip ? "" : "payslip", S.paySlip); s.href = wa; s.target = "_blank"; s.rel = "noopener"; row.append(s); }
       const dl = el("a", "paysave", S.paySave); dl.href = "pay_qr.jpg"; dl.download = "woodstock-qr.jpg"; row.append(dl);
       pay.append(row);
       const [said, tone] = ui ? [ui.msg, ui.cls] : slipSaid(o, v);
