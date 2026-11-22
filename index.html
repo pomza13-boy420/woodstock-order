@@ -325,6 +325,7 @@
   .sheet .close { font-size: 16px; color: var(--green); font-weight: 700; padding: 6px 0 6px 12px; }
   .lines { overflow-y: auto; flex: 1; }
   .line { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
+  .line.sub { margin: 4px 0 0 18px; }   /* an add-on that goes into the dish above it: tucked under that dish */
   .total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin: 14px 2px 6px; }
   .next { font-size: 13px; color: var(--hint); margin: 0 2px 12px; }
   .confirm { width: 100%; padding: 15px; border-radius: 14px; background: var(--green); color: #fff; font-size: 18px; font-weight: 700; }
@@ -1344,7 +1345,7 @@ const TEXT = {
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
         stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "โอน: โอนตาม QR แล้วแนบสลิป ออเดอร์เข้าร้านทันทีเมื่อสลิปผ่าน · เงินสด: ส่งออเดอร์แล้วจ่ายที่เคาน์เตอร์"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
-        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", payWebPlain: "📱 โอนเงิน (QR)", manyOk: "เลือกได้หลายอย่าง", addonTitle: "เพิ่มกับจานนี้", payWebFirst: "📱 โอนเงิน (QR) ก่อนส่งออเดอร์", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", payWebPlain: "📱 โอนเงิน (QR)", manyOk: "เลือกได้หลายอย่าง", addonTitle: "เพิ่มกับจานนี้", forDish: n => "สำหรับ" + n, dishFirst: "เพิ่มจานก่อน", payWebFirst: "📱 โอนเงิน (QR) ก่อนส่งออเดอร์", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
@@ -1436,7 +1437,7 @@ const TEXT = {
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
         stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Transfer: pay with the QR and attach the slip — the order reaches the shop once the slip passes · Cash: send the order and pay at the counter"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
-        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", payWebPlain: "📱 Bank transfer (QR)", manyOk: "Pick as many as you like", addonTitle: "Add to this dish", payWebFirst: "📱 Bank transfer (QR) before sending", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", payWebPlain: "📱 Bank transfer (QR)", manyOk: "Pick as many as you like", addonTitle: "Add to this dish", forDish: n => "for " + n, dishFirst: "Add the dish first", payWebFirst: "📱 Bank transfer (QR) before sending", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
@@ -1531,7 +1532,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 69;
+const BUILD = 70;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1561,8 +1562,14 @@ document.addEventListener("error", e => {
   }
 }, true);
 const baseKey = k => k.split("@")[0];   // a cart key without its choices ("latte~i@s:50,i:sep" → "latte~i")
+// An add-on taken from a dish's own page carries the dish among its choices: "xchicken@w:papaya" = extra chicken for the papaya
+// salad, so the kitchen knows where it goes (owner, 2026-11-22). "w" is no modifier of the menu; the bot reads it the same way
+// (orders.Catalog.mods) and allows it only for a dish that lists the add-on in its own "addons".
+const dishNames = {};   // item id → its name in every language (for "สำหรับส้มตำ")
+const withOf = k => { const p = (k.split("@")[1] || "").split(",").find(x => x.startsWith("w:")); return p ? p.slice(2) : ""; };
 const modTags = k => (k.split("@")[1] || "").split(",").filter(Boolean).map(p => {   // the choices that differ from the usual
   const [m, c] = p.split(":"), def = (menu.modifiers || {})[m] || {};
+  if (m === "w") return dishNames[c] ? t().forDish(tr(dishNames[c])) : "";
   return (c || "").split("+").map(id => { const ch = (def.choices || []).find(x => x.id === id); return ch && id !== def.default ? tr(ch.tag || ch.label) : ""; }).filter(Boolean).join(" · ");
 }).filter(Boolean).join(" · ");
 const nameOf = k => tr(names[baseKey(k)]) + (modTags(k) ? " [" + modTags(k) + "]" : "");
@@ -1572,6 +1579,19 @@ const modExtra = k => (k.split("@")[1] || "").split(",").filter(Boolean).reduce(
 }, 0);
 const priceOf = k => prices[baseKey(k)] + modExtra(k);
 const foodTotal = () => Object.keys(cart).reduce((n, k) => n + cart[k] * priceOf(k), 0);
+function cartKeys() {   // the cart's lines in the order they are shown and sent: every dish, then what was added to it
+  const out = Object.keys(cart).filter(k => !withOf(k));
+  for (const k of Object.keys(cart).filter(withOf)) {
+    const dish = withOf(k);
+    let at = -1; out.forEach((x, i) => { if (baseKey(x).split("~")[0] === dish || withOf(x) === dish) at = i; });
+    if (at < 0) out.push(k); else out.splice(at + 1, 0, k);
+  }
+  return out;
+}
+const cartSorted = () => Object.fromEntries(cartKeys().map(k => [k, cart[k]]));
+function dropOrphans() {   // an add-on that goes into a dish leaves the cart with that dish's last line
+  for (const k of Object.keys(cart)) { const d = withOf(k); if (d && !inCart(d)) delete cart[k]; }
+}
 
 // Opening hours per menu group (e.g. the kitchen closes at night, drinks don't). The bot checks again.
 const groupOfKey = {};           // cart key -> group id
@@ -1620,6 +1640,7 @@ function drawStepper(box) {
   const shut = !!shutNow(groupOf(key));   // closed right now: nothing can be added, only removed
   if (!q) {
     if (shut) { box.append(el("span", "shutlabel", t().shut)); return; }
+    if (withOf(key) && !inCart(withOf(key))) { box.append(el("span", "shutlabel", t().dishFirst)); return; }   // it goes into the dish: the dish first
     const b = el("button", "add", t().add); b.onclick = () => change(key, 1); box.append(b);
     return;
   }
@@ -1730,7 +1751,8 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   panel.append(card);
   if (extras.length) {   // each add-on is its own line in the cart, the same one the Add-ons category makes
     const box = el("div", "item addons");
-    extras.forEach((x, i) => box.append(itemRow(x.id, tr(x.name), "", x.price, i ? "opt" : "")));
+    // the dish's own add-ons (toppings, a fried egg) go INTO it, so their cart line names the dish; the category's (rice, roti) come on the side
+    extras.forEach((x, i) => box.append(itemRow((it.addons || []).includes(x.id) ? x.id + "@w:" + it.id : x.id, tr(x.name), "", x.price, i ? "opt" : "")));
     panel.append(el("div", "modsec", t().addonTitle), box);
   }
   panel.append(done); shade.append(panel);
@@ -1829,7 +1851,7 @@ function renderHome() {
   const steps = $("steps"); steps.textContent = "";
   for (const line of (inTelegram ? t().stepsTg : t().stepsWeb)) steps.append(el("li", "", line));
   drawShut();
-  const again = Object.keys(member.r || {}).filter(k => prices[baseKey(k)] != null);   // the last order, still on the menu
+  const again = Object.keys(member.r || {}).filter(k => prices[baseKey(k)] != null && (!withOf(k) || dishNames[withOf(k)]));   // the last order, still on the menu
   $("again").classList.toggle("hide", !again.length);
   $("again").textContent = t().again(again.reduce((n, k) => n + member.r[k], 0));
   $("again").onclick = () => { for (const k of again) cart[k] = Math.min(99, member.r[k]); refresh(); openSheet(true); };
@@ -2093,10 +2115,11 @@ function watchSections() {
 
 // ---------------- cart ----------------
 function refresh() {
+  dropOrphans();
   setTimeout(drawTabBadges);
   document.querySelectorAll(".stepper").forEach(drawStepper);
   document.querySelectorAll(".tile .badge").forEach(b => { b.textContent = inCart(b.dataset.item) || ""; });
-  const keys = Object.keys(cart);
+  const keys = cartKeys();
   const count = keys.reduce((n, k) => n + cart[k], 0), total = foodTotal();
   $("bar").classList.toggle("show", count > 0);
   $("barCount").textContent = t().items(count);
@@ -2105,7 +2128,7 @@ function refresh() {
   $("totalValue").textContent = money(total);
   const lines = $("lines"); lines.textContent = "";
   for (const k of keys) {
-    const line = el("div", "line row"), what = el("div", "what");
+    const line = el("div", "line row" + (withOf(k) ? " sub" : "")), what = el("div", "what");   // "sub": added to the dish above it
     what.append(el("div", "name", nameOf(k)), el("div", "price", `${money(priceOf(k))} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`));
     line.append(what, stepper(k));
     lines.append(line);
@@ -2117,7 +2140,7 @@ function openSheet(on) { $("sheet").classList.toggle("show", on); $("shade").cla
 
 // ---------------- order details ----------------
 function payload() {
-  const d = { cart, method: how, pay, lang, cname: $("cname").value.trim().slice(0, 60), phone: $("cphone").value.trim().slice(0, 20) };
+  const d = { cart: cartSorted(), method: how, pay, lang, cname: $("cname").value.trim().slice(0, 60), phone: $("cphone").value.trim().slice(0, 20) };
   const addr = $("addr").value.trim(), note = $("note").value.trim();
   if (how === "d" && zone) d.zone = zone;
   if (how === "d" && addr) d.address = addr;
@@ -2517,7 +2540,7 @@ async function sendAuto() {
   if (useDisc) member.d = 0;   // the tickets used on this order are spent (the bot's note confirms it a moment later)
   if (how === "d" && useShip) member.sn = Math.max(0, (member.sn || 0) - useShip);
   useDisc = false; useShip = 0;
-  member.r = { ...cart };   // "order the same as last time" on the home page
+  member.r = cartSorted();   // "order the same as last time" on the home page (a dish before what was added to it)
   if (acct && acct.auto) { delete acct.auto; LS.set("ws_acct", acct); member.n = member.n || acct.n; }   // kept only once the order went
   myOrders.unshift({ k: lastK, ts: Date.now(), sum: foodTotal(), m: how, v: pre ? pre_v : null, c: member.r, ...(pre && pre_r === "ok" ? { sr: { r: "ok", a: 0 } } : {}) }); myOrders = myOrders.slice(0, 10); LS.set("ws_orders", myOrders);
   const done = el("button", "viabtn main", "📦 " + t().site.track);
@@ -2544,7 +2567,7 @@ function orderText() {
     const atTable = how === "e" ? tableNo() : 0;   // the table whose QR opened the page
     const when = atTable ? "โต๊ะ " + atTable : how === "e" ? $("eatWhen").value.trim().slice(0, 60) : "", cash = pay === "c" && how !== "d";
     L.push(`👤 ${$("cname").value.trim()} · 📞 ${$("cphone").value.trim()}`);
-    for (const k of Object.keys(cart)) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`);
+    for (const k of cartKeys()) L.push(`• ${nameOf(k)} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`);
     L.push(`💰 ค่าอาหาร ${money(total)}`);
     let plus = "";
     if (how === "d") {
@@ -2573,7 +2596,7 @@ function orderText() {
     if (note) L.push("📝 " + note);
     if (keep !== "th") L.push("🌐 ลูกค้าใช้ภาษา: " + keep.toUpperCase());
     // The same order for the shop's system: staff paste this whole message into the shop's Telegram group.
-    const code = { c: cart, m: how, n: $("cname").value.trim().slice(0, 60), t: $("cphone").value.trim().slice(0, 20), g: keep, ts: Math.floor(Date.now() / 1000) };
+    const code = { c: cartSorted(), m: how, n: $("cname").value.trim().slice(0, 60), t: $("cphone").value.trim().slice(0, 20), g: keep, ts: Math.floor(Date.now() / 1000) };
     if (how === "d" && addr) code.a = addr;
     if (how === "d" && loc) code.l = loc;
     if (how === "d" && loc && placeName) code.p = placeName.slice(0, 80);
@@ -3109,7 +3132,7 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) poll
 function indexMenu(cats) {   // prices, names and the group of every cart key in these categories
   for (const cat of cats) for (const it of cat.items) {
     const gid = (groups().find(g => g.categories.includes(cat.id)) || {}).id;
-    groupOfKey[it.id] = gid;
+    groupOfKey[it.id] = gid; dishNames[it.id] = it.name;
     for (const o of it.options || []) groupOfKey[it.id + "~" + o.id] = gid;
     if (it.options && it.options.length) for (const o of it.options) {
       const k = it.id + "~" + o.id; prices[k] = o.price;
