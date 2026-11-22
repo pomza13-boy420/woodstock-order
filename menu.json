@@ -552,8 +552,8 @@
     "th": "🥘 อาหารผัด"
    },
    "note": {
-    "en": "Steamed rice +20 (except fried rice) — add it to your order.",
-    "th": "ข้าวสวย +20 (ยกเว้นข้าวผัด) — สั่งเพิ่มได้ครับ"
+    "en": "Steamed rice +20 — add it to your order (Pad Krapow comes with rice; fried rice needs none).",
+    "th": "ข้าวสวย +20 — สั่งเพิ่มได้ครับ (ผัดกะเพรารวมข้าวแล้ว · ข้าวผัดไม่ต้องเพิ่ม)"
    },
    "addons": [
     "rice"
@@ -832,8 +832,8 @@
       "th": "ผัดกะเพรา"
      },
      "desc": {
-      "en": "Fried egg not included — add one for +฿20",
-      "th": "ไม่รวมไข่ดาว — สั่งเพิ่มได้ +฿20"
+      "en": "Served with steamed rice · fried egg not included — add one for +฿20",
+      "th": "รวมข้าวสวยแล้ว · ไม่รวมไข่ดาว — สั่งเพิ่มไข่ดาวได้ +฿20"
      },
      "story": {
       "th": "ผัดไฟแรงกับกระเทียม พริกสด และใบกะเพรา หอมฉุน รสจัดจ้าน เลือกได้ทั้งหมู ไก่ กุ้ง หรือผัก เสิร์ฟกับข้าวสวย เพิ่มไข่ดาวได้",
@@ -874,6 +874,7 @@
       }
      ],
      "img": "img/krapow.jpg",
+     "no_addons": true,
      "addons": [
       "fegg"
      ]
