@@ -1,5 +1,5 @@
 {
- "build": 68,
+ "build": 69,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3940,8 +3940,8 @@
      "en": "Free delivery from ฿200"
     },
     "text": {
-     "th": "โซน 1–2 (เหนือ/ตะวันตก) ในระยะ 3 กม. จากร้าน",
-     "en": "Zones 1–2 (north & west), within 3 km of the shop"
+     "th": "โซน 1–2 ไม่เกิน 3 กม.",
+     "en": "zones 1–2"
     },
     "go": "menu"
    },
@@ -3953,8 +3953,8 @@
      "en": "1 point for every ฿100"
     },
     "text": {
-     "th": "สะสมแต้มทุกออเดอร์ที่โอนจ่าย ด้วยบัตรสมาชิก Woodstock (จ่ายเงินสดไม่ได้แต้ม)",
-     "en": "Collect points on every order paid by transfer with your Woodstock member card (cash earns no points)"
+     "th": "เฉพาะโอนจ่าย",
+     "en": "transfers only"
     },
     "go": "card"
    },
