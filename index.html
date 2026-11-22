@@ -1027,7 +1027,10 @@
   #whoSec { margin-top: 32px; padding: 34px 0 40px; background: var(--night); color: var(--cream);
     box-shadow: 0 0 0 100vmax var(--night); clip-path: inset(0 -100vmax); display: grid; gap: 8px 40px; }
   #whoSec .sec { color: var(--sun); margin-top: 0; }
-  #whoSec .wholead { color: var(--cream); margin: 0; }
+  #whoSec .wholead { color: var(--cream); margin: 0; white-space: pre-line; }   /* the story keeps its paragraphs */
+  #whoSec .whosign { margin: 14px 0 0; display: grid; gap: 4px; }
+  #whoSec .whosign .motto { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--sun); }
+  #whoSec .whosign .by { font-family: var(--script); font-size: 26px; line-height: 1.2; color: var(--cream); }   /* signed the way the sign is written */
   #whoSec .whoart { order: -1; width: min(240px, 62vw); height: auto; justify-self: center; margin-bottom: 6px; }   /* on a phone the art comes first */
   /* no "3 easy steps" list any more: the order pages say each step themselves */
   #steps { display: none; }
@@ -1038,8 +1041,9 @@
     #home .trackbar, #home .trackbar.live { margin: -22px -28px 0; width: calc(100% + 56px); }
     #whoSec { grid-template-columns: 1fr 300px; align-items: center; padding: 56px 0; }
     #whoSec .sec { grid-column: 1; grid-row: 1; align-self: end; }
-    #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its paragraph, the pair in the middle of the art's height */
-    #whoSec .whoart { grid-column: 2; grid-row: 1 / span 2; width: 300px; margin: 0; }
+    #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its story, the art in the middle of their height */
+    #whoSec .whosign { grid-column: 1; grid-row: 3; align-self: start; }
+    #whoSec .whoart { grid-column: 2; grid-row: 1 / span 3; width: 300px; margin: 0; }
   }
   /* ---- build 66 (owner: "Yes, do it"): the other pages' own headings in the same script ----
      Menu: the page title and each category's heading. Map: the title and the two box headings. Member: the box headings and the name on the card.
@@ -1135,6 +1139,7 @@
     <section id="whoSec">
       <h2 class="sec" id="whoTitle"></h2>
       <p class="wholead hide" id="whoLead"></p>
+      <p class="whosign hide" id="whoSign"></p>
       <img class="whoart hide" id="whoArt" alt="" loading="lazy" width="440" height="422">
     </section>
     <section id="howSec">
@@ -1523,7 +1528,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 66;
+const BUILD = 67;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1805,8 +1810,11 @@ function renderHome() {
   const ph = $("shopPhoto");   // the shop's own photo: webapp/<about.photo>
   if (a.photo && !ph.dataset.done) { ph.dataset.done = "1"; ph.onload = () => ph.classList.remove("hide"); ph.src = a.photo; }
   $("openMenu").textContent = t().openMenu; $("heroMap").textContent = t().heroMap;
-  $("whoTitle").textContent = t().whoTitle; $("howTitle").textContent = t().howTitle;
-  $("whoLead").textContent = tr(a.intro) || ""; $("whoLead").classList.toggle("hide", !tr(a.intro));   // who we are, in a sentence or two (about.intro in catalog.json)
+  $("whoTitle").textContent = tr(a.intro_title) || t().whoTitle; $("howTitle").textContent = t().howTitle;   // the owner's own heading ("Our Roots") when the catalog has one
+  $("whoLead").textContent = tr(a.intro) || ""; $("whoLead").classList.toggle("hide", !tr(a.intro));   // the shop's story in the owner's words (about.intro in catalog.json; an empty line parts the paragraphs)
+  const sign = $("whoSign"), signed = tr(a.intro_sign) || "";   // under the story: line 1 the motto, the rest who signs (about.intro_sign)
+  sign.textContent = ""; sign.classList.toggle("hide", !signed);
+  if (signed) { const [motto, ...by] = signed.split("\n"); sign.append(el("span", "motto", motto)); if (by.length) sign.append(el("span", "by", by.join(" "))); }
   const art = $("whoArt"), artSrc = (menu.points || {}).card_image;   // the shop's own art beside it: the member card's picture
   if (artSrc && !art.dataset.done) { art.dataset.done = "1"; art.src = artSrc; art.classList.remove("hide"); }
   const feats = $("feats"); feats.textContent = "";
