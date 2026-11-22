@@ -450,7 +450,7 @@
   .links { flex-wrap: wrap; }
   .link { border: 0; border-radius: 999px; box-shadow: var(--shadow); padding: 13px 10px; font-weight: 500; flex: 1 1 30%; }
   .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
-  @media (min-width: 700px) { .again { display: block; max-width: 420px; margin-left: auto; margin-right: auto; } }
+  @media (min-width: 700px) { .again { display: block; max-width: 420px; } }   /* on the left line like everything else (it stood in the middle) */
   .shutbanner { border-radius: 16px; margin-top: 16px; }
   .foot { text-align: start; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: var(--sec) 0 0; }   /* on the same left line as every heading and text above it */
 
@@ -487,7 +487,9 @@
   /* ---- wide screens (a computer): navigation on top, content in a centred column ---- */
   @media (min-width: 900px) {
     body { padding-top: 68px; padding-bottom: 60px; font-size: 18px; }
-    .tabbar { top: 0; bottom: auto; left: 0; right: 0; height: 68px; border-radius: 0; padding: 0 max(24px, calc(50vw - 560px)); align-items: center; gap: 6px;
+    /* the shop's name starts on the content's left line and the last label ends on its right line (that button's own 20px of
+       padding hangs outside it); % and not vw, so a scroll bar at the side does not push the bar off the content's centre */
+    .tabbar { top: 0; bottom: auto; left: 0; right: 0; height: 68px; border-radius: 0; padding: 0 max(8px, calc(50% - 552px)) 0 max(28px, calc(50% - 532px)); align-items: center; gap: 6px;
               background: #1b1310; border-bottom: 3px solid var(--yellow); box-shadow: 0 6px 22px rgba(0, 0, 0, .25); z-index: 15; }
     .tabbar .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; font-size: 24px; letter-spacing: .14em; }
     .tabbar .brand img { width: 44px; height: 44px; object-fit: contain; }
@@ -509,7 +511,7 @@
     .steps { grid-template-columns: repeat(3, 1fr); gap: 18px; } .steps li { padding: 18px; }
     .duo { grid-template-columns: 1fr 1.4fr; gap: 18px; align-items: start; } .duo .box { margin-top: 0; }
     .links { max-width: 720px; }
-    .top { top: 68px; border-radius: 0; padding: 14px max(28px, calc(50vw - 560px)) 0; }
+    .top { top: 68px; border-radius: 0; padding: 14px max(28px, calc(50% - 532px)) 0; }   /* the menu's title, search and category row on the same lines as the dishes under them */
     .gtabs, .chips { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; flex-wrap: wrap; }
     .search { max-width: 420px; }
     main { padding: 0 28px; } section { scroll-margin-top: 250px; }
@@ -664,13 +666,21 @@
   /* the muted tab labels were too faint to read (3.65:1): a darker grey that passes 4.5:1 */
   .tabbar button { color: #6F6860; }
   .tabbar button.on { color: #2D5A27; }
-  /* something answers the pointer on a computer */
+  /* something answers the pointer on a computer, one answer for each kind (build 74 gave it to the ones that had none):
+     a filled button darkens · an outlined one takes a tint · a text link is underlined · a card that opens something lifts 2px */
   @media (hover: hover) {
     .tabbar button:hover { color: #1E1B18; }
     .tabbar button.on:hover { color: #2D5A27; }
-    .openmenu:hover, .morebtn:hover, .confirm:hover, #profBox .pbtn:hover, .mapbtns .route:hover, .viabtn.main:hover, .stepper .add:hover { background: #244A20; }
-    .link:hover, .viabtn:hover, #profBox .pbtn.plain:hover, .mapbtns .call:hover, .choice:hover, .visitmap:hover { background: rgba(30, 27, 24, .06); }
+    .openmenu:hover, .morebtn:hover, .confirm:hover, #profBox .pbtn:hover, .mapbtns .route:hover, .viabtn.main:hover, .stepper button:not(.minus):hover,
+    .ipanel .done:hover, .ipanel .storygo:hover, .prepay .ppbtn:hover, .bar:hover, .reward button:not(.sure):hover { background: #244A20; }
+    .link:hover, .viabtn:hover, #profBox .pbtn.plain:hover, .mapbtns .call:hover, .choice:not(.on):hover, .visitmap:hover,
+    .again:hover, .stepper .minus:hover, .modchips button:not(.on):hover, .modmore:hover, .ipanel .storyclose:hover, .reward button.sure:hover, .locbtn:hover { background: rgba(30, 27, 24, .06); }
+    .hero .lang button:not(.on):hover { background: rgba(255, 255, 255, .16); }
     #profBox .pbtn.plain:hover, .mapbtns .call:hover { color: #1E1B18; }
+    .back:hover, .title .nav:hover, .sheet .close:hover, .contact:hover b, #home .trackbar:hover .still { text-decoration: underline; text-underline-offset: 3px; }
+    #rulesBox .rulesmore:hover, .outlink:hover { text-decoration-thickness: 2px; }   /* these two are underlined already: the line grows thicker */
+    .catbar button:hover { color: var(--text); }
+    .points:hover, .hello:hover { transform: translateY(-2px); }
     .pick:hover, .feat:hover { border-color: #CFC9BF; transform: none; box-shadow: none; }
   }
   /* running text at a readable size; headings on the same left edge as everything under them */
@@ -825,7 +835,7 @@
   #feats .feat img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
   #feats .feat::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(to top, rgba(20,16,12,.72), rgba(20,16,12,0)); }
   #feats .feat b { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 1; color: #fff; font-size: 18px; font-weight: 600; line-height: 1.25; }
-  @media (hover: hover) { #feats .feat:hover { transform: translateY(-2px); } #feats .feat:hover img { transform: scale(1.03); } }
+  @media (hover: hover) { #feats .feat:hover, .cattile:hover, .tile:hover { transform: translateY(-2px); } #feats .feat:hover img { transform: scale(1.03); } }   /* the menu's own tiles lift the same 2px */
   @media (min-width: 600px) { #feats { grid-template-columns: repeat(4, 1fr); } }   /* one row of four from tablet width up */
   #feats .feat:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
   /* labels break only between words (labelNode) */
@@ -995,10 +1005,15 @@
   /* the points line under the photo: a sun-gold band from edge to edge, tucked under the photo's round corners.
      Built like the dark story band (build 73): the box stands on the content's own left and right lines, so its words start
      where every heading and picture starts, and the shadow paints the gold out to the window's edges (the clip keeps the
-     page from scrolling sideways). 22px of it lies under the photo; above and below the words the gold is --sec plus the
-     line's own 10px: 24px on a phone, 30px on a computer */
-  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px 0 var(--sec); width: 100%; padding: calc(22px + var(--sec)) 0 var(--sec); border: 0; border-radius: 0;
+     shadow from also painting above and below the band). 22px of it lies under the photo; above and below the words the
+     gold is --sec plus the line's own 10px: 24px on a phone, 30px on a computer */
+  #home .trackbar, #home .trackbar.live { position: relative; z-index: 0; margin: -22px 0 var(--sec); width: 100%; padding: calc(22px + var(--sec)) 0 var(--sec); border: 0; border-radius: 0; overflow: visible;
     background: var(--sun); color: var(--night); font-weight: 600; box-shadow: 0 0 0 100vmax var(--sun); clip-path: inset(0 -100vmax); }
+  /* its keyboard ring is its own, drawn round the words (4px clear above and below, 6px at the sides): the box's top lies
+     under the photo and the clip cut the upper and lower sides off the page-wide ring, so two short upright lines were
+     all that showed. The page-wide ring is set with !important, hence the same here. */
+  #home .trackbar:focus-visible { outline-color: transparent !important; }
+  #home .trackbar:focus-visible::after { content: ""; position: absolute; inset: calc(18px + var(--sec)) -6px calc(var(--sec) - 4px); border: 2px solid var(--night); border-radius: 6px; pointer-events: none; }
   #home .hero { position: relative; z-index: 1; }
   /* who we are: the one dark band, with the shop's own art (catalog.json → points.card_image) */
   #whoSec { margin: var(--sec) 0; padding: 34px 0 40px; background: var(--night); color: var(--cream);
@@ -1500,7 +1515,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 73;
+const BUILD = 74;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
