@@ -1,5 +1,5 @@
 {
- "build": 63,
+ "build": 64,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -832,8 +832,8 @@
       "th": "ผัดกะเพรา"
      },
      "desc": {
-      "en": "Fried egg not included — add one from Add-ons (+฿20)",
-      "th": "ไม่รวมไข่ดาว — เพิ่มไข่ดาวได้ในหมวดของเพิ่ม (+฿20)"
+      "en": "Fried egg not included — add one for +฿20",
+      "th": "ไม่รวมไข่ดาว — สั่งเพิ่มได้ +฿20"
      },
      "story": {
       "th": "ผัดไฟแรงกับกระเทียม พริกสด และใบกะเพรา หอมฉุน รสจัดจ้าน เลือกได้ทั้งหมู ไก่ กุ้ง หรือผัก เสิร์ฟกับข้าวสวย เพิ่มไข่ดาวได้",
@@ -873,7 +873,10 @@
        "price": 100
       }
      ],
-     "img": "img/krapow.jpg"
+     "img": "img/krapow.jpg",
+     "addons": [
+      "fegg"
+     ]
     },
     {
      "id": "curryp",
