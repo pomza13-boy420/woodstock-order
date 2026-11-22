@@ -1066,7 +1066,7 @@
   <script>try { if (localStorage.getItem("ws_seen")) document.getElementById("splash").classList.add("gone"); } catch (e) {}</script>
   <div class="wname"><span class="g">WOOD</span><span class="y">STOCK</span></div>
   <div class="wbar">B·A·R</div>
-  <div class="wsub">Koh Phangan · Thailand · Est. 2020</div>
+  <div class="wsub">Koh Phangan · Thailand</div>
   <div class="wload">LOADING...</div>
   <div class="wprog"><i></i></div>
 </div>
@@ -1075,7 +1075,7 @@
 <div class="welcome" id="welcome">
   <img class="wlogo" id="wlogo" alt="" src="logo.png" onerror="this.remove()">
   <div class="wname" style="font-size:clamp(26px,8.4vw,40px)"><span class="g">WOOD</span><span class="y">STOCK</span><span class="r">BAR</span></div>
-  <div class="wsub">★ Koh Phangan · Thailand · Est. 2020 ★</div>
+  <div class="wsub">★ Koh Phangan · Thailand ★</div>
   <button class="wenter" id="wenter"></button>
   <div class="wchoose" id="wchoose"></div>
   <div class="wlangs"><button data-lang="en">EN</button><button data-lang="th">TH</button></div>
@@ -1105,7 +1105,8 @@
     <div class="heroshade"></div>
     <div class="heroin">
       <div class="row1">
-        <span class="est">EST. 2020 · KOH PHANGAN</span>
+        <span class="est">KOH PHANGAN</span>   <!-- no founding year anywhere on the site (owner, 2026-11-22): the shop's own story says over 20 years -->
+
         <div class="lang"><button data-lang="th">ไทย</button><button data-lang="en">EN</button></div>
       </div>
       <img class="logo hide" id="logo" alt="">
@@ -1163,7 +1164,7 @@
       <button class="link hide" id="fbLink">📘 Facebook</button>
     </div>
     </section>
-    <footer class="foot">Woodstock Chaloklum · ร้านอาหารไทย · ร้านกาแฟ · อาหารเช้า · Koh Phangan · Est. 2020<br>#woodstockchaloklum #kohphangan</footer>
+    <footer class="foot">Woodstock Chaloklum · ร้านอาหารไทย · ร้านกาแฟ · อาหารเช้า · Koh Phangan<br>#woodstockchaloklum #kohphangan</footer>
   </div>
 </main>
 
@@ -1528,7 +1529,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 67;
+const BUILD = 68;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
