@@ -959,6 +959,7 @@
   .modchips button { min-height: 44px; }
   .details .back, .cardview .back { min-height: 44px; }
   .tiernote .outlink { display: inline-block; padding: 13px 2px; }
+  .hello .hp { white-space: nowrap; }
   .reward .cost { color: var(--green); }   /* red is the warning colour here; a price in points is not a warning */
   .wholead { max-width: 36em; }            /* about 65–75 letters a line on a computer */
   .flabel { display: block; }
@@ -1465,7 +1466,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 61;
+const BUILD = 62;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2943,7 +2944,10 @@ function drawNow() {
   if (signed) {
     const per = parseInt((menu.points || {}).baht_per_point, 10) || 0, b = Math.max(0, parseInt(member.b, 10) || 0);
     hi.textContent = "";
-    hi.append(el("span", "hm", t().helloM((member.n || acct.n || "").split(" ")[0], myPoints || 0)));
+    // "สวัสดี คุณ… · ⭐ 0 แต้ม": the star, the number and the unit stay on one line together (.hp), also when the name is long
+    const hm = el("span", "hm"), txt = t().helloM((member.n || acct.n || "").split(" ")[0], myPoints || 0), cut = txt.indexOf("⭐");
+    if (cut > 0) hm.append(document.createTextNode(txt.slice(0, cut)), el("span", "hp", txt.slice(cut))); else hm.textContent = txt;
+    hi.append(hm);
     if (per) { const bar = el("span", "hbar"), fill = el("i"); fill.style.width = Math.min(100, Math.round(b * 100 / per)) + "%"; bar.append(fill); hi.append(bar); }
     hi.append(el("span", "hgo", t().helloGo));
     hi.onclick = () => { renderCard(); show("card"); };
