@@ -1466,7 +1466,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 63;
+const BUILD = 64;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1601,7 +1601,9 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   const shutG = shutNow(groupOf(it.id));   // the kitchen (or bar) is closed now: say when it opens, above the choices
   if (shutG) panel.append(el("div", "shutbar", t().closedTill(hh(shutG.to_hour || 0)) + " — " + t().shutWhy));
   // rice, roti: what goes with this dish, one tap away (catalog.json: the category's "addons" = item ids; a dish opts out with "no_addons"). An add-on that is switched off is not in the menu, so it is not offered.
-  const extras = it.no_addons ? [] : ((cat && cat.addons) || []).map(id => menu.categories.map(c => c.items.find(x => x.id === id)).find(Boolean))
+  // A dish can also have add-ons of its own ("addons" on the item: a fried egg with Pad Krapow); they come after its category's.
+  const addIds = [...new Set([...(it.no_addons ? [] : (cat && cat.addons) || []), ...(it.addons || [])])];
+  const extras = addIds.map(id => menu.categories.map(c => c.items.find(x => x.id === id)).find(Boolean))
     .filter(x => x && x.id !== it.id && x.price != null && !(x.options && x.options.length));
   if (cat && cat.note && tr(cat.note) && !(cat.addons && cat.addons.length)) panel.append(el("p", "catnote", tr(cat.note)));   // (where add-ons are offered the buttons below say it)   // what the category says for every dish (a banana in every protein shake, rice +20 …)
   const steps = ((cat && cat.mods) || []).some(m => (menu.modifiers || {})[m] && !(it.no_mods || []).includes(m));
