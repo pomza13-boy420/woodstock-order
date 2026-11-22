@@ -969,9 +969,13 @@
     .hero h1.htitle .hkind { font-size: 20px; }
   }
 
-  /* map · call · WhatsApp · Instagram · Facebook (build 76 added WhatsApp): each as wide as its words and every row filled to both edges —
-     three and two on a phone, one row from tablet width (the row is the flex row of .links further up) */
-  .links .link { flex: 1 1 auto; justify-content: center; }
+  /* WhatsApp · map · call · Instagram · Facebook. On a phone the chat button leads across the row and the other four sit two by two
+     under it, so every edge is on one of two lines; from tablet width they are one row of equal parts.
+     (Build 76 made each as wide as its words: the second button then began 21px off the text column above it.) */
+  .links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .links .link { justify-content: center; }
+  #waLink { grid-column: 1 / -1; }
+  @media (min-width: 768px) { .links { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; } #waLink { grid-column: auto; } }
   /* the home page is a <main> too (build 51): none of the menu page's main padding or width limit */
   main#home { padding: 0; max-width: none; margin: 0; }
   /* the member strip: a long name wraps instead of pushing "member card →" off the screen */
@@ -1150,9 +1154,9 @@
     <div class="visit" id="visit"></div>
     <button class="link visitmap hide" id="heroMap"></button>   <!-- one row of links is enough: the map tab is in the bar below -->
     <div class="links">
+      <button class="link hide" id="waLink">💬 WhatsApp</button>
       <button class="link" id="mapsLink"></button>
       <a class="link" id="phoneLink"></a>
-      <button class="link hide" id="waLink">💬 WhatsApp</button>
       <button class="link hide" id="igLink">📷 Instagram</button>
       <button class="link hide" id="fbLink">📘 Facebook</button>
     </div>
@@ -1521,7 +1525,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 79;
+const BUILD = 80;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
