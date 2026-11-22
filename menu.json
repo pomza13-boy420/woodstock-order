@@ -823,7 +823,10 @@
        "price": 80
       }
      ],
-     "img": "img/larb.jpg"
+     "img": "img/larb.jpg",
+     "addons": [
+      "larbxl"
+     ]
     },
     {
      "id": "krapow",
@@ -1055,11 +1058,17 @@
       "th": "ส้มตำ"
      },
      "desc": {
-      "en": "Add toppings from Add-ons: chicken, pork, shrimp, omelette.",
-      "th": "เพิ่มท็อปปิ้งได้ในหมวดของเพิ่ม: ไก่ หมู กุ้ง ไข่เจียว"
+      "en": "Add toppings: chicken, pork, shrimp, omelette.",
+      "th": "เพิ่มท็อปปิ้งได้: ไก่ หมู กุ้ง ไข่เจียว"
      },
      "price": 60,
-     "img": "img/papaya.jpg"
+     "img": "img/papaya.jpg",
+     "addons": [
+      "xchicken",
+      "xpork",
+      "xshrimp",
+      "omelette"
+     ]
     }
    ]
   },
