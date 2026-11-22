@@ -949,9 +949,11 @@
 
   /* ---- design review fixes (2026-11-22) ---- */
   .ipanel { position: relative; }
-  .ipanel .ix { position: absolute; top: 12px; right: 12px; z-index: 3; width: 44px; height: 44px; border-radius: 50%; border: 0;
+  /* the ✕ stays in the top corner while a long sheet scrolls (protein shake, breakfast); the negative bottom margin keeps the photo at the top */
+  .ipanel .ix { position: sticky; top: 12px; display: block; margin: 0 -4px -44px auto; z-index: 3; width: 44px; height: 44px; border-radius: 50%; border: 0;
     background: rgba(20, 16, 12, .62); color: #fff; font-size: 18px; line-height: 44px; text-align: center; cursor: pointer; }
   .ipanel .ix:hover { background: rgba(20, 16, 12, .8); }
+  .modlabel.modhint { font-weight: 600; color: #6F6860; }
   .flabel { display: block; }
   .flabel > span { display: block; margin: 10px 0 4px; font-size: 13px; font-weight: 600; color: var(--hint); }
   .flabel > input { width: 100%; }
@@ -1267,7 +1269,7 @@ const TEXT = {
         stepsTg: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "ยืนยันและชำระเงินในแชท ร้านแจ้งสถานะให้ตลอด"],
         stepsWeb: ["เลือกเมนูใส่ตะกร้า", "ใส่ชื่อ เบอร์โทร แล้วเลือกรับที่ร้าน ทานที่ร้าน หรือจัดส่ง", "โอน: โอนตาม QR แล้วแนบสลิป ออเดอร์เข้าร้านทันทีเมื่อสลิปผ่าน · เงินสด: ส่งออเดอร์แล้วจ่ายที่เคาน์เตอร์"],
         who: "ชื่อและเบอร์ติดต่อ", namePh: "ชื่อของคุณ", phonePh: "เบอร์โทร / WhatsApp", needName: "กรุณาใส่ชื่อ", needPhone: "กรุณาใส่เบอร์โทรที่ติดต่อได้",
-        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", payWebFirst: "📱 โอนเงิน (QR) ก่อนส่งออเดอร์", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
+        webSend: "✅ ส่งออเดอร์ให้ร้าน", webHint: "ขั้นต่อไป: เลือกช่องทางส่งออเดอร์ให้ร้าน", qrWeb: "เมื่อร้านรับออเดอร์แล้ว QR จะขึ้นในหน้าติดตามออเดอร์ — โอนก่อนจัดส่งหรือมารับของ", payWeb: "📱 โอนเงิน (QR) เมื่อร้านยืนยันรายการ", payWebPlain: "📱 โอนเงิน (QR)", manyOk: "เลือกได้หลายอย่าง", payWebFirst: "📱 โอนเงิน (QR) ก่อนส่งออเดอร์", cashWeb: "💵 เงินสด จ่ายที่ร้าน", cashWebHint: "จ่ายเงินสดที่ร้านตอนมารับหรือทานที่ร้าน — ร้านจะติดต่อกลับเพื่อยืนยันรายการ", webCardNone: "สั่งผ่านเว็บได้แต้มทุกออเดอร์ — แต้มจะขึ้นที่หน้านี้เองเมื่อออเดอร์เสร็จ", webCardHas: "แต้มอัปเดตที่หน้านี้เองหลังแต่ละออเดอร์เสร็จ", feeStaff: "ร้านจะแจ้งค่าส่ง",
         webContact: z => `${z}: กรุณาโทรหาร้านก่อน หรือเลือกรับที่ร้าน`, webLoc: "📍 แนบตำแหน่งช่วยให้ร้านบอกค่าส่งได้เร็วขึ้น",
         viaTitle: "ส่งออเดอร์ให้ร้าน", viaHint: "เลือกช่องทางด้านล่าง แอปแชทจะเปิดพร้อมข้อความออเดอร์นี้ — กด “ส่ง” ในแชทอีกครั้ง แล้วรอร้านตอบยืนยัน",
         viaNone: "คัดลอกข้อความออเดอร์ แล้วส่งให้ร้าน หรือโทรสั่งได้เลย", wa: "ส่งทาง WhatsApp", lineBtn: "ส่งทาง LINE", copy: "📋 คัดลอกข้อความออเดอร์", copied: "✓ คัดลอกแล้ว",
@@ -1359,7 +1361,7 @@ const TEXT = {
         stepsTg: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Confirm and pay in the chat — we keep you posted"],
         stepsWeb: ["Pick your dishes", "Add your name and number, choose pickup, dine-in or delivery", "Transfer: pay with the QR and attach the slip — the order reaches the shop once the slip passes · Cash: send the order and pay at the counter"],
         who: "Your name and contact number", namePh: "Your name", phonePh: "Phone / WhatsApp number", needName: "Please enter your name", needPhone: "Please enter a phone number we can reach",
-        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", payWebFirst: "📱 Bank transfer (QR) before sending", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
+        webSend: "✅ Send order to the shop", webHint: "Next: choose how to send your order to the shop", qrWeb: "Once the shop accepts your order, the QR appears on your order page — pay before delivery or pickup.", payWeb: "📱 Bank transfer (QR) once the shop confirms", payWebPlain: "📱 Bank transfer (QR)", manyOk: "Pick as many as you like", payWebFirst: "📱 Bank transfer (QR) before sending", cashWeb: "💵 Cash at the shop", cashWebHint: "Pay in cash at the shop when you pick up or dine in — the shop will contact you to confirm.", webCardNone: "Website orders earn points — they show up on this page once an order is completed.", webCardHas: "Your points update on this page after each completed order.", feeStaff: "the shop will confirm",
         webContact: z => `${z}: please call us first, or choose pick up`, webLoc: "📍 Attaching your location lets the shop quote the delivery fee faster",
         viaTitle: "Send your order to the shop", viaHint: "Choose a channel below. Your chat app opens with this order typed in — press Send there, then wait for the shop to confirm.",
         viaNone: "Copy the order text and send it to the shop, or call us.", wa: "Send by WhatsApp", lineBtn: "Send by LINE", copy: "📋 Copy the order text", copied: "✓ Copied",
@@ -1454,7 +1456,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 58;
+const BUILD = 59;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -1577,6 +1579,11 @@ function sheetX(panel, close) {   // the ✕ in the top corner of a sheet; Esc c
   panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true"); if (h) panel.setAttribute("aria-label", h.textContent);
   setTimeout(() => { if (document.contains(x)) x.focus({ preventScroll: true }); }, 60);
 }
+function catCount(cat) {   // under a category tile: "12 รายการ"; a category of one dish shows its price instead ("฿150")
+  if (cat.items.length !== 1) return t().nItems(cat.items.length);
+  const it = cat.items[0], prices = (it.options && it.options.length) ? it.options.map(o => o.price) : [it.price], low = Math.min(...prices);
+  return money(low) + (Math.max(...prices) > low ? "+" : "");
+}
 function openItem(it, cat) {   // details of one item: picture, description, options with their add buttons
   const shade = el("div", "ishade"), panel = el("div", "ipanel");
   if (it.img) { const im = el("img", "pic"); im.alt = ""; im.src = it.img; panel.append(im); }
@@ -1606,7 +1613,7 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   };
   for (const m of mods) {   // sweetness, ice: choose first, then add
     const max = defs[m].max || 1, must = least(m);
-    const wrap = el("div", "modrow"); wrap.append(el("div", "modlabel", tr(defs[m].label) + (must ? " — " + t().pickN(must, max) : "")));
+    const wrap = el("div", "modrow"); wrap.dataset.mod = m; wrap.append(el("div", "modlabel", tr(defs[m].label) + (must ? " — " + t().pickN(must, max) : "")));
     const line = el("div", "modchips");
     for (const ch of defs[m].choices) {
       const b = el("button", ch.id === pick[m] ? "on" : "", tr(ch.label) + (ch.price ? " +" + money(ch.price) : ""));
@@ -1627,11 +1634,15 @@ function openItem(it, cat) {   // details of one item: picture, description, opt
   }
   // What the price includes comes first; the paid extras wait folded under one line until the customer opens them.
   const paidRows = [...panel.querySelectorAll(".modrow.paid")];
-  if (paidRows.length) {
+  if (paidRows.length) {   // (each .modrow knows its modifier: data-mod)
     const first = panel.querySelector(".modrow:not(.paid)");
     if (first) first.before(el("div", "modsec", t().incTitle(it.price != null ? money(it.price) : "")));
     const more = el("button", "modmore", t().moreTitle), fold = el("div", "modextra hide");
     paidRows[0].before(more); more.after(fold); paidRows.forEach(r => fold.append(r));
+    if (paidRows.length === 1) {   // one group of extras (protein shakes): no second heading under "Add extras", just how many may be picked
+      const lab = paidRows[0].querySelector(".modlabel"), m = paidRows[0].dataset.mod;
+      if (lab) { if (m && multi(m)) { lab.textContent = t().manyOk; lab.classList.add("modhint"); } else lab.remove(); }
+    }
     more.onclick = () => more.classList.toggle("open", !fold.classList.toggle("hide"));
   }
   rows();
@@ -1938,8 +1949,8 @@ function renderMenu() {
       const tile = el("button", "cattile");
       if (pic) { const im = el("img"); im.loading = "lazy"; im.alt = ""; im.src = pic.img; tile.append(im); }
       else tile.append(el("span", "emo", cut > 0 ? label.slice(0, cut) : "🍽"));
-      tile.append(document.createTextNode(cut > 0 ? label.slice(cut + 1) : label), el("small", "", t().nItems(cat.items.length)));
-      tile.onclick = () => { const sec = document.getElementById("cat-" + cat.id); if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" }); };
+      tile.append(document.createTextNode(cut > 0 ? label.slice(cut + 1) : label), el("small", "", catCount(cat)));
+      tile.onclick = () => { const sec = document.getElementById("cat-" + cat.id); if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" }); if (cat.items.length === 1) openItem(cat.items[0], cat); };
       grid.append(tile);
     }
     box.append(grid);
@@ -2063,7 +2074,7 @@ function drawDetails() {
   if (!pay && o.qr !== o.cash) pay = o.qr ? "q" : "c";
   $("howP").classList.toggle("hide", !o.pickup); $("howD").classList.toggle("hide", !o.delivery); $("howE").classList.toggle("hide", !o.dinein);
   $("payQ").classList.toggle("hide", !o.qr); $("payC").classList.toggle("hide", !o.cash || (!inTelegram && !atShop));
-  $("payQ").textContent = inTelegram ? t().qr : how && how !== "d" && o.slip && inboxUrl() ? t().payWebFirst : t().payWeb; $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
+  $("payQ").textContent = inTelegram ? t().qr : !how ? t().payWebPlain : how !== "d" && o.slip && inboxUrl() ? t().payWebFirst : t().payWeb;   // no way chosen yet: no "when" either $("payC").textContent = inTelegram ? t().cash : t().cashWeb;
   $("eatBox").classList.toggle("hide", how !== "e");
   const atTable = how === "e" ? tableNo() : 0;   // the table is known: shown as it is, nothing to type ("not this table" brings the box back)
   $("eatLabel").textContent = atTable ? t().tableLabel : t().eatLabel;
@@ -3119,7 +3130,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
         tile.className = "cattile";
         if (pic) { const im = document.createElement("img"); im.loading = "lazy"; im.alt = ""; im.src = pic; tile.append(im); }
         else { const e = document.createElement("span"); e.className = "emo"; e.textContent = cut > 0 ? label.slice(0, cut) : "🍽"; tile.append(e); }
-        const n = document.createElement("small"); n.textContent = t().nItems(cat.items.length);
+        const n = document.createElement("small"); n.textContent = catCount(cat);
         tile.append(labelNode(plain(label)), n);
         tile.onclick = () => {
           hold = { id: cat.id, until: Date.now() + 1500 };
@@ -3128,6 +3139,7 @@ fetch("menu.json?t=" + Date.now(), { cache: "no-store" })
           const chip = chips.querySelector('button[data-cat="' + cat.id + '"]');
           if (chip) chip.click();
           mark(cat.id);
+          if (cat.items.length === 1) openItem(cat.items[0], cat);   // a category with one dish (protein shakes): straight to the dish, no second tap
         };
         grid.append(tile);
       }
