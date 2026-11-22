@@ -1041,6 +1041,15 @@
     #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its paragraph, the pair in the middle of the art's height */
     #whoSec .whoart { grid-column: 2; grid-row: 1 / span 2; width: 300px; margin: 0; }
   }
+  /* ---- build 66 (owner: "Yes, do it"): the other pages' own headings in the same script ----
+     Menu: the page title and each category's heading. Map: the title and the two box headings. Member: the box headings and the name on the card.
+     The order form, the cart and the dish sheets stay in plain letters: they are read fast, not looked at. */
+  #groupTitle { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.15; }
+  #menu section > h2 { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.2; }
+  #mapTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; }
+  .cardview .box > h3 { font-family: var(--script); font-weight: 400; font-size: 22px; letter-spacing: 0; line-height: 1.2; }
+  .mcard, .mcard.silver, .mcard.gold { background: var(--night); }
+  .mcard .shop { font-family: var(--script); font-size: 30px; line-height: 1; letter-spacing: 0; text-transform: none; opacity: 1; color: var(--cream); }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1514,7 +1523,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 65;
+const BUILD = 66;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
