@@ -1032,7 +1032,7 @@
   #whoSec .whosign { margin: 14px 0 0; display: grid; gap: 4px; }
   #whoSec .whosign .motto { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--sun); }
   #whoSec .whosign .by { font-family: var(--script); font-size: 26px; line-height: 1.2; color: var(--cream); }   /* signed the way the sign is written */
-  #whoSec .whoart { order: -1; width: min(240px, 62vw); height: auto; justify-self: center; margin-bottom: 6px; }   /* on a phone the art comes first */
+  #whoSec .whoart { order: -1; width: min(300px, 78vw); height: auto; justify-self: center; margin-bottom: 6px; }   /* on a phone the art comes first; sized to hold its own beside the four-paragraph story (the file is 440px wide: never shown larger) */
   /* no "3 easy steps" list any more: the order pages say each step themselves */
   #steps { display: none; }
   /* hours and address: plain lines, not one more box */
@@ -1040,11 +1040,11 @@
   @media (min-width: 900px) {
     .hero h1.htitle #shop { font-size: 116px; }
     #home .trackbar, #home .trackbar.live { margin: -22px -28px 0; width: calc(100% + 56px); }
-    #whoSec { grid-template-columns: 1fr 300px; align-items: center; padding: 56px 0; }
+    #whoSec { grid-template-columns: 1fr 380px; align-items: center; padding: 56px 0; }
     #whoSec .sec { grid-column: 1; grid-row: 1; align-self: end; }
     #whoSec .wholead { grid-column: 1; grid-row: 2; align-self: start; }   /* the heading sits on its story, the art in the middle of their height */
     #whoSec .whosign { grid-column: 1; grid-row: 3; align-self: start; }
-    #whoSec .whoart { grid-column: 2; grid-row: 1 / span 3; width: 300px; margin: 0; }
+    #whoSec .whoart { grid-column: 2; grid-row: 1 / span 3; width: 380px; margin: 0; }
   }
   /* ---- build 66 (owner: "Yes, do it"): the other pages' own headings in the same script ----
      Menu: the page title and each category's heading. Map: the title and the two box headings. Member: the box headings and the name on the card.
@@ -1532,7 +1532,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 70;
+const BUILD = 71;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
