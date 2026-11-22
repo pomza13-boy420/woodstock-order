@@ -717,7 +717,8 @@
                      background: linear-gradient(transparent, rgba(0, 0, 0, .75)); }
   .ipanel .story { margin: 8px 0 0; font-size: 16px; line-height: 1.6; color: var(--text); }
   .ipanel .storyhint { margin: 14px 0 0; font-size: 13px; color: var(--hint); }
-  /* "pay first": right above the send button, in red (owner: the shop makes the order once the money is in) */
+  /* "pay first": right above the send button (owner: the shop makes the order once the money is in).
+     Since build 77 it is a calm note, cream with a gold edge and its first words in bold: red is left for the line that says what stops the order. */
   .prepay { margin: 12px 0 4px; padding: 14px; border-radius: 14px; border: 2px solid var(--green); text-align: center; }
   .prepay .ppamt { font-size: 24px; font-weight: 800; color: var(--green); }
   .prepay img { display: block; width: 230px; max-width: 80%; margin: 10px auto; border-radius: 8px; cursor: zoom-in; }
@@ -725,7 +726,7 @@
   .prepay .pphint { font-size: 13px; line-height: 1.45; }
   .prepay .ppbtn { width: 100%; margin-top: 10px; padding: 13px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .prepay .ppbtn:disabled { opacity: .6; cursor: default; }
-  .paywarn { margin: 10px 0 4px; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--red); background: #fdecea; color: var(--red); font-size: 16px; font-weight: 700; line-height: 1.45; }
+  .paywarn { margin: 10px 0 4px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--sun); background: var(--cream); color: var(--text); font-size: 16px; line-height: 1.45; }
   .ipanel .shutbar { margin: 6px 0 10px; padding: 10px 12px; border-radius: 12px; background: #f3efe7; color: var(--text); font-size: 16px; font-weight: 600; }
   .ipanel .storygo { display: block; width: 100%; margin-top: 16px; padding: 14px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
   .ipanel .storyclose { display: block; width: 100%; margin-top: 14px; padding: 13px; border-radius: 999px; border: 1px solid var(--text); background: transparent; color: var(--text); font-size: 16px; font-weight: 600; }
@@ -1519,7 +1520,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 76;
+const BUILD = 77;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2200,8 +2201,13 @@ function drawDetails() {
   $("dHint").classList.toggle("warn", !!bad);
   $("send").textContent = web ? t().webSend : p.later ? t().sendLater : pay === "q" ? t().sendQr : t().sendCash;
   const noPts = menu.points && menu.points.cash_earns === false;   // the shop gives points for transfers only
-  const warn = !how ? "" : pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first, in red above the send button
-  $("payWarn").textContent = warn; $("payWarn").classList.toggle("hide", !warn);
+  const warn = !how ? "" : pay === "c" ? t().warnCash + (noPts ? " " + t().cashNoPts : "") : pay === "q" ? t().warnQr : "";   // pay first: the note above the send button
+  const pw = $("payWarn"), cut = warn.indexOf(" — ");
+  if (pw.dataset.said !== warn) {   // written again only when it says something else; "ต้องจ่ายเงินก่อน" in bold, what follows in plain weight
+    pw.dataset.said = warn; pw.textContent = "";
+    if (warn) pw.append(el("b", "", cut > 0 ? warn.slice(0, cut) : warn), cut > 0 ? warn.slice(cut) : "");
+  }
+  pw.classList.toggle("hide", !warn);
   if (!web || $("dTotal").textContent) $("send").textContent += "  ·  " + $("dTotal").textContent;
   const pp = prepayOn(), ppWas = !$("prepay").classList.contains("hide"); $("prepay").classList.toggle("hide", !pp);
   if (pp && !ppWas) setTimeout(() => $("prepay").scrollIntoView({ behavior: "smooth", block: "start" }), 60);
