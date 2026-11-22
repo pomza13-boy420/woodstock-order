@@ -1,5 +1,5 @@
 {
- "build": 58,
+ "build": 63,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -299,9 +299,13 @@
     "th": "🍲 ต้มยำ & แกง"
    },
    "note": {
-    "en": "Rice +20 · roti +30 — add them from Add-ons.",
-    "th": "ข้าว +20 · โรตี +30 — เพิ่มได้ในหมวดของเพิ่มครับ"
+    "en": "Steamed rice +20 · roti +30 — add them to your order.",
+    "th": "ข้าวสวย +20 · โรตี +30 — สั่งเพิ่มได้ครับ"
    },
+   "addons": [
+    "rice",
+    "rotiside"
+   ],
    "items": [
     {
      "id": "tomyum",
@@ -548,9 +552,12 @@
     "th": "🥘 อาหารผัด"
    },
    "note": {
-    "en": "Rice +20 (except fried rice) — add it from Add-ons.",
-    "th": "ข้าว +20 (ยกเว้นข้าวผัด) — เพิ่มได้ในหมวดของเพิ่มครับ"
+    "en": "Steamed rice +20 (except fried rice) — add it to your order.",
+    "th": "ข้าวสวย +20 (ยกเว้นข้าวผัด) — สั่งเพิ่มได้ครับ"
    },
+   "addons": [
+    "rice"
+   ],
    "items": [
     {
      "id": "frice",
@@ -592,7 +599,8 @@
        "price": 120
       }
      ],
-     "img": "img/frice.jpg"
+     "img": "img/frice.jpg",
+     "no_addons": true
     },
     {
      "id": "brocc",
