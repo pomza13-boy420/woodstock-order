@@ -984,6 +984,8 @@
   /* a heading only screen readers hear */
   .sronly { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
   #home .foot { display: block; }
+  /* phones and tablets: the tab bar is fixed at the bottom, so the page's last line needs room above it (build 57 took main#home's padding away) */
+  @media (max-width: 899px) { #home .foot { padding-bottom: calc(84px + env(safe-area-inset-bottom)); } }
   /* the loading screen: first visit only */
   .splash.gone { display: none; }
 </style>
@@ -1456,7 +1458,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 59;
+const BUILD = 60;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
