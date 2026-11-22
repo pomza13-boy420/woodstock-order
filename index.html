@@ -144,6 +144,8 @@
   .title { display: flex; align-items: center; gap: 10px; }
   .title h1 { margin: 0; font-size: 18px; flex: 1; }
   .title .nav { font-size: 13px; font-weight: 600; color: var(--yellow); padding: 6px 0; white-space: nowrap; }
+  .title .tlogo { flex: none; width: 40px; height: auto; }
+  @media (min-width: 900px) { .title .tlogo { display: none; } }
   .gtabs { display: flex; gap: 8px; overflow-x: auto; margin: 8px -16px 0; padding: 0 16px; scrollbar-width: none; }
   .gtabs::-webkit-scrollbar { display: none; }
   .gtabs button { flex: none; padding: 9px 14px; border-radius: 12px; background: rgba(255, 255, 255, .12); color: #fff8e7; font-size: 16px; font-weight: 700; white-space: nowrap; }
@@ -325,7 +327,8 @@
   .sheet .close { font-size: 16px; color: var(--green); font-weight: 700; padding: 6px 0 6px 12px; }
   .lines { overflow-y: auto; flex: 1; }
   .line { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 8px; }
-  .line.sub { margin: 4px 0 0 18px; }   /* an add-on that goes into the dish above it: tucked under that dish */
+  .line.sub { margin: 4px 0 0 18px; }
+  .line.gone .what { color: var(--hint); text-decoration: line-through; }   /* taken out while the cart is open: "+ เพิ่ม" puts it back */   /* an add-on that goes into the dish above it: tucked under that dish */
   .total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin: 14px 2px 6px; }
   .next { font-size: 13px; color: var(--hint); margin: 0 2px 12px; }
   .confirm { width: 100%; padding: 15px; border-radius: 14px; background: var(--green); color: #fff; font-size: 18px; font-weight: 700; }
@@ -452,7 +455,7 @@
   .again { border-radius: 999px; margin-top: 16px; box-shadow: var(--shadow); }
   @media (min-width: 700px) { .again { display: block; max-width: 420px; } }   /* on the left line like everything else (it stood in the middle) */
   .shutbanner { border-radius: 16px; margin-top: 16px; }
-  .foot { text-align: start; font-size: 13px; letter-spacing: .08em; color: var(--hint); margin: var(--sec) 0 0; }   /* on the same left line as every heading and text above it */
+  .foot { text-align: start; font-size: 13px; letter-spacing: 0; color: var(--hint); margin: var(--sec) 0 0; }   /* on the same left line as every heading and text above it */
 
   /* ---- cards, tiles, buttons ---- */
   .cattile, .tile, .item, .line { border: 0; box-shadow: var(--shadow); border-radius: 18px; }
@@ -1199,6 +1202,7 @@
     <div class="title">
       <button class="nav" id="toHome"></button>
       <h1 id="groupTitle"></h1>
+      <img class="tlogo" src="logo.png" alt="Woodstock" width="40" height="42" onerror="this.remove()">   <!-- on a phone the menu page says whose menu it is (the top bar's logo shows on a computer only) -->
     </div>
     <div class="gtabs" id="gtabs"></div>
     <input class="search" id="search" type="search" autocomplete="off">
@@ -1525,7 +1529,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 80;
+const BUILD = 81;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2090,17 +2094,29 @@ function refresh() {
   $("barHint").textContent = t().view;
   $("barTotal").textContent = money(total);
   $("totalValue").textContent = money(total);
-  const lines = $("lines"); lines.textContent = "";
-  for (const k of keys) {
-    const line = el("div", "line row" + (withOf(k) ? " sub" : "")), what = el("div", "what");   // "sub": added to the dish above it
-    what.append(el("div", "name", nameOf(k)), el("div", "price", `${money(priceOf(k))} × ${cart[k]} = ${money(priceOf(k) * cart[k])}`));
-    line.append(what, stepper(k));
-    lines.append(line);
-  }
+  drawLines();
   if (!count) { openSheet(false); openDetails(false); }
   drawDetails();
 }
-function openSheet(on) { $("sheet").classList.toggle("show", on); $("shade").classList.toggle("show", on); }
+// While the cart is open its rows stay where they are: a row taken down to 0 stays as "+ เพิ่ม" until the cart is closed,
+// so the next row's − never slides up under the finger (build 81). sheetKeys = the rows as the cart was opened.
+let sheetKeys = null;
+function drawLines() {
+  const now = cartKeys(), keys = sheetKeys ? sheetKeys.concat(now.filter(k => !sheetKeys.includes(k))) : now;
+  if (sheetKeys) sheetKeys = keys;
+  const lines = $("lines"); lines.textContent = "";
+  for (const k of keys) {
+    const q = cart[k] || 0, line = el("div", "line row" + (withOf(k) ? " sub" : "") + (q ? "" : " gone")), what = el("div", "what");   // "sub": added to the dish above it
+    what.append(el("div", "name", nameOf(k)), el("div", "price", q ? `${money(priceOf(k))} × ${q} = ${money(priceOf(k) * q)}` : money(priceOf(k))));
+    line.append(what, stepper(k));
+    lines.append(line);
+  }
+}
+function openSheet(on) {
+  sheetKeys = on ? cartKeys() : null;
+  if (on) drawLines();
+  $("sheet").classList.toggle("show", on); $("shade").classList.toggle("show", on);
+}
 
 // ---------------- order details ----------------
 function payload() {
