@@ -1,5 +1,5 @@
 {
- "build": 64,
+ "build": 67,
  "shop_name": {
   "en": "Woodstock",
   "th": "Woodstock"
@@ -3968,8 +3968,16 @@
    "pumpk"
   ],
   "intro": {
-   "th": "Woodstock (Woodstock Chaloklum) คือร้านอาหารและร้านกาแฟที่บ้านโฉลกหลำ เกาะพะงัน เปิดมาตั้งแต่ปี 2020 เสิร์ฟอาหารเช้า อาหารไทย กาแฟ สมูทตี้ และน้ำผลไม้ — ทานที่ร้าน มารับเอง หรือสั่งอาหารส่งถึงที่พักในเกาะพะงัน",
-   "en": "Woodstock Chaloklum is a restaurant, coffee shop and bar in Baan Chaloklum, Koh Phangan, open since 2020. We serve breakfast, Thai food, coffee, smoothies and fresh juices — eat in, pick up, or order food delivery to where you stay on Koh Phangan."
+   "th": "Woodstock เริ่มจากครอบครัว แม่เป็นหัว เราเป็นแรงและไอเดีย ทำด้วยกันที่ร้านไม้หลังนี้มา 10 ปี ชื่อร้านได้มาจากเพื่อนของพ่อ เพราะมันตรงกับงานดนตรีที่อเมริกา\n\nวันที่แม่จากไป ร้านเกือบไม่ได้ไปต่อ สี่ปีต่อมา เรานำมันกลับมาได้ด้วยมือตัวเอง\n\nที่ยังเหมือนเดิมคือ เรายังอยู่กับน้อง ๆ เป็นปึกแผ่นแบบที่แม่ปลูกฝัง และรักษาคุณภาพที่นักท่องเที่ยวเล่าต่อกันปากต่อปากมากว่า 20 ปี\n\nอาหาร กาแฟ เครื่องดื่ม ที่นั่งพัก และสมุนไพรออร์แกนิกดี ๆ ร้านที่ทุกคนนึกถึงเมื่อมาโฉลกหลำ",
+   "en": "Woodstock began as family. Mum was the head, I was the hands and the ideas. We ran this wooden house together for 10 years. The name came from my father's friend, after the festival in America.\n\nWhen Mum passed, the place almost didn't go on. Four years later, I brought it back with my own hands.\n\nWhat stays the same: I'm still here with my crew, standing together the way Mum taught us, keeping the quality travellers have passed on by word of mouth for over 20 years.\n\nFood, coffee, drinks, a seat to rest, and good organic herbs. The place people think of in Chaloklum."
+  },
+  "intro_title": {
+   "th": "Our Roots 🌴",
+   "en": "Our Roots 🌴"
+  },
+  "intro_sign": {
+   "th": "We Stay True • Stay Together\nป๋อม & Woodstock crew",
+   "en": "We Stay True • Stay Together\nPom & the Woodstock crew"
   }
  },
  "delivery_rules": {
