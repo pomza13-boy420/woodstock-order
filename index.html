@@ -91,7 +91,7 @@
   .box li.fine { list-style: none; margin: 8px 0 0 -18px; font-size: 13px; color: var(--hint); }
   .links { display: flex; gap: 10px; margin-top: 14px; }
   .link {
-    flex: 1; text-align: center; padding: 11px 6px; border-radius: 12px; font-size: 13px; font-weight: 600;
+    flex: 1; text-align: center; padding: 11px 6px; border-radius: 12px; font-size: 16px; font-weight: 600;
     background: var(--card); border: 1.5px solid var(--brown); color: var(--brown);
   }
 
@@ -129,7 +129,7 @@
   .mcard .dates { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 13px; }
   .mcard .dates b { display: block; font-size: 13px; }
   .tiernote { font-size: 13px; color: var(--hint); margin: 10px 2px 0; }
-  .tiernote .outlink { padding: 6px 2px; font-weight: 700; color: var(--green); text-decoration: underline; text-underline-offset: 3px; }   /* "sign out": a small text link in the line, not a button */
+  .tiernote .outlink, .empty .outlink { padding: 6px 2px; font-weight: 700; color: var(--green); text-decoration: underline; text-underline-offset: 3px; }   /* "sign out": a small text link in the line, not a button */
   .reward { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
   .reward:first-of-type { border-top: 0; }
   .reward .what { flex: 1; font-size: 16px; font-weight: 600; }
@@ -518,7 +518,7 @@
     .catgrid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
     .tiles { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
     .tile, .cattile { font-size: 16px; } .tile .price { font-size: 16px; }
-    .cardview { max-width: 760px; padding: 28px; } .mapbox { height: 420px; }
+    .cardview { max-width: 760px; padding: 28px; margin-left: max(0px, calc(50% - 560px)); } .mapbox { height: 420px; }   /* the map and member pages start on the same left line as the logo, the home page and the menu (they stood in the middle) */
     .bar { left: auto; right: 28px; bottom: 28px; width: 400px; }
     .sheet { left: 50%; right: auto; bottom: 50%; transform: translate(-50%, 50%); width: 540px; border-radius: 26px; padding: 22px; }
     .ishade, .via { align-items: center; justify-content: center; }
@@ -947,7 +947,8 @@
   .stepper button { width: 44px; height: 44px; }   /* "+ เพิ่ม" keeps its own width (.stepper .add) */
   .modchips button { min-height: 44px; }
   .details .back, .cardview .back { min-height: 44px; }
-  .tiernote .outlink { display: inline-block; padding: 13px 2px; }
+  .tiernote .outlink, .empty .outlink { display: inline-block; padding: 13px 0; }
+  #acctLine { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; }   /* "signed in as …" and the way out: side by side, or the link on a line of its own (no dot left hanging at the end of a line) */
   .hello .hp { white-space: nowrap; }
   .reward .cost { color: var(--green); }   /* red is the warning colour here; a price in points is not a warning */
   .wholead { max-width: 36em; }            /* about 65–75 letters a line on a computer */
@@ -1043,7 +1044,7 @@
   /* ---- build 66 (owner: "Yes, do it"): the other pages' own headings in the same script ----
      Menu: the page title and each category's heading. Map: the title and the two box headings. Member: the box headings and the name on the card.
      The order form, the cart and the dish sheets stay in plain letters: they are read fast, not looked at. */
-  #groupTitle { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.15; }
+  #groupTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; }   /* a page's name: 30px like the map's and the member page's, one step above the category headings under it */
   #menu section > h2 { font-family: var(--script); font-weight: 400; font-size: 26px; letter-spacing: 0; line-height: 1.2; }
   #mapTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; }
   #cardTitle { font-family: var(--script); font-weight: 400; font-size: 30px; letter-spacing: 0; line-height: 1.15; margin: 0 0 4px; color: var(--brown); }
@@ -1341,7 +1342,7 @@ const TEXT = {
         callShop: "📞 โทรสั่งกับร้าน", viaDone: "✓ ส่งแล้ว — ล้างตะกร้า", viaBack: "← กลับไปแก้ไข", again: n => `🔁 สั่งเหมือนครั้งล่าสุด (${n} รายการ)`, shopShut: "🚪 ตอนนี้ร้านปิดรับออเดอร์ชั่วคราว", openMenu: "🍽 ดูเมนู", enter: "▶  เข้าร้าน", chooseLang: "🌐 เลือกภาษา", tabHome: "หน้าแรก", tabMenu: "เมนู", tabMap: "แผนที่", tabCard: "สมาชิก",
         mapTitle: "📍 แผนที่และติดต่อ", cardTitle: "💳 บัตรสมาชิก", route: "เส้นทาง", callBtn: "โทร", contact: "ติดต่อ", phone: "โทรศัพท์", modHint: "เลือกความหวาน/น้ำแข็งก่อน แล้วกด + เพิ่ม", price: "ราคา", done: "เสร็จ กลับไปเลือกต่อ", nItems: n => n + " รายการ", search: "🔍 ค้นหาเมนู…", add: "+ เพิ่ม", home: "← หน้าหลัก",
         items: n => `🧺 ${n} รายการ`, view: "แตะเพื่อดูตะกร้าและสั่ง", cart: "🧺 ตะกร้าของคุณ", close: "เลือกเพิ่ม",
-        total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา",
+        total: "รวม", confirm: "ถัดไป ➜", none: "ไม่พบเมนูที่ค้นหา", noneClear: "ล้างคำค้น",
         next: "ขั้นต่อไป: เลือกรับที่ร้านหรือจัดส่ง และวิธีชำระเงิน",
         fail: "โหลดเมนูไม่สำเร็จ กรุณาปิดแล้วเปิดใหม่อีกครั้ง",
         test: "โหมดทดสอบ (เปิดนอก Telegram) — ข้อมูลที่จะส่งให้บอท: ",
@@ -1432,7 +1433,7 @@ const TEXT = {
         callShop: "📞 Call the shop", viaDone: "✓ Sent — clear my cart", viaBack: "← Back to edit", again: n => `🔁 Order the same as last time (${n} item${n === 1 ? "" : "s"})`, shopShut: "🚪 We are not taking orders right now", openMenu: "🍽 See the menu", enter: "▶  ENTER", chooseLang: "🌐 Choose language", tabHome: "Home", tabMenu: "Menu", tabMap: "Map", tabCard: "Member",
         mapTitle: "📍 Map & contact", cardTitle: "💳 Member card", route: "Directions", callBtn: "Call", contact: "Contact", phone: "Phone", modHint: "Choose sweetness / ice first, then tap + Add", price: "Price", done: "Done — back to the menu", nItems: n => n + (n === 1 ? " item" : " items"), search: "🔍 Search the menu…", add: "+ Add", home: "← Home",
         items: n => `🧺 ${n} item${n === 1 ? "" : "s"}`, view: "Tap to view cart and order", cart: "🧺 Your cart", close: "Add more",
-        total: "Total", confirm: "Next ➜", none: "No dishes found",
+        total: "Total", confirm: "Next ➜", none: "No dishes found", noneClear: "Clear search",
         next: "Next: choose pickup or delivery, and how to pay.",
         fail: "Couldn't load the menu. Please close and open again.",
         test: "Test mode (opened outside Telegram) — data that would go to the bot: ",
@@ -1520,7 +1521,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 78;
+const BUILD = 79;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2047,7 +2048,12 @@ function renderMenu() {
     chip.onclick = () => sec.scrollIntoView({ behavior: "smooth", block: "start" });
     chips.append(chip);
   }
-  if (!box.querySelector("section")) box.append(el("p", "empty", t().none));
+  if (!box.querySelector("section")) {   // nothing found: say so, and one tap takes the search word away
+    const none = el("p", "empty", t().none), clear = el("button", "outlink", t().noneClear);
+    clear.onclick = () => { $("search").value = ""; renderMenu(); };
+    if (q) none.append(el("br"), clear);
+    box.append(none);
+  }
   watchSections();
 }
 
@@ -2931,7 +2937,7 @@ function drawProfile() {
   $("tierNote").classList.toggle("hide", !acct && !member.s);
   if (acct) {   // signed in on this phone: one small line says as whom, with the way out
     const out = el("button", "outlink", S.outBtn); out.onclick = logout;
-    line.append(document.createTextNode(S.acctAs(acct.n, acct.t) + " · "), out);
+    line.append(el("span", "", S.acctAs(acct.n, acct.t)), out);
     return;
   }
   // two ways in, side by side: sign up (new) · sign in (a member already — by the phone number, as the shop keeps members)
