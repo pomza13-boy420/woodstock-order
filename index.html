@@ -721,7 +721,7 @@
      Since build 77 it is a calm note, cream with a gold edge and its first words in bold: red is left for the line that says what stops the order. */
   .prepay { margin: 12px 0 4px; padding: 14px; border-radius: 14px; border: 2px solid var(--green); text-align: center; }
   .prepay .ppamt { font-size: 24px; font-weight: 800; color: var(--green); }
-  .prepay img { display: block; width: 230px; max-width: 80%; margin: 10px auto; border-radius: 8px; cursor: zoom-in; }
+  .prepay img { display: block; width: 230px; max-width: 80%; margin: 10px auto; border-radius: 8px; cursor: zoom-in; aspect-ratio: auto 1050 / 1468; background: #fff; }   /* its place is kept, white like the QR's own paper, while the picture is still on its way */
   .prepay img.big { width: 100%; max-width: 100%; }
   .prepay .pphint { font-size: 13px; line-height: 1.45; }
   .prepay .ppbtn { width: 100%; margin-top: 10px; padding: 13px; border-radius: 999px; border: 0; background: var(--green); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
@@ -1270,7 +1270,7 @@
     </div>
     <div class="prepay hide" id="prepay">   <!-- transfer, pickup / eat in: pay first, attach the slip, then send -->
     <div class="ppamt" id="ppAmt"></div>
-    <img id="ppQr" src="pay_qr.jpg" alt="PromptPay QR">
+    <img id="ppQr" alt="PromptPay QR">   <!-- its file is fetched when the order form opens (openDetails), not on every visit -->
     <a class="ppsave" id="ppSave" href="pay_qr.jpg" download="woodstock-qr.jpg"></a>
     <div class="pphint" id="ppHint"></div>
     <button class="ppbtn" id="ppBtn" type="button"></button>
@@ -1520,7 +1520,7 @@ try {
 let myPoints = Math.max(0, parseInt(member.p, 10) || 0);
 // Raise BUILD by one with every change to this file. menu.json carries the number of the newest page ("build",
 // written by the bot); a phone still holding an older copy of this page then reloads itself once to get the new one.
-const BUILD = 77;
+const BUILD = 78;
 let menu = null;                 // menu.json
 let group = null;                // which half of the menu is open: a group id
 const cart = {};                 // "item" or "item~option" -> quantity
@@ -2234,6 +2234,7 @@ function drawZones() {
 
 function openDetails(on) {
   $("details").classList.toggle("show", on);
+  if (on && !$("ppQr").getAttribute("src")) $("ppQr").src = "pay_qr.jpg";   // the payment QR (166 KB) comes with the order form: a visitor who only looks at the menu never loads it
   if (on) { openSheet(false); drawDetails(); }
 }
 
